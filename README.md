@@ -74,20 +74,20 @@ the demo meeting).
 - Not less than 60% of code should be covered by unit tests.
 
 ##Reporting and demonstration
-- Detailed User Stories for projects should be described by teams and agreed with mentors. 
+* Detailed User Stories for projects should be described by teams and agreed with mentors. 
 
-- Full backlog should be sored together with the projects files on GIT repository.
+* Full backlog should be sored together with the projects files on GIT repository.
 
-- Time of demonstration meetings should be agreed with mentor. It is recommended to demonstrate weekly.
+* Time of demonstration meetings should be agreed with mentor. It is recommended to demonstrate weekly.
 
-- Weekly reports should be sent to mentors with next data:
+* Weekly reports should be sent to mentors with next data:
 
--  Status (green/yellow/red) with the small description
+ * Status (green/yellow/red) with the small description
 
--  Current features in development (list)
+ * Current features in development (list)
 
--  Already developed features (list)
+ * Already developed features (list)
 
--  Entire number of Test Cases done till the reporting time
+ * Entire number of Test Cases done till the reporting time
 
--  Entire number of Unit tests done till the reporting time
+ * Entire number of Unit tests done till the reporting time
