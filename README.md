@@ -51,23 +51,17 @@ two developers on a project, code review and functional test duties can be joine
 
 ##Quality
 
-- Each final product should be tested. Testing is done on a pear to pear basis, this means each developer should test features developed
-
-by colleague. 
+- Each final product should be tested. Testing is done on a pear to pear basis, this means each developer should test features developed by colleague. 
 
 - Each developed feature should be tested. 
 
 - Definition of done: feature is developed, code is reviewed, functionality is tested and satisfying to requirements. 
 
-- Test Cases for every feature and for every found bug should be created. Test cases are the part of final delivery and feature 
-
-demonstration. Test Cases should be stored in the separate project’s folder.
+- Test Cases for every feature and for every found bug should be created. Test cases are the part of final delivery and feature demonstration. Test Cases should be stored in the separate project’s folder.
 
 - Each developed feature should be code reviewed by the team member not participated in the development of this feature.
 
-- No bugs with the severity normal or higher should be present in the delivered features. (Delivered feature is a feature demonstrated on 
-
-the demo meeting).
+- No bugs with the severity normal or higher should be present in the delivered features. (Delivered feature is a feature demonstrated on the demo meeting).
 
 - Each team member should participate in testing activities.
 
