@@ -98,6 +98,6 @@ bower install
 ```
 gulp
 ```
-- To install new client library find it on [here](bower.io/search/) and then run:
+- To install new client library find it [here](http://bower.io/search/) and then run:
 ```
 bower install --save <name of dependency>
