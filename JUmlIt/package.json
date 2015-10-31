@@ -14,7 +14,6 @@
     "gulp-bower": "0.0.10",
     "gulp-sass": "^2.1.0",
     "gulp-sourcemaps": "^1.6.0",
-    "gulp-wiredep": "0.0.0",
     "wiredep": "^2.2.2"
   }
 }
