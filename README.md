@@ -85,3 +85,19 @@ two developers on a project, code review and functional test duties can be joine
  * Entire number of Test Cases done till the reporting time
 
  * Entire number of Unit tests done till the reporting time
+
+##Developing client
+* Install node js
+* Navigate to JUmlIt
+* Run
+```
+npm install
+bower install
+```
+- Now every type you start developing, run in this folder
+```
+gulp
+```
+- To install new client library find it [here](http://bower.io/search/) and then run:
+```
+bower install --save <name of dependency>
