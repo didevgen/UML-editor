@@ -1,4 +1,4 @@
-package ua.nure.sigma;
+package ua.nure.sigma.controller;
 
 import java.text.DateFormat;
 import java.util.Date;
