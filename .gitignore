@@ -4,3 +4,4 @@ JUmlIt/node_modules
 /.sass-cache
 bower_components/
 *.log
+npm-debug*

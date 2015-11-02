@@ -5,6 +5,7 @@ var sass = require('gulp-sass');
 var sourcemaps = require('gulp-sourcemaps');
 var bower = require('gulp-bower');
 var wiredep = require('wiredep');
+var inject = require('gulp-inject');
 
 var webappPath = 'src/main/webapp/';
 
@@ -18,6 +19,10 @@ gulp.task('sass', function () {
 
 gulp.task('index', function () {
 	wiredep({ src: webappPath + 'index.html' });
+	gulp.src(webappPath + 'index.html')
+		.pipe(inject(gulp.src(webappPath + 'styles/css/**/*.css')))
+		.pipe(inject(gulp.src([	'!' + webappPath + 'scripts/bower_components/**/*', webappPath + 'scripts/**/*.js'])))
+		.pipe(gulp.dest(webappPath));
 });
 
 gulp.task('bower', function() {
@@ -28,5 +33,12 @@ gulp.task('sass:watch', function () {
 	gulp.watch(webappPath + 'styles/sass/**/*.scss', ['sass']);
 });
 
-gulp.task('default', ['sass:watch', 'index'], function () {
+gulp.task('index:watch', function() {
+	gulp.watch(webappPath + 'styles/css/**/*.css', ['index']);
+	gulp.watch(webappPath + 'scripts/**/*.js', ['index']);
+});
+
+gulp.task('watch', ['index:watch', 'sass:watch'], function() {});
+
+gulp.task('default', ['watch', 'index'], function () {
 });
