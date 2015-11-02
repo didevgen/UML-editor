@@ -11,7 +11,7 @@
 	</appender>
 	
 	<!-- Application Loggers -->
-	<logger name="ua.sigma.nure">
+	<logger name="ua.nure.sigma">
 		<level value="info" />
 	</logger>
 	

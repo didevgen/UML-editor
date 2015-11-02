@@ -21,7 +21,7 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
-	<context:component-scan base-package="ua.sigma.nure" />
+	<context:component-scan base-package="ua.nure.sigma" />
 	
 	
 	
