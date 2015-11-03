@@ -1,7 +1,10 @@
 JUmlIt/node_modules
+JUmlIt/target
+JUmlIt/.settings
 /dist
 /.tmp
 /.sass-cache
 bower_components/
 *.log
 npm-debug*
+*.sw*

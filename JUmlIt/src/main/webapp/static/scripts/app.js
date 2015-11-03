@@ -1,8 +1,7 @@
 'use strict';
 
 /**
- * @ngdoc overview
- * @name jumlitApp
+ * @ngdoc overview * @name jumlitApp
  * @description
  * # jumlitApp
  *
