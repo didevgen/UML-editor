@@ -14,22 +14,25 @@ angular
         'ngResource',
         'ngRoute',
         'ngSanitize',
-        'ngTouch'
+        'ngTouch',
+        'ui.router'
     ])
-    .config(function($routeProvider) {
-        $routeProvider
-            .when('/', {
-                templateUrl: 'views/main.html',
-                controller: 'MainCtrl',
-                controllerAs: 'main'
+    .config(function($stateProvider, $httpProvider) {
+        $stateProvider
+            .state('home', {
+                url: '/',
+                templateUrl: 'states/main.html',
+                controller: 'MainCtrl'
             })
-            .when('/about', {
-                templateUrl: 'views/about.html',
-                controller: 'AboutCtrl',
-                controllerAs: 'about'
+            .state('about', {
+                url: '/about',
+                templateUrl: 'states/about.html',
+                controller: 'AboutCtrl'
             })
-            .otherwise({
-                redirectTo: '/'
+            .state('register', {
+                url: '/register',
+                templateUrl: 'states/register.html',
+                controller: 'RegisterCtrl',
             });
 
         $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';

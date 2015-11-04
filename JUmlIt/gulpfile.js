@@ -18,7 +18,8 @@ gulp.task('sass', function() {
 });
 
 gulp.task('index', function() {
-    var sources = [webappPath + 'styles/css/**/*.css', '!' + webappPath + 'scripts/bower_components/**/*', webappPath + 'scripts/**/*.js'];
+    var sources = [webappPath + 'styles/css/**/*.css', '!' + webappPath + 'scripts/bower_components/**/*', '!' + webappPath + 'scripts/app.js',
+		webappPath + 'scripts/**/*.js'];
     wiredep({
         src: webappPath + 'index.html'
     });
