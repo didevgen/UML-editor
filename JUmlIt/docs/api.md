@@ -9,11 +9,13 @@
 }
 ```
 * response:
+```
 {
 	id: 0,
 	email: '',
 	fullname: ''
 }
+```
 
 ### /account/login
 * method: _POST_
@@ -25,11 +27,13 @@
 }
 ```
 * response:
+```
 {
 	id: 0,
 	email: '',
 	fullname: ''
 }
+```
 
 ### /account/{id}
 * method: _GET_
