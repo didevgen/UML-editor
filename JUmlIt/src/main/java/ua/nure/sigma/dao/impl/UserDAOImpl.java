@@ -10,7 +10,7 @@ import ua.nure.sigma.dao.UserDao;
 import ua.nure.sigma.db_entities.User;;
 
 public class UserDAOImpl implements UserDao {
-	public void addUser(User user) throws SQLException {
+	public User addUser(User user) throws SQLException {
 		Session session = null;
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
@@ -24,6 +24,8 @@ public class UserDAOImpl implements UserDao {
 				session.close();
 			}
 		}
+		return null;
+		//TODO notice it!!!!
 	}
 
 	@Override
@@ -93,6 +95,18 @@ public class UserDAOImpl implements UserDao {
 				session.close();
 			}
 		}
+	}
+
+	@Override
+	public int getUserByLogin(String login) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public User getUserByLoginAndPassword(String login, String password) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -1,7 +1,6 @@
 package ua.nure.sigma.db_entities;
 
 import java.math.BigInteger;
-import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,32 +10,32 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
+import org.joda.time.DateTime;
 
 @Entity
 @Table(name = "User")
 
 public class User {
-	private BigInteger user_id;
-	private String full_name;
+	private BigInteger userId;
+	private String fullName;
 	private String email;
 	private String password;
-	private Date registration_date;
-	private Date last_available;
+	private DateTime registrationDate;
+	private DateTime lastAvailable;
 
 	public User() {
-		full_name = null;
+		fullName = null;
 	}
 
 	public User(User id) {
-		user_id = id.getUserId();
+		userId = id.getUserId();
 	};
 
 	public User(User name, User e_mail) {
-		full_name = name.getName();
+		fullName = name.getName();
 		email = e_mail.getEmail();
 	}
 	@Id
@@ -46,19 +45,19 @@ public class User {
 	@OneToMany
 	@JoinTable(name = "Collaborator", joinColumns = @JoinColumn(name = "user_id"))
 	public BigInteger getUserId() {
-		return user_id;
+		return userId;
 	}
 
 	public void setUserId(BigInteger id) {
-		user_id = id;
+		userId = id;
 	}
 	@Column(name = "full_name", length = 256)
 	public String getName() {
-		return full_name;
+		return fullName;
 	}
 
 	public void setFullName(String name) {
-		full_name = name;
+		fullName = name;
 	}
 	@Column(name = "email", length = 256)
 	public String getEmail() {
@@ -77,21 +76,21 @@ public class User {
 		email = p;
 	}
 	@Column(name = "regitration_date")
-	@Temporal(TemporalType.DATE)
-	public Date getRegDate() {
-		return registration_date;
+	@Type(type="org.joda.time.contrib.hibernate.PersistentDateTime")
+	public DateTime getRegDate() {
+		return registrationDate;
 	}
 
-	public void setRegDate(Date rd) {
-		registration_date = rd;
+	public void setRegDate(DateTime rd) {
+		registrationDate = rd;
 	}
 	@Column(name = "last_available")
-	@Temporal(TemporalType.TIMESTAMP)
-	public Date getLastAvailable() {
-		return last_available;
+	@Type(type="org.joda.time.contrib.hibernate.PersistentDateTime")
+	public DateTime getLastAvailable() {
+		return lastAvailable;
 	}
 
-	public void setLastAvailable(Date la) {
-		last_available = la;
+	public void setLastAvailable(DateTime la) {
+		lastAvailable = la;
 	}
 }

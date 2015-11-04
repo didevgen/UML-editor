@@ -16,12 +16,12 @@ import org.hibernate.annotations.GenericGenerator;
 @Entity
 @Table(name = "Event")
 public class Event {
-	private BigInteger event_id;
-	private BigInteger event_type_id;
-	private Date timestamp;
+	private BigInteger eventId;
+	private BigInteger eventTypeId;
+	private Date timeStamp;
 
 	public Event(Event id) {
-		event_id = id.getEvent_id();
+		eventId = id.getEvent_id();
 	}
 
 	@Id
@@ -29,11 +29,11 @@ public class Event {
 	@GenericGenerator(name = "increment", strategy = "increment")
 	@Column(name = "event_id")
 	public BigInteger getEvent_id() {
-		return event_id;
+		return eventId;
 	}
 
 	public void setEvent_id(BigInteger event_id) {
-		this.event_id = event_id;
+		this.eventId = event_id;
 	}
 
 	@Id
@@ -41,20 +41,20 @@ public class Event {
 	@GenericGenerator(name = "increment", strategy = "increment")
 	@Column(name = "event_type_id")
 	public BigInteger getEvent_type_id() {
-		return event_type_id;
+		return eventTypeId;
 	}
 
 	public void setEvent_type_id(BigInteger event_type_id) {
-		this.event_type_id = event_type_id;
+		this.eventTypeId = event_type_id;
 	}
 
 	@Column(name = "last_available")
 	@Temporal(TemporalType.TIMESTAMP)
 	public Date getTimestamp() {
-		return timestamp;
+		return timeStamp;
 	}
 
 	public void setTimestamp(Date timestamp) {
-		this.timestamp = timestamp;
+		this.timeStamp = timestamp;
 	}
 }

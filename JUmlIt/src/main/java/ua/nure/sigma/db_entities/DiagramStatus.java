@@ -15,7 +15,7 @@ import org.hibernate.annotations.GenericGenerator;
 @Entity
 @Table(name = "Diagram_Status")
 public class DiagramStatus {
-	private BigInteger status_id;
+	private BigInteger statusId;
 	private String status_type;
 
 	public DiagramStatus() {
@@ -33,11 +33,11 @@ public class DiagramStatus {
 	@OneToMany
 	@JoinTable(name = "Diagram")
 	public BigInteger getStatusId() {
-		return status_id;
+		return statusId;
 	}
 
 	public void setStatusId(BigInteger id) {
-		status_id = id;
+		statusId = id;
 	}
 
 	@Column(name = "status_type", length = 256)

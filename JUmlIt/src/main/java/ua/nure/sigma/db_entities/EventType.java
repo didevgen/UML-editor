@@ -13,7 +13,7 @@ import org.hibernate.annotations.GenericGenerator;
 @Entity
 @Table(name = "EventType")
 public class EventType {
-	private BigInteger event_type_id;
+	private BigInteger eventTypeId;
 	private String description;
 
 	public EventType() {
@@ -25,11 +25,11 @@ public class EventType {
 	@GenericGenerator(name = "increment", strategy = "increment")
 	@Column(name = "event_type_id")
 	public BigInteger getEvent_type_id() {
-		return event_type_id;
+		return eventTypeId;
 	}
 
 	public void setEvent_type_id(BigInteger event_type_id) {
-		this.event_type_id = event_type_id;
+		this.eventTypeId = event_type_id;
 	}
 
 	@Column(name = "description", length = 256)

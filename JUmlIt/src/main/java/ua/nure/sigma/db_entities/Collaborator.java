@@ -16,11 +16,11 @@ import org.hibernate.annotations.GenericGenerator;
 @Entity
 @Table(name = "Collaborator")
 public class Collaborator {
-	private BigInteger user_id;
-	private BigInteger diagram_id;
+	private BigInteger userId;
+	private BigInteger diagramId;
 
 	public Collaborator(Collaborator id) {
-		user_id = id.getCollId();
+		userId = id.getCollId();
 
 	}
 
@@ -31,11 +31,11 @@ public class Collaborator {
 	@ManyToOne
 	@JoinTable(name = "User", joinColumns = @JoinColumn(name = "user_id"),inverseJoinColumns = @JoinColumn(name = "owner_id"))
 	public BigInteger getCollId() {
-		return user_id;
+		return userId;
 	}
 
 	public void setCollId(BigInteger id) {
-		user_id = id;
+		userId = id;
 	}
 
 	@Id
@@ -43,11 +43,11 @@ public class Collaborator {
 	@GenericGenerator(name = "increment", strategy = "increment")
 	@Column(name = "diagram_id")
 	public BigInteger getDiagramId() {
-		return diagram_id;
+		return diagramId;
 	}
 
 	public void setDiagramId(BigInteger id) {
-		diagram_id = id;
+		diagramId = id;
 	}
 
 }

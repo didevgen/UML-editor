@@ -10,28 +10,28 @@ import org.hibernate.annotations.GenericGenerator;
 @Entity
 @Table(name = "History")
 public class History {
-private BigInteger event_id;
-private BigInteger user_id;
+private BigInteger eventId;
+private BigInteger userId;
 
 @Id
 @GeneratedValue(generator = "increment")
 @GenericGenerator(name = "increment", strategy = "increment")
 @Column(name = "event_id")
 public BigInteger getEvent_id() {
-	return event_id;
+	return eventId;
 }
 public void setEvent_id(BigInteger event_id) {
-	this.event_id = event_id;
+	this.eventId = event_id;
 }
 @Id
 @GeneratedValue(generator = "increment")
 @GenericGenerator(name = "increment", strategy = "increment")
 @Column(name = "user_id")
 public BigInteger getUser_id() {
-	return user_id;
+	return userId;
 }
 public void setUser_id(BigInteger user_id) {
-	this.user_id = user_id;
+	this.userId = user_id;
 }
 
 }
