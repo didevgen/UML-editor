@@ -33,6 +33,11 @@ angular
                 url: '/register',
                 templateUrl: 'states/register.html',
                 controller: 'RegisterCtrl',
+            })
+            .state('login', {
+                url: '/login',
+                templateUrl: 'states/login.html',
+                controller: 'LoginCtrl',
             });
 
         $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
