@@ -6,14 +6,15 @@ var sourcemaps = require('gulp-sourcemaps');
 var bower = require('gulp-bower');
 var wiredep = require('wiredep');
 var inject = require('gulp-inject');
+var concat = require('gulp-concat');
 
 var webappPath = 'src/main/webapp/static/';
 
 gulp.task('sass', function() {
-    gulp.src(webappPath + 'styles/sass/**/*.scss')
+    gulp.src(webappPath + 'styles/sass/main.scss')
         .pipe(sourcemaps.init())
         .pipe(sass().on('error', sass.logError))
-        .pipe(sourcemaps.write())
+		.pipe(concat('main.css'))
         .pipe(gulp.dest(webappPath + 'styles/css'));
 });
 

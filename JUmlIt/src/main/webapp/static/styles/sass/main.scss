@@ -1,5 +1,7 @@
-// bower:scss
-// endbower
+@import "color-palette.scss";
+@import "forms.scss";
+
+
 .browsehappy {
     margin: 0.2em 0;
     background: #ccc;
@@ -65,4 +67,5 @@ body {
     padding-bottom: 9px;
     margin: 20px 0 40px;
     border-bottom: 1px solid #eee;
+    color: $font-color-darker;
 }

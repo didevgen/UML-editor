@@ -1,0 +1,81 @@
+@import 'color-palette';
+
+$amount: 10%;
+
+input.form-control{
+    border-radius: 0px;
+
+    &.ng-invalid.ng-touched {
+        border-color: $color-error;
+
+        &:focus {
+            border-color: $color-error;
+            box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 4px $color-error;
+        }
+    }
+
+    &.ng-valid.ng-touched {
+        border-color: $color-success;
+
+        &:focus {
+            border-color: $color-success;
+            box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 4px $color-success;
+        }
+    }
+
+    &:focus {
+        border-color: $color-primary;
+        outline: 0;
+        box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 4px $color-primary;
+    }
+}
+
+button.btn {
+    border-radius: 0px;
+
+    &.btn-primary {
+        background-color: $color-primary;
+        border-color: $color-primary;
+
+        &:hover {
+            background-color: lighten($color-primary, $amount);
+            border-color: lighten($color-primary, $amount);
+        }
+    }
+
+}
+
+.field-message {
+    display: inline-block;
+    width: 100%;
+    font-size: 12px;
+    margin-top: 5px;
+    text-align: right;
+}
+
+.error-message {
+    @extend .field-message;
+    color: $color-error;
+}
+
+.info-message {
+    @extend .field-message;
+    color: $font-color;
+}
+
+.success-message {
+    @extend .field-message;
+    color: $color-success;
+}
+
+form label {
+    color: $font-color;
+}
+
+form .form-group {
+    margin-bottom: 5px;
+}
+
+form button[type="submit"] {
+    margin-top: 20px;
+}
