@@ -15,6 +15,7 @@ angular.module('jumlitApp').service('Utils', function($q, Config) {
                 deferred.resolve(data);
             },
             error: function(error) {
+                console.log(error);
                 deferred.reject(error);
             }
         });

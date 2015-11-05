@@ -1,0 +1,21 @@
+@import 'color-palette.scss';
+
+$border-light-amount: 20%;
+$background-light-amount: 40%;
+
+.custom-alert {
+    border-width: 5px;
+    border-radius: 0px;
+
+    &.alert-danger {
+        color: $color-error;
+        border-color: lighten($color-error, $border-light-amount);
+        background-color: lighten($color-error, $background-light-amount);
+    }
+
+    &.alert-success {
+        color: $color-success;
+        border-color: lighten($color-success, $border-light-amount);
+        background-color: lighten($color-success, $background-light-amount);
+    }
+}

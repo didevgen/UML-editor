@@ -49,6 +49,18 @@ form .form-group {
 form button[type="submit"] {
   margin-top: 20px; }
 
+.custom-alert {
+  border-width: 5px;
+  border-radius: 0px; }
+  .custom-alert.alert-danger {
+    color: #e74c3c;
+    border-color: #f29f97;
+    background-color: #fdf3f2; }
+  .custom-alert.alert-success {
+    color: #2ecc71;
+    border-color: #7ee2a8;
+    background-color: #d1f5e0; }
+
 .browsehappy {
   margin: 0.2em 0;
   background: #ccc;
