@@ -1,5 +1,5 @@
 'use strict';
-angular.module('jumlitApp').controller('RegisterCtrl', function($scope, $http) {
+angular.module('jumlitApp').controller('RegisterCtrl', function($scope, $http, Config, Utils) {
     $scope.user = {
         email: '',
         password: '',
@@ -7,10 +7,13 @@ angular.module('jumlitApp').controller('RegisterCtrl', function($scope, $http) {
         repeatPassword: ''
     };
 
-    $scope.submitValidation = function() {
-        $http.post('account/register', $scope.user)
-            .then(function(data) {
-                console.log(data);
-            });
+    $scope.submitRegistration = function() {
+        Utils.postRequest('account/register', {
+            fullname: $scope.fullname,
+            email: $scope.email,
+            password: $scope.password
+        }).then(function(data) {
+            console.log(data);
+        });
     };
 });

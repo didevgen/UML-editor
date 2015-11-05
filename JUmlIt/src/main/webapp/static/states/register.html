@@ -36,7 +36,7 @@
                 </div>
                 <div class="form-group">
                     <label for="repeat-password">Repeat password</label>
-                    <input type="repeat-password" class="form-control" name="repeatPassword" id="repeat-password" compare-to="user.password"
+                    <input type="password" class="form-control" name="repeatPassword" id="repeat-password" compare-to="user.password"
                             ng-model="user.repeatPassword" placeholder="Repeat password" required="">
                     <div ng-show="form.$submitted || form.repeatPassword.$touched">
                         <span class="error-message" ng-show="form.repeatPassword.$error.required">Repeating password is required.</span>
@@ -46,7 +46,7 @@
                     <span class="info-message" ng-hide="form.$submitted || form.repeatPassword.$touched">Repeat your password.</span>
                 </div>
                 <div class="">
-                    <button type="submit" ng-disabled="form.$invalid" ng-click="submitRegister()" class="btn btn-default btn-primary col-md-12">Register</button>
+                    <button type="submit" ng-disabled="form.$invalid" ng-click="submitRegistration()" class="btn btn-default btn-primary col-md-12">Register</button>
                 </div>
             </form>
         </div>
