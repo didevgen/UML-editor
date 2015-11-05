@@ -9,13 +9,13 @@ import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.google.gson.Gson;
 
@@ -23,9 +23,11 @@ import ua.nure.sigma.db_entities.User;
 import ua.nure.sigma.service.LoginService;
 
 @Controller
-@EnableWebMvc
+@Scope("session")
 public class LoginController {
 	
+	@Autowired
+	private User user;
 	
 	private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 	private LoginService service = new LoginService();
@@ -60,12 +62,12 @@ public class LoginController {
 
 	@RequestMapping(value = "/account/login", method = RequestMethod.POST)
 	public  @ResponseBody User loginUser(HttpServletRequest request) throws NoSuchAlgorithmException {
-		User user = new Gson().fromJson(request.getParameter("user"), User.class);
-		if (user==null) {
+		User userTemp = new Gson().fromJson(request.getParameter("user"), User.class);
+		if (userTemp==null) {
 			return null;
 		}
-		user = service.getUser(user);
-		return user;
+		user = service.getUser(userTemp);
+		return userTemp;
 	}
 
 	@RequestMapping(value = "/account/{id}", method = RequestMethod.POST)
