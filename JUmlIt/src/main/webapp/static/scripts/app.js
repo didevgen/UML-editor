@@ -18,12 +18,12 @@ angular
         'ui.router',
         'ui.bootstrap'
     ])
-    .config(function($stateProvider, $httpProvider) {
+    .config(function($stateProvider, $httpProvider, $urlRouterProvider) {
         $stateProvider
-            .state('home', {
-                url: '/',
-                templateUrl: 'states/main.html',
-                controller: 'MainCtrl'
+            .state('landing', {
+                url: '/landing',
+                templateUrl: 'states/landing.html',
+                controller: 'LandingCtrl'
             })
             .state('about', {
                 url: '/about',
@@ -39,7 +39,22 @@ angular
                 url: '/login',
                 templateUrl: 'states/login.html',
                 controller: 'LoginCtrl',
+            })
+            .state('dashboard', {
+                url: '/dashboard',
+                templateUrl: 'states/dashboard.html',
+                controller: 'DashboardCtrl'
             });
 
         $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
+
+        function handleEmptyUrl(Session, $state) {
+            if (Session.authenticated) {
+                $state.go('dashboard');
+            } else {
+                $state.go('landing');
+            }
+        }
+
+        $urlRouterProvider.when('', handleEmptyUrl);
     });
