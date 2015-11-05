@@ -10,10 +10,12 @@
   "license": "ISC",
   "devDependencies": {
     "bower": "^1.6.5",
+    "browser-sync": "^2.9.12",
     "gulp": "^3.9.0",
     "gulp-bower": "0.0.10",
     "gulp-concat": "^2.6.0",
     "gulp-inject": "^3.0.0",
+    "gulp-livereload": "^3.8.1",
     "gulp-sass": "^2.1.0",
     "gulp-sourcemaps": "^1.6.0",
     "wiredep": "^2.2.2"

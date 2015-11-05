@@ -2,11 +2,11 @@
 
 var gulp = require('gulp');
 var sass = require('gulp-sass');
-var sourcemaps = require('gulp-sourcemaps');
 var bower = require('gulp-bower');
 var wiredep = require('wiredep');
 var inject = require('gulp-inject');
 var concat = require('gulp-concat');
+var browserSync = require('browser-sync').create();
 
 var webappPath = 'src/main/webapp/static/';
 
@@ -15,7 +15,8 @@ gulp.task('sass', function() {
         .pipe(sourcemaps.init())
         .pipe(sass().on('error', sass.logError))
 		.pipe(concat('main.css'))
-        .pipe(gulp.dest(webappPath + 'styles/css'));
+        .pipe(gulp.dest(webappPath + 'styles/css'))
+        .pipe(browserSync.stream());
 });
 
 gulp.task('index', function() {
@@ -35,15 +36,18 @@ gulp.task('bower', function() {
     return bower();
 });
 
-gulp.task('sass:watch', function() {
-    gulp.watch(webappPath + 'styles/sass/**/*.scss', ['sass']);
+gulp.task('serve', ['index'], function() {
+    browserSync.init({
+        server: webappPath
+    })
 });
 
-gulp.task('index:watch', function() {
+gulp.task('watch', ['index', 'serve'], function() {
+    gulp.watch(webappPath + 'styles/sass/**/*.scss', ['sass']);
     gulp.watch(webappPath + 'styles/css/**/*.css', ['index']);
     gulp.watch(webappPath + 'scripts/**/*.js', ['index']);
+    gulp.watch(webappPath + '**/*.html').on('change', browserSync.reload);
+    gulp.watch(webappPath + '**/*.js').on('change', browserSync.reload);
 });
 
-gulp.task('watch', ['index:watch', 'sass:watch'], function() {});
-
-gulp.task('default', ['watch', 'index'], function() {});
+gulp.task('default', ['watch'], function() {});
