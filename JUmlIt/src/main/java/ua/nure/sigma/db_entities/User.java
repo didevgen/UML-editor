@@ -11,10 +11,13 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 @Entity
 @Table(name = "User")
-
+@Component
+@Scope("session")
 public class User {
 	private long userId;
 	private String fullname;
