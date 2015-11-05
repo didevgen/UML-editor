@@ -26,8 +26,6 @@ import ua.nure.sigma.service.LoginService;
 @EnableWebMvc
 public class LoginController {
 	
-	@Autowired
-	private User user;
 	
 	private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 	private LoginService service = new LoginService();
@@ -61,8 +59,8 @@ public class LoginController {
 	}
 
 	@RequestMapping(value = "/account/login", method = RequestMethod.POST)
-	public synchronized @ResponseBody User loginUser(HttpServletRequest request) throws NoSuchAlgorithmException {
-		user = new Gson().fromJson(request.getParameter("user"), User.class);
+	public  @ResponseBody User loginUser(HttpServletRequest request) throws NoSuchAlgorithmException {
+		User user = new Gson().fromJson(request.getParameter("user"), User.class);
 		if (user==null) {
 			return null;
 		}
