@@ -18,7 +18,7 @@ public interface UserDao {
 
 	public void deleteStudent(User user) throws SQLException;
 
-	public User getUserById(BigInteger id) throws SQLException;
+	public User getUserById(long id) throws SQLException;
 
 	public List<User> getAllUsers() throws SQLException;
 	/**

@@ -46,7 +46,7 @@ public class UserDAOImpl implements UserDao {
 	}
 
 	@Override
-	public User getUserById(BigInteger id) throws SQLException {
+	public User getUserById(long id) throws SQLException {
 		Session session = null;
 		User user = null;
 		try {
