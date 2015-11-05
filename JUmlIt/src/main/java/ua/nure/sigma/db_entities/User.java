@@ -20,14 +20,14 @@ import org.joda.time.DateTime;
 
 public class User {
 	private BigInteger userId;
-	private String fullName;
+	private String fullname;
 	private String email;
 	private String password;
 	private DateTime registrationDate;
 	private DateTime lastAvailable;
 
 	public User() {
-		fullName = null;
+		fullname = null;
 	}
 
 	public User(User id) {
@@ -35,7 +35,7 @@ public class User {
 	};
 
 	public User(User name, User e_mail) {
-		fullName = name.getName();
+		fullname = name.getName();
 		email = e_mail.getEmail();
 	}
 	@Id
@@ -53,11 +53,11 @@ public class User {
 	}
 	@Column(name = "full_name", length = 256)
 	public String getName() {
-		return fullName;
+		return fullname;
 	}
 
 	public void setFullName(String name) {
-		fullName = name;
+		fullname = name;
 	}
 	@Column(name = "email", length = 256)
 	public String getEmail() {
@@ -93,4 +93,12 @@ public class User {
 	public void setLastAvailable(DateTime la) {
 		lastAvailable = la;
 	}
+
+	@Override
+	public String toString() {
+		return "User [userId=" + userId + ", fullName=" + fullname + ", email=" + email + ", password=" + password
+				+ ", registrationDate=" + registrationDate + ", lastAvailable=" + lastAvailable + "]";
+	}
+	
+	
 }
