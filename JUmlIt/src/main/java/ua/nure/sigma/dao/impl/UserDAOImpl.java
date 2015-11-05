@@ -1,9 +1,12 @@
 package ua.nure.sigma.dao.impl;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
+
 import ua.nure.sigma.util.HibernateUtil;
 import ua.nure.sigma.dao.UserDao;
 import ua.nure.sigma.db_entities.User;;
@@ -14,8 +17,7 @@ public class UserDAOImpl implements UserDao {
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
-			session.save(user);
-			System.out.println("here");
+			session.saveOrUpdate(user);
 			session.getTransaction().commit();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -24,8 +26,7 @@ public class UserDAOImpl implements UserDao {
 				session.close();
 			}
 		}
-		return null;
-		//TODO notice it!!!!
+		return user;
 	}
 
 	@Override
@@ -51,7 +52,7 @@ public class UserDAOImpl implements UserDao {
 		User user = null;
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
-			user = (User)session.load(User.class, id);
+			user = (User) session.load(User.class, id);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Ошибка I/O", JOptionPane.OK_OPTION);
 		} finally {
@@ -99,14 +100,37 @@ public class UserDAOImpl implements UserDao {
 
 	@Override
 	public int getUserByLogin(String login) {
-		// TODO Auto-generated method stub
-		return 0;
+		Session session = null;
+		List<User> users = new ArrayList<User>();
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+			users = session.createCriteria(User.class).add(Restrictions.eq("email", login)).list();
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Ошибка I/O", JOptionPane.OK_OPTION);
+		} finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		}
+		return users.size();
 	}
 
 	@Override
 	public User getUserByLoginAndPassword(String login, String password) {
-		// TODO Auto-generated method stub
-		return null;
+		Session session = null;
+		List<User> users = new ArrayList<User>();
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+			users = session.createCriteria(User.class).add(Restrictions.eq("email", login))
+					.add(Restrictions.eq("password", password)).list();
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Ошибка I/O", JOptionPane.OK_OPTION);
+		} finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		}
+		return users.get(0);
 	}
 
 }

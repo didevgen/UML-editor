@@ -17,10 +17,10 @@ public class LoginService {
 	}
 
 	public boolean checkUserExisting(String login) {
-		return dao.getUserByLogin(login) == 1;
+		return dao.getUserByLogin(login) >= 1;
 	}
 	
-	private User returnZeroUser() {
+	public User returnZeroUser() {
 		User user = new User();
 		user.setUserId(-1);
 		return user;

@@ -1,6 +1,5 @@
 package ua.nure.sigma.controller;
 
-import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
@@ -42,22 +41,28 @@ public class LoginController {
 	// }
 
 	@RequestMapping(value = "/account/register", method = RequestMethod.POST)
-	public void registerUser(@RequestParam("email") String email,
+	public @ResponseBody User  registerUser(@RequestParam("email") String email,
 			@RequestParam("password") String password, @RequestParam("fullname") String fullName) throws SQLException {
 		User user = new User();
 		user.setEmail(email);
+		boolean result = service.checkUserExisting(email);
+		if(result) {
+			service.returnZeroUser();
+		}
 		user.setPassword(password);
 		user.setFullname(fullName);
 		user.setRegistrationDate(new DateTime(System.currentTimeMillis()));
 		user.setLastAvailable(new DateTime(System.currentTimeMillis()));
-		service.insertUser(user);
+		return service.insertUser(user);
 	}
 
 	@RequestMapping(value = "/account/login", method = RequestMethod.POST)
 	public @ResponseBody User loginUser(HttpServletRequest request) throws NoSuchAlgorithmException {
-//		User user = new Gson().fromJson(request.getParameter("user"), User.class);
-//		user = service.getUser(user);
-		return null;
+		User user = new Gson().fromJson(request.getParameter("user"), User.class);
+		if (user==null) {
+			return null;
+		}
+		return service.getUser(user);
 	}
 
 	@RequestMapping(value = "/account/{id}", method = RequestMethod.POST)
