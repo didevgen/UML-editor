@@ -1,7 +1,5 @@
 package ua.nure.sigma.db_entities;
 
-import java.math.BigInteger;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,7 +17,7 @@ import org.joda.time.DateTime;
 @Table(name = "User")
 
 public class User {
-	private BigInteger userId;
+	private long userId;
 	private String fullname;
 	private String email;
 	private String password;
@@ -27,12 +25,7 @@ public class User {
 	private DateTime lastAvailable;
 
 	public User() {
-		fullname = null;
 	}
-
-	public User(User id) {
-		userId = id.getUserId();
-	};
 
 	public User(User name, User e_mail) {
 		fullname = name.getName();
@@ -44,11 +37,11 @@ public class User {
 	@Column(name = "user_id")
 	@OneToMany
 	@JoinTable(name = "Collaborator", joinColumns = @JoinColumn(name = "user_id"))
-	public BigInteger getUserId() {
+	public long getUserId() {
 		return userId;
 	}
 
-	public void setUserId(BigInteger id) {
+	public void setUserId(long id) {
 		userId = id;
 	}
 	@Column(name = "full_name", length = 256)

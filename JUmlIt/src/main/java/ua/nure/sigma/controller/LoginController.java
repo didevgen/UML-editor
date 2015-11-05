@@ -33,7 +33,7 @@ public class LoginController {
 		if (!result) {
 			return service.insertUser(user);
 		}
-		user.setUserId(BigInteger.valueOf(-1));
+		user.setUserId(-1);
 		return user;
 	}
 
@@ -41,7 +41,7 @@ public class LoginController {
 	@RequestMapping(value = "/account/login", method = RequestMethod.POST)
 	public @ResponseBody User loginUser(HttpServletRequest request) throws NoSuchAlgorithmException {
 		User user = new Gson().fromJson(request.getParameter("user"), User.class);
-		service.getUser(user);
+		user = service.getUser(user);
 		return user;
 	}
 

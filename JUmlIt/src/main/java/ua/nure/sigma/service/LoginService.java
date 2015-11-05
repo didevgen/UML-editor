@@ -22,7 +22,7 @@ public class LoginService {
 	
 	private User returnZeroUser() {
 		User user = new User();
-		user.setUserId(BigInteger.valueOf(-1));
+		user.setUserId(-1);
 		return user;
 	}
 	public User insertUser(User user) {
