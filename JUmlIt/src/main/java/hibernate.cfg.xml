@@ -18,5 +18,6 @@
    </property>
    <property name="hibernate.connection.password">
    </property>
+   <mapping class="ua.nure.sigma.db_entities.User" />
 </session-factory>
 </hibernate-configuration>

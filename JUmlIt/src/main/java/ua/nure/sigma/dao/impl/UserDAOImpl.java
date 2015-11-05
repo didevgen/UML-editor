@@ -1,5 +1,4 @@
 package ua.nure.sigma.dao.impl;
-import java.math.BigInteger;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,9 +15,10 @@ public class UserDAOImpl implements UserDao {
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
 			session.save(user);
+			System.out.println("here");
 			session.getTransaction().commit();
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, e.getMessage(), "Ошибка I/O", JOptionPane.OK_OPTION);
+			System.out.println(e.getMessage());
 		} finally {
 			if (session != null && session.isOpen()) {
 				session.close();
