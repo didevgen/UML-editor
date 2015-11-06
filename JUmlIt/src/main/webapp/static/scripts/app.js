@@ -62,8 +62,7 @@ angular
             if (Session.authenticated) {
                 $state.go('account.dashboard');
             } else {
-                // $state.go('landing.login');
-                $state.go('diagram');
+                $state.go('landing.login');
             }
         }
 
