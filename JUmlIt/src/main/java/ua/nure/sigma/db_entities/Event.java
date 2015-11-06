@@ -1,23 +1,21 @@
 package ua.nure.sigma.db_entities;
 
-import java.sql.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
+import org.joda.time.DateTime;
 
 @Entity
 @Table(name = "Event")
 public class Event {
 	private long eventId;
 	private long eventTypeId;
-	private Date timeStamp;
+	private DateTime timeStamp;
 
 	public Event() {
 	}
@@ -47,12 +45,13 @@ public class Event {
 	}
 
 	@Column(name = "last_available")
-	@Temporal(TemporalType.TIMESTAMP)
-	public Date getTimestamp() {
+	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+	public DateTime getTimestamp() {
 		return timeStamp;
 	}
 
-	public void setTimestamp(Date timestamp) {
+	public void setTimestamp(DateTime timestamp) {
 		this.timeStamp = timestamp;
 	}
+	
 }

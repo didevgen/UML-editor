@@ -130,7 +130,11 @@ public class UserDAOImpl implements UserDao {
 				session.close();
 			}
 		}
-		return users.get(0);
+		try {
+			return users.get(0);
+		} catch (Exception ex) {
+			return null;
+		}
 	}
 
 }

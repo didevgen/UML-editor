@@ -1,6 +1,5 @@
 package ua.nure.sigma.service;
 
-import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 

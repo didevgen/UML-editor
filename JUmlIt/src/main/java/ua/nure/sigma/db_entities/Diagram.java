@@ -1,15 +1,9 @@
 package ua.nure.sigma.db_entities;
 
-import java.math.BigInteger;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -21,22 +15,22 @@ import org.joda.time.DateTime;
 
 public class Diagram {
 	private long diagramId;
-	private long ownerId;
-	private long statusId;
-	private String jsonData;
+	private long ownerId = -1;
+	private long statusId = -1;
+	private String jsonData = "";
 	private DateTime creationDate;
 	private DateTime lastUpdated;
-
+	private String name = "";
+	private String description="";
+	
+	
 	public Diagram() {
-		jsonData = null;
 	}
 
 	@Id
 	@GeneratedValue(generator = "increment")
 	@GenericGenerator(name = "increment", strategy = "increment")
 	@Column(name = "diagram_id")
-	@OneToMany
-	@JoinTable(name = "Collaborator", joinColumns = @JoinColumn(name = "diagram_id"))
 	public long getDiagramId() {
 		return diagramId;
 	}
@@ -45,12 +39,7 @@ public class Diagram {
 		diagramId = id;
 	}
 
-	@Id
-	@GeneratedValue(generator = "increment")
-	@GenericGenerator(name = "increment", strategy = "increment")
 	@Column(name = "owner_id")
-	@ManyToOne
-	@JoinTable(name = "Collaborator", joinColumns = @JoinColumn(name = "user_id"))
 	public long getOwnerId() {
 		return ownerId;
 	}
@@ -59,47 +48,60 @@ public class Diagram {
 		ownerId = id;
 	}
 
-	@Id
-	@GeneratedValue(generator = "increment")
-	@GenericGenerator(name = "increment", strategy = "increment")
 	@Column(name = "status_id")
-	@ManyToOne
-	@JoinTable(name = "status_id")
-	public long getStatus_id() {
+	public long getStatusId() {
 		return statusId;
 	}
 
-	public void setStatus_id(long status_id) {
-		this.statusId = status_id;
+	public void setStatusId(long statusId) {
+		this.statusId = statusId;
 	}
-
+	
 	@Column(name = "json_data")
-	public String getJson_data() {
+	public String getJsonData() {
 		return jsonData;
 	}
 
-	public void setJson_data(String json_data) {
-		this.jsonData = json_data;
+	public void setJsonData(String jsonData) {
+		this.jsonData = jsonData;
 	}
-
+	
 	@Column(name = "creation_date")
-	@Type(type="org.joda.time.contrib.hibernate.PersistentDateTime")
-	public DateTime getCreation_date() {
+	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+	public DateTime getCreationDate() {
 		return creationDate;
 	}
 
-	public void setCreation_date(DateTime creation_date) {
-		this.creationDate = creation_date;
+	public void setCreationDate(DateTime creationDate) {
+		this.creationDate = creationDate;
 	}
-
+	
 	@Column(name = "last_updated")
-	@Type(type="org.joda.time.contrib.hibernate.PersistentDateTime")
-	public DateTime getLast_updated() {
+	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+	public DateTime getLastUpdated() {
 		return lastUpdated;
 	}
 
-	public void setLast_updated(DateTime last_updated) {
-		this.lastUpdated = last_updated;
+	public void setLastUpdated(DateTime lastUpdated) {
+		this.lastUpdated = lastUpdated;
 	}
+	@Column(name = "name")
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+	@Column(name = "description")
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
+	
 
 }

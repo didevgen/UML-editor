@@ -4,11 +4,11 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,10 +26,6 @@ import ua.nure.sigma.service.LoginService;
 @Scope("session")
 public class LoginController {
 	
-	@Autowired
-	private User user;
-	
-	private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 	private LoginService service = new LoginService();
 	// @RequestMapping(value = "/account/register", method = RequestMethod.POST)
 	// public @ResponseBody User registerUser(HttpServletRequest request) throws
@@ -61,13 +57,17 @@ public class LoginController {
 	}
 
 	@RequestMapping(value = "/account/login", method = RequestMethod.POST)
-	public  @ResponseBody User loginUser(HttpServletRequest request) throws NoSuchAlgorithmException {
+	public  @ResponseBody User loginUser(HttpServletRequest request, HttpSession session) throws NoSuchAlgorithmException {
 		User userTemp = new Gson().fromJson(request.getParameter("user"), User.class);
 		if (userTemp==null) {
 			return null;
 		}
-		user = service.getUser(userTemp);
-		return userTemp;
+		User user = service.getUser(userTemp);
+		if (user==null) {
+			return service.returnZeroUser();
+		}
+		session.setAttribute("user", user);
+		return user;
 	}
 
 	@RequestMapping(value = "/account/{id}", method = RequestMethod.POST)
