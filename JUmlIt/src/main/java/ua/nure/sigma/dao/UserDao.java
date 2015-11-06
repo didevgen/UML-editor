@@ -4,6 +4,8 @@ import java.sql.SQLException;
 import java.util.List;
 
 import ua.nure.sigma.db_entities.User;
+import ua.nure.sigma.model.DiagramModel;
+import ua.nure.sigma.model.UserDetails;
 
 public interface UserDao {
 	/**
@@ -33,5 +35,7 @@ public interface UserDao {
 	 * @return user information besides password. 
 	 */
 	public User getUserByLoginAndPassword(String login, String password);
+	
+	UserDetails getUserDiagrams(long id);
 	
 }

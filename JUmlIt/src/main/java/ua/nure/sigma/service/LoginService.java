@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import ua.nure.sigma.dao.UserDao;
 import ua.nure.sigma.dao.impl.UserDAOImpl;
 import ua.nure.sigma.db_entities.User;
+import ua.nure.sigma.model.DiagramModel;
+import ua.nure.sigma.model.UserDetails;
 import ua.nure.sigma.util.Encrypter;
 
 public class LoginService {
@@ -56,6 +58,10 @@ public class LoginService {
 			e.printStackTrace();
 			return returnZeroUser();
 		}
+	}
+	
+	public UserDetails getUserDiagrams(long id) {
+		return dao.getUserDiagrams(id);
 	}
 
 }

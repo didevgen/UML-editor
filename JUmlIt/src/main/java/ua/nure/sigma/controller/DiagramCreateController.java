@@ -20,26 +20,27 @@ import ua.nure.sigma.service.DiagramCreationService;
 @Controller
 public class DiagramCreateController {
 	private DiagramCreationService service = new DiagramCreationService();
-	
+
 	@RequestMapping(value = "/diagram/create", method = RequestMethod.POST)
-	public @ResponseBody DiagramModel  registerUser(HttpServletRequest request, HttpSession session) throws SQLException {
+	public @ResponseBody DiagramModel registerUser(HttpServletRequest request, HttpSession session)
+			throws SQLException {
 		DiagramModel diagram = new Gson().fromJson(request.getParameter("diagram"), DiagramModel.class);
 		User user = (User) session.getAttribute("user");
 		diagram.setOwner(user);
 		return service.createDiagram(diagram);
 	}
-	
+
 	@RequestMapping(value = "/diagram/{id}", method = RequestMethod.GET)
-	public @ResponseBody DiagramModel  getUserId(@PathVariable long id,HttpSession session) throws SQLException {
+	public @ResponseBody DiagramModel getUserId(@PathVariable long id, HttpSession session) throws SQLException {
 		return service.getDiagramById(id);
 	}
-	
+
 	@RequestMapping(value = "/diagram/{id}/update", method = RequestMethod.POST)
-	public void updateDiagram(@PathVariable long id,HttpServletRequest request) throws SQLException {
+	public void updateDiagram(@PathVariable long id, HttpServletRequest request) throws SQLException {
 		DiagramModel diagram = new Gson().fromJson(request.getParameter("diagram"), DiagramModel.class);
 		service.updateDiagram(diagram);
 	}
-	
+
 	@RequestMapping(value = "/diagram/{id}/remove", method = RequestMethod.POST)
 	public void updateDiagram(@PathVariable long id) throws SQLException {
 		service.deleteDiagram(id);

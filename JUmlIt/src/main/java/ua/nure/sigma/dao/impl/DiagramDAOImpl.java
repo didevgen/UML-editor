@@ -1,5 +1,6 @@
 package ua.nure.sigma.dao.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -13,6 +14,7 @@ import ua.nure.sigma.dao.DiagramDAO;
 import ua.nure.sigma.dao.UserDao;
 import ua.nure.sigma.db_entities.Collaborator;
 import ua.nure.sigma.db_entities.Diagram;
+import ua.nure.sigma.db_entities.User;
 import ua.nure.sigma.model.DiagramModel;
 import ua.nure.sigma.util.HibernateUtil;
 
@@ -118,5 +120,45 @@ public class DiagramDAOImpl implements DiagramDAO {
 			}
 		}
 	}
+
+	@Override
+	public List<Diagram> getUsersDiagrams(long userId) {
+		Session session = null;
+		List<Diagram> models = new ArrayList<Diagram>();
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+			models = session.createCriteria(Diagram.class).add(Restrictions.eq("owner_id", userId)).list();
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Ошибка I/O", JOptionPane.OK_OPTION);
+		} finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		}
+		return models;
+	}
+
+	@Override
+	public List<Diagram> getUsersCollaborationDiagram(long userId) {
+		Session session = null;
+		List<Diagram> models = new ArrayList<Diagram>();
+		List<Collaborator> colls = new ArrayList<Collaborator>();
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+			colls = session.createCriteria(Collaborator.class).add(Restrictions.eq("user_id", userId)).list();
+			for (Collaborator col : colls){
+				models.add((Diagram) session.load(Diagram.class, col.getDiagramId()));
+			}
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Ошибка I/O", JOptionPane.OK_OPTION);
+		} finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		}
+		return models;
+	}
+	
+	
 
 }

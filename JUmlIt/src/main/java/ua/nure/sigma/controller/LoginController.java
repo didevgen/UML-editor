@@ -74,5 +74,11 @@ public class LoginController {
 	public @ResponseBody User getUserById(@PathVariable long id) throws SQLException {
 		return service.getUserById(id);
 	}
+	
+	@RequestMapping(value = "/account/{id}/details", method = RequestMethod.POST)
+	public @ResponseBody User getUserDetails(@PathVariable long id) throws SQLException {
+		return service.getUserById(id);
+	}
+
 
 }

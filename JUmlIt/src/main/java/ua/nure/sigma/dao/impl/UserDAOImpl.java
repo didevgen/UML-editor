@@ -3,13 +3,18 @@ package ua.nure.sigma.dao.impl;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.swing.JOptionPane;
+
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
-import ua.nure.sigma.util.HibernateUtil;
+import ua.nure.sigma.dao.DiagramDAO;
 import ua.nure.sigma.dao.UserDao;
-import ua.nure.sigma.db_entities.User;;
+import ua.nure.sigma.db_entities.User;
+import ua.nure.sigma.model.DiagramModel;
+import ua.nure.sigma.model.UserDetails;
+import ua.nure.sigma.util.HibernateUtil;;
 
 public class UserDAOImpl implements UserDao {
 	public User addUser(User user) throws SQLException {
@@ -135,6 +140,25 @@ public class UserDAOImpl implements UserDao {
 		} catch (Exception ex) {
 			return null;
 		}
+	}
+
+	@Override
+	public UserDetails getUserDiagrams(long id) {
+		Session session = null;
+		DiagramDAO diagrDao = new DiagramDAOImpl();
+		UserDetails details = new UserDetails();
+		try {
+			details.setOwnDiagrams(diagrDao.getUsersDiagrams(id));
+			details.setCollabDiagrams(diagrDao.getUsersCollaborationDiagram(id));
+			
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Ошибка I/O", JOptionPane.OK_OPTION);
+		} finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		}
+		return details;
 	}
 
 }
