@@ -7,6 +7,7 @@ var wiredep = require('wiredep');
 var inject = require('gulp-inject');
 var concat = require('gulp-concat');
 var browserSync = require('browser-sync').create();
+var sourcemaps = require('gulp-sourcemaps');
 
 var webappPath = 'src/main/webapp/static/';
 

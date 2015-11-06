@@ -1,50 +1,49 @@
 @import 'color-palette';
+$amount: 20%;
 
-$amount: 10%;
-
-input.form-control{
-    border-radius: 0px;
-
+input.form-control,
+textarea.form-control {
+    border-radius: 2px;
+    border-width: 2px;
+    resize: none;
+    
     &.ng-invalid.ng-touched {
-        border-color: $color-error;
-
+        border-color: lighten($color-error, $amount);
         &:focus {
-            border-color: $color-error;
-            box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 4px $color-error;
+            border-color: lighten($color-error, $amount);
+            box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 2px $color-error;
         }
     }
-
     &.ng-valid.ng-touched {
-        border-color: $color-success;
-
+        border-color: lighten($color-success, $amount);
         &:focus {
-            border-color: $color-success;
-            box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 4px $color-success;
+            border-color: lighten($color-success, $amount);
+            box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 2px $color-success;
         }
     }
-
     &:focus {
-        border-color: $color-primary;
+        border-color: lighten($color-primary, $amount);
         outline: 0;
-        box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 4px $color-primary;
+        box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 2px $color-primary;
     }
 }
-
 button.btn {
-    border-radius: 0px;
+    border-radius: 2px;
+    transition: border 0.25s linear,color 0.25s linear,background-color 0.25s linear;
 
+    box-shadow: inset 0 -2px 0 rgba(0,0,0,.15);
     &.btn-primary {
         background-color: $color-primary;
         border-color: $color-primary;
-
         &:hover {
             background-color: lighten($color-primary, $amount);
             border-color: lighten($color-primary, $amount);
         }
     }
-
+    &:focus {
+        outline: 0;
+    }
 }
-
 .field-message {
     display: inline-block;
     width: 100%;
@@ -52,30 +51,24 @@ button.btn {
     margin-top: 5px;
     text-align: right;
 }
-
 .error-message {
     @extend .field-message;
     color: $color-error;
 }
-
 .info-message {
     @extend .field-message;
     color: $font-color;
 }
-
 .success-message {
     @extend .field-message;
     color: $color-success;
 }
-
 form label {
     color: $font-color;
 }
-
 form .form-group {
     margin-bottom: 5px;
 }
-
 form button[type="submit"] {
     margin-top: 20px;
 }

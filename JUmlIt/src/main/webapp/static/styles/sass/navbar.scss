@@ -1,0 +1,41 @@
+@import 'color-palette.scss';
+
+.custom-header {
+    .navbar-brand {
+        color: white;
+        font-weight: bolder;
+        &:hover {
+            color: $font-color-light;
+        }
+    }
+    &.header {
+        padding: 0;
+        margin: 0;
+    }
+    .navbar {
+        border: 0;
+        background-color: $color-primary;
+        border-bottom: 5px solid $color-primary-darker;
+        border-radius: 0;
+    }
+    .nav.navbar-nav a {
+        color: white;
+        &:hover {
+            color: $font-color-light;
+        }
+    }
+    .dropdown.open .dropdown-toggle {
+        background-color: $color-primary-darker;
+
+        &:focus {
+            background-color: $color-primary-darker;
+            color: white;
+        }
+        &:hover {
+            color: white;
+        }
+    }
+    .nav.navbar-nav .dropdown-menu a{
+        color: $font-color-darker1;
+    }
+}

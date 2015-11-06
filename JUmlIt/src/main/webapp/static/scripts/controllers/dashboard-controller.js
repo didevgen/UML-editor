@@ -1,6 +1,9 @@
 'use strict';
 angular.module('jumlitApp').controller('DashboardCtrl', function($scope, $uibModal) {
     $scope.editDetails = function() {
-        console.log();
+        $uibModal.open({
+            templateUrl: 'modals/personal-details-modal.html',
+            controller: 'PersonalDetailsModalCtrl'
+        });
     };
 });
