@@ -26,19 +26,9 @@
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
-    <!-- Add your site or application content here -->
-    <div class="header custom-header" ng-include="'templates/navbar.html'"></div>
-
-    <div class="main container">
+    <div class="main">
         <div ui-view=""></div>
     </div>
-
-    <div class="footer">
-        <div class="container">
-            <p><span class="glyphicon glyphicon-heart"></span> from the Yeoman team</p>
-        </div>
-    </div>
-
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
     <script>
@@ -65,15 +55,20 @@
     <script src="bower_components/angular-touch/angular-touch.js"></script>
     <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
     <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="bower_components/angular-ui-router.stateHelper/statehelper.js"></script>
     <!-- endbower -->
 
     <script src="scripts/app.js"></script>
     <!-- inject:js -->
     <script src="scripts/controllers/about-controller.js"></script>
+    <script src="scripts/controllers/account-controller.js"></script>
+    <script src="scripts/controllers/account-nav-controller.js"></script>
     <script src="scripts/controllers/dashboard-controller.js"></script>
+    <script src="scripts/controllers/diagram-controller.js"></script>
+    <script src="scripts/controllers/footer-controller.js"></script>
     <script src="scripts/controllers/landing-controller.js"></script>
+    <script src="scripts/controllers/landing-nav-controller.js"></script>
     <script src="scripts/controllers/login-controller.js"></script>
-    <script src="scripts/controllers/nav-controller.js"></script>
     <script src="scripts/controllers/personal-details-modal-controller.js"></script>
     <script src="scripts/controllers/register-controller.js"></script>
     <script src="scripts/directives/compare-to-directive.js"></script>

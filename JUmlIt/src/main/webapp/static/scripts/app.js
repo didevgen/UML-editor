@@ -25,36 +25,47 @@ angular
                 templateUrl: 'states/landing.html',
                 controller: 'LandingCtrl'
             })
-            .state('about', {
+            .state('landing.about', {
                 url: '/about',
-                templateUrl: 'states/about.html',
+                templateUrl: 'states/landing.about.html',
                 controller: 'AboutCtrl'
             })
-            .state('register', {
+            .state('landing.register', {
                 url: '/register',
-                templateUrl: 'states/register.html',
+                templateUrl: 'states/landing.register.html',
                 controller: 'RegisterCtrl',
             })
-            .state('login', {
+            .state('landing.login', {
                 url: '/login',
-                templateUrl: 'states/login.html',
+                templateUrl: 'states/landing.login.html',
                 controller: 'LoginCtrl',
             })
-            .state('dashboard', {
+            .state('account', {
+                url: '/account',
+                templateUrl: 'states/account.html',
+                controller: 'AccountCtrl'
+            })
+            .state('account.dashboard', {
                 url: '/dashboard',
-                templateUrl: 'states/dashboard.html',
+                templateUrl: 'states/account.dashboard.html',
                 controller: 'DashboardCtrl'
+            })
+            .state('diagram', {
+                url: '/diagram',
+                templateUrl: 'states/diagram.html',
+                controller: 'DiagramCtrl'
             });
 
         $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
 
-        function handleEmptyUrl(Session, $state) {
+        function handleUrl(Session, $state) {
             if (Session.authenticated) {
-                $state.go('dashboard');
+                $state.go('account.dashboard');
             } else {
-                $state.go('landing');
+                $state.go('landing.login');
             }
         }
 
-        $urlRouterProvider.when('', handleEmptyUrl);
+        $urlRouterProvider.when('', handleUrl);
+        $urlRouterProvider.when('/landing', handleUrl);
     });

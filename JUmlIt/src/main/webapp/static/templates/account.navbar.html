@@ -1,4 +1,4 @@
-<div class="navbar navbar-default" role="navigation" ng-controller="NavCtrl">
+<div class="navbar navbar-default" role="navigation" ng-controller="AccountNavCtrl">
     <div class="container">
         <div class="navbar-header">
 
@@ -9,20 +9,16 @@
                 <span class="icon-bar"></span>
             </button>
 
-            <a class="navbar-brand" ui-sref="dashboard">JUmlIt</a>
+            <a class="navbar-brand" ui-sref="account.dashboard">JUmlIt</a>
         </div>
 
         <div class="collapse navbar-collapse" id="js-navbar-collapse">
 
             <ul class="nav navbar-nav">
-                <li ng-show="root.authenticated" class="active"><a ui-sref="home">Home</a></li>
-                <li><a ui-sref="about">About</a></li>
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
-                <li ng-hide="root.authenticated"><a ui-sref="login">Sign in</a></li>
-                <li ng-hide="root.authenticated"><a ui-sref="register">Register</a></li>
-                <li ng-show"root.authenticated" class="dropdown">
+                <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="#">Action</a></li>

@@ -1,0 +1,32 @@
+@import "color-palette.scss";
+
+.toolbar {
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+};
+
+
+.diagram-brand.navbar-brand{
+    border-right: 1px solid $border-color;
+    color: $color-primary;
+}
+
+.diagram-canvas {
+    width: 100%;
+    position: absolute;
+    height: 100%;
+}
+
+.tool-panel {
+    position: absolute;
+    padding: 0px;
+
+    &:first-child {
+        left: 0px;
+    }
+
+    &:last-child {
+        right: 0px;
+    }
+}
