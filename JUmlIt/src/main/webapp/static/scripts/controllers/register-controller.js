@@ -17,10 +17,10 @@ angular.module('jumlitApp').controller('RegisterCtrl', function($scope, $http, C
         };
 
         $scope.alerts = [];
-        
+
         submitRegistration(data)
-            .then(function() {
-                return Auth.login(data);
+            .then(function(response) {
+                return Auth.login(response.user);
             })
             .then(function() {
                 $state.go('account.dashboard');

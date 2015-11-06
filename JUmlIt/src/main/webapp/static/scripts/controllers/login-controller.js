@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('jumlitApp').controller('LoginCtrl', function () {
- $scope.user = {
+angular.module('jumlitApp').controller('LoginCtrl', function($scope, Auth, $q, $state) {
+    $scope.user = {
         email: '',
         password: '',
     };
@@ -20,7 +20,7 @@ angular.module('jumlitApp').controller('LoginCtrl', function () {
             .then(function() {
                 $state.go('account.dashboard');
             })
-            .catch(function (error) {
+            .catch(function(error) {
                 $scope.alerts.push({
                     type: 'danger',
                     msg: 'Login error! Something happened on our servers.'

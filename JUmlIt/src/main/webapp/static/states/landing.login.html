@@ -7,14 +7,14 @@
         <div class="panel-body">
             <form novalidate name="form-login">
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Email address</label>
+                    <label for="email">Email address</label>
                     <input type="email" class="form-control" name="email" id="email" placeholder="Email" ng-model="user.email" required="">
                     <div ng-show="form-login.$submitted || form-login.email.$touched">
                         <span class="error-message" ng-show="form-login.email.$error.required">Email is required.</span>
                         <span class="error-message" ng-show="form-login.email.$error.email">Invalid format.</span>
                         <span class="success-message" ng-show="form-login.email.$valid">Thanks!</span>
                     </div>
-                    <span class="info-message" ng-hide="form-login.$submitted || formform-loginemail.$touched">Type in your email.</span>
+                    <span class="info-message" ng-hide="form-login.$submitted || form-login.email.$touched">Type in your email.</span>
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
@@ -27,7 +27,8 @@
                     <span class="info-message" ng-hide="form-login.$submitted || form-login.password.$touched">Type in your password.</span>
                 </div>
                 <div class="">
-                    <button type="submit" ng-disabled="form-login.$invalid" ng-click="attemptLogin()" class="btn btn-default btn-primary col-md-12">Login</button>
+                    <button type="submit" ng-disabled="form-login.$invalid" ng-click="attemptLogin()"
+                            class="btn btn-default btn-primary col-md-12">Login</button>
                 </div>
                 <a class="link-right" ui-sref="landing.register">haven't an account?</a>
             </form>
