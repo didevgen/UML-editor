@@ -117,6 +117,7 @@
 ```
 {
 	diagram: {
+		id: 3,
 		name: 'Some name',
 		description: 'Some description',
 		collaborators: [1, 3, 57] #ids of users,
@@ -131,6 +132,7 @@
 ```
 {
 	diagram: {
+		id: 1,
 		name: 'Some name',
 		description: 'Some description',
 		collaborators: [1, 3, 57] #ids of users,
