@@ -66,6 +66,6 @@ angular
             }
         }
 
-        $urlRouterProvider.when('', handleUrl);
+        $urlRouterProvider.when('/', handleUrl);
         $urlRouterProvider.when('/landing', handleUrl);
     });
