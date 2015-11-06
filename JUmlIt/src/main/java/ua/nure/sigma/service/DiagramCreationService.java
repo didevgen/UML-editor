@@ -14,4 +14,12 @@ public class DiagramCreationService {
 	public DiagramModel getDiagramById(long id){
 		return dao.getDiagramById(id);
 	}
+	
+	public void updateDiagram(DiagramModel model) {
+		dao.updateDiagram(model);
+	}
+	
+	public void deleteDiagram(long id){
+		dao.deleteDiagram(id);
+	}
 }

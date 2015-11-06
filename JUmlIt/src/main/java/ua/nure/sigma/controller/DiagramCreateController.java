@@ -31,7 +31,17 @@ public class DiagramCreateController {
 	
 	@RequestMapping(value = "/diagram/{id}", method = RequestMethod.GET)
 	public @ResponseBody DiagramModel  getUserId(@PathVariable long id,HttpSession session) throws SQLException {
-		User user = (User) session.getAttribute("user");
 		return service.getDiagramById(id);
+	}
+	
+	@RequestMapping(value = "/diagram/{id}/update", method = RequestMethod.POST)
+	public void updateDiagram(@PathVariable long id,HttpServletRequest request) throws SQLException {
+		DiagramModel diagram = new Gson().fromJson(request.getParameter("diagram"), DiagramModel.class);
+		service.updateDiagram(diagram);
+	}
+	
+	@RequestMapping(value = "/diagram/{id}/remove", method = RequestMethod.POST)
+	public void updateDiagram(@PathVariable long id) throws SQLException {
+		service.deleteDiagram(id);
 	}
 }
