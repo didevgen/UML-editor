@@ -127,27 +127,40 @@ form button[type="submit"] {
   font-size: 13px;
   margin-top: 5px; }
 
+.diagram-main {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column; }
+
 .toolbar {
   border-top: 0;
   border-left: 0;
   border-right: 0; }
 
+.toolbar.navbar {
+  margin: 0; }
+
 .diagram-brand.navbar-brand {
   border-right: 1px solid #e5e5e5;
   color: #1abc9c; }
 
-.diagram-canvas {
-  width: 100%;
-  position: absolute;
-  height: 100%; }
-
 .tool-panel {
   position: absolute;
+  top: 150px;
   padding: 0px; }
   .tool-panel:first-child {
     left: 0px; }
   .tool-panel:last-child {
     right: 0px; }
+
+.diagram-container {
+  flex-grow: 1; }
+
+.diagram-canvas {
+  height: 100%;
+  width: 100%; }
 
 .browsehappy {
   margin: 0.2em 0;
@@ -173,9 +186,6 @@ body {
     margin-bottom: 0;
     line-height: 40px;
     padding-bottom: 19px; }
-
-.main {
-  padding-bottom: 40px; }
 
 /* Custom page footer */
 .footer {
