@@ -5,7 +5,7 @@ angular.module('jumlitApp').factory('Session', function(Utils) {
 
     function set(key, value) {
         Session.lastUpdated = new Date();
-        Sesion.key = value;
+        Session.key = value;
     }
 
     function get(key) {
