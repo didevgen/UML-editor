@@ -7,7 +7,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 @Entity
-@Table(name = "History")
+@Table(name = "history")
 public class History {
 private long eventId;
 private long userId;

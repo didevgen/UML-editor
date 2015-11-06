@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Entity
-@Table(name = "User")
+@Table(name = "user")
 @Component
 @Scope("session")
 public class User {

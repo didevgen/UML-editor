@@ -11,7 +11,7 @@ import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
 @Entity
-@Table(name = "Diagram")
+@Table(name = "diagram")
 
 public class Diagram {
 	private long diagramId;

@@ -16,14 +16,20 @@ angular.module('jumlitApp').controller('RegisterCtrl', function($scope, $http, C
             password: $scope.user.password
         };
 
+        $scope.alerts = [];
+        
         submitRegistration(data)
             .then(function() {
                 return Auth.login(data);
             })
             .then(function() {
-                $state.go('dashboard');
+                $state.go('account.dashboard');
             })
-            .catch(function () {
+            .catch(function (error) {
+                $scope.alerts.push({
+                    type: 'danger',
+                    msg: 'Login error! Something happened on our servers.'
+                });
             });
     }
 

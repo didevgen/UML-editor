@@ -10,7 +10,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name = "EventType")
+@Table(name = "eventtype")
 public class EventType {
 	private long eventTypeId;
 	private String description;

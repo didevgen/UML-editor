@@ -11,7 +11,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name = "Diagram_Status")
+@Table(name = "diagram_status")
 public class DiagramStatus {
 	private long statusId;
 	private String status_type;

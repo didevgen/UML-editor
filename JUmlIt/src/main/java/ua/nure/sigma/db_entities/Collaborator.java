@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "Collaborator")
+@Table(name = "collaborator")
 public class Collaborator {
 	private long userId;
 	private long diagramId;
