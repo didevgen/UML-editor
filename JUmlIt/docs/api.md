@@ -1,15 +1,23 @@
 ### /account/register
 * method: _POST_
 * request:
-```{ email: '', password: '', fullname: ''
+```
+{
+	credentials: {
+		email: '',
+		password: '',
+		fullname: ''
+	}
 }
 ```
 * response:
 ```
 {
-	id: 0,
-	email: '',
-	fullname: ''
+	user {
+		id: 0,
+		email: '',
+		fullname: ''
+	}
 }
 ```
 
@@ -18,8 +26,10 @@
 * request:
 ```
 {
-	email: '',
-	password: ''
+	credentials: {
+		email: '',
+		password: ''
+	}
 }
 ```
 * response:
@@ -47,19 +57,21 @@
 * response:
 ```
 {
-	personalInfo: '',
-	ownDiagrams: [{
-		name: 'Some name',
-		id: 1
-	}],
-	collabDiagrams: [{
-		name: 'Some name',
-		id: 4,
-		owner: {
-			id: 1,
-			fullname: 'Some fullname'
-		}
-	]
+	details: {
+		personalInfo: '',
+		ownDiagrams: [{
+			name: 'Some name',
+			id: 1
+		}],
+		collabDiagrams: [{
+			name: 'Some name',
+			id: 4,
+			owner: {
+				id: 1,
+				fullname: 'Some fullname'
+			}
+		]
+	}
 }
 ```
 
@@ -68,7 +80,9 @@
 * request:
 ```
 {
-	personalInfo: ''
+	details: {
+		personalInfo: ''
+	}
 }
 ```
 * response:
@@ -81,15 +95,19 @@
 * request:
 ```
 {
-	name: 'Some name',
-	description: 'Some description',
-	collaborators: [1, 3, 57] #ids of users
+	diagram: {
+		name: 'Some name',
+		description: 'Some description',
+		collaborators: [1, 3, 57] #ids of users
+	}
 }
 ```
 * response:
 ```
 {
-	id: 134
+	diagram: {
+		id: 134
+	}
 }
 ```
 
@@ -98,10 +116,12 @@
 * response:
 ```
 {
-	name: 'Some name',
-	description: 'Some description',
-	collaborators: [1, 3, 57] #ids of users,
-	jsonData: ''
+	diagram: {
+		name: 'Some name',
+		description: 'Some description',
+		collaborators: [1, 3, 57] #ids of users,
+		jsonData: ''
+	}
 }
 ```
 
@@ -110,10 +130,12 @@
 * request:
 ```
 {
-	name: 'Some name',
-	description: 'Some description',
-	collaborators: [1, 3, 57] #ids of users,
-	jsonData: ''
+	diagram: {
+		name: 'Some name',
+		description: 'Some description',
+		collaborators: [1, 3, 57] #ids of users,
+		jsonData: ''
+	}
 }
 ```
 * response:
