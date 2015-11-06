@@ -1,7 +1,5 @@
 package ua.nure.sigma.db_entities;
 
-import java.math.BigInteger;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,7 +13,7 @@ import org.hibernate.annotations.GenericGenerator;
 @Entity
 @Table(name = "Diagram_Status")
 public class DiagramStatus {
-	private BigInteger statusId;
+	private long statusId;
 	private String status_type;
 
 	public DiagramStatus() {
@@ -32,11 +30,11 @@ public class DiagramStatus {
 	@Column(name = "status_id")
 	@OneToMany
 	@JoinTable(name = "Diagram")
-	public BigInteger getStatusId() {
+	public long getStatusId() {
 		return statusId;
 	}
 
-	public void setStatusId(BigInteger id) {
+	public void setStatusId(long id) {
 		statusId = id;
 	}
 

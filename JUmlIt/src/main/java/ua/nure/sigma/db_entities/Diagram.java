@@ -20,9 +20,9 @@ import org.joda.time.DateTime;
 @Table(name = "Diagram")
 
 public class Diagram {
-	private BigInteger diagramId;
-	private BigInteger ownerId;
-	private BigInteger statusId;
+	private long diagramId;
+	private long ownerId;
+	private long statusId;
 	private String jsonData;
 	private DateTime creationDate;
 	private DateTime lastUpdated;
@@ -31,21 +31,17 @@ public class Diagram {
 		jsonData = null;
 	}
 
-	public Diagram(Diagram id) {
-		diagramId = id.getDiagramId();
-	}
-
 	@Id
 	@GeneratedValue(generator = "increment")
 	@GenericGenerator(name = "increment", strategy = "increment")
 	@Column(name = "diagram_id")
 	@OneToMany
 	@JoinTable(name = "Collaborator", joinColumns = @JoinColumn(name = "diagram_id"))
-	public BigInteger getDiagramId() {
+	public long getDiagramId() {
 		return diagramId;
 	}
 
-	public void setDiagramId(BigInteger id) {
+	public void setDiagramId(long id) {
 		diagramId = id;
 	}
 
@@ -55,11 +51,11 @@ public class Diagram {
 	@Column(name = "owner_id")
 	@ManyToOne
 	@JoinTable(name = "Collaborator", joinColumns = @JoinColumn(name = "user_id"))
-	public BigInteger getOwnerId() {
+	public long getOwnerId() {
 		return ownerId;
 	}
 
-	public void setOwnerId(BigInteger id) {
+	public void setOwnerId(long id) {
 		ownerId = id;
 	}
 
@@ -69,11 +65,11 @@ public class Diagram {
 	@Column(name = "status_id")
 	@ManyToOne
 	@JoinTable(name = "status_id")
-	public BigInteger getStatus_id() {
+	public long getStatus_id() {
 		return statusId;
 	}
 
-	public void setStatus_id(BigInteger status_id) {
+	public void setStatus_id(long status_id) {
 		this.statusId = status_id;
 	}
 

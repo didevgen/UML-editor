@@ -1,6 +1,5 @@
 package ua.nure.sigma.db_entities;
 
-import java.math.BigInteger;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,22 +12,21 @@ import org.hibernate.annotations.GenericGenerator;
 @Entity
 @Table(name = "EventType")
 public class EventType {
-	private BigInteger eventTypeId;
+	private long eventTypeId;
 	private String description;
 
 	public EventType() {
-		description = null;
 	}
 
 	@Id
 	@GeneratedValue(generator = "increment")
 	@GenericGenerator(name = "increment", strategy = "increment")
 	@Column(name = "event_type_id")
-	public BigInteger getEvent_type_id() {
+	public long getEvent_type_id() {
 		return eventTypeId;
 	}
 
-	public void setEvent_type_id(BigInteger event_type_id) {
+	public void setEvent_type_id(long event_type_id) {
 		this.eventTypeId = event_type_id;
 	}
 

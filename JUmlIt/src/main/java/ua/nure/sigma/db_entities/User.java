@@ -1,64 +1,51 @@
 package ua.nure.sigma.db_entities;
 
-import java.math.BigInteger;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 @Entity
 @Table(name = "User")
-
+@Component
+@Scope("session")
 public class User {
-	private BigInteger userId;
-	private String fullName;
+	private long userId;
+	private String fullname;
 	private String email;
 	private String password;
 	private DateTime registrationDate;
 	private DateTime lastAvailable;
 
 	public User() {
-		fullName = null;
 	}
 
-	public User(User id) {
-		userId = id.getUserId();
-	};
-
 	public User(User name, User e_mail) {
-		fullName = name.getName();
+		fullname = name.getFullname();
 		email = e_mail.getEmail();
 	}
 	@Id
 	@GeneratedValue(generator = "increment")
 	@GenericGenerator(name = "increment", strategy = "increment")
 	@Column(name = "user_id")
-	@OneToMany
 	@JoinTable(name = "Collaborator", joinColumns = @JoinColumn(name = "user_id"))
-	public BigInteger getUserId() {
+	public long getUserId() {
 		return userId;
 	}
 
-	public void setUserId(BigInteger id) {
+	public void setUserId(long id) {
 		userId = id;
 	}
-	@Column(name = "full_name", length = 256)
-	public String getName() {
-		return fullName;
-	}
 
-	public void setFullName(String name) {
-		fullName = name;
-	}
 	@Column(name = "email", length = 256)
 	public String getEmail() {
 		return email;
@@ -73,19 +60,11 @@ public class User {
 	}
 
 	public void setPassword(String p) {
-		email = p;
-	}
-	@Column(name = "regitration_date")
-	@Type(type="org.joda.time.contrib.hibernate.PersistentDateTime")
-	public DateTime getRegDate() {
-		return registrationDate;
+		password = p;
 	}
 
-	public void setRegDate(DateTime rd) {
-		registrationDate = rd;
-	}
 	@Column(name = "last_available")
-	@Type(type="org.joda.time.contrib.hibernate.PersistentDateTime")
+	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
 	public DateTime getLastAvailable() {
 		return lastAvailable;
 	}
@@ -93,4 +72,32 @@ public class User {
 	public void setLastAvailable(DateTime la) {
 		lastAvailable = la;
 	}
+	
+	
+	@Column(name = "full_name", length = 256)
+	public String getFullname() {
+		return fullname;
+	}
+
+	public void setFullname(String fullname) {
+		this.fullname = fullname;
+	}
+
+	@Column(name = "registration_date")
+	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+	public DateTime getRegistrationDate() {
+		return registrationDate;
+	}
+
+	public void setRegistrationDate(DateTime registrationDate) {
+		this.registrationDate = registrationDate;
+	}
+
+	@Override
+	public String toString() {
+		return "User [userId=" + userId + ", fullName=" + fullname + ", email=" + email + ", password=" + password
+				+ ", registrationDate=" + registrationDate + ", lastAvailable=" + lastAvailable + "]";
+	}
+	
+	
 }
