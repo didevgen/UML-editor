@@ -1,11 +1,7 @@
 ### /account/register
 * method: _POST_
 * request:
-```
-{
-	email: '',
-	password: '',
-	fullname: ''
+```{ email: '', password: '', fullname: ''
 }
 ```
 * response:
@@ -51,7 +47,19 @@
 * response:
 ```
 {
-	personalInfo: ''
+	personalInfo: '',
+	ownDiagrams: [{
+		name: 'Some name',
+		id: 1
+	}],
+	collabDiagrams: [{
+		name: 'Some name',
+		id: 4,
+		owner: {
+			id: 1,
+			fullname: 'Some fullname'
+		}
+	]
 }
 ```
 
