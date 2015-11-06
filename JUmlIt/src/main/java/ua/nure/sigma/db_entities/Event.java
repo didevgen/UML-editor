@@ -11,7 +11,7 @@ import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
 @Entity
-@Table(name = "Event")
+@Table(name = "event")
 public class Event {
 	private long eventId;
 	private long eventTypeId;
