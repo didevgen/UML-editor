@@ -1,3 +1,36 @@
 <div class="container">
-    It's login
+    <h3 class="section-header">Log in to the system</h3>
+
+    <uib-alert class="custom-alert col-md-offset-3 col-md-6" ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</uib-alert>
+
+    <div class="panel panel-default col-md-offset-4 col-md-4">
+        <div class="panel-body">
+            <form novalidate name="form-login">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Email address</label>
+                    <input type="email" class="form-control" name="email" id="email" placeholder="Email" ng-model="user.email" required="">
+                    <div ng-show="form-login.$submitted || form-login.email.$touched">
+                        <span class="error-message" ng-show="form-login.email.$error.required">Email is required.</span>
+                        <span class="error-message" ng-show="form-login.email.$error.email">Invalid format.</span>
+                        <span class="success-message" ng-show="form-login.email.$valid">Thanks!</span>
+                    </div>
+                    <span class="info-message" ng-hide="form-login.$submitted || formform-loginemail.$touched">Type in your email.</span>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Password" ng-model="user.password" required="">
+                    <div ng-show="form-login.$submitted || form-login.password.$touched">
+                        <span class="error-message" ng-show="form-login.password.$error.required">Password is required.</span>
+                        <span class="error-message" ng-show="form-login.password.$error.pattern">Invalid format.</span>
+                        <span class="success-message" ng-show="form-login.password.$valid">Thanks!</span>
+                    </div>
+                    <span class="info-message" ng-hide="form-login.$submitted || form-login.password.$touched">Type in your password.</span>
+                </div>
+                <div class="">
+                    <button type="submit" ng-disabled="form-login.$invalid" ng-click="attemptLogin()" class="btn btn-default btn-primary col-md-12">Login</button>
+                </div>
+                <a class="link-right" ui-sref="landing.register">haven't an account?</a>
+            </form>
+        </div>
+    </div>
 </div>
