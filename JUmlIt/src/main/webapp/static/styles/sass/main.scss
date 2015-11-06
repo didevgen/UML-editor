@@ -1,6 +1,9 @@
 @import "color-palette.scss";
 @import "forms.scss";
 @import "alerts.scss";
+@import "modals.scss";
+@import "navbar.scss";
+@import "register.scss";
 
 .browsehappy {
     margin: 0.2em 0;
@@ -68,4 +71,13 @@ body {
     margin: 20px 0 40px;
     border-bottom: 1px solid #eee;
     color: $font-color-darker;
+}
+
+a {
+    color: $color-primary;
+
+    &:hover {
+        color: lighten($color-primary, 5%);
+        text-decoration: none;
+    }
 }

@@ -1,0 +1,23 @@
+@import "color-palette.scss";
+
+.modal-dialog {
+
+    .modal-content {
+        border-radius: 2px;
+        border-width: 0px;
+    }
+    .modal-title {
+        color: $font-color-darker;
+    }
+
+    .modal-header {
+        background-color: $color-primary;
+        border-bottom: 5px solid $color-primary-darker;
+    }
+
+    .modal-header h3 {
+        color: white;
+        font-size: 16px;
+        font-weight: bolder;
+    }
+}

@@ -5,7 +5,7 @@ $background-light-amount: 40%;
 
 .custom-alert {
     border-width: 5px;
-    border-radius: 0px;
+    border-radius: 2px;
 
     &.alert-danger {
         color: $color-error;
