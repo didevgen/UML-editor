@@ -1,5 +1,5 @@
 'use strict';
-angular.module('jumlitApp').controller('RegisterCtrl', function($scope, $http, Config, Utils, Auth, $state, $q) {
+angular.module('jumlitApp').controller('RegisterCtrl', function($scope, $http, Config, Utils, Authentication, $state, $q) {
     $scope.user = {
         email: '',
         password: '',
@@ -20,7 +20,7 @@ angular.module('jumlitApp').controller('RegisterCtrl', function($scope, $http, C
 
         submitRegistration(data)
             .then(function(response) {
-                return Auth.login(response.user);
+                return Authentication.login(response.user);
             })
             .then(function() {
                 $state.go('account.dashboard');
@@ -34,7 +34,7 @@ angular.module('jumlitApp').controller('RegisterCtrl', function($scope, $http, C
     }
 
     function submitRegistration(data) {
-        return Auth.register(data)
+        return Authentication.register(data)
             .catch(function(error) {
                 // TODO: handle error
                 $scope.alerts.push({

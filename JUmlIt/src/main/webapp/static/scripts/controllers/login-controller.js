@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('jumlitApp').controller('LoginCtrl', function($scope, Auth, $q, $state) {
+angular.module('jumlitApp').controller('LoginCtrl', function($scope, Authentication, $q, $state) {
     $scope.user = {
         email: '',
         password: '',
@@ -29,7 +29,7 @@ angular.module('jumlitApp').controller('LoginCtrl', function($scope, Auth, $q, $
     }
 
     function submitLogin(data) {
-        return Auth.login(data)
+        return Authentication.login(data)
             .catch(function(error) {
                 // TODO: handle error
                 $scope.alerts.push({

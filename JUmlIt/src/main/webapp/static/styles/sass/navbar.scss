@@ -24,6 +24,9 @@
         &:hover {
             color: $font-color-light;
         }
+        &:focus {
+            color: white;
+        }
     }
     .dropdown.open .dropdown-toggle {
         background-color: $color-primary-darker;

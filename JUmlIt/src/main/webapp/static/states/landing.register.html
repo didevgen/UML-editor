@@ -28,10 +28,11 @@
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" class="form-control" id="password" name="password" placeholder="Password" ng-model="user.password" required="">
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Password" ng-model="user.password" required="" ng-minlength="6">
                     <div ng-show="form.$submitted || form.password.$touched">
                         <span class="error-message" ng-show="form.password.$error.required">Password is required.</span>
                         <span class="error-message" ng-show="form.password.$error.pattern">Invalid format.</span>
+                        <span class="error-message" ng-show="form.password.$error.minlength">Too weak.</span>
                         <span class="success-message" ng-show="form.password.$valid">Thanks!</span>
                     </div>
                     <span class="info-message" ng-hide="form.$submitted || form.password.$touched">Type in your password.</span>

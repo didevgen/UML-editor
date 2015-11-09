@@ -1,11 +1,11 @@
 'use strict';
-angular.module('jumlitApp').service('Auth', function(Session, Utils) {
+angular.module('jumlitApp').service('Authentication', function(Session, Utils) {
     var AuthService = {};
 
     AuthService.login = function(credentials) {
         return Utils.postRequest('account/login', credentials).then(function (data) {
-            Session.set('user', data);
-            Session.set('authenticated', true);
+            Session.user = data;
+            Session.authenticated = true;
         });
     };
 

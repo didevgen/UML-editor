@@ -23,49 +23,67 @@ angular
             .state('landing', {
                 url: '/landing',
                 templateUrl: 'states/landing.html',
-                controller: 'LandingCtrl'
+                controller: 'LandingCtrl',
+                data: {
+                    authenticated: false
+                }
             })
             .state('landing.about', {
                 url: '/about',
                 templateUrl: 'states/landing.about.html',
-                controller: 'AboutCtrl'
+                controller: 'AboutCtrl',
+                data: {
+                    authenticated: false
+                }
             })
             .state('landing.register', {
                 url: '/register',
                 templateUrl: 'states/landing.register.html',
                 controller: 'RegisterCtrl',
+                data: {
+                    authenticated: false
+                }
             })
             .state('landing.login', {
                 url: '/login',
                 templateUrl: 'states/landing.login.html',
                 controller: 'LoginCtrl',
+                data: {
+                    authenticated: false
+                }
             })
             .state('account', {
                 url: '/account',
                 templateUrl: 'states/account.html',
-                controller: 'AccountCtrl'
+                controller: 'AccountCtrl',
+                data: {
+                    authenticated: true
+                }
             })
             .state('account.dashboard', {
                 url: '/dashboard',
                 templateUrl: 'states/account.dashboard.html',
-                controller: 'DashboardCtrl'
+                controller: 'DashboardCtrl',
+                data: {
+                    authenticated: true
+                }
             })
             .state('diagram', {
                 url: '/diagram',
                 templateUrl: 'states/diagram.html',
-                controller: 'DiagramCtrl'
+                controller: 'DiagramCtrl',
+                data: {
+                    authenticated: false
+                }
             });
 
         $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
-
-        function handleUrl(Session, $state) {
-            if (Session.authenticated) {
-                $state.go('account.dashboard');
-            } else {
-                $state.go('landing.login');
-            }
-        }
-
-        $urlRouterProvider.when('/', handleUrl);
-        $urlRouterProvider.when('/landing', handleUrl);
+        $urlRouterProvider.when('/', function($state) {
+            $state.go('account.dashboard');
+        });
+    }).run(function($rootScope, $state, Authorization) {
+        $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
+            Authorization.authorize(event, toState.data);
+        });
+        $state.go('account.dashboard');
     });
