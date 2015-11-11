@@ -1,23 +1,27 @@
 package ua.nure.sigma.code.model;
 
+import java.util.List;
+
 public class MethodArg {
 	
 	private String name;
 
 	private Type type;
 
-	private boolean isFinal;
+	private List<String> modifiers;
 	
 	public MethodArg() {
 		super();
 	}
 
-	public MethodArg(String name, Type type, boolean isFinal) {
+
+	public MethodArg(String name, Type type, List<String> modifiers) {
 		super();
 		this.name = name;
 		this.type = type;
-		this.isFinal = isFinal;
+		this.modifiers = modifiers;
 	}
+
 
 	public String getName() {
 		return name;
@@ -35,18 +39,6 @@ public class MethodArg {
 		this.type = type;
 	}
 
-	public boolean isFinal() {
-		return isFinal;
-	}
-
-	public void setFinal(boolean isFinal) {
-		this.isFinal = isFinal;
-	}
-
-	@Override
-	public String toString() {
-		return "MethodArg [name=" + name + ", type=" + type + ", isFinal=" + isFinal + "]";
-	}
 
 	@Override
 	public int hashCode() {
@@ -71,6 +63,14 @@ public class MethodArg {
 		} else if (!name.equals(other.name))
 			return false;
 		return true;
+	}
+
+	public List<String> getModifiers() {
+		return modifiers;
+	}
+
+	public void setModifiers(List<String> modifiers) {
+		this.modifiers = modifiers;
 	}
 	
 }

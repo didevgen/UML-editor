@@ -5,13 +5,7 @@ import java.util.List;
 public class Method {
 	private String name;
 	
-	private String accessModifier;
-	
-	private boolean isAbstract;
-	
-	private boolean isStatic;
-	
-	private boolean isFinal;
+	private List<String> modifiers;
 	
 	private Type returnType;
 	
@@ -19,38 +13,19 @@ public class Method {
 	
 	
 
-	public Method() {
-		super();
-	}
-	
-	
-
-	public Method(String name, String accessModifier, boolean isAbstract, boolean isStatic, boolean isFinal,
-			Type returnType) {
+	public Method(String name, List<String> modifiers, Type returnType, List<MethodArg> arguments) {
 		super();
 		this.name = name;
-		this.accessModifier = accessModifier;
-		this.isAbstract = isAbstract;
-		this.isStatic = isStatic;
-		this.isFinal = isFinal;
-		this.returnType = returnType;
-	}
-
-
-
-	public Method(String name, String accessModifier, boolean isAbstract, boolean isStatic, boolean isFinal,
-			Type returnType, List<MethodArg> arguments) {
-		super();
-		this.name = name;
-		this.accessModifier = accessModifier;
-		this.isAbstract = isAbstract;
-		this.isStatic = isStatic;
-		this.isFinal = isFinal;
+		this.modifiers = modifiers;
 		this.returnType = returnType;
 		this.arguments = arguments;
 	}
 
 
+	public Method() {
+		super();
+	}
+	
 
 	public String getName() {
 		return name;
@@ -58,38 +33,6 @@ public class Method {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public String getAccessModifier() {
-		return accessModifier;
-	}
-
-	public void setAccessModifier(String accessModifier) {
-		this.accessModifier = accessModifier;
-	}
-
-	public boolean isAbstract() {
-		return isAbstract;
-	}
-
-	public void setAbstract(boolean isAbstract) {
-		this.isAbstract = isAbstract;
-	}
-
-	public boolean isStatic() {
-		return isStatic;
-	}
-
-	public void setStatic(boolean isStatic) {
-		this.isStatic = isStatic;
-	}
-
-	public boolean isFinal() {
-		return isFinal;
-	}
-
-	public void setFinal(boolean isFinal) {
-		this.isFinal = isFinal;
 	}
 
 	public Type getReturnType() {
@@ -137,6 +80,18 @@ public class Method {
 		} else if (!name.equals(other.name))
 			return false;
 		return true;
+	}
+
+
+
+	public List<String> getModifiers() {
+		return modifiers;
+	}
+
+
+
+	public void setModifiers(List<String> modifiers) {
+		this.modifiers = modifiers;
 	}
 	
 	

@@ -1,32 +1,24 @@
 package ua.nure.sigma.code.model;
 
+import java.util.List;
+
 public class Field {
 	private String name;
 	
-	private String accessModifier;
+	private List<String> modifiers;
 	
 	private Type type;
 	
-	private boolean isStatic;
-	
-	private boolean isFinal;
-	
-	
-
 	public Field() {
 		super();
 	}
 	
-	public Field(String name, String accessModifier, Type type, boolean isStatic, boolean isFinal) {
+	public Field(String name, List<String> modifiers, Type type) {
 		super();
 		this.name = name;
-		this.accessModifier = accessModifier;
+		this.setModifiers(modifiers);
 		this.type = type;
-		this.isStatic = isStatic;
-		this.isFinal = isFinal;
 	}
-
-
 
 	public String getName() {
 		return name;
@@ -36,13 +28,6 @@ public class Field {
 		this.name = name;
 	}
 
-	public String getAccessModifier() {
-		return accessModifier;
-	}
-
-	public void setAccessModifier(String accessModifier) {
-		this.accessModifier = accessModifier;
-	}
 
 	public Type getType() {
 		return type;
@@ -52,21 +37,6 @@ public class Field {
 		this.type = type;
 	}
 
-	public boolean isStatic() {
-		return isStatic;
-	}
-
-	public void setStatic(boolean isStatic) {
-		this.isStatic = isStatic;
-	}
-
-	public boolean isFinal() {
-		return isFinal;
-	}
-
-	public void setFinal(boolean isFinal) {
-		this.isFinal = isFinal;
-	}
 
 	@Override
 	public int hashCode() {
@@ -93,11 +63,14 @@ public class Field {
 		return true;
 	}
 
-	@Override
-	public String toString() {
-		return "Field [name=" + name + ", accessModifier=" + accessModifier + ", type=" + type + ", isStatic="
-				+ isStatic + ", isFinal=" + isFinal + "]";
+	public List<String> getModifiers() {
+		return modifiers;
 	}
+
+	public void setModifiers(List<String> modifiers) {
+		this.modifiers = modifiers;
+	}
+
 	
 	
 }

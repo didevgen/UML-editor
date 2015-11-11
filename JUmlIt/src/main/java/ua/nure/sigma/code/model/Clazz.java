@@ -6,9 +6,7 @@ public class Clazz {
 
 	private String name;
 	
-	private String accessModifier;
-	
-	private boolean  isAbstract;
+	private List<String> modifiers;
 	
 	private Clazz superClass;
 	
@@ -22,24 +20,19 @@ public class Clazz {
 	public Clazz() {
 	}
 	
-	public Clazz(String name, String accessModifier, boolean isAbstract, Clazz superClass) {
+	
+
+	public Clazz(String name, List<String> modifiers, Clazz superClass, List<Field> fields, List<Interface> interfaces,
+			List<Method> methods) {
 		super();
 		this.name = name;
-		this.accessModifier = accessModifier;
-		this.isAbstract = isAbstract;
-		this.superClass = superClass;
-	}
-
-	public Clazz(String name, String accessModifier, boolean isAbstract, Clazz superClass, List<Field> fields,
-			List<Interface> interfaces, List<Method> methods) {
-		this.name = name;
-		this.accessModifier = accessModifier;
-		this.isAbstract = isAbstract;
+		this.modifiers = modifiers;
 		this.superClass = superClass;
 		this.fields = fields;
 		this.interfaces = interfaces;
 		this.methods = methods;
 	}
+
 
 	public String getName() {
 		return name;
@@ -47,22 +40,6 @@ public class Clazz {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public String getAccessModifier() {
-		return accessModifier;
-	}
-
-	public void setAccessModifier(String accessModifier) {
-		this.accessModifier = accessModifier;
-	}
-
-	public boolean isAbstract() {
-		return isAbstract;
-	}
-
-	public void setAbstract(boolean isAbstract) {
-		this.isAbstract = isAbstract;
 	}
 
 	public Clazz getSuperClass() {
@@ -120,6 +97,18 @@ public class Clazz {
 		} else if (!name.equals(other.name))
 			return false;
 		return true;
+	}
+
+
+
+	public List<String> getModifiers() {
+		return modifiers;
+	}
+
+
+
+	public void setModifiers(List<String> modifiers) {
+		this.modifiers = modifiers;
 	}
 	
 	
