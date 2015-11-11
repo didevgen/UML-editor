@@ -12,7 +12,6 @@ import org.hibernate.criterion.Restrictions;
 import ua.nure.sigma.dao.DiagramDAO;
 import ua.nure.sigma.dao.UserDao;
 import ua.nure.sigma.db_entities.User;
-import ua.nure.sigma.model.DiagramModel;
 import ua.nure.sigma.model.UserDetails;
 import ua.nure.sigma.util.HibernateUtil;;
 
