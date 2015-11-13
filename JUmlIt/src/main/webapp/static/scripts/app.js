@@ -15,6 +15,7 @@ angular
         'ngRoute',
         'ngSanitize',
         'ngTouch',
+        'ngDragDrop',
         'ui.router',
         'ui.bootstrap'
     ])
