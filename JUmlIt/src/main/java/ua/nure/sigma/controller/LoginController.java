@@ -58,11 +58,11 @@ public class LoginController {
 	}
 
 	@RequestMapping(value = "/account/login", method = RequestMethod.POST)
-	public  @ResponseBody User loginUser(HttpServletRequest request, HttpSession session) throws NoSuchAlgorithmException {
-		User userTemp = new Gson().fromJson(request.getParameter("user"), User.class);
-		if (userTemp==null) {
-			return null;
-		}
+	public  @ResponseBody User loginUser(@RequestParam("email") String email,
+			@RequestParam("password") String password,HttpServletRequest request, HttpSession session) throws NoSuchAlgorithmException {
+		User userTemp = new User();
+		userTemp.setEmail(email);
+		userTemp.setPassword(password);
 		User user = service.getUser(userTemp);
 		if (user==null) {
 			return service.returnZeroUser();
