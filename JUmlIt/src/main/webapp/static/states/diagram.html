@@ -42,46 +42,14 @@
         </div>
         <!-- /.container-fluid -->
     </nav>
+    <div ng-include="'templates/diagram-tools.html'"></div>
     <div class="diagram-container">
-        <div class="diagram-canvas">
+        <div class="diagram-canvas" id="diagram-canvas" jqyoui-droppable="{beforeDrop:'addFigurePromise'}" data-drop="true" ng-controller="DiagramCanvasCtrl">
         </div>
     </div>
-    <div class="tool-panel col-md-3">
+    <div class="tool-panel comments col-md-3">
         <div class="panel panel-default">
-            <div class="panel-heading">Tools</div>
-            <div class="panel-body">
-                <uib-accordion close-others="oneAtATime">
-                    <uib-accordion-group heading="Static Header, initially expanded" is-open="status.isFirstOpen" is-disabled="status.isFirstDisabled">
-                        This content is straight in the template.
-                    </uib-accordion-group>
-                    <uib-accordion-group heading="{{group.title}}" ng-repeat="group in groups">
-                        {{group.content}}
-                    </uib-accordion-group>
-                    <uib-accordion-group heading="Dynamic Body Content">
-                        <p>The body of the uib-accordion group grows to fit the contents</p>
-                        <button type="button" class="btn btn-default btn-sm" ng-click="addItem()">Add Item</button>
-                        <div ng-repeat="item in items">{{item}}</div>
-                    </uib-accordion-group>
-                    <uib-accordion-group heading="Custom template" template-url="group-template.html">
-                        Hello
-                    </uib-accordion-group>
-                    <uib-accordion-group heading="Delete account" panel-class="panel-danger">
-                        <p>Please, to delete your account, click the button below</p>
-                        <button class="btn btn-danger">Delete</button>
-                    </uib-accordion-group>
-                    <uib-accordion-group is-open="status.open">
-                        <uib-accordion-heading>
-                            I can have markup, too! <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
-                        </uib-accordion-heading>
-                        This is just some content to illustrate fancy headings.
-                    </uib-accordion-group>
-                </uib-accordion>
-            </div>
-        </div>
-    </div>
-    <div class="tool-panel col-md-3">
-        <div class="panel panel-default">
-            <div class="panel-heading">Comments</div>
+            <div class="panel-heading">Comments <span class="fold glyphicon glyphicon-menu-right"></span></div>
             <div class="panel-body"></div>
         </div>
     </div>

@@ -45,7 +45,6 @@ gulp.task('serve', ['index'], function() {
 
 gulp.task('watch', ['index', 'serve'], function() {
     gulp.watch(webappPath + 'styles/sass/**/*.scss', ['sass']);
-    gulp.watch(webappPath + 'styles/css/**/*.css', ['index']);
     gulp.watch(webappPath + 'scripts/**/*.js', ['index']);
     gulp.watch(webappPath + '**/*.html').on('change', browserSync.reload);
     gulp.watch(webappPath + '**/*.js').on('change', browserSync.reload);
