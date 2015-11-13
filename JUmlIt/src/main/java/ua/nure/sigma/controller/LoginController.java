@@ -47,10 +47,11 @@ public class LoginController {
 		user.setEmail(email);
 		boolean result = service.checkUserExisting(email);
 		if(result) {
-			service.returnZeroUser();
+			return service.returnZeroUser();
 		}
 		user.setPassword(password);
 		user.setFullname(fullName);
+		System.out.println(fullName);
 		user.setRegistrationDate(new DateTime(System.currentTimeMillis()));
 		user.setLastAvailable(new DateTime(System.currentTimeMillis()));
 		return service.insertUser(user);

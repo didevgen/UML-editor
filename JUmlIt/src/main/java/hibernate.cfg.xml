@@ -13,11 +13,19 @@
    <property name="hibernate.connection.url">
       jdbc:mysql://localhost/jumlit
    </property>
+   <property name="hibernate.connection.useUnicode">
+     	true
+   </property>
+    <property name="hibernate.connection.characterEncoding">
+     	utf8
+   </property>
+   <property name="hibernate.connection.charSet">
+     	utf8
+   </property>
    <property name="hibernate.connection.username">
       root
    </property>
    <property name="hibernate.connection.password">
-   	  root
    </property>
    <mapping class="ua.nure.sigma.db_entities.User" />
 </session-factory>
