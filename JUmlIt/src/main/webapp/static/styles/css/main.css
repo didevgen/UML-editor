@@ -226,3 +226,6 @@ a {
   a:hover {
     color: #1dd2af;
     text-decoration: none; }
+
+.position-relative {
+  position: relative; }

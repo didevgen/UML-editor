@@ -1,6 +1,28 @@
 <div class="container">
     <h3 class="section-header">Dashboard</h3>
-    <!--  SAMPLE BUTTONS -->
-    <button type="button" class="btn btn-primary" ng-click="editDetails()">Edit details</button>
-    <button type="button" class="btn btn-primary" ng-click="openDiagram()">Open diagram</button>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">User</div>
+                <div class="panel-body">
+                    <button type="button" class="btn btn-primary" ng-click="editDetails()">Edit details</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">Diagrams</div>
+                <div class="panel-body">
+                    <div class="pointer" ng-repeat="diagram in diagrams">
+                        <span ng-click="openDiagram(diagram)">{{diagram.title}}</span></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">News</div>
+                <div class="panel-body"></div>
+            </div>
+        </div>
+    </div>
 </div>
