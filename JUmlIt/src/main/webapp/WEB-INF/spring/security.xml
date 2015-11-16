@@ -1,0 +1,25 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/security
+	http://www.springframework.org/schema/security/spring-security.xsd">
+
+	<http realm="Protected API" use-expressions="true" auto-config="false"
+		create-session="stateless" entry-point-ref="CustomAuthenticationEntryPoint">
+		<custom-filter ref="authenticationTokenProcessingFilter"
+			position="FORM_LOGIN_FILTER" />
+		<intercept-url pattern="/authenticate" access="permitAll" />
+		<intercept-url pattern="/**" access="isAuthenticated()" />
+	</http>
+
+	<beans:bean id="CustomAuthenticationEntryPoint"
+		class="ua.nure.sigma.filters.CustomAuthenticationEntryPoint" />
+
+	<beans:bean
+		class="ua.nure.sigma.filters.AuthenticationTokenProcessingFilter"
+		id="authenticationTokenProcessingFilter">
+		<beans:constructor-arg ref="authenticationManager" />
+	</beans:bean>
+
+</beans:beans>
