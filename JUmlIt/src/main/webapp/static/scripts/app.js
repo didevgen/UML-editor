@@ -15,6 +15,7 @@ angular
         'ngRoute',
         'ngSanitize',
         'ngTouch',
+        'ngDragDrop',
         'ui.router',
         'ui.bootstrap'
     ])
@@ -68,6 +69,11 @@ angular
                     authenticated: true
                 }
             })
+            .state('account.user-info', {
+                url: '/user-info',
+                templateUrl: 'states/account.edit-user.html',
+                controller: 'UserInfoCtrl'
+            })
             .state('diagram', {
                 url: '/diagram',
                 templateUrl: 'states/diagram.html',
@@ -82,8 +88,8 @@ angular
             $state.go('account.dashboard');
         });
     }).run(function($rootScope, $state, Authorization) {
-        /*$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
+        $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
             Authorization.authorize(event, toState.data);
-        });*/
+        });
         $state.go('account.dashboard');
     });

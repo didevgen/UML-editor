@@ -1,11 +1,11 @@
-@import "color-palette.scss";
-@import "forms.scss";
-@import "alerts.scss";
-@import "modals.scss";
-@import "navbar.scss";
-@import "register.scss";
-@import "diagram.scss";
-
+@import 'color-palette';
+@import 'forms';
+@import 'alerts';
+@import 'modals';
+@import 'navbar';
+@import 'register';
+@import 'diagram';
+@import 'panels';
 .browsehappy {
     margin: 0.2em 0;
     background: #ccc;
@@ -34,7 +34,6 @@ body {
         padding-bottom: 19px;
     }
 }
-
 .main-content.container {
     padding-bottom: 40px;
 }
@@ -76,13 +75,33 @@ body {
 
 a {
     color: $color-primary;
-
     &:hover {
         color: lighten($color-primary, 5%);
         text-decoration: none;
     }
 }
 
+<<<<<<< HEAD
 .position-relative {
     position: relative;
 }
+=======
+.image-view {
+    margin-top: 15px;
+    width: 100%;
+}
+
+
+
+.edit-image-button {
+    position: absolute;
+    top:15px;
+    right: 15px;
+}
+
+.user-edit-image-container {
+    position: relative;
+}
+
+
+>>>>>>> origin/development

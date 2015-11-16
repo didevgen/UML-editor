@@ -47,21 +47,22 @@ public class LoginController {
 		user.setEmail(email);
 		boolean result = service.checkUserExisting(email);
 		if(result) {
-			service.returnZeroUser();
+			return service.returnZeroUser();
 		}
 		user.setPassword(password);
 		user.setFullname(fullName);
+		System.out.println(fullName);
 		user.setRegistrationDate(new DateTime(System.currentTimeMillis()));
 		user.setLastAvailable(new DateTime(System.currentTimeMillis()));
 		return service.insertUser(user);
 	}
 
 	@RequestMapping(value = "/account/login", method = RequestMethod.POST)
-	public  @ResponseBody User loginUser(HttpServletRequest request, HttpSession session) throws NoSuchAlgorithmException {
-		User userTemp = new Gson().fromJson(request.getParameter("user"), User.class);
-		if (userTemp==null) {
-			return null;
-		}
+	public  @ResponseBody User loginUser(@RequestParam("email") String email,
+			@RequestParam("password") String password,HttpServletRequest request, HttpSession session) throws NoSuchAlgorithmException {
+		User userTemp = new User();
+		userTemp.setEmail(email);
+		userTemp.setPassword(password);
 		User user = service.getUser(userTemp);
 		if (user==null) {
 			return service.returnZeroUser();

@@ -1,0 +1,70 @@
+<div class="container">
+    <h3 class="section-header" align="center">Edit credentials</h3>
+
+    <uib-alert class="custom-alert col-md-offset-3 col-md-6" ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</uib-alert>
+    <div class="panel panel-default col-md-offset-4 col-md-4">
+        <img class="image image-view" src="../images/empty_thumbnail.png">
+        <button class="btn btn-link edit-image-button" ng-click="editImage()">
+            <span class="glyphicon glyphicon-pencil pointer"></span>
+        </button>
+
+        <div class="panel-body">
+            <form novalidate name="login"><div class="form-group">
+                    <input type="text" class="form-control" name="info" id="info" placeholder="Some info about you" ng-model="user.info">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Email address</label>
+                    <input type="email" class="form-control" name="email" id="email" placeholder="Email" ng-model="user.email" required="">
+                    <div ng-show="form.$submitted || form.email.$touched">
+                        <span class="error-message" ng-show="form.email.$error.required">Email is required.</span>
+                        <span class="error-message" ng-show="form.email.$error.email">Invalid format.</span>
+                        <span class="success-message" ng-show="form.email.$valid">Thanks!</span>
+                    </div>
+                    <span class="info-message" ng-hide="form.$submitted || form.email.$touched">Type in your email.</span>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Full name</label>
+                    <input type="fullname" class="form-control" name="fullname" id="fullname" placeholder="Full name" ng-model="user.fullname" required="">
+                    <div ng-show="form.$submitted || form.fullname.$touched">
+                        <span class="error-message" ng-show="form.fullname.$error.required">Full name is required.</span>
+                        <span class="error-message" ng-show="form.fullname.$error.pattern">Invalid format.</span>
+                        <span class="success-message" ng-show="form.fullname.$valid">Thanks!</span>
+                    </div>
+                    <span class="info-message" ng-hide="form.$submitted || form.fullname.$touched">Type in your full name.</span>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Password" ng-model="user.password" required="">
+                    <div ng-show="form.$submitted || form.password.$touched">
+                        <span class="error-message" ng-show="form.password.$error.required">Password is required.</span>
+                        <span class="error-message" ng-show="form.password.$error.pattern">Invalid format.</span>
+                        <span class="success-message" ng-show="form.password.$valid">Thanks!</span>
+                    </div>
+                    <span class="info-message" ng-hide="form.$submitted || form.password.$touched">Type in your current password.</span>
+                </div>
+                <div class="form-group">
+                    <label for="repeat-password">New password</label>
+                    <input type="password" class="form-control" name="repeatPassword" id="repeat-password" ng-model="user.newPassword" placeholder="Repeat password">
+                    <div ng-show="form.$submitted || form.newPassword.$touched">
+                        <span class="success-message" ng-show="form.repeatPassword.$valid">Thanks!</span>
+                    </div>
+                    <span class="info-message" ng-hide="form.$submitted || form.repeatPassword.$touched">Type in new current password.</span>
+                </div><div class="form-group">
+                    <label for="repeat-password">Repeat password</label>
+                    <input type="password" class="form-control" name="repeatPassword" id="repeat-password" compare-to="user.newPassword" ng-model="user.repeatPassword" placeholder="Repeat password" required="">
+                    <div ng-show="form.$submitted || form.repeatPassword.$touched">
+                        <span class="error-message" ng-show="form.repeatPassword.$error.required">Repeating password is required.</span>
+                        <span class="error-message" ng-show="form.repeatPassword.$error.compareTo">Passwords do not match.</span>
+                        <span class="success-message" ng-show="form.repeatPassword.$valid">Thanks!</span>
+                    </div>
+                    <span class="info-message" ng-hide="form.$submitted || form.repeatPassword.$touched">Repeat new password.</span>
+                </div>
+                <div class="">
+                    <button type="submit" ng-disabled="login.$invalid" ng-click="saveUser()" class="btn btn-default btn-primary col-md-12">Save</button>
+                </div>
+                <a class="link-right" ui-sref="landing.register">haven't got an account?</a>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
