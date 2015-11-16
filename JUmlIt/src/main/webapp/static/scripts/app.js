@@ -69,6 +69,11 @@ angular
                     authenticated: true
                 }
             })
+            .state('account.user-info', {
+                url: '/user-info',
+                templateUrl: 'states/account.edit-user.html',
+                controller: 'UserInfoCtrl'
+            })
             .state('diagram', {
                 url: '/diagram',
                 templateUrl: 'states/diagram.html',
