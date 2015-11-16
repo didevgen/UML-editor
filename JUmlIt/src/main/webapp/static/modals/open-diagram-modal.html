@@ -1,0 +1,20 @@
+<div class="modal-header">
+    <h3 class="modal-title">Edit personal details</h3>
+</div>
+<div class="modal-body">
+    <form novalidate name="form">
+        <div class="form-group">
+            <label for="exampleInputEmail1">Personal information</label>
+            <textarea class="form-control" name="personal" id="personal" placeholder="Information" ng-model="personal" required="" />
+            <div ng-show="form.$submitted || form.personal.$touched">
+                <span class="error-message" ng-show="form.personal.$error.required">This field is required.</span>
+                <span class="success-message" ng-show="form.personal.$valid">Thanks!</span>
+            </div>
+            <span class="info-message" ng-hide="form.$submitted || form.personal.$touched">Type in personal information.</span>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="save()">Save</button>
+    <button class="btn" type="button" ng-click="cancel()">Cancel</button>
+</div>

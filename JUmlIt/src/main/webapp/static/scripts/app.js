@@ -83,8 +83,8 @@ angular
             $state.go('account.dashboard');
         });
     }).run(function($rootScope, $state, Authorization) {
-        $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
+        /*$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
             Authorization.authorize(event, toState.data);
-        });
+        });*/
         $state.go('account.dashboard');
     });
