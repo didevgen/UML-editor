@@ -1,13 +1,9 @@
 'use strict';
 angular.module('jumlitApp').controller('DashboardCtrl', function($scope, $uibModal, $state) {
-    $scope.editDetails = function() {
+    $scope.openDiagram = function() {
         $uibModal.open({
-            templateUrl: 'modals/personal-details-modal.html',
+            templateUrl: 'modals/open-diagram-modal.html',
             controller: 'PersonalDetailsModalCtrl'
         });
-    };
-
-    $scope.openDiagram = function() {
-        $state.go('diagram');
     };
 });
