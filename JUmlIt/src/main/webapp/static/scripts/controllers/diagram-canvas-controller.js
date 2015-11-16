@@ -8,63 +8,107 @@ angular.module('jumlitApp').controller('DiagramCanvasCtrl', function($scope, $q)
         gridSize: 1
     });
 
-    var rect = new joint.shapes.basic.Rect({
-        position: {
-            x: 100,
-            y: 30
-        },
-        size: {
-            width: 100,
-            height: 30
-        },
-        attrs: {
-            rect: {
-                fill: 'blue'
-            },
-            text: {
-                text: 'my box',
-                fill: 'white'
-            }
+    $scope.dropped = null;
+    $scope.onDrop = function(event, data) {
+        var position = {
+            x: event.clientX,
+            y: event.clientY - 100
+        };
+
+        var cell;
+        switch ($scope.dropped.name) {
+            case 'Class':
+                cell = new joint.shapes.uml.Class({
+                    position: position,
+                    size: {
+                        width: 220,
+                        height: 100
+                    },
+                    name: 'Class',
+                    attrs: {
+                        '.uml-class-name-rect': {
+                            fill: '#ff8450',
+                            stroke: '#fff',
+                            'stroke-width': 0.5
+                        },
+                        '.uml-class-attrs-rect, .uml-class-methods-rect': {
+                            fill: '#fe976a',
+                            stroke: '#fff',
+                            'stroke-width': 0.5
+                        },
+                        '.uml-class-attrs-text': {
+                            ref: '.uml-class-attrs-rect',
+                            'ref-y': 0.5,
+                            'y-alignment': 'middle'
+                        },
+                        '.uml-class-methods-text': {
+                            ref: '.uml-class-methods-rect',
+                            'ref-y': 0.5,
+                            'y-alignment': 'middle'
+                        }
+                    }
+                })
+                break;
+            case 'Interface':
+                cell = new joint.shapes.uml.Interface({
+                    name: 'Interface',
+                    position: position,
+                    size: {
+                        width: 240,
+                        height: 100
+                    },
+                    attrs: {
+                        '.uml-class-name-rect': {
+                            fill: '#feb662',
+                            stroke: '#ffffff',
+                            'stroke-width': 0.5
+                        },
+                        '.uml-class-attrs-rect, .uml-class-methods-rect': {
+                            fill: '#fdc886',
+                            stroke: '#fff',
+                            'stroke-width': 0.5
+                        },
+                        '.uml-class-attrs-text': {
+                            ref: '.uml-class-attrs-rect',
+                            'ref-y': 0.5,
+                            'y-alignment': 'middle'
+                        },
+                        '.uml-class-methods-text': {
+                            ref: '.uml-class-methods-rect',
+                            'ref-y': 0.5,
+                            'y-alignment': 'middle'
+                        }
+
+                    }
+                });
+                break;
+            case 'Abstract':
+                cell = new joint.shapes.uml.Abstract({
+                    position: position,
+                    size: {
+                        width: 260,
+                        height: 100
+                    },
+                    name: 'Abstract',
+                    attrs: {
+                        '.uml-class-name-rect': {
+                            fill: '#68ddd5',
+                            stroke: '#ffffff',
+                            'stroke-width': 0.5
+                        },
+                        '.uml-class-attrs-rect, .uml-class-methods-rect': {
+                            fill: '#9687fe',
+                            stroke: '#fff',
+                            'stroke-width': 0.5
+                        },
+                        '.uml-class-methods-text, .uml-class-attrs-text': {
+                            fill: '#fff'
+                        }
+                    }
+                });
+                break;
         }
-    });
 
-    var rect2 = rect.clone();
-    rect2.translate(300);
-
-    var link = new joint.dia.Link({
-        source: {
-            id: rect.id
-        },
-        target: {
-            id: rect2.id
-        }
-    });
-
-    graph.addCells([rect, rect2, link]);
-
-    $scope.addFigurePromise = function(event, data) {
-        console.log(event, data);
-
-        var rect = new joint.shapes.basic.Rect({
-            position: {
-                x: event.clientX - 50,
-                y: event.clientY - 100 - 15
-            },
-            size: {
-                width: 100,
-                height: 30
-            },
-            attrs: {
-                rect: {
-                    fill: 'blue'
-                },
-                text: {
-                    text: 'my box',
-                    fill: 'white'
-                }
-            }
-        });
-        graph.addCell(rect);
-        return $q.reject();
+        graph.addCell(cell);
     };
 });

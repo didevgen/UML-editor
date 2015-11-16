@@ -44,7 +44,8 @@
     </nav>
     <div ng-include="'templates/diagram-tools.html'"></div>
     <div class="diagram-container">
-        <div class="diagram-canvas" id="diagram-canvas" jqyoui-droppable="{beforeDrop:'addFigurePromise'}" data-drop="true" ng-controller="DiagramCanvasCtrl">
+        <div class="diagram-canvas" id="diagram-canvas" jqyoui-droppable="{onDrop:'onDrop'}"
+            ng-model="dropped" data-drop="true" ng-controller="DiagramCanvasCtrl">
         </div>
     </div>
     <div class="tool-panel comments col-md-3">

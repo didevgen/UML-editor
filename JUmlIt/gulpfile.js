@@ -24,7 +24,8 @@ gulp.task('index', function() {
     var sources = [webappPath + 'styles/css/**/*.css', '!' + webappPath + 'scripts/bower_components/**/*', '!' + webappPath + 'scripts/app.js',
 		webappPath + 'scripts/**/*.js'];
     wiredep({
-        src: webappPath + 'index.html'
+        src: webappPath + 'index.html',
+		exclude: [/underscore/]
     });
     gulp.src(webappPath + 'index.html')
         .pipe(inject(gulp.src(sources), {
