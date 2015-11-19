@@ -27,5 +27,11 @@
    <property name="hibernate.connection.password">
    </property>
    <mapping class="ua.nure.sigma.db_entities.User" />
+    <mapping class="ua.nure.sigma.db_entities.Token" />
+    <mapping class="ua.nure.sigma.db_entities.Diagram" />
+    <mapping class="ua.nure.sigma.db_entities.DiagramStatus" />
+    <mapping class="ua.nure.sigma.db_entities.Event" />
+    <mapping class="ua.nure.sigma.db_entities.EventType" />
+    <mapping class="ua.nure.sigma.db_entities.History" />
 </session-factory>
 </hibernate-configuration>

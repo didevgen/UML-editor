@@ -28,8 +28,6 @@ public class DiagramStatus {
 	@GeneratedValue(generator = "increment")
 	@GenericGenerator(name = "increment", strategy = "increment")
 	@Column(name = "status_id")
-	@OneToMany
-	@JoinTable(name = "Diagram")
 	public long getStatusId() {
 		return statusId;
 	}
