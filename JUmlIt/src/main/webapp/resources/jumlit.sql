@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: 127.0.0.1
--- Время создания: Ноя 04 2015 г., 17:44
+-- Время создания: Ноя 19 2015 г., 21:23
 -- Версия сервера: 5.6.26
 -- Версия PHP: 5.6.12
 
@@ -43,7 +43,9 @@ CREATE TABLE IF NOT EXISTS `diagram` (
   `status_id` bigint(20) DEFAULT NULL,
   `json_data` varchar(2056) COLLATE utf8_general_mysql500_ci NOT NULL,
   `created_date` datetime NOT NULL,
-  `last_updated` datetime NOT NULL
+  `last_updated` datetime NOT NULL,
+  `name` varchar(256) COLLATE utf8_general_mysql500_ci DEFAULT NULL,
+  `description` varchar(3000) COLLATE utf8_general_mysql500_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
 
 -- --------------------------------------------------------
@@ -94,6 +96,25 @@ CREATE TABLE IF NOT EXISTS `history` (
 -- --------------------------------------------------------
 
 --
+-- Структура таблицы `token`
+--
+
+CREATE TABLE IF NOT EXISTS `token` (
+  `tokenId` int(11) NOT NULL,
+  `tokenValue` varchar(45) DEFAULT NULL,
+  `userId` bigint(20) DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `token`
+--
+
+INSERT INTO `token` (`tokenId`, `tokenValue`, `userId`) VALUES
+(4, 'c4ca4238a0b923820dcc509a6f75849b', 1);
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблицы `user`
 --
 
@@ -104,7 +125,14 @@ CREATE TABLE IF NOT EXISTS `user` (
   `password` varchar(256) COLLATE utf8_general_mysql500_ci NOT NULL,
   `registration_date` datetime NOT NULL,
   `last_available` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
+
+--
+-- Дамп данных таблицы `user`
+--
+
+INSERT INTO `user` (`user_id`, `full_name`, `email`, `password`, `registration_date`, `last_available`) VALUES
+(1, 'Евгений Ковалев', 'didevgen@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', '2015-11-13 12:36:22', '2015-11-13 12:36:22');
 
 --
 -- Индексы сохранённых таблиц
@@ -152,6 +180,13 @@ ALTER TABLE `history`
   ADD KEY `FK_Reference_7` (`user_id`);
 
 --
+-- Индексы таблицы `token`
+--
+ALTER TABLE `token`
+  ADD PRIMARY KEY (`tokenId`),
+  ADD KEY `forket_idx` (`userId`);
+
+--
 -- Индексы таблицы `user`
 --
 ALTER TABLE `user`
@@ -182,10 +217,15 @@ ALTER TABLE `event`
 ALTER TABLE `eventtype`
   MODIFY `event_type_id` bigint(20) NOT NULL AUTO_INCREMENT;
 --
+-- AUTO_INCREMENT для таблицы `token`
+--
+ALTER TABLE `token`
+  MODIFY `tokenId` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+--
 -- AUTO_INCREMENT для таблицы `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `user_id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- Ограничения внешнего ключа сохраненных таблиц
 --
@@ -194,8 +234,8 @@ ALTER TABLE `user`
 -- Ограничения внешнего ключа таблицы `collaborator`
 --
 ALTER TABLE `collaborator`
-  ADD CONSTRAINT `FK_Reference_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
-  ADD CONSTRAINT `FK_Reference_3` FOREIGN KEY (`diagram_id`) REFERENCES `diagram` (`diagram_id`);
+  ADD CONSTRAINT `FK_Reference_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_Reference_3` FOREIGN KEY (`diagram_id`) REFERENCES `diagram` (`diagram_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Ограничения внешнего ключа таблицы `diagram`
@@ -216,6 +256,12 @@ ALTER TABLE `event`
 ALTER TABLE `history`
   ADD CONSTRAINT `FK_Reference_6` FOREIGN KEY (`event_id`) REFERENCES `event` (`event_id`),
   ADD CONSTRAINT `FK_Reference_7` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
+
+--
+-- Ограничения внешнего ключа таблицы `token`
+--
+ALTER TABLE `token`
+  ADD CONSTRAINT `forket` FOREIGN KEY (`userId`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

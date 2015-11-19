@@ -2,6 +2,7 @@ package ua.nure.sigma.controller;
 
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -57,7 +58,7 @@ public class LoginController {
 			final User myUser = (User) user.getObject();
 			new TokenImpl().deleteToken(myUser.getUserId());
 			final Token myToken = new TokenImpl().createToken(
-					new Token(new Encrypter().encryptIt(String.valueOf(myUser.getUserId())), 
+					new Token(new Encrypter().encryptIt(String.valueOf(new Random().nextInt(10000))), 
 							myUser.getUserId()));
 			user.setObject(new Object() {
 				public User user = myUser;
