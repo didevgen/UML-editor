@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import ua.nure.sigma.dao.UserDao;
 import ua.nure.sigma.dao.impl.UserDAOImpl;
 import ua.nure.sigma.db_entities.User;
-import ua.nure.sigma.model.DiagramModel;
+import ua.nure.sigma.messengers.Messenger;
 import ua.nure.sigma.model.UserDetails;
 import ua.nure.sigma.util.Encrypter;
 
@@ -21,42 +21,39 @@ public class LoginService {
 		return dao.getUserByLogin(login) >= 1;
 	}
 	
-	public User returnZeroUser() {
-		User user = new User();
-		user.setUserId(-1);
-		return user;
-	}
-	public User insertUser(User user) {
+	public Messenger insertUser(User user) {
 		try {
 			user.setPassword(new Encrypter().encryptIt(user.getPassword()));
 		} catch (NoSuchAlgorithmException e1) {
 			e1.printStackTrace();
-			return returnZeroUser();
+			return new Messenger(false, "error", null);
 		}
 		try {
-			return dao.addUser(user);
+			return new Messenger(true, "ok",  dao.addUser(user));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return returnZeroUser();
+		return new Messenger(false, "error", null);
 	}
 
-	public User getUser(User user) {
+	public Messenger getUser(User user) {
 		try {
-			return dao.getUserByLoginAndPassword(user.getEmail(), 
+			User u = dao.getUserByLoginAndPassword(user.getEmail(), 
 					new Encrypter().encryptIt(user.getPassword()));
+			return new Messenger(u!=null, "", u);
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
-			return returnZeroUser();
+			return new Messenger(false, "error", null);
 		}
 	}
 	
-	public User getUserById(long id) {
+	public Messenger getUserById(long id) {
 		try {
-			return dao.getUserById(id);
+			User u = dao.getUserById(id);
+			return new Messenger(u!=null, "", u);
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return returnZeroUser();
+			return new Messenger(false, "error", null);
 		}
 	}
 	

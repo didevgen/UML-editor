@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.gson.Gson;
 
 import ua.nure.sigma.db_entities.User;
+import ua.nure.sigma.messengers.Messenger;
 import ua.nure.sigma.model.DiagramModel;
 import ua.nure.sigma.service.DiagramCreationService;
 
@@ -22,17 +23,19 @@ public class DiagramCreateController {
 	private DiagramCreationService service = new DiagramCreationService();
 
 	@RequestMapping(value = "/diagram/create", method = RequestMethod.POST)
-	public @ResponseBody DiagramModel registerUser(HttpServletRequest request, HttpSession session)
+	public @ResponseBody Messenger registerUser(HttpServletRequest request, HttpSession session)
 			throws SQLException {
 		DiagramModel diagram = new Gson().fromJson(request.getParameter("diagram"), DiagramModel.class);
 		User user = (User) session.getAttribute("user");
 		diagram.setOwner(user);
-		return service.createDiagram(diagram);
+		DiagramModel model = service.createDiagram(diagram);
+		return new Messenger(model!=null, "", model);
 	}
 
 	@RequestMapping(value = "/diagram/{id}", method = RequestMethod.GET)
-	public @ResponseBody DiagramModel getUserId(@PathVariable long id, HttpSession session) throws SQLException {
-		return service.getDiagramById(id);
+	public @ResponseBody Messenger getUserId(@PathVariable long id, HttpSession session) throws SQLException {
+		DiagramModel model = service.getDiagramById(id);
+		return new Messenger(model!=null, "", model);
 	}
 
 	@RequestMapping(value = "/diagram/{id}/update", method = RequestMethod.POST)

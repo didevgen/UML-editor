@@ -4,7 +4,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 import ua.nure.sigma.db_entities.User;
-import ua.nure.sigma.model.DiagramModel;
 import ua.nure.sigma.model.UserDetails;
 
 public interface UserDao {

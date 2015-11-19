@@ -42,7 +42,7 @@ public class UserDAOImpl implements UserDao {
 			session.update(user);
 			session.getTransaction().commit();
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, e.getMessage(), "Ошибка I/O", JOptionPane.OK_OPTION);
+			JOptionPane.showMessageDialog(null, e.getMessage(), "пїЅпїЅпїЅпїЅпїЅпїЅ I/O", JOptionPane.OK_OPTION);
 		} finally {
 			if (session != null && session.isOpen()) {
 				session.close();
@@ -58,7 +58,7 @@ public class UserDAOImpl implements UserDao {
 			session = HibernateUtil.getSessionFactory().openSession();
 			user = (User) session.load(User.class, id);
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, e.getMessage(), "Ошибка I/O", JOptionPane.OK_OPTION);
+			JOptionPane.showMessageDialog(null, e.getMessage(), "пїЅпїЅпїЅпїЅпїЅпїЅ I/O", JOptionPane.OK_OPTION);
 		} finally {
 			if (session != null && session.isOpen()) {
 				session.close();
@@ -76,7 +76,7 @@ public class UserDAOImpl implements UserDao {
 			session = HibernateUtil.getSessionFactory().openSession();
 			users = session.createCriteria(User.class).list();
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, e.getMessage(), "Ошибка I/O", JOptionPane.OK_OPTION);
+			JOptionPane.showMessageDialog(null, e.getMessage(), "пїЅпїЅпїЅпїЅпїЅпїЅ I/O", JOptionPane.OK_OPTION);
 		} finally {
 			if (session != null && session.isOpen()) {
 				session.close();
@@ -94,7 +94,7 @@ public class UserDAOImpl implements UserDao {
 			session.delete(user);
 			session.getTransaction().commit();
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, e.getMessage(), "Ошибка I/O", JOptionPane.OK_OPTION);
+			JOptionPane.showMessageDialog(null, e.getMessage(), "пїЅпїЅпїЅпїЅпїЅпїЅ I/O", JOptionPane.OK_OPTION);
 		} finally {
 			if (session != null && session.isOpen()) {
 				session.close();
@@ -110,7 +110,7 @@ public class UserDAOImpl implements UserDao {
 			session = HibernateUtil.getSessionFactory().openSession();
 			users = session.createCriteria(User.class).add(Restrictions.eq("email", login)).list();
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, e.getMessage(), "Ошибка I/O", JOptionPane.OK_OPTION);
+			JOptionPane.showMessageDialog(null, e.getMessage(), "пїЅпїЅпїЅпїЅпїЅпїЅ I/O", JOptionPane.OK_OPTION);
 		} finally {
 			if (session != null && session.isOpen()) {
 				session.close();
@@ -128,14 +128,15 @@ public class UserDAOImpl implements UserDao {
 			users = session.createCriteria(User.class).add(Restrictions.eq("email", login))
 					.add(Restrictions.eq("password", password)).list();
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, e.getMessage(), "Ошибка I/O", JOptionPane.OK_OPTION);
 		} finally {
 			if (session != null && session.isOpen()) {
 				session.close();
 			}
 		}
 		try {
-			return users.get(0);
+			User user = users.get(0);
+			user.setPassword("");
+			return user;
 		} catch (Exception ex) {
 			return null;
 		}
@@ -151,7 +152,7 @@ public class UserDAOImpl implements UserDao {
 			details.setCollabDiagrams(diagrDao.getUsersCollaborationDiagram(id));
 			
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, e.getMessage(), "Ошибка I/O", JOptionPane.OK_OPTION);
+			JOptionPane.showMessageDialog(null, e.getMessage(), "пїЅпїЅпїЅпїЅпїЅпїЅ I/O", JOptionPane.OK_OPTION);
 		} finally {
 			if (session != null && session.isOpen()) {
 				session.close();

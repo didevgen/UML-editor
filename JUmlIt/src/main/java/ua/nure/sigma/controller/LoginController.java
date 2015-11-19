@@ -7,8 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.joda.time.DateTime;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,9 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.google.gson.Gson;
-
 import ua.nure.sigma.db_entities.User;
+import ua.nure.sigma.messengers.Messenger;
 import ua.nure.sigma.service.LoginService;
 
 @Controller
@@ -41,13 +38,13 @@ public class LoginController {
 	// }
 
 	@RequestMapping(value = "/account/register", method = RequestMethod.POST)
-	public @ResponseBody User  registerUser(@RequestParam("email") String email,
+	public @ResponseBody Messenger  registerUser(@RequestParam("email") String email,
 			@RequestParam("password") String password, @RequestParam("fullname") String fullName) throws SQLException {
 		User user = new User();
 		user.setEmail(email);
 		boolean result = service.checkUserExisting(email);
 		if(result) {
-			return service.returnZeroUser();
+			return new Messenger(false, "such user already exists", null);
 		}
 		user.setPassword(password);
 		user.setFullname(fullName);
@@ -58,26 +55,23 @@ public class LoginController {
 	}
 
 	@RequestMapping(value = "/account/login", method = RequestMethod.POST)
-	public  @ResponseBody User loginUser(@RequestParam("email") String email,
+	public  @ResponseBody Messenger loginUser(@RequestParam("email") String email,
 			@RequestParam("password") String password,HttpServletRequest request, HttpSession session) throws NoSuchAlgorithmException {
 		User userTemp = new User();
 		userTemp.setEmail(email);
 		userTemp.setPassword(password);
-		User user = service.getUser(userTemp);
-		if (user==null) {
-			return service.returnZeroUser();
-		}
-		session.setAttribute("user", user);
+		Messenger user = service.getUser(userTemp);
+		session.setAttribute("user", user.getObject());
 		return user;
 	}
 
 	@RequestMapping(value = "/account/{id}", method = RequestMethod.POST)
-	public @ResponseBody User getUserById(@PathVariable long id) throws SQLException {
+	public @ResponseBody Messenger getUserById(@PathVariable long id) throws SQLException {
 		return service.getUserById(id);
 	}
 	
 	@RequestMapping(value = "/account/{id}/details", method = RequestMethod.POST)
-	public @ResponseBody User getUserDetails(@PathVariable long id) throws SQLException {
+	public @ResponseBody Messenger getUserDetails(@PathVariable long id) throws SQLException {
 		return service.getUserById(id);
 	}
 
