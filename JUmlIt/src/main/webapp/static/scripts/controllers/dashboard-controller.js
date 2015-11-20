@@ -16,6 +16,7 @@ angular.module('jumlitApp').controller('DashboardCtrl', function ($scope, $uibMo
         $state.go('account.user-info');
     };
 
+
     $scope.openDiagram = function (diag) {
         console.log(diag);
         $uibModal.open({
@@ -26,8 +27,12 @@ angular.module('jumlitApp').controller('DashboardCtrl', function ($scope, $uibMo
                 $state.go("diagram");
             } else if (res == "settings") {
                 $scope.openEditModal('EditDiagramModalController', diag).result.then(function (result) {
-                    diagrams.push(result);
+                    $scope.diagrams.push(result);
                     console.log(result);
+                });
+            } else if (res == "delete") {
+                $scope.diagrams = $scope.diagrams.filter(function (obj) {
+                    return obj.title !== diag.title;
                 });
             }
             console.log(res);

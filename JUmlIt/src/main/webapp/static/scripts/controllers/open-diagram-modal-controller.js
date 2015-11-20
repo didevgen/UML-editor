@@ -10,4 +10,9 @@ angular.module('jumlitApp').controller('OpenDiagramModalCtrl', function ($scope,
     $scope.settings = function () {
         $uibModalInstance.close("settings");
     };
+
+
+    $scope.delete = function () {
+        $uibModalInstance.close("delete");
+    };
 });
