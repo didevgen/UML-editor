@@ -31,6 +31,7 @@ uml-class {
 
     .popover {
         color: $font-color-dark;
+        pointer-events: auto;
         width: 300px;
 
         .list-group li, .dropdown-menu li, .dropdown-menu a{
@@ -87,8 +88,7 @@ uml-class {
     select,
     input,
     button,
-    .btn,
-    ul, li, a {
+    .btn {
         /* Enable interacting with inputs only. */
         pointer-events: auto;
     }

@@ -248,6 +248,7 @@ uml-class {
     color: #333; }
   uml-class .popover {
     color: #333;
+    pointer-events: auto;
     width: 300px; }
     uml-class .popover .list-group li, uml-class .popover .dropdown-menu li, uml-class .popover .dropdown-menu a {
       background-color: white;
@@ -280,8 +281,7 @@ uml-class {
   uml-class select,
   uml-class input,
   uml-class button,
-  uml-class .btn,
-  uml-class ul, uml-class li, uml-class a {
+  uml-class .btn {
     /* Enable interacting with inputs only. */
     pointer-events: auto; }
   uml-class button.delete {
