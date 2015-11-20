@@ -294,3 +294,37 @@ a {
 
 .user-edit-image-container {
   position: relative; }
+
+.position-relative {
+  position: relative; }
+
+.list-element {
+  border-bottom: 1px solid #e5e5e5;
+  box-shadow: none !important;
+  background-color: transparent;
+  width: 100%;
+  text-align: left;
+  display: inline-block;
+  padding: 6px 12px;
+  margin-bottom: 0;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.42857143;
+  white-space: nowrap;
+  vertical-align: middle;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background-image: none;
+  border-radius: 4px; }
+
+.list-element:hover {
+  background-color: #ddd;
+  cursor: pointer; }
+
+.list-panel-body {
+  padding-top: 5px; }
