@@ -28,7 +28,6 @@ angular.module('jumlitApp').controller('DashboardCtrl', function ($scope, $uibMo
             } else if (res == "settings") {
                 $scope.openEditModal('EditDiagramModalController', diag).result.then(function (result) {
                     $scope.diagrams.push(result);
-                    console.log(result);
                 });
             } else if (res == "delete") {
                 $scope.diagrams = $scope.diagrams.filter(function (obj) {
@@ -41,7 +40,9 @@ angular.module('jumlitApp').controller('DashboardCtrl', function ($scope, $uibMo
 
     $scope.createDiagram = function () {
         $scope.openEditModal('NewDiagramModalController', {}).result.then(function (result) {
-            console.log(result);
+            if (result.title) {
+                $scope.diagrams.push(result);
+            }
         });
     };
 
