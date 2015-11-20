@@ -26,19 +26,21 @@ angular.module('jumlitApp').controller('DashboardCtrl', function ($scope, $uibMo
                 $state.go("diagram");
             } else if (res == "settings") {
                 $scope.openEditModal('EditDiagramModalController', diag).result.then(function (result) {
+                    diagrams.push(result);
                     console.log(result);
                 });
             }
             console.log(res);
         });
     };
+
     $scope.createDiagram = function () {
         $scope.openEditModal('NewDiagramModalController', {}).result.then(function (result) {
             console.log(result);
         });
     };
 
-    $scope.openEditModal = function (controller, giag) {
+    $scope.openEditModal = function (controller, diag) {
         console.log(diag);
         return $uibModal.open({
             templateUrl: 'modals/edit-diagram-modal.html',
