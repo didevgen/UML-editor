@@ -148,8 +148,7 @@ form button[type="submit"] {
 .toolbar {
   border-top: 0;
   border-left: 0;
-  border-right: 0;
-  z-index: 100; }
+  border-right: 0; }
 
 .toolbar.navbar {
   margin: 0; }
@@ -167,7 +166,8 @@ form button[type="submit"] {
   position: absolute;
   bottom: 0;
   padding: 0;
-  height: 70%; }
+  height: 70%;
+  z-index: 3; }
   .tool-panel.figures {
     left: 0; }
   .tool-panel.comments {
@@ -197,8 +197,14 @@ form button[type="submit"] {
   flex-grow: 1;
   display: flex; }
 
-.diagram-canvas svg {
-  flex-grow: 1; }
+.diagram-canvas {
+  flex-grow: 1;
+  position: relative;
+  overflow: hidden;
+  z-index: 1; }
+
+.diagram-canvas svg .link {
+  z-index: 2; }
 
 .diagram-type {
   margin: 5px; }
@@ -219,6 +225,85 @@ div.panel > .panel-heading {
   border-left: 0; }
   .subpanel .panel-title {
     font-size: 14px; }
+
+uml-class {
+  /* Make sure events are propagated to the JointJS element so, e.g. dragging works.*/
+  pointer-events: none;
+  -webkit-user-select: none;
+  position: absolute;
+  z-index: 2;
+  border: 0; }
+  uml-class .uml-class-inner.selected {
+    border: 1px #333 dashed; }
+  uml-class .panel-cell {
+    height: 100%;
+    margin: 0px;
+    background-color: #9b59b6; }
+    uml-class .panel-cell .panel-heading {
+      background-color: #8e44ad;
+      border-color: #8e44ad;
+      color: white;
+      text-align: center; }
+  uml-class .popover-title {
+    color: #333; }
+  uml-class .popover {
+    color: #333;
+    width: 300px; }
+    uml-class .popover .list-group li, uml-class .popover .dropdown-menu li, uml-class .popover .dropdown-menu a {
+      background-color: white;
+      color: #333; }
+    uml-class .popover .inline-table {
+      margin: 0; }
+      uml-class .popover .inline-table td {
+        border: 0; }
+    uml-class .popover .add-argument {
+      font-size: 12px; }
+    uml-class .popover .panel-footer {
+      padding: 5px; }
+  uml-class .list-group a, uml-class .list-group li {
+    padding: 5px 15px;
+    background-color: #a66bbe;
+    border: 0;
+    color: white; }
+    uml-class .list-group a.subheading, uml-class .list-group li.subheading {
+      font-weight: bolder;
+      background-color: #9b59b6;
+      color: white; }
+  uml-class .actions {
+    float: right; }
+  uml-class .btn-action {
+    margin-top: -2px;
+    background-color: #8e44ad;
+    color: white;
+    padding: 1px 5px;
+    font-size: 12px; }
+  uml-class select,
+  uml-class input,
+  uml-class button,
+  uml-class .btn,
+  uml-class ul, uml-class li, uml-class a {
+    /* Enable interacting with inputs only. */
+    pointer-events: auto; }
+  uml-class button.delete {
+    color: white;
+    border: none;
+    background-color: #C0392B;
+    border-radius: 20px;
+    width: 15px;
+    height: 15px;
+    line-height: 15px;
+    text-align: middle;
+    position: absolute;
+    top: -15px;
+    left: -15px;
+    padding: 0;
+    margin: 0;
+    font-weight: bold;
+    cursor: pointer; }
+    uml-class button.delete:hover {
+      width: 20px;
+      height: 20px;
+      line-height: 20px; }
 
 .browsehappy {
   margin: 0.2em 0;

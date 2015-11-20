@@ -1,4 +1,4 @@
-/*! JointJS v0.9.5 - JavaScript diagramming library  2015-09-10 
+/*! JointJS v0.9.5 - JavaScript diagramming library  2015-09-10
 
 
 This Source Code Form is subject to the terms of the Mozilla Public
@@ -12,9 +12,27 @@ joint.shapes.uml.Class = joint.shapes.basic.Generic.extend({
     markup: [
         '<g class="rotatable">',
           '<g class="scalable">',
-            '<rect class="uml-class-name-rect"/><rect class="uml-class-attrs-rect"/><rect class="uml-class-methods-rect"/>',
+            '<rect class="uml-class-selection-rect"/>',
+            '<rect class="uml-class-name-rect"/>',
+            '<rect class="uml-class-attrs-title-rect"/>',
+            '<rect class="uml-class-attrs-rect"/>',
+            '<rect class="uml-class-methods-title-rect"/>',
+            '<rect class="uml-class-methods-rect"/>',
           '</g>',
-          '<text class="uml-class-name-text"/><text class="uml-class-attrs-text"/><text class="uml-class-methods-text"/>',
+          '<text class="uml-class-name-text"/>',
+          '<text class="uml-class-attrs-title-text"/>',
+          '<text class="uml-class-attrs-text"/>',
+          '<text class="uml-class-methods-title-text"/>',
+          '<text class="uml-class-methods-text"/>',
+          '<ellipse class="connect-dot dot-top"/>',
+          '<ellipse class="connect-dot dot-left"/>',
+          '<ellipse class="connect-dot dot-bottom"/>',
+          '<ellipse class="connect-dot dot-right"/>',
+          //
+        //   '<rect class="resize-rect resize-topleft"/>',
+        //   '<rect class="resize-rect resize-topright"/>',
+        //   '<rect class="resize-rect resize-bottomleft"/>',
+        //   '<rect class="resize-rect resize-bottomright"/>',
         '</g>'
     ].join(''),
 
@@ -23,18 +41,48 @@ joint.shapes.uml.Class = joint.shapes.basic.Generic.extend({
         type: 'uml.Class',
 
         attrs: {
-            rect: { 'width': 200 },
+            rect: {width: 200},
 
-            '.uml-class-name-rect': { 'stroke': 'black', 'stroke-width': 2, 'fill': '#3498db' },
+            '.uml-class-selection-rect': { 'stroke': 'black', 'stroke-width': 4, 'stroke-dasharray': '5, 3', fill: '#2980b9' },
+
+            '.title': { 'stroke': 'white'},
+
+            '.connect-dot': {ref: '.uml-class-selection-rect', 'stroke': '#3498db', rx: '4', ry:'4', 'stroke-width': 1.5, fill: 'white', cursor: 'cell'},
+            '.dot-top': {'ref-x': 0.5},
+            '.dot-left': {'ref-x': 0, 'ref-y': 0.5 },
+            '.dot-bottom': {'ref-x': '50%', 'ref-y': '100%' },
+            '.dot-right': {'ref-x': '100%', 'ref-y': '50%'},
+            //
+            // '.resize-rect': {
+            //     ref: '.uml-class-selection-rect', 'stroke': '#3498db', 'stroke-width': 2, fill: 'white',
+            //     height: 10, width: 10
+            // },
+            // '.resize-topleft': {'ref-x': 0},
+            // '.resize-topright': {'ref-x': '100%'},
+            // '.resize-bottomleft': {'ref-y': '100%'},
+            // '.resize-bottomright': {'ref-y': '100%', 'ref-x': '100%'},
+
+            '.uml-class-name-rect': {
+                'stroke': 'black', 'stroke-width': 2, 'fill': '#3498db'
+            },
+            '.uml-class-attrs-title-rect': { 'stroke': 'black', 'stroke-width': 2, 'fill': '#2980b9' },
             '.uml-class-attrs-rect': { 'stroke': 'black', 'stroke-width': 2, 'fill': '#2980b9' },
             '.uml-class-methods-rect': { 'stroke': 'black', 'stroke-width': 2, 'fill': '#2980b9' },
+            '.uml-class-methods-title-rect': { 'stroke': 'black', 'stroke-width': 2, 'fill': '#2980b9' },
 
             '.uml-class-name-text': {
                 'ref': '.uml-class-name-rect', 'ref-y': .5, 'ref-x': .5, 'text-anchor': 'middle', 'y-alignment': 'middle', 'font-weight': 'bold',
-                'fill': 'black', 'font-size': 12, 'font-family': 'Times New Roman'
+                'fill': 'black', 'font-size': 12
+            },
+            '.uml-class-attrs-title-text': {
+                'ref': '.uml-class-attrs-rect'
             },
             '.uml-class-attrs-text': {
-                'ref': '.uml-class-attrs-rect', 'ref-y': 5, 'ref-x': 5,
+                'ref': '.uml-class-attrs-title-text', 'ref-y': 5, 'ref-x': 5,
+                'fill': 'black', 'font-size': 12, 'font-family': 'Times New Roman'
+            },
+            '.uml-class-methods-title-text': {
+                'ref': '.uml-class-attrs-text-rect', 'ref-y': 5, 'ref-x': 5,
                 'fill': 'black', 'font-size': 12, 'font-family': 'Times New Roman'
             },
             '.uml-class-methods-text': {
@@ -45,7 +93,8 @@ joint.shapes.uml.Class = joint.shapes.basic.Generic.extend({
 
         name: [],
         attributes: [],
-        methods: []
+        methods: [],
+        selected: true
 
     }, joint.shapes.basic.Generic.prototype.defaults),
 
@@ -88,6 +137,9 @@ joint.shapes.uml.Class = joint.shapes.basic.Generic.extend({
 
             offsetY += rectHeight;
         });
+
+        attrs['.uml-class-selection-rect'].height = offsetY;
+        attrs['.uml-class-selection-rect']['stroke-width'] = this.get('selected') ? 2 : 0;
     }
 
 });

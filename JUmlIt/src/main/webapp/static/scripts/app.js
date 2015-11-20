@@ -85,11 +85,18 @@ angular
 
         $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
         $urlRouterProvider.when('/', function($state) {
-            $state.go('account.dashboard');
+            //$state.go('account.dashboard');
+            $state.go('diagram');
         });
-    }).run(function($rootScope, $state, Authorization) {
+    }).run(function($rootScope, $state, Authorization, $window, Session) {
         $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
             Authorization.authorize(event, toState.data);
         });
         $state.go('account.dashboard');
+        $state.go('diagram');
+
+        $window.onbeforeunload = function() {
+            console.log('saving');
+            Session.save();
+        };
     });
