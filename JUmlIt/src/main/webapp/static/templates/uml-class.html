@@ -1,0 +1,30 @@
+<div class="uml-class-inner">
+    <button class="delete">x</button>
+    <div class="panel panel-default panel-cell">
+        <div class="panel-heading">
+            <h3 class="panel-title">{{cell.get('name')}}</h3>
+        </div>
+        <ul class="list-group">
+            <li href="#" class="list-group-item subheading">
+                Methods
+                <div class="btn-group actions">
+                    <button class="btn btn-action glyphicon glyphicon-plus" ng-click="showNewMethod()"
+                        popover-title="Add method" popover-is-open="showMethod"
+                        uib-popover-template="'templates/method-popover.html'" popover-placement="right"></button>
+                </div>
+            </li>
+            <li href="#" class="list-group-item" ng-repeat="method in class.methods">{{method | formatMethod}}</li>
+            <li href="#" class="list-group-item" ng-hide="class.methods.length">No methods</li>
+
+            <li href="#" class="list-group-item subheading">
+                Fields
+                <div class="btn-group actions">
+                    <button class="btn btn-action glyphicon glyphicon-plus" popover-title="Add field" popover-is-open="showField"
+                        uib-popover-template="'templates/field-popover.html'" ng-click="showNewField()" popover-placement="right"></button>
+                </div>
+            </li>
+            <li href="#" class="list-group-item" ng-repeat="field in class.fields">{{field | formatField}}</li>
+            <li href="#" class="list-group-item" ng-hide="class.fields.length">No fields</li>
+        </div>
+    </div>
+</div>

@@ -1,9 +1,119 @@
 @import 'color-palette';
+uml-class {
+    /* Make sure events are propagated to the JointJS element so, e.g. dragging works.*/
+    pointer-events: none;
+    -webkit-user-select: none;
 
-.cell {
+    .uml-class-inner.selected {
+        border: 1px $border-color-dark dashed;
+    }
 
-}
+    position: absolute;
+    z-index: 2;
+    border:0;
 
-.cell.selected {
+    .panel-cell {
+        height: 100%;
+        margin: 0px;
+        background-color: $uml-class-body;
 
+        .panel-heading {
+            background-color: $uml-class-heading;
+            border-color: $uml-class-heading;
+            color: white;
+            text-align: center;
+        }
+    }
+
+    .popover-title {
+        color: $font-color-dark;
+    }
+
+    .popover {
+        color: $font-color-dark;
+        width: 300px;
+
+        .list-group li, .dropdown-menu li, .dropdown-menu a{
+            background-color: white;
+            color: $font-color-dark;
+        }
+
+        .inline-table {
+            margin: 0;
+
+            td {
+                border: 0;
+            }
+
+        }
+
+        .add-argument {
+            font-size: 12px;
+        }
+
+        .panel-footer {
+            padding: 5px;
+        }
+    }
+
+
+    .list-group a, .list-group li {
+        padding: 5px 15px;
+        background-color: $uml-class-list;
+        border: 0;
+        color: white;
+
+        &.subheading {
+            font-weight: bolder;
+            background-color: $uml-class-body;
+            color: white;
+        }
+    }
+
+    .actions {
+        float: right;
+    }
+
+    .btn-action {
+        margin-top: -2px;
+        background-color: $uml-class-action-background;
+        //border: 1px solid $uml-class-action-border;
+        color: white;
+        padding: 1px 5px;
+        font-size: 12px;
+    }
+
+
+    select,
+    input,
+    button,
+    .btn,
+    ul, li, a {
+        /* Enable interacting with inputs only. */
+        pointer-events: auto;
+    }
+
+    button.delete {
+        color: white;
+        border: none;
+        background-color: #C0392B;
+        border-radius: 20px;
+        width: 15px;
+        height: 15px;
+        line-height: 15px;
+        text-align: middle;
+        position: absolute;
+        top: -15px;
+        left: -15px;
+        padding: 0;
+        margin: 0;
+        font-weight: bold;
+        cursor: pointer;
+
+        &:hover {
+            width: 20px;
+            height: 20px;
+            line-height: 20px;
+        }
+    }
 }

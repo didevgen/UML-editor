@@ -20,7 +20,7 @@ angular.module('jumlitApp').controller('RegisterCtrl', function($scope, $http, C
 
         submitRegistration(data)
             .then(function(response) {
-                return Authentication.login(response.user);
+                return Authentication.login(response);
             })
             .then(function() {
                 $state.go('account.dashboard');
@@ -28,21 +28,13 @@ angular.module('jumlitApp').controller('RegisterCtrl', function($scope, $http, C
             .catch(function (error) {
                 $scope.alerts.push({
                     type: 'danger',
-                    msg: 'Login error! Something happened on our servers.'
+                    msg: error
                 });
             });
     }
 
     function submitRegistration(data) {
-        return Authentication.register(data)
-            .catch(function(error) {
-                // TODO: handle error
-                $scope.alerts.push({
-                    type: 'danger',
-                    msg: 'Registration error! Something happened on our servers.'
-                });
-                return $q.reject();
-            });
+        return Authentication.register(data);
     }
 
     $scope.closeAlert = function(index) {

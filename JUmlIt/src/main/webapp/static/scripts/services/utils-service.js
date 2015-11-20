@@ -12,14 +12,18 @@ angular.module('jumlitApp').service('Utils', function($q, Config) {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
             success: function(data) {
-                deferred.resolve(data);
+                console.log(data);
+                if (data.success) {
+                    deferred.resolve(data.object);
+                } else {
+                    deferred.reject(data.message);
+                }
             },
             error: function(error) {
                 if (error.status === 200) {
                     deferred.resolve({ok: true});
                     return;
                 }
-                console.log(error);
                 deferred.reject(error);
             }
         });

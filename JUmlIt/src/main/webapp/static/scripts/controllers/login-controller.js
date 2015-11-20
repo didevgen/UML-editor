@@ -29,15 +29,7 @@ angular.module('jumlitApp').controller('LoginCtrl', function($scope, Authenticat
     }
 
     function submitLogin(data) {
-        return Authentication.login(data)
-            .catch(function(error) {
-                // TODO: handle error
-                $scope.alerts.push({
-                    type: 'danger',
-                    msg: 'Login error! Something happened on our servers.'
-                });
-                return $q.reject();
-            });
+        return Authentication.login(data);
     }
 
     $scope.closeAlert = function(index) {

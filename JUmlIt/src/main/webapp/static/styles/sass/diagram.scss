@@ -10,7 +10,6 @@
     border-top: 0;
     border-left: 0;
     border-right: 0;
-    z-index: 100;
 };
 .toolbar.navbar {
     margin: 0;
@@ -29,6 +28,7 @@
     bottom: 0;
     padding: 0;
     height: 70%;
+    z-index: 3;
 
     &.figures {
         left: 0;
@@ -62,8 +62,14 @@
     flex-grow: 1;
     display: flex;
 }
-.diagram-canvas svg {
+.diagram-canvas {
     flex-grow: 1;
+    position: relative;
+   overflow: hidden;
+   z-index: 1;
+}
+.diagram-canvas svg .link {
+   z-index: 2;
 }
 .diagram-type {
     margin: 5px;

@@ -6,6 +6,7 @@
 @import 'register';
 @import 'diagram';
 @import 'panels';
+@import 'cell';
 .browsehappy {
     margin: 0.2em 0;
     background: #ccc;
@@ -108,6 +109,7 @@ a {
 .user-edit-image-container {
     position: relative;
 }
+<<<<<<< HEAD
 
 .position-relative {
     position: relative;
@@ -145,3 +147,5 @@ a {
 .list-panel-body {
     padding-top: 5px;
 }
+=======
+>>>>>>> origin/development
