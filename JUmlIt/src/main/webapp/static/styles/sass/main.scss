@@ -13,11 +13,14 @@
     color: #000;
     padding: 0.2em 0;
 }
+
 body {
     padding: 0;
 }
 
+
 /* Everything but the jumbotron gets side spacing for mobile first views */
+
 .header,
 .marketing,
 .footer {
@@ -25,7 +28,9 @@ body {
     padding-right: 15px;
 }
 
+
 /* Custom page header */
+
 .header {
     /* Make the masthead heading the same height as the navigation */
     h3 {
@@ -35,21 +40,27 @@ body {
         padding-bottom: 19px;
     }
 }
+
 .main-content.container {
     padding-bottom: 40px;
 }
 
+
 /* Custom page footer */
+
 .footer {
     padding-top: 19px;
     color: $font-color;
     border-top: 1px solid $border-color;
 }
+
 .container-narrow > hr {
     margin: 30px 0;
 }
 
+
 /* Main marketing message and sign up button */
+
 .jumbotron {
     text-align: center;
     border-bottom: 1px solid $border-color;
@@ -59,7 +70,9 @@ body {
     }
 }
 
+
 /* Supporting marketing content */
+
 .marketing {
     margin: 40px 0;
     p + h4 {
@@ -87,14 +100,49 @@ a {
     width: 100%;
 }
 
-
-
 .edit-image-button {
     position: absolute;
-    top:15px;
+    top: 15px;
     right: 15px;
 }
 
 .user-edit-image-container {
     position: relative;
+}
+
+.position-relative {
+    position: relative;
+}
+
+.list-element {
+    border-bottom: 1px solid $panel-color-light;
+    box-shadow: none !important;
+    background-color: transparent;
+    width: 100%;
+    text-align: left;
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1.42857143;
+    white-space: nowrap;
+    vertical-align: middle;
+    background-image: none;
+    border-radius: 4px;
+}
+
+.list-element-poiter: hover {
+    background-color: $ $border-color;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.list-panel-body {
+    padding-top: 5px;
 }

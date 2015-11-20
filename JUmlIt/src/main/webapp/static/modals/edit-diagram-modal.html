@@ -1,17 +1,36 @@
 <div class="modal-header">
-    <h3 class="modal-title">Edit personal details</h3>
+    <h3 class="modal-title">Create new diagram</h3>
 </div>
 <div class="modal-body">
     <form novalidate name="form">
         <div class="form-group">
-            <label for="exampleInputEmail1">Personal information</label>
-            <textarea class="form-control" name="personal" id="personal" placeholder="Information" ng-model="personal" required="" />
+            <label for="title">Title</label>
+            <textarea class="form-control" name="title" id="title" placeholder="Title" ng-model="diagram.title" required="" />
             <div ng-show="form.$submitted || form.personal.$touched">
                 <span class="error-message" ng-show="form.personal.$error.required">This field is required.</span>
                 <span class="success-message" ng-show="form.personal.$valid">Thanks!</span>
             </div>
-            <span class="info-message" ng-hide="form.$submitted || form.personal.$touched">Type in personal information.</span>
+            <span class="info-message" ng-hide="form.$submitted || form.personal.$touched">Type in diagram title.</span>
         </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">Collaborators</div>
+            <div class="panel-body">
+                <div class="row" ng-repeat="collaborator in diagram.collaborators">
+                    <div class="col-xs-5">
+                        <span>{{collaborator.name}}</span>
+                    </div>
+                    <div class="col-xs-7">
+                        <span>{{collaborator.email}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="title">New collaborator</label>
+            <textarea class="form-control" name="title" id="title" placeholder="Title" ng-model="newCollaborator.email" />
+            <button class="btn btn-primary" type="button" ng-click="addCollaborator()">Add</button>
+        </div>
+
     </form>
 </div>
 <div class="modal-footer">
