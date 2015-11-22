@@ -2,7 +2,7 @@
     <h3 class="section-header">Dashboard</h3>
     <div class="row">
         <div class="col-md-4">
-            <div class="panel panel-default">
+            <div class="panel panel-default dashboard-panel">
                 <div class="panel-heading">User</div>
                 <div class="panel-body">
                     <button type="button" class="btn btn-primary" ng-click="editDetails()">Edit details</button>
@@ -10,13 +10,16 @@
             </div>
         </div>
         <div class="col-md-4">
-            <div class="panel panel-default">
+            <div class="panel panel-default dashboard-panel">
                 <div class="panel-heading">Diagrams
-                <button class="btn btn-success btn-xs pull-right" ng-click="createDiagram()"><span class="glyphicon glyphicon-plus"></span> Add new</button>
+                    <button class="btn btn-success btn-xs pull-right" ng-click="createDiagram()"><span class="glyphicon glyphicon-plus"></span> Add new</button>
                 </div>
-                <div class="panel-body list-panel-body">
-                    <div class="list-element list-element-pointer" ng-repeat="diagram in diagrams" ng-click="openDiagram(diagram)">
-                        <span>{{diagram.title}}</span></div>
+                <div class="panel-body list-panel-body dashboard-panel">
+                    <div class="list-element pointer" ng-repeat="diagram in diagrams" ng-click="openDiagram(diagram)">
+                        <span class="pull-left">{{diagram.title}}</span>
+                        <span class="glyphicon glyphicon-cog list-element-control pointer-primary" ng-click="editDiagram(diagram); $event.stopPropagation();"></span>
+                        <span class="glyphicon glyphicon-remove list-element-control pointer-delete" ng-click="deleteDiagram(diagram); $event.stopPropagation();"></span>
+                    </div>
                 </div>
             </div>
         </div>

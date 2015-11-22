@@ -116,33 +116,63 @@ a {
 
 .list-element {
     border-bottom: 1px solid $panel-color-light;
+    padding: 5px 14px;
     box-shadow: none !important;
     background-color: transparent;
     width: 100%;
-    text-align: left;
-    display: inline-block;
-    padding: 6px 12px;
+    text-align: right;
     margin-bottom: 0;
     font-size: 14px;
     font-weight: normal;
     line-height: 1.42857143;
     white-space: nowrap;
-    vertical-align: middle;
+    vertical-align: middle !important;
     background-image: none;
     border-radius: 4px;
-}
-
-.list-element-poiter: hover {
-    background-color: $ $border-color;
-    -ms-touch-action: manipulation;
-    touch-action: manipulation;
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+    -webkit-transition: background-color 150ms linear;
+    -moz-transition: background-color 150ms linear;
+    -o-transition: background-color 150ms linear;
+    -ms-transition: background-color 150ms linear;
+    transition: background-color 150ms linear;
+    &.pointer {
+        &:hover {
+            -webkit-transition: background-color 150ms linear;
+            -moz-transition: background-color 150ms linear;
+            -o-transition: background-color 150ms linear;
+            -ms-transition: background-color 150ms linear;
+            transition: background-color 150ms linear;
+            background-color: $border-color;
+            -ms-touch-action: manipulation;
+            touch-action: manipulation;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+    }
 }
 
 .list-panel-body {
     padding-top: 5px;
+}
+
+.list-element-control {
+    top: 0;
+    margin-left: 5px;
+    padding: 0;
+    vertical-align: middle;
+    color: $font-color;
+    &.pointer-delete {
+        &:hover {
+            cursor: pointer;
+            color: $color-delete;
+        }
+    }
+    &.pointer-primary {
+        &:hover {
+            cursor: pointer;
+            color: $font-color-dark;
+        }
+    }
 }

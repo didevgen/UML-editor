@@ -17,5 +17,4 @@ angular.module('jumlitApp').controller('NewDiagramModalController', function ($s
     $scope.cancel = function () {
         $uibModalInstance.dismiss();
     };
-    console.log(this);
 });

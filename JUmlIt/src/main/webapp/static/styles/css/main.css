@@ -385,31 +385,51 @@ a {
 
 .list-element {
   border-bottom: 1px solid #e5e5e5;
+  padding: 5px 14px;
   box-shadow: none !important;
   background-color: transparent;
   width: 100%;
-  text-align: left;
-  display: inline-block;
-  padding: 6px 12px;
+  text-align: right;
   margin-bottom: 0;
   font-size: 14px;
   font-weight: normal;
   line-height: 1.42857143;
   white-space: nowrap;
-  vertical-align: middle;
-  -ms-touch-action: manipulation;
-  touch-action: manipulation;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+  vertical-align: middle !important;
   background-image: none;
-  border-radius: 4px; }
-
-.list-element:hover {
-  background-color: #ddd;
-  cursor: pointer; }
+  border-radius: 4px;
+  -webkit-transition: background-color 150ms linear;
+  -moz-transition: background-color 150ms linear;
+  -o-transition: background-color 150ms linear;
+  -ms-transition: background-color 150ms linear;
+  transition: background-color 150ms linear; }
+  .list-element.pointer:hover {
+    -webkit-transition: background-color 150ms linear;
+    -moz-transition: background-color 150ms linear;
+    -o-transition: background-color 150ms linear;
+    -ms-transition: background-color 150ms linear;
+    transition: background-color 150ms linear;
+    background-color: #ddd;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none; }
 
 .list-panel-body {
   padding-top: 5px; }
+
+.list-element-control {
+  top: 0;
+  margin-left: 5px;
+  padding: 0;
+  vertical-align: middle;
+  color: #777; }
+  .list-element-control.pointer-delete:hover {
+    cursor: pointer;
+    color: #c0392b; }
+  .list-element-control.pointer-primary:hover {
+    cursor: pointer;
+    color: #333; }
