@@ -5,14 +5,23 @@
     <form novalidate name="form">
         <div class="form-group">
             <label for="title">Title</label>
-            <textarea class="form-control" name="title" id="title" placeholder="Title" ng-model="diagram.title" required="" />
-            <div ng-show="form.$submitted || form.personal.$touched">
-                <span class="error-message" ng-show="form.personal.$error.required">This field is required.</span>
-                <span class="success-message" ng-show="form.personal.$valid">Thanks!</span>
+            <input type="text" class="form-control" name="title" id="title" placeholder="Title" ng-model="diagram.title" required="">
+            <div ng-show="form.$submitted || form.title.$touched">
+                <span class="error-message" ng-show="form.title.$error.required">This field is required.</span>
+                <span class="success-message" ng-show="form.title.$valid">Thanks!</span>
             </div>
-            <span class="info-message" ng-hide="form.$submitted || form.personal.$touched">Type in diagram title.</span>
+            <span class="info-message" ng-hide="form.$submitted || form.title.$touched">Type in diagram title.</span>
         </div>
-        <div class="panel panel-default">
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea class="form-control" name="description" id="description" placeholder="Description" ng-model="diagram.description" required="" />
+            <div ng-show="form.$submitted || form.description.$touched">
+                <span class="error-message" ng-show="form.description.$error.required">This field is required.</span>
+                <span class="success-message" ng-show="form.description.$valid">Thanks!</span>
+            </div>
+            <span class="info-message" ng-hide="form.$submitted || form.description.$touched">Type in diagram description.</span>
+        </div>
+        <!-- <div class="panel panel-default">
             <div class="panel-heading">Collaborators</div>
             <div class="panel-body">
                 <div class="row" ng-repeat="collaborator in diagram.collaborators">
@@ -24,16 +33,22 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
         <div class="form-group">
-            <label for="title">New collaborator</label>
-            <textarea class="form-control" name="title" id="title" placeholder="Title" ng-model="newCollaborator.email" />
-            <button class="btn btn-primary" type="button" ng-click="addCollaborator()">Add</button>
+            <label for="title">Collaborators</label>
+            <tags-input ng-model="diagram.collaborators" placeholder="Type email">
+                <auto-complete source="findUser($query)"></auto-complete>
+            </tags-input>
+            <span class="info-message">Enter emails of the collaborators.</span>
         </div>
-
+        <!-- <div class="form-group">
+            <label for="title">New collaborator</label>
+            <input type="text" class="form-control" name="title" id="title" placeholder="Title" ng-model="newCollaborator.email">
+            <button class="btn btn-primary" type="button" ng-click="addCollaborator()">Add</button>
+        </div> -->
     </form>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary" type="button" ng-click="save()">Save</button>
+    <button class="btn btn-primary" type="button" ng-click="save()">Proceed</button>
     <button class="btn" type="button" ng-click="cancel()">Cancel</button>
 </div>

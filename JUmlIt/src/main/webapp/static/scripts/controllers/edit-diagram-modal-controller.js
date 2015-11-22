@@ -15,4 +15,12 @@ angular.module('jumlitApp').controller('EditDiagramModalController', function ($
     $scope.cancel = function () {
         $uibModalInstance.dismiss();
     };
+
+    $scope.findUser = function(email) {
+        var res = [];
+        for (var i = 0 ; i < 10; i++) {
+            res.push(email + i);
+        }
+        return res
+    }
 });

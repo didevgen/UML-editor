@@ -2,9 +2,11 @@
 $amount: 20%;
 
 input.form-control,
-textarea.form-control {
+textarea.form-control,
+tags-input .tags{
     border-radius: 2px;
-    border-width: 2px;
+    border: solid 2px $input-border-color;
+    box-shadow: none;
     resize: none;
 
     &.ng-invalid.ng-touched {
@@ -21,7 +23,7 @@ textarea.form-control {
             box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 2px $color-success;
         }
     }
-    &:focus {
+    &:focus, &.focused {
         border-color: lighten($color-primary, $amount);
         outline: 0;
         box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 2px $color-primary;
@@ -73,4 +75,32 @@ form .form-group {
 }
 form button[type="submit"] {
     margin-top: 20px;
+}
+
+/* TAGS-INPUT */
+tags-input {
+    .tags {
+        li.tag-item {
+            background: $color-primary;
+            color: white;
+            border-width: 0px;
+
+            .remove-button {
+                color: white;
+            }
+
+            &.selected {
+                background: $color-delete
+            }
+        }
+    }
+    .autocomplete {
+        li.suggestion-item {
+            color: $font-color-dark;
+
+            &.selected {
+                background-color: $color-primary;
+            }
+        }
+    }
 }

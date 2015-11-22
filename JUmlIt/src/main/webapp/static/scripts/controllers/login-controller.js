@@ -23,7 +23,7 @@ angular.module('jumlitApp').controller('LoginCtrl', function($scope, Authenticat
             .catch(function(error) {
                 $scope.alerts.push({
                     type: 'danger',
-                    msg: 'Login error! Something happened on our servers.'
+                    msg: error || 'Something happened on our servers'
                 });
             });
     }

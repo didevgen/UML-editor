@@ -1,24 +1,15 @@
 'use strict';
-angular.module('jumlitApp').controller('DashboardCtrl', function ($scope, $uibModal, $state) {
-    $scope.diagrams = [
-        {
-            title: "Sample project",
-            collaborators: []
-        },
-        {
-            title: "Sample project 1",
-            collaborators: []
-        },
-        {
-            title: "Sample project 2",
-            collaborators: []
-        }
-    ]
+angular.module('jumlitApp').controller('DashboardCtrl', function ($scope, $uibModal, $state, Session, Utils) {
+    function loadDetails() {
+        Utils.postRequest('account/' + Session.user.userId + '/details').then(function(details) {
+            $scope.details = details;
+        });
+    }
+    loadDetails();
 
     $scope.editDetails = function () {
         $state.go('account.user-info');
     };
-
 
     $scope.editDiagram = function (diag) {
         $scope.openEditModal('EditDiagramModalController', diag).result.then(function (result) {
