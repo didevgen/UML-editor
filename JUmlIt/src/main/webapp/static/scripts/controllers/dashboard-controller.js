@@ -2,13 +2,16 @@
 angular.module('jumlitApp').controller('DashboardCtrl', function ($scope, $uibModal, $state) {
     $scope.diagrams = [
         {
-            title: "Sample project"
+            title: "Sample project",
+            collaborators: []
         },
         {
-            title: "Sample project 1"
+            title: "Sample project 1",
+            collaborators: []
         },
         {
-            title: "Sample project 2"
+            title: "Sample project 2",
+            collaborators: []
         }
     ]
 
@@ -17,36 +20,36 @@ angular.module('jumlitApp').controller('DashboardCtrl', function ($scope, $uibMo
     };
 
 
-    $scope.openDiagram = function (diag) {
-        console.log(diag);
-        $uibModal.open({
-            templateUrl: 'modals/open-diagram-modal.html',
-            controller: 'OpenDiagramModalCtrl'
-        }).result.then(function (res) {
-            if (res == "open") {
-                $state.go("diagram");
-            } else if (res == "settings") {
-                $scope.openEditModal('EditDiagramModalController', diag).result.then(function (result) {
-                    $scope.diagrams.push(result);
-                    console.log(result);
-                });
-            } else if (res == "delete") {
-                $scope.diagrams = $scope.diagrams.filter(function (obj) {
-                    return obj.title !== diag.title;
-                });
+    $scope.editDiagram = function (diag) {
+        $scope.openEditModal('EditDiagramModalController', diag).result.then(function (result) {
+            for(var i = 0; i < $scope.diagrams.length; i++){
+                if($scope.diagrams[i].title == diag.title)
+                    {
+                        $scope.diagrams[i] = result;
+                    }
             }
-            console.log(res);
         });
     };
 
+    $scope.openDiagram = function () {
+        $state.go("diagram");
+    }
+
+    $scope.deleteDiagram = function (diag) {
+        $scope.diagrams = $scope.diagrams.filter(function (obj) {
+            return obj.title !== diag.title;
+        });
+    }
+
     $scope.createDiagram = function () {
         $scope.openEditModal('NewDiagramModalController', {}).result.then(function (result) {
-            console.log(result);
+            if (result.title) {
+                $scope.diagrams.push(result);
+            }
         });
     };
 
     $scope.openEditModal = function (controller, diag) {
-        console.log(diag);
         return $uibModal.open({
             templateUrl: 'modals/edit-diagram-modal.html',
             controller: controller,
