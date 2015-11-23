@@ -53,7 +53,7 @@ public class LoginService {
 			return new Messenger(u!=null, "", u);
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return new Messenger(false, "error", null);
+			return new Messenger(false, "error", new Object());
 		}
 	}
 	
