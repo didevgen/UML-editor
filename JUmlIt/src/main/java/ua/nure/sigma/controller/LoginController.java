@@ -72,5 +72,11 @@ public class LoginController {
 	public @ResponseBody Messenger getUserDetails(@PathVariable long id) throws SQLException {
 		return service.getUserById(id);
 	}
+	
+	@RequestMapping(value = "/account/email", method = RequestMethod.POST)
+	public @ResponseBody Messenger getUserByEmail(HttpServletRequest request) throws SQLException {
+		User user =(User) new Gson().fromJson(request.getParameter("root"), Messenger.class).getObject();
+		return service.getUserByPartOfEmail(user.getEmail());
+	}
 
 }

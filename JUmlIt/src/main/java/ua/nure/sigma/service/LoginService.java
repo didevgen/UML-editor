@@ -20,7 +20,7 @@ public class LoginService {
 	public boolean checkUserExisting(String login) {
 		return dao.getUserByLogin(login) >= 1;
 	}
-	
+
 	public Messenger insertUser(User user) {
 		try {
 			user.setPassword(new Encrypter().encryptIt(user.getPassword()));
@@ -29,7 +29,7 @@ public class LoginService {
 			return new Messenger(false, "error", null);
 		}
 		try {
-			return new Messenger(true, "ok",  dao.addUser(user));
+			return new Messenger(true, "ok", dao.addUser(user));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -38,27 +38,31 @@ public class LoginService {
 
 	public Messenger getUser(User user) {
 		try {
-			User u = dao.getUserByLoginAndPassword(user.getEmail(), 
-					new Encrypter().encryptIt(user.getPassword()));
-			return new Messenger(u!=null, "", u);
+			User u = dao.getUserByLoginAndPassword(user.getEmail(), new Encrypter().encryptIt(user.getPassword()));
+			return new Messenger(u != null, "", u);
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 			return new Messenger(false, "error", null);
 		}
 	}
-	
+
 	public Messenger getUserById(long id) {
 		try {
 			User u = dao.getUserById(id);
-			return new Messenger(u!=null, "", u);
+			return new Messenger(u != null, "", u);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return new Messenger(false, "error", new Object());
 		}
 	}
-	
+
 	public UserDetails getUserDiagrams(long id) {
 		return dao.getUserDiagrams(id);
+	}
+
+	public Messenger getUserByPartOfEmail(String email) {
+		User u = dao.getUserByEmail(email);
+		return new Messenger(u != null, "", u);
 	}
 
 }
