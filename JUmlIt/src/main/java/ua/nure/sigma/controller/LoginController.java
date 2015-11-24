@@ -13,8 +13,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.google.gson.Gson;
 
 import ua.nure.sigma.dao.impl.TokenImpl;
 import ua.nure.sigma.db_entities.Token;
@@ -30,42 +31,35 @@ public class LoginController {
 	private LoginService service = new LoginService();
 
 	@RequestMapping(value = "/account/register", method = RequestMethod.POST)
-	public @ResponseBody Messenger registerUser(@RequestParam("email") String email,
-			@RequestParam("password") String password, @RequestParam("fullname") String fullName) throws SQLException {
-		User user = new User();
-		user.setEmail(email);
-		boolean result = service.checkUserExisting(email);
+	public @ResponseBody Messenger registerUser(HttpServletRequest request) throws SQLException {
+		User user =(User) new Gson().fromJson(request.getParameter("root"), Messenger.class).getObject();
+		boolean result = service.checkUserExisting(user.getEmail());
 		if (result) {
 			return new Messenger(false, "such user already exists", null);
 		}
-		user.setPassword(password);
-		user.setFullname(fullName);
-		System.out.println(fullName);
 		user.setRegistrationDate(new DateTime(System.currentTimeMillis()));
 		user.setLastAvailable(new DateTime(System.currentTimeMillis()));
 		return service.insertUser(user);
 	}
 
 	@RequestMapping(value = "/account/login", method = RequestMethod.POST)
-	public @ResponseBody Messenger loginUser(@RequestParam("email") String email,
-			@RequestParam("password") String password, HttpServletRequest request, HttpSession session)
-					throws NoSuchAlgorithmException {
-		User userTemp = new User();
-		userTemp.setEmail(email);
-		userTemp.setPassword(password);
+	public @ResponseBody Messenger loginUser(HttpServletRequest request, HttpSession session)
+			throws NoSuchAlgorithmException {
+		Messenger mes = new Gson().fromJson(request.getParameter("root"), Messenger.class);
+		User userTemp = (User) mes.getObject();
 		Messenger user = service.getUser(userTemp);
 		if (user.isSuccess()) {
 			final User myUser = (User) user.getObject();
 			new TokenImpl().deleteToken(myUser.getUserId());
-			final Token myToken = new TokenImpl().createToken(
-					new Token(new Encrypter().encryptIt(String.valueOf(new Random().nextInt(10000))), 
-							myUser.getUserId()));
+			final Token myToken = new TokenImpl().createToken(new Token(
+					new Encrypter().encryptIt(String.valueOf(new Random().nextInt(10000))), myUser.getUserId()));
 			user.setObject(new Object() {
 				public User user = myUser;
 				public Token token = myToken;
 			});
 			session.setAttribute("user", user.getObject());
 		}
+
 		return user;
 	}
 
@@ -77,6 +71,12 @@ public class LoginController {
 	@RequestMapping(value = "/account/{id}/details", method = RequestMethod.POST)
 	public @ResponseBody Messenger getUserDetails(@PathVariable long id) throws SQLException {
 		return service.getUserById(id);
+	}
+	
+	@RequestMapping(value = "/account/email", method = RequestMethod.POST)
+	public @ResponseBody Messenger getUserByEmail(HttpServletRequest request) throws SQLException {
+		User user =(User) new Gson().fromJson(request.getParameter("root"), Messenger.class).getObject();
+		return service.getUserByPartOfEmail(user.getEmail());
 	}
 
 }
