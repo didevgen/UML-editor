@@ -27,17 +27,19 @@ angular.module('jumlitApp').controller('DashboardCtrl', function ($scope, $uibMo
         $state.go("diagram");
     }
 
-    $scope.deleteDiagram = function (diag) {
-        $scope.diagrams = $scope.diagrams.filter(function (obj) {
-            return obj.title !== diag.title;
-        });
-    }
-
     $scope.createDiagram = function () {
         $scope.openEditModal('NewDiagramModalController', {}).result.then(function (result) {
             if (result.title) {
+                result.id = $scope.diagrams[$scope.diagrams.length - 1] + 1;
                 $scope.diagrams.push(result);
             }
+        });
+    };
+
+
+    $scope.editDiagram = function (diag) {
+        $scope.openEditModal('EditDiagramModalController', diag).result.then(function (result) {
+            $scope.diagrams[findIndexById($scope.diagrams, diag.id)] = result;
         });
     };
 
@@ -51,5 +53,53 @@ angular.module('jumlitApp').controller('DashboardCtrl', function ($scope, $uibMo
                 }
             }
         });
+    };
+
+    $scope.deleteDiagram = function (id) {
+        $scope.diagrams[findIndexById($scope.diagrams, id)].deleted = true;
+        document.getElementById("deleteContainer" + id).addEventListener('mouseout', function () {
+            var timerId = findIndexById($scope.timers, id);
+            if (timerId < 0 && $scope.diagrams[findIndexById($scope.diagrams, id)].deleted) {
+                $scope.timers.push({
+                    timer: $timeout(function () {
+                        $scope.confirmDelete(id);
+                        $scope.timers.splice(timerId, 1);
+                    }, 5000),
+                    id: id
+                });
+            }
+        });
+        document.getElementById("deleteContainer" + id).addEventListener('mouseover', function () {
+            var timerId = findIndexById($scope.timers, id);
+            if (timerId >= 0) {
+                $timeout.cancel($scope.timers[timerId].timer);
+                $scope.timers.splice(timerId, 1);
+            }
+        });
+    };
+
+    $scope.confirmDelete = function (id) {
+        document.getElementById("deleteContainer" + id).parentNode.className = document.getElementById("deleteContainer" + id).parentNode.className + " deleting";
+        $timeout(function () {
+            $scope.diagrams = $scope.diagrams.filter(function (obj) {
+                return obj.id !== id;
+            });
+        }, 150);
+    };
+
+    $scope.cancelDeleting = function (id) {
+        $scope.diagrams[findIndexById($scope.diagrams, id)].deleted = false;
+        var timerId = findIndexById($scope.timers, id);
+        if (timerId >= 0) {
+            $timeout.cancel($scope.timers[timerId].timer);
+            $scope.timers.splice(timerId, 1);
+        }
+    };
+
+    function findIndexById(arr, id) {
+        return arr.indexOf(arr.find(function (obj) {
+            return obj.id == id;
+        }));
     }
+
 });
