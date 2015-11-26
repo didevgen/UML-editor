@@ -1,24 +1,33 @@
 input.form-control,
-textarea.form-control {
+textarea.form-control,
+tags-input .tags {
   border-radius: 2px;
-  border-width: 2px;
+  border: solid 2px #cccccc;
+  box-shadow: none;
   resize: none; }
   input.form-control.ng-invalid.ng-touched,
-  textarea.form-control.ng-invalid.ng-touched {
+  textarea.form-control.ng-invalid.ng-touched,
+  tags-input .tags.ng-invalid.ng-touched {
     border-color: #f29f97; }
     input.form-control.ng-invalid.ng-touched:focus,
-    textarea.form-control.ng-invalid.ng-touched:focus {
+    textarea.form-control.ng-invalid.ng-touched:focus,
+    tags-input .tags.ng-invalid.ng-touched:focus {
       border-color: #f29f97;
       box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 2px #e74c3c; }
   input.form-control.ng-valid.ng-touched,
-  textarea.form-control.ng-valid.ng-touched {
+  textarea.form-control.ng-valid.ng-touched,
+  tags-input .tags.ng-valid.ng-touched {
     border-color: #7ee2a8; }
     input.form-control.ng-valid.ng-touched:focus,
-    textarea.form-control.ng-valid.ng-touched:focus {
+    textarea.form-control.ng-valid.ng-touched:focus,
+    tags-input .tags.ng-valid.ng-touched:focus {
       border-color: #7ee2a8;
       box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 2px #2ecc71; }
-  input.form-control:focus,
-  textarea.form-control:focus {
+  input.form-control:focus, input.form-control.focused,
+  textarea.form-control:focus,
+  textarea.form-control.focused,
+  tags-input .tags:focus,
+  tags-input .tags.focused {
     border-color: #55e7ca;
     outline: 0;
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 2px #1abc9c; }
@@ -68,6 +77,21 @@ form .form-group {
 
 form button[type="submit"] {
   margin-top: 20px; }
+
+/* TAGS-INPUT */
+tags-input .tags li.tag-item {
+  background: #1abc9c;
+  color: white;
+  border-width: 0px; }
+  tags-input .tags li.tag-item .remove-button {
+    color: white; }
+  tags-input .tags li.tag-item.selected {
+    background: #c0392b; }
+
+tags-input .autocomplete li.suggestion-item {
+  color: #333; }
+  tags-input .autocomplete li.suggestion-item.selected {
+    background-color: #1abc9c; }
 
 .custom-alert {
   border-width: 5px;
@@ -248,6 +272,7 @@ uml-class {
     color: #333; }
   uml-class .popover {
     color: #333;
+    pointer-events: auto;
     width: 300px; }
     uml-class .popover .list-group li, uml-class .popover .dropdown-menu li, uml-class .popover .dropdown-menu a {
       background-color: white;
@@ -280,8 +305,7 @@ uml-class {
   uml-class select,
   uml-class input,
   uml-class button,
-  uml-class .btn,
-  uml-class ul, uml-class li, uml-class a {
+  uml-class .btn {
     /* Enable interacting with inputs only. */
     pointer-events: auto; }
   uml-class button.delete {

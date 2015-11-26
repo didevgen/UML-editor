@@ -36,5 +36,7 @@ public interface UserDao {
 	public User getUserByLoginAndPassword(String login, String password);
 	
 	UserDetails getUserDiagrams(long id);
+
+	public User getUserByEmail(String email);
 	
 }

@@ -1,18 +1,21 @@
 'use strict';
-angular.module('jumlitApp').service('Utils', function($q, Config) {
+angular.module('jumlitApp').service('Utils', function($q, Config, Session) {
     function ajaxRequest(type, url, data) {
         var deferred = $q.defer();
+        var requestData = {
+            token: Session.token,
+            object: data
+        };
         $.ajax({
             type: type,
             url: Config.API_PATH + url,
-            data: data,
+            data: requestData,
             dataType: 'json',
             contentType: 'application/x-www-form-urlencoded',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
             success: function(data) {
-                console.log(data);
                 if (data.success) {
                     deferred.resolve(data.object);
                 } else {

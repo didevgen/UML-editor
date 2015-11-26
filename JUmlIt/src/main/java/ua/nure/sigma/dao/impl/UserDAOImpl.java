@@ -152,13 +152,34 @@ public class UserDAOImpl implements UserDao {
 			details.setCollabDiagrams(diagrDao.getUsersCollaborationDiagram(id));
 			
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, e.getMessage(), "������ I/O", JOptionPane.OK_OPTION);
 		} finally {
 			if (session != null && session.isOpen()) {
 				session.close();
 			}
 		}
 		return details;
+	}
+
+	@Override
+	public User getUserByEmail(String email) {
+		Session session = null;
+		List<User> users = new ArrayList<User>();
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+			users = session.createCriteria(User.class).add(Restrictions.ilike("email", email+"%")).list();
+		} catch (Exception e) {
+		} finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		}
+		try {
+			User user = users.get(0);
+			user.setPassword("");
+			return user;
+		} catch (Exception ex) {
+			return null;
+		}
 	}
 
 }
