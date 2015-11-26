@@ -1,5 +1,5 @@
 'use strict';
-angular.module('jumlitApp').controller('DashboardCtrl', function ($scope, $uibModal, $state, $timeout) {
+angular.module('jumlitApp').controller('DashboardCtrl', function ($scope, $uibModal, $state, $timeout, Session, Utils) {
     $scope.timers = [];
 
     //deleted - automatic generated on client
