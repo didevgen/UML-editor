@@ -3,7 +3,7 @@ angular.module('jumlitApp').controller('DashboardCtrl', function ($scope, $uibMo
     $scope.timers = [];
 
     //deleted - automatic generated on client
-    /*$scope.diagrams = [
+    $scope.diagrams = [
         {
             title: "Sample project",
             collaborators: [],
@@ -22,13 +22,17 @@ angular.module('jumlitApp').controller('DashboardCtrl', function ($scope, $uibMo
             deleted: false,
             id: 2
         }
-    ];*/
+    ];
+
+
+    /*
+    //posted by Semikin: load user Details
     function loadDetails() {
         Utils.postRequest('account/' + Session.user.userId + '/details').then(function(details) {
             $scope.details = details;
         });
     }
-    loadDetails();
+    loadDetails();*/
 
     $scope.editDetails = function () {
         $state.go('account.user-info');
