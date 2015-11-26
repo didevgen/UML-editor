@@ -384,6 +384,7 @@ a {
   position: relative; }
 
 .list-element {
+  position: relative;
   border-bottom: 1px solid #e5e5e5;
   padding: 5px 14px;
   box-shadow: none !important;
@@ -398,6 +399,7 @@ a {
   vertical-align: middle !important;
   background-image: none;
   border-radius: 4px;
+  margin-left: 0;
   -webkit-transition: background-color 150ms linear;
   -moz-transition: background-color 150ms linear;
   -o-transition: background-color 150ms linear;
@@ -417,6 +419,14 @@ a {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none; }
+  .list-element.deleting {
+    -webkit-transition: opacity linear 150ms, margin-left linear 150ms;
+    -moz-transition: opacity linear 150ms, margin-left linear 150ms;
+    -o-transition: opacity linear 150ms, margin-left linear 150ms;
+    -ms-transition: opacity linear 150ms, margin-left linear 150ms;
+    transition: opacity linear 150ms, margin-left linear 150ms;
+    margin-left: -300px;
+    opacity: 0; }
 
 .list-panel-body {
   padding-top: 5px; }
@@ -433,3 +443,27 @@ a {
   .list-element-control.pointer-primary:hover {
     cursor: pointer;
     color: #333; }
+
+.delete-reject-container {
+  padding: 5px 14px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  opacity: 1;
+  cursor: default;
+  background-color: #e5e5e5;
+  background-image: repeating-linear-gradient(45deg, transparent, transparent 5px, rgba(255, 255, 255, 0.5) 5px, rgba(255, 255, 255, 0.5) 10px); }
+
+.delete-reject-container.ng-hide-add,
+.delete-reject-container.ng-hide-remove {
+  -webkit-transition: opacity linear 150ms;
+  -moz-transition: opacity linear 150ms;
+  -o-transition: opacity linear 150ms;
+  -ms-transition: opacity linear 150ms;
+  transition: opacity linear 150ms; }
+
+.delete-reject-container.ng-hide {
+  opacity: 0; }

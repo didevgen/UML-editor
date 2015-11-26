@@ -18,7 +18,11 @@
                     <div class="list-element pointer" ng-repeat="diagram in diagrams" ng-click="openDiagram(diagram)">
                         <span class="pull-left">{{diagram.title}}</span>
                         <span class="glyphicon glyphicon-cog list-element-control pointer-primary" ng-click="editDiagram(diagram); $event.stopPropagation();"></span>
-                        <span class="glyphicon glyphicon-remove list-element-control pointer-delete" ng-click="deleteDiagram(diagram); $event.stopPropagation();"></span>
+                        <span class="glyphicon glyphicon-remove list-element-control pointer-delete" ng-click="deleteDiagram(diagram.id); $event.stopPropagation();"></span>
+                        <div class="delete-reject-container" ng-show="diagram.deleted" ng-click="$event.stopPropagation();" id="deleteContainer{{diagram.id}}">
+                            <span class="pull-left">{{diagram.title}} removed</span>
+                            <span class="list-element-control" ng-click="cancelDeleting(diagram.id); $event.stopPropagation();"><a href="">Cancel</a></span>
+                        </div>
                     </div>
                 </div>
             </div>
