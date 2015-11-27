@@ -1,15 +1,16 @@
 package ua.nure.sigma.code.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Method {
 	private String name;
 	
-	private List<String> modifiers;
+	private List<String> modifiers = new ArrayList<String>();
 	
 	private Type returnType;
 	
-	private List<MethodArg> arguments;
+	private List<MethodArg> arguments = new ArrayList<MethodArg>();
 	
 	
 
