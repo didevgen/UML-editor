@@ -10,7 +10,7 @@ public class Encrypter {
 
 	public Encrypter() {
 	}
-	
+
 	public String getJSON(BufferedReader reader) {
 		StringBuffer jb = new StringBuffer();
 		  String line = null;

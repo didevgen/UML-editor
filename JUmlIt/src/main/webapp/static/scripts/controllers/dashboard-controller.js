@@ -1,26 +1,46 @@
 'use strict';
-angular.module('jumlitApp').controller('DashboardCtrl', function ($scope, $uibModal, $state, Session, Utils) {
+angular.module('jumlitApp').controller('DashboardCtrl', function ($scope, $uibModal, $state, $timeout, Session, Utils) {
+    $scope.timers = [];
+
+    //deleted - automatic generated on client
+    $scope.diagrams = [
+        {
+            title: "Sample project",
+            collaborators: [],
+            deleted: false,
+            id: 0
+        },
+        {
+            title: "Sample project 1",
+            collaborators: [],
+            deleted: false,
+            id: 1
+        },
+        {
+            title: "Sample project 2",
+            collaborators: [],
+            deleted: false,
+            id: 2
+        }
+    ];
+
+
+    /*
+    //posted by Semikin: load user Details
     function loadDetails() {
         Utils.postRequest('account/' + Session.user.userId + '/details').then(function(details) {
             $scope.details = details;
         });
     }
+<<<<<<< HEAD
     loadDetails();
     $scope.user = Session.user;
+=======
+    loadDetails();*/
+>>>>>>> 32c5d66e8138122294d6cbb972324e389b5a9661
 
     $scope.editDetails = function () {
         $state.go('account.user-info');
-    };
-
-    $scope.editDiagram = function (diag) {
-        $scope.openEditModal('EditDiagramModalController', diag).result.then(function (result) {
-            for(var i = 0; i < $scope.diagrams.length; i++){
-                if($scope.diagrams[i].title == diag.title)
-                    {
-                        $scope.diagrams[i] = result;
-                    }
-            }
-        });
     };
 
     $scope.openDiagram = function () {
