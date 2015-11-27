@@ -67,7 +67,8 @@ public class DiagramDAOImpl implements DiagramDAO {
 				model.getCollaborators().add(dao.getUserById(coll.getUserId()));
 			}
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, e.getMessage(), "Ошибка I/O", JOptionPane.OK_OPTION);
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage(), "пїЅпїЅпїЅпїЅпїЅпїЅ I/O", JOptionPane.OK_OPTION);
 		} finally {
 			if (session != null && session.isOpen()) {
 				session.close();
@@ -95,6 +96,7 @@ public class DiagramDAOImpl implements DiagramDAO {
 				session.getTransaction().commit();
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			System.out.println(e.getMessage());
 		} finally {
 			if (session != null && session.isOpen()) {
@@ -113,7 +115,8 @@ public class DiagramDAOImpl implements DiagramDAO {
 			q.executeUpdate();
 			session.getTransaction().commit();
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, e.getMessage(), "Ошибка I/O", JOptionPane.OK_OPTION);
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage(), "пїЅпїЅпїЅпїЅпїЅпїЅ I/O", JOptionPane.OK_OPTION);
 		} finally {
 			if (session != null && session.isOpen()) {
 				session.close();
@@ -127,9 +130,10 @@ public class DiagramDAOImpl implements DiagramDAO {
 		List<Diagram> models = new ArrayList<Diagram>();
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
-			models = session.createCriteria(Diagram.class).add(Restrictions.eq("owner_id", userId)).list();
+			models = session.createCriteria(Diagram.class).add(Restrictions.eq("ownerId", userId)).list();
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, e.getMessage(), "Ошибка I/O", JOptionPane.OK_OPTION);
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage(), "пїЅпїЅпїЅпїЅпїЅпїЅ I/O", JOptionPane.OK_OPTION);
 		} finally {
 			if (session != null && session.isOpen()) {
 				session.close();
@@ -150,7 +154,8 @@ public class DiagramDAOImpl implements DiagramDAO {
 				models.add((Diagram) session.load(Diagram.class, col.getDiagramId()));
 			}
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, e.getMessage(), "Ошибка I/O", JOptionPane.OK_OPTION);
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage(), "пїЅпїЅпїЅпїЅпїЅпїЅ I/O", JOptionPane.OK_OPTION);
 		} finally {
 			if (session != null && session.isOpen()) {
 				session.close();

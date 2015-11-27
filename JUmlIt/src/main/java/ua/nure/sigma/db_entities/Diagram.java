@@ -66,7 +66,7 @@ public class Diagram {
 		this.jsonData = jsonData;
 	}
 	
-	@Column(name = "creation_date")
+	@Column(name = "created_date")
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
 	public DateTime getCreationDate() {
 		return creationDate;
