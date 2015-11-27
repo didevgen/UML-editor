@@ -107,3 +107,14 @@ tags-input {
 .fa-toggle-on {
     color: $color-primary;
 }
+
+ul.pagination > .active > a {
+    background-color: $color-primary;
+    border-color: $color-primary;
+
+    &:hover, &:visited {
+      background-color: lighten($color-primary, 5%);
+      border-color: lighten($color-primary, 5%);
+      cursor: pointer;
+    }
+}

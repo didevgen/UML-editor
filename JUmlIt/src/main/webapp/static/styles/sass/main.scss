@@ -116,56 +116,6 @@ a {
     position: relative;
 }
 
-.list-element {
-    position: relative;
-    border-bottom: 1px solid $panel-color-light;
-    padding: 5px 14px;
-    box-shadow: none !important;
-    background-color: transparent;
-    width: 100%;
-    text-align: right;
-    margin-bottom: 0;
-    font-size: 14px;
-    font-weight: normal;
-    line-height: 1.42857143;
-    white-space: nowrap;
-    vertical-align: middle !important;
-    background-image: none;
-    border-radius: 4px;
-    margin-left: 0;
-    -webkit-transition: background-color 150ms linear;
-    -moz-transition: background-color 150ms linear;
-    -o-transition: background-color 150ms linear;
-    -ms-transition: background-color 150ms linear;
-    transition: background-color 150ms linear;
-    &.pointer {
-        &:hover {
-            -webkit-transition: background-color 150ms linear;
-            -moz-transition: background-color 150ms linear;
-            -o-transition: background-color 150ms linear;
-            -ms-transition: background-color 150ms linear;
-            transition: background-color 150ms linear;
-            background-color: $border-color;
-            -ms-touch-action: manipulation;
-            touch-action: manipulation;
-            cursor: pointer;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
-    }
-    &.deleting {
-        -webkit-transition: opacity linear 150ms, margin-left linear 150ms;
-        -moz-transition: opacity linear 150ms, margin-left linear 150ms;
-        -o-transition: opacity linear 150ms, margin-left linear 150ms;
-        -ms-transition: opacity linear 150ms, margin-left linear 150ms;
-        transition: opacity linear 150ms, margin-left linear 150ms;
-        margin-left: -300px;
-        opacity: 0;
-    }
-}
-
 .list-panel-body {
     padding-top: 5px;
 }

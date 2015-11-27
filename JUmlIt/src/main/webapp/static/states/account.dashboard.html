@@ -33,10 +33,10 @@
                 <div class="panel-body dashboard-panel">
                     <uib-tabset>
                         <uib-tab heading="My diagrams">
-                            <ul class="list-group">
-                                <a class="list-group-item list-element"
+                            <ul class="list-group diagrams-list">
+                                <a class="list-group-item list-element pointer"
                                    ng-repeat="diagram in ownDiagrams" ng-click="openDiagram(diagram)">
-                                    <span class="pull-left">{{diagram.title}}</span>
+                                    <span class="pull-left">{{diagram.name}}</span>
                                     <span class="glyphicon glyphicon-cog list-element-control pointer-primary"
                                           ng-click="editDiagram(diagram); $event.stopPropagation();"></span>
                                     <span class="glyphicon glyphicon-remove list-element-control pointer-delete"
@@ -44,19 +44,24 @@
 
                                     <div class="delete-reject-container" ng-show="diagram.deleted"
                                          ng-click="$event.stopPropagation();" id="deleteContainer{{diagram.id}}">
-                                        <span class="pull-left">{{diagram.title}} removed</span>
+                                        <span class="pull-left">{{diagram.name}} removed</span>
                                         <span class="list-element-control"
                                               ng-click="cancelDeleting(diagram.id); $event.stopPropagation();"><a
                                                 href="">Cancel</a></span>
                                     </div>
                                 </a>
                             </ul>
+                            <div class="no-diagrams" ng-hide="ownDiagrams.length">No diagrams yet!</div>
+                            <uib-pagination total-items="ownDiagrams.length" ng-model="ownDiagramsPageNum"
+                                            max-size="maxPages" class="pagination-sm" boundary-links="true"
+                                            rotate="false" num-pages="ownDiagramsPages"
+                                            ng-show="ownDiagramsPages > 0"></uib-pagination>
                         </uib-tab>
                         <uib-tab heading="Collaborate to">
-                            <ul class="list-group">
-                                <a class="list-group-item list-element"
+                            <ul class="list-group diagrams-list">
+                                <a class="list-group-item list-element pointer"
                                    ng-repeat="diagram in collabDiagrams" ng-click="openDiagram(diagram)">
-                                    <span class="pull-left">{{diagram.title}}</span>
+                                    <span class="pull-left">{{diagram.name}}</span>
                                     <span class="glyphicon glyphicon-cog list-element-control pointer-primary"
                                           ng-click="editDiagram(diagram); $event.stopPropagation();"></span>
                                     <span class="glyphicon glyphicon-remove list-element-control pointer-delete"
@@ -64,21 +69,25 @@
 
                                     <div class="delete-reject-container" ng-show="diagram.deleted"
                                          ng-click="$event.stopPropagation();" id="deleteContainer{{diagram.id}}">
-                                        <span class="pull-left">{{diagram.title}} removed</span>
+                                        <span class="pull-left">{{diagram.name}} removed</span>
                                         <span class="list-element-control"
                                               ng-click="cancelDeleting(diagram.id); $event.stopPropagation();"><a
                                                 href="">Cancel</a></span>
                                     </div>
                                 </a>
                             </ul>
+                            <div class="no-diagrams" ng-hide="collabDiagrams.length">No diagrams yet!</div>
+                            <uib-pagination total-items="collabDiagrams.length" ng-model="collabDiagramsPageNum"
+                                            max-size="maxPages" class="pagination-sm" boundary-links="true"
+                                            rotate="false" num-pages="collabDiagramsPages"
+                                            ng-show="collabDiagramsPages > 0"></uib-pagination>
                         </uib-tab>
                     </uib-tabset>
-                    <div ng-hide="diagrams.length">No diagrams yet!</div>
                 </div>
             </div>
         </div>
         <div class="col-md-3">
-            <div class="panel panel-default">
+            <div class="panel panel-default dashboard-panel">
                 <div class="panel-heading">News</div>
                 <div class="panel-body"></div>
             </div>

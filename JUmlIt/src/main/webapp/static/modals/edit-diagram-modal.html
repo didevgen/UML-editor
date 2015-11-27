@@ -4,17 +4,17 @@
 <div class="modal-body">
     <form novalidate name="form">
         <div class="form-group">
-            <label for="title">Title</label>
-            <input type="text" class="form-control" name="title" id="title" placeholder="Title" ng-model="diagram.title" required="">
-            <div ng-show="form.$submitted || form.title.$touched">
-                <span class="error-message" ng-show="form.title.$error.required">This field is required.</span>
-                <span class="success-message" ng-show="form.title.$valid">Thanks!</span>
+            <label for="name">Title</label>
+            <input type="text" class="form-control" name="name" id="name" placeholder="Name" ng-model="diagramModel.diagram.name" required="">
+            <div ng-show="form.$submitted || form.name.$touched">
+                <span class="error-message" ng-show="form.name.$error.required">This field is required.</span>
+                <span class="success-message" ng-show="form.name.$valid">Thanks!</span>
             </div>
-            <span class="info-message" ng-hide="form.$submitted || form.title.$touched">Type in diagram title.</span>
+            <span class="info-message" ng-hide="form.$submitted || form.name.$touched">Type in diagram name.</span>
         </div>
         <div class="form-group">
             <label for="description">Description</label>
-            <textarea class="form-control" name="description" id="description" placeholder="Description" ng-model="diagram.description" required="" />
+            <textarea class="form-control" name="description" id="description" placeholder="Description" ng-model="diagramModel.diagram.description" required="" />
             <div ng-show="form.$submitted || form.description.$touched">
                 <span class="error-message" ng-show="form.description.$error.required">This field is required.</span>
                 <span class="success-message" ng-show="form.description.$valid">Thanks!</span>
@@ -36,7 +36,7 @@
         </div> -->
         <div class="form-group">
             <label for="title">Collaborators</label>
-            <tags-input ng-model="diagram.collaborators" placeholder="Type email" display-property="email">
+            <tags-input ng-model="diagramModel.collaborators" placeholder="Type email" display-property="email">
                 <auto-complete source="findUser($query)"></auto-complete>
             </tags-input>
             <span class="info-message">Enter emails of the collaborators.</span>

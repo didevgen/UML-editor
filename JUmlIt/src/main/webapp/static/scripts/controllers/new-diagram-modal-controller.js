@@ -2,17 +2,13 @@
 angular.module('jumlitApp').controller('NewDiagramModalController', function ($scope, $uibModalInstance, Utils) {
     $scope.diagramModel = {
         diagram: {
-            title: "",
-            diagram: ""
+            name: "",
+            description: ""
         },
         collaborators: []
     };
 
     $scope.save = function () {
-        var diagram = {
-            name: $scope.diagram.title,
-            collaborators: []
-        };
         Utils.postRequest('diagram/create', $scope.diagramModel).then(function() {
             $uibModalInstance.close({success: true});
         });
