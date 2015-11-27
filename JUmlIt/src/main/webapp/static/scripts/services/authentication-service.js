@@ -7,6 +7,10 @@ angular.module('jumlitApp').service('Authentication', function(Session, Utils, $
         $.ajax(Config.API_PATH + 'login', {
             type: 'POST',
             data: credentials,
+            xhrFields: {
+                withCredentials: true
+            },
+            crossDomain: true,
             success: function(data) {
                 deferred.resolve(data);
             },
@@ -29,7 +33,13 @@ angular.module('jumlitApp').service('Authentication', function(Session, Utils, $
 
     function ajaxLogout() {
         var deferred = $q.defer();
-        $.post(Config.API_PATH + 'logout').then(deferred.resolve, deferred.reject);
+        $.ajax(Config.API_PATH + 'logout', {
+            type: 'POST',
+            xhrFields: {
+                withCredentials: true
+            },
+            crossDomain: true,
+        }).then(deferred.resolve, deferred.reject);
         return deferred.promise;
     }
 

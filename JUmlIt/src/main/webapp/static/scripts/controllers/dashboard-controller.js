@@ -1,43 +1,18 @@
 'use strict';
 angular.module('jumlitApp').controller('DashboardCtrl', function ($scope, $uibModal, $state, $timeout, Session, Utils) {
     $scope.timers = [];
+    $scope.ownDiagrams = [];
+    $scope.collabDiagrams = [];
 
-    //deleted - automatic generated on client
-    $scope.diagrams = [
-        {
-            title: "Sample project",
-            collaborators: [],
-            deleted: false,
-            id: 0
-        },
-        {
-            title: "Sample project 1",
-            collaborators: [],
-            deleted: false,
-            id: 1
-        },
-        {
-            title: "Sample project 2",
-            collaborators: [],
-            deleted: false,
-            id: 2
-        }
-    ];
-
-
-    /*
-    //posted by Semikin: load user Details
     function loadDetails() {
         Utils.postRequest('account/' + Session.user.userId + '/details').then(function(details) {
-            $scope.details = details;
+            $scope.ownDiagrams = details.ownDiagrams;
+            $scope.collabDiagrams = details.collabDiagrams;
         });
     }
-<<<<<<< HEAD
-    loadDetails();
+
     $scope.user = Session.user;
-=======
->>>>>>> 32c5d66e8138122294d6cbb972324e389b5a9661
-     loadDetails();*/
+     loadDetails();
 
     $scope.editDetails = function () {
         $state.go('account.user-info');
@@ -49,27 +24,28 @@ angular.module('jumlitApp').controller('DashboardCtrl', function ($scope, $uibMo
 
     $scope.createDiagram = function () {
         $scope.openEditModal('NewDiagramModalController', {}).result.then(function (result) {
-            if (result.title) {
-                result.id = $scope.diagrams[$scope.diagrams.length - 1] + 1;
-                $scope.diagrams.push(result);
+            if (result.success) {
+                loadDetails();
             }
         });
     };
 
 
-    $scope.editDiagram = function (diag) {
-        $scope.openEditModal('EditDiagramModalController', diag).result.then(function (result) {
-            $scope.diagrams[findIndexById($scope.diagrams, diag.id)] = result;
+    $scope.editDiagram = function (diagram) {
+        $scope.openEditModal('EditDiagramModalController', diagram).result.then(function (result) {
+            if (result.success) {
+                loadDetails();
+            }
         });
     };
 
-    $scope.openEditModal = function (controller, diag) {
+    $scope.openEditModal = function (controller, diagram) {
         return $uibModal.open({
             templateUrl: 'modals/edit-diagram-modal.html',
             controller: controller,
             resolve: {
                 diagram: function () {
-                    return diag;
+                    return diagram;
                 }
             }
         });
@@ -101,8 +77,8 @@ angular.module('jumlitApp').controller('DashboardCtrl', function ($scope, $uibMo
     $scope.confirmDelete = function (id) {
         document.getElementById("deleteContainer" + id).parentNode.className = document.getElementById("deleteContainer" + id).parentNode.className + " deleting";
         $timeout(function () {
-            $scope.diagrams = $scope.diagrams.filter(function (obj) {
-                return obj.id !== id;
+            Utils.postRequest('diagram/' + id + '/delete').then(function() {
+                loadDetails();
             });
         }, 150);
     };

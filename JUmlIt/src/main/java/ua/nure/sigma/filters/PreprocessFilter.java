@@ -23,9 +23,10 @@ public class PreprocessFilter implements Filter {
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
 		servletResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
-		servletResponse.setHeader("Access-Control-Allow-Origin", "*");
-		servletResponse.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+		servletResponse.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+		servletResponse.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization, Client-Security-Token");
 		servletResponse.setHeader("Access-Control-Expose-Headers", "x-requested-with");
+		servletResponse.setHeader("Access-Control-Allow-Credentials", "true");
 
 		chain.doFilter(request, response);
 	}

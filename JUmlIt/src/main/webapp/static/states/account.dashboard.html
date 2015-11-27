@@ -1,10 +1,12 @@
 <div class="container">
     <h3 class="section-header">Dashboard</h3>
+
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="panel panel-default dashboard-panel">
                 <div class="panel-heading">
                     <i class="fa fa-user fa-5x"></i>
+
                     <h3>{{user.fullname}}</h3>
                 </div>
                 <div class="panel-body">
@@ -21,26 +23,61 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-6">
             <div class="panel panel-default dashboard-panel">
-                <div class="panel-heading"><h3 class="panel-title">My diagrams</h3>
-                    <button class="btn btn-success btn-xs pull-right" ng-click="createDiagram()"><span class="glyphicon glyphicon-plus"></span> Add new</button>
+                <div class="panel-heading"><h3 class="panel-title">Diagrams</h3>
+                    <button class="btn btn-success btn-xs pull-right" ng-click="createDiagram()"><span
+                            class="glyphicon glyphicon-plus"></span> Add new
+                    </button>
                 </div>
-                <div class="panel-body list-panel-body dashboard-panel">
-                    <div class="list-element pointer" ng-repeat="diagram in diagrams" ng-click="openDiagram(diagram)">
-                        <span class="pull-left">{{diagram.title}}</span>
-                        <span class="glyphicon glyphicon-cog list-element-control pointer-primary" ng-click="editDiagram(diagram); $event.stopPropagation();"></span>
-                        <span class="glyphicon glyphicon-remove list-element-control pointer-delete" ng-click="deleteDiagram(diagram.id); $event.stopPropagation();"></span>
-                        <div class="delete-reject-container" ng-show="diagram.deleted" ng-click="$event.stopPropagation();" id="deleteContainer{{diagram.id}}">
-                            <span class="pull-left">{{diagram.title}} removed</span>
-                            <span class="list-element-control" ng-click="cancelDeleting(diagram.id); $event.stopPropagation();"><a href="">Cancel</a></span>
-                        </div>
-                    </div>
+                <div class="panel-body dashboard-panel">
+                    <uib-tabset>
+                        <uib-tab heading="My diagrams">
+                            <ul class="list-group">
+                                <a class="list-group-item list-element"
+                                   ng-repeat="diagram in ownDiagrams" ng-click="openDiagram(diagram)">
+                                    <span class="pull-left">{{diagram.title}}</span>
+                                    <span class="glyphicon glyphicon-cog list-element-control pointer-primary"
+                                          ng-click="editDiagram(diagram); $event.stopPropagation();"></span>
+                                    <span class="glyphicon glyphicon-remove list-element-control pointer-delete"
+                                          ng-click="deleteDiagram(diagram.id); $event.stopPropagation();"></span>
+
+                                    <div class="delete-reject-container" ng-show="diagram.deleted"
+                                         ng-click="$event.stopPropagation();" id="deleteContainer{{diagram.id}}">
+                                        <span class="pull-left">{{diagram.title}} removed</span>
+                                        <span class="list-element-control"
+                                              ng-click="cancelDeleting(diagram.id); $event.stopPropagation();"><a
+                                                href="">Cancel</a></span>
+                                    </div>
+                                </a>
+                            </ul>
+                        </uib-tab>
+                        <uib-tab heading="Collaborate to">
+                            <ul class="list-group">
+                                <a class="list-group-item list-element"
+                                   ng-repeat="diagram in collabDiagrams" ng-click="openDiagram(diagram)">
+                                    <span class="pull-left">{{diagram.title}}</span>
+                                    <span class="glyphicon glyphicon-cog list-element-control pointer-primary"
+                                          ng-click="editDiagram(diagram); $event.stopPropagation();"></span>
+                                    <span class="glyphicon glyphicon-remove list-element-control pointer-delete"
+                                          ng-click="deleteDiagram(diagram.id); $event.stopPropagation();"></span>
+
+                                    <div class="delete-reject-container" ng-show="diagram.deleted"
+                                         ng-click="$event.stopPropagation();" id="deleteContainer{{diagram.id}}">
+                                        <span class="pull-left">{{diagram.title}} removed</span>
+                                        <span class="list-element-control"
+                                              ng-click="cancelDeleting(diagram.id); $event.stopPropagation();"><a
+                                                href="">Cancel</a></span>
+                                    </div>
+                                </a>
+                            </ul>
+                        </uib-tab>
+                    </uib-tabset>
                     <div ng-hide="diagrams.length">No diagrams yet!</div>
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="panel panel-default">
                 <div class="panel-heading">News</div>
                 <div class="panel-body"></div>

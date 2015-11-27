@@ -13,6 +13,10 @@ angular.module('jumlitApp').service('Utils', function($q, Config, Session) {
             headers: {
                 'Content-Type': 'application/json'
             },
+            xhrFields: {
+                withCredentials: true
+            },
+            crossDomain: true,
             success: function(data) {
                 deferred.resolve(data);
             },
@@ -26,7 +30,13 @@ angular.module('jumlitApp').service('Utils', function($q, Config, Session) {
                         return;
                 }
 
-                var error = JSON.parse(err.responseText);
+                var error;
+                try {
+                    error = JSON.parse(err.responseText);
+                } catch(e) {
+                    deferred.reject();
+                    return;
+                }
                 deferred.reject(error.errorMessage);
             }
         };

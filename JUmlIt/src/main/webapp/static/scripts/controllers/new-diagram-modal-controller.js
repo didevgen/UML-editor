@@ -1,23 +1,21 @@
 'use strict';
 angular.module('jumlitApp').controller('NewDiagramModalController', function ($scope, $uibModalInstance, Utils) {
-    $scope.diagram = {};
-    $scope.diagram.title = "";
-    $scope.diagram.description = "";
-    $scope.diagram.collaborators = [];
-    $scope.addCollaborator = function () {
-        $scope.diagram.collaborators.push({
-            email: $scope.newCollaborator.email,
-            name: "NewCollaborator" + $scope.diagram.collaborators.length
-        })
-        $scope.newCollaborator.email = "";
-    }
+    $scope.diagramModel = {
+        diagram: {
+            title: "",
+            diagram: ""
+        },
+        collaborators: []
+    };
+
     $scope.save = function () {
         var diagram = {
             name: $scope.diagram.title,
             collaborators: []
         };
-        Utils.postRequest('diagram/create', $scope.diagram);
-        $uibModalInstance.close($scope.diagram);
+        Utils.postRequest('diagram/create', $scope.diagramModel).then(function() {
+            $uibModalInstance.close({success: true});
+        });
     };
 
     $scope.cancel = function () {
