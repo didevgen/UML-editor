@@ -91,6 +91,8 @@ angular
     }).run(function($rootScope, $state, Authorization, Authentication, $window, Session) {
         Authentication.authenticate().then(function() {
             $state.go('account.dashboard');
+        }).catch(function(error) {
+            $state.go('landing.login')
         });
         $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
             Authorization.authorize(event, toState.data);
