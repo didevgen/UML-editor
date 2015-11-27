@@ -9,3 +9,4 @@ bower_components/
 npm-debug*
 *.sw*
 *.idea
+hibernate.cfg.xml
