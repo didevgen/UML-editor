@@ -1,20 +1,21 @@
 package ua.nure.sigma.code.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Clazz {
 
 	private String name;
 	
-	private List<String> modifiers;
+	private List<String> modifiers = new ArrayList<String>();
 	
 	private Clazz superClass;
 	
-	private List<Field> fields;
+	private List<Field> fields =  new ArrayList<Field>();
 	
-	private List<Interface> interfaces;
+	private List<Interface> interfaces =  new ArrayList<Interface>();
 	
-	private List<Method> methods;
+	private List<Method> methods =  new ArrayList<Method>();
 	
 
 	public Clazz() {

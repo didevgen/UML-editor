@@ -1,5 +1,6 @@
 package ua.nure.sigma.code.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MethodArg {
@@ -8,7 +9,7 @@ public class MethodArg {
 
 	private Type type;
 
-	private List<String> modifiers;
+	private List<String> modifiers = new ArrayList<String>();
 	
 	public MethodArg() {
 		super();

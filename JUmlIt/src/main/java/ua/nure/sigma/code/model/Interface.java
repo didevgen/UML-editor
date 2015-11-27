@@ -1,13 +1,14 @@
 package ua.nure.sigma.code.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Interface {
 	private String name;
 	
-	private List<Field> fields;
+	private List<Field> fields = new ArrayList<Field>();
 	
-	private List<Method> methods;
+	private List<Method> methods = new ArrayList<Method>();
 	
 	
 

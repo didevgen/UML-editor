@@ -1,9 +1,15 @@
 package ua.nure.sigma.code.generation;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import javax.lang.model.element.Modifier;
 
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.FieldSpec;
+import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterSpec;
 import com.squareup.javapoet.TypeName;
@@ -23,6 +29,19 @@ public class CodeGenerator {
 	private GeneratorService service = new GeneratorService();
 
 	public static void main(String[] args) {
+		CodeGenerator codegen = new CodeGenerator();
+		Clazz clazz = new Clazz();
+		clazz.setModifiers(Arrays.asList("public"));
+		List<Interface> list = new ArrayList<Interface>();
+		list.add(new Interface("MyInterface"));
+		clazz.setInterfaces(list);
+		clazz.setName("MyClass");
+		JavaFile javaFile = JavaFile.builder("com.example.helloworld", codegen.generateClass(clazz)).build();
+		try {
+			javaFile.writeTo(System.out);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}	    
 	}
 
 	public TypeSpec generateClass(Clazz clazz) {
