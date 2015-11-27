@@ -36,8 +36,8 @@ angular.module('jumlitApp').controller('DashboardCtrl', function ($scope, $uibMo
     loadDetails();
     $scope.user = Session.user;
 =======
-    loadDetails();*/
 >>>>>>> 32c5d66e8138122294d6cbb972324e389b5a9661
+     loadDetails();*/
 
     $scope.editDetails = function () {
         $state.go('account.user-info');

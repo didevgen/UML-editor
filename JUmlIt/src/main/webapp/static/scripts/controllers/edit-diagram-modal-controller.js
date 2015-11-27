@@ -1,5 +1,5 @@
 'use strict';
-angular.module('jumlitApp').controller('EditDiagramModalController', function ($scope, $uibModalInstance, diagram) {
+angular.module('jumlitApp').controller('EditDiagramModalController', function ($scope, $uibModalInstance, diagram, Utils) {
     $scope.diagram = diagram;
     $scope.addCollaborator = function () {
         $scope.diagram.collaborators.push({
@@ -17,10 +17,6 @@ angular.module('jumlitApp').controller('EditDiagramModalController', function ($
     };
 
     $scope.findUser = function(email) {
-        var res = [];
-        for (var i = 0 ; i < 10; i++) {
-            res.push(email + i);
-        }
-        return res
+        return Utils.postRequest('account/email/'+email);
     }
 });

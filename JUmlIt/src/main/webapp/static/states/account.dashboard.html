@@ -27,7 +27,7 @@
                     <button class="btn btn-success btn-xs pull-right" ng-click="createDiagram()"><span class="glyphicon glyphicon-plus"></span> Add new</button>
                 </div>
                 <div class="panel-body list-panel-body dashboard-panel">
-                    <div class="list-element pointer" ng-repeat="diagram in details.diagrams" ng-click="openDiagram(diagram)">
+                    <div class="list-element pointer" ng-repeat="diagram in diagrams" ng-click="openDiagram(diagram)">
                         <span class="pull-left">{{diagram.title}}</span>
                         <span class="glyphicon glyphicon-cog list-element-control pointer-primary" ng-click="editDiagram(diagram); $event.stopPropagation();"></span>
                         <span class="glyphicon glyphicon-remove list-element-control pointer-delete" ng-click="deleteDiagram(diagram.id); $event.stopPropagation();"></span>
@@ -36,7 +36,7 @@
                             <span class="list-element-control" ng-click="cancelDeleting(diagram.id); $event.stopPropagation();"><a href="">Cancel</a></span>
                         </div>
                     </div>
-                    <div ng-hide="details.diagrams.length">No diagrams yet!</div>
+                    <div ng-hide="diagrams.length">No diagrams yet!</div>
                 </div>
             </div>
         </div>
