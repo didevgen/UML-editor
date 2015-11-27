@@ -1,15 +1,16 @@
 'use strict';
 angular.module('jumlitApp').controller('EditDiagramModalController', function ($scope, $uibModalInstance, diagram, Utils) {
-    $scope.diagram = diagram;
-    $scope.addCollaborator = function () {
-        $scope.diagram.collaborators.push({
-            email: $scope.newCollaborator.email,
-            name: "NewCollaborator" + $scope.diagram.collaborators.length
-        })
-        $scope.newCollaborator.email = "";
+    function getDiagramModel() {
+        Utils.getRequest('diagram/' + diagram.diagramId).then(function(model) {
+            $scope.diagramModel = model;
+        });
     }
+    getDiagramModel();
+
     $scope.save = function () {
-        $uibModalInstance.close($scope.diagram);
+        Utils.postRequest('diagram/update', $scope.diagramModel).then(function(model) {
+            $uibModalInstance.close({success: true});
+        });
     };
 
     $scope.cancel = function () {
