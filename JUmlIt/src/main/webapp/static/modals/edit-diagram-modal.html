@@ -36,7 +36,7 @@
         </div> -->
         <div class="form-group">
             <label for="title">Collaborators</label>
-            <tags-input ng-model="diagram.collaborators" placeholder="Type email">
+            <tags-input ng-model="diagram.collaborators" placeholder="Type email" display-property="email">
                 <auto-complete source="findUser($query)"></auto-complete>
             </tags-input>
             <span class="info-message">Enter emails of the collaborators.</span>
@@ -49,6 +49,6 @@
     </form>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary" type="button" ng-click="save()">Proceed</button>
+    <button class="btn btn-primary" ng-disabled="!form.$valid" type="button" ng-click="save()">Proceed</button>
     <button class="btn" type="button" ng-click="cancel()">Cancel</button>
 </div>

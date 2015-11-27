@@ -1,43 +1,48 @@
 'use strict';
 angular.module('jumlitApp').service('Utils', function($q, Config, Session) {
-    function ajaxRequest(type, url, data) {
+    function ajaxRequest(type, url, data, options) {
         var deferred = $q.defer();
-        var requestData = {
-            token: Session.token,
-            object: data
-        };
-        $.ajax({
+        data = data || {};
+
+        var defaultOptions = {
             type: type,
             url: Config.API_PATH + url,
-            data: requestData,
+            data: JSON.stringify(data),
             dataType: 'json',
-            contentType: 'application/x-www-form-urlencoded',
+            contentType: 'application/json',
             headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
+                'Content-Type': 'application/json'
             },
             success: function(data) {
-                if (data.success) {
-                    deferred.resolve(data.object);
-                } else {
-                    deferred.reject(data.message);
-                }
+                deferred.resolve(data);
             },
-            error: function(error) {
-                if (error.status === 200) {
-                    deferred.resolve({ok: true});
-                    return;
+            error: function(err) {
+                switch (err.status) {
+                    case 200:
+                        deferred.resolve({ok: true});
+                        return;
+                    case 401:
+                        deferred.reject("unauthorized");
+                        return;
                 }
-                deferred.reject(error);
+
+                var error = JSON.parse(err.responseText);
+                deferred.reject(error.errorMessage);
             }
-        });
+        };
+
+        options = options || defaultOptions;
+        console.log(options);
+
+        $.ajax(options);
         return deferred.promise;
     }
     return {
         getRequest: function(url, data) {
             return ajaxRequest('GET', url, data);
         },
-        postRequest: function(url, data) {
-            return ajaxRequest('POST', url, data);
+        postRequest: function(url, data, options) {
+            return ajaxRequest('POST', url, data, options);
         }
     };
 });

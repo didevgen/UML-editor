@@ -6,6 +6,7 @@ angular.module('jumlitApp').controller('DashboardCtrl', function ($scope, $uibMo
         });
     }
     loadDetails();
+    $scope.user = Session.user;
 
     $scope.editDetails = function () {
         $state.go('account.user-info');

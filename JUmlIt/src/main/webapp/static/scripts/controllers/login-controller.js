@@ -9,14 +9,9 @@ angular.module('jumlitApp').controller('LoginCtrl', function($scope, Authenticat
     $scope.alerts = [];
 
     $scope.attemptLogin = function() {
-        var data = {
-            email: $scope.user.email,
-            password: $scope.user.password
-        };
-
         $scope.alerts = [];
 
-        submitLogin(data)
+        Authentication.login($scope.user.email, $scope.user.password)
             .then(function() {
                 $state.go('account.dashboard');
             })
@@ -26,10 +21,6 @@ angular.module('jumlitApp').controller('LoginCtrl', function($scope, Authenticat
                     msg: error || 'Something happened on our servers'
                 });
             });
-    }
-
-    function submitLogin(data) {
-        return Authentication.login(data);
     }
 
     $scope.closeAlert = function(index) {

@@ -2,6 +2,7 @@ package ua.nure.sigma.dao.impl;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -12,8 +13,9 @@ import org.hibernate.criterion.Restrictions;
 import ua.nure.sigma.dao.DiagramDAO;
 import ua.nure.sigma.dao.UserDao;
 import ua.nure.sigma.db_entities.User;
+import ua.nure.sigma.exceptions.AccountException;
 import ua.nure.sigma.model.UserDetails;
-import ua.nure.sigma.util.HibernateUtil;;
+import ua.nure.sigma.util.HibernateUtil;
 
 public class UserDAOImpl implements UserDao {
 	public User addUser(User user) throws SQLException {
@@ -42,6 +44,7 @@ public class UserDAOImpl implements UserDao {
 			session.update(user);
 			session.getTransaction().commit();
 		} catch (Exception e) {
+			e.printStackTrace();
 			JOptionPane.showMessageDialog(null, e.getMessage(), "������ I/O", JOptionPane.OK_OPTION);
 		} finally {
 			if (session != null && session.isOpen()) {
@@ -58,6 +61,7 @@ public class UserDAOImpl implements UserDao {
 			session = HibernateUtil.getSessionFactory().openSession();
 			user = (User) session.load(User.class, id);
 		} catch (Exception e) {
+			e.printStackTrace();
 			JOptionPane.showMessageDialog(null, e.getMessage(), "������ I/O", JOptionPane.OK_OPTION);
 		} finally {
 			if (session != null && session.isOpen()) {
@@ -76,6 +80,7 @@ public class UserDAOImpl implements UserDao {
 			session = HibernateUtil.getSessionFactory().openSession();
 			users = session.createCriteria(User.class).list();
 		} catch (Exception e) {
+			e.printStackTrace();
 			JOptionPane.showMessageDialog(null, e.getMessage(), "������ I/O", JOptionPane.OK_OPTION);
 		} finally {
 			if (session != null && session.isOpen()) {
@@ -94,6 +99,7 @@ public class UserDAOImpl implements UserDao {
 			session.delete(user);
 			session.getTransaction().commit();
 		} catch (Exception e) {
+			e.printStackTrace();
 			JOptionPane.showMessageDialog(null, e.getMessage(), "������ I/O", JOptionPane.OK_OPTION);
 		} finally {
 			if (session != null && session.isOpen()) {
@@ -103,13 +109,14 @@ public class UserDAOImpl implements UserDao {
 	}
 
 	@Override
-	public int getUserByLogin(String login) {
+	public int userExists(String login) {
 		Session session = null;
 		List<User> users = new ArrayList<User>();
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
 			users = session.createCriteria(User.class).add(Restrictions.eq("email", login)).list();
 		} catch (Exception e) {
+			e.printStackTrace();
 			JOptionPane.showMessageDialog(null, e.getMessage(), "������ I/O", JOptionPane.OK_OPTION);
 		} finally {
 			if (session != null && session.isOpen()) {
@@ -128,6 +135,7 @@ public class UserDAOImpl implements UserDao {
 			users = session.createCriteria(User.class).add(Restrictions.eq("email", login))
 					.add(Restrictions.eq("password", password)).list();
 		} catch (Exception e) {
+			e.printStackTrace();
 		} finally {
 			if (session != null && session.isOpen()) {
 				session.close();
@@ -152,6 +160,7 @@ public class UserDAOImpl implements UserDao {
 			details.setCollabDiagrams(diagrDao.getUsersCollaborationDiagram(id));
 			
 		} catch (Exception e) {
+			e.printStackTrace();
 		} finally {
 			if (session != null && session.isOpen()) {
 				session.close();
@@ -161,13 +170,45 @@ public class UserDAOImpl implements UserDao {
 	}
 
 	@Override
-	public User getUserByEmail(String email) {
+	public Collection<User> getUsersByEmail(String email) {
 		Session session = null;
 		List<User> users = new ArrayList<User>();
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
 			users = session.createCriteria(User.class).add(Restrictions.ilike("email", email+"%")).list();
 		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		}
+		try {
+			users.stream().forEach(user -> user.setPassword(""));
+			return users;
+		} catch (Exception ex) {
+			throw new AccountException("Can't retrieve users");
+		}
+	}
+
+	@Override
+	public User getUserByLogin(String login) {
+		User user = this.getUserForAuth(login);
+		if (user != null) {
+			user.setPassword("");
+		}
+		return user;
+	}
+
+	@Override
+	public User getUserForAuth(String login) {
+		Session session = null;
+		List<User> users = null;
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+			users = session.createCriteria(User.class).add(Restrictions.eq("email", login)).list();
+		} catch (Exception e) {
+			e.printStackTrace();
 		} finally {
 			if (session != null && session.isOpen()) {
 				session.close();
@@ -175,7 +216,6 @@ public class UserDAOImpl implements UserDao {
 		}
 		try {
 			User user = users.get(0);
-			user.setPassword("");
 			return user;
 		} catch (Exception ex) {
 			return null;

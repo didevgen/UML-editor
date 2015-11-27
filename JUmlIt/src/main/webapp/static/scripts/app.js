@@ -88,13 +88,11 @@ angular
         $urlRouterProvider.when('/', function($state) {
             $state.go('account.dashboard');
         });
-    }).run(function($rootScope, $state, Authorization, $window, Session) {
+    }).run(function($rootScope, $state, Authorization, Authentication, $window, Session) {
+        Authentication.authenticate().then(function() {
+            $state.go('account.dashboard');
+        });
         $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
             Authorization.authorize(event, toState.data);
         });
-        $state.go('account.dashboard');
-
-        $window.onbeforeunload = function() {
-            Session.save();
-        };
     });

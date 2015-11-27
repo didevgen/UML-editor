@@ -24,10 +24,6 @@ angular.module('jumlitApp').controller('NewDiagramModalController', function ($s
         $uibModalInstance.dismiss();
     };
     $scope.findUser = function(email) {
-        var res = [];
-        for (var i = 0 ; i < 10; i++) {
-            res.push(email + i);
-        }
-        return res
+        return Utils.postRequest('account/email/'+email);
     }
 });

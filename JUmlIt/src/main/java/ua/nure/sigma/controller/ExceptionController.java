@@ -1,19 +1,23 @@
 package ua.nure.sigma.controller;
 
-import java.sql.SQLException;
+import javax.security.auth.login.LoginException;
+import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import ua.nure.sigma.enums.ErrorObject;
 
-@Controller
+@ControllerAdvice
 public class ExceptionController {
 
-	@RequestMapping(value = "/account/error", method = RequestMethod.POST)
-	public @ResponseBody ErrorObject registerUser() throws SQLException {
-		return new ErrorObject("Такой логин уже существует");
+	@ResponseStatus(value = HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(Exception.class)
+	public @ResponseBody ErrorObject handleInternalServerError(HttpServletRequest req, Exception e) {
+		e.printStackTrace();
+		return new ErrorObject(e.getMessage());
 	}
 }

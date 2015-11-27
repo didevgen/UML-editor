@@ -1,11 +1,17 @@
 package ua.nure.sigma.db_entities;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -14,10 +20,15 @@ import org.joda.time.DateTime;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 @Entity
 @Table(name = "user")
 @Component
 @Scope("session")
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, 
+	property = "@id")
 public class User {
 	private long userId;
 	private String fullname;
@@ -26,12 +37,24 @@ public class User {
 	private DateTime registrationDate;
 	private DateTime lastAvailable;
 
+	private Set<UserRole> userRoles = new HashSet<UserRole>(0);
+
 	public User() {
 	}
 
-	public User(User name, User e_mail) {
-		fullname = name.getFullname();
-		email = e_mail.getEmail();
+	@OneToMany(mappedBy="user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	public Set<UserRole> getUserRoles() {
+		return userRoles;
+	}
+
+	public void setUserRoles(Set<UserRole> userRoles) {
+		this.userRoles = userRoles;
+	}
+
+	public User(String fullname, String email, String password) {
+		this.fullname = fullname;
+		this.email = email;
+		this.password = password;
 	}
 	@Id
 	@GeneratedValue(generator = "increment")

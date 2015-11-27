@@ -5,21 +5,49 @@
 	http://www.springframework.org/schema/security
 	http://www.springframework.org/schema/security/spring-security.xsd">
 
-	<http realm="Protected API" use-expressions="true" auto-config="false"
-		create-session="stateless" entry-point-ref="CustomAuthenticationEntryPoint">
-		<custom-filter ref="authenticationTokenProcessingFilter"
-			position="FORM_LOGIN_FILTER" />
-		<intercept-url pattern="/authenticate" access="permitAll" />
-		<intercept-url pattern="/**" access="isAuthenticated()" />
+	<beans:bean id="userDao" class="ua.nure.sigma.dao.impl.UserDAOImpl"></beans:bean>
+	
+	<beans:bean id="customUserDetailsService" 
+                class="ua.nure.sigma.service.CustomUserDetailsService">
+		<beans:property name="userDao" ref="userDao" />
+	</beans:bean>
+
+	<beans:bean id="customSuccessHandler"
+      class="ua.nure.sigma.security.CustomSavedRequestAwareAuthenticationSuccessHandler"/>
+
+   	<beans:bean id="customFailureHandler" class=
+     "org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler"/>
+     
+     <beans:bean id="restAuthenticationEntryPoint"
+     	class="ua.nure.sigma.security.RestAuthenticationEntryPoint"/>
+
+	<!-- enable use-expressions -->
+	<http auto-config="true" use-expressions="true" entry-point-ref="restAuthenticationEntryPoint">
+		<intercept-url pattern="/register" access="permitAll" />
+		<intercept-url pattern="/account**" access="hasRole('ROLE_USER')" />
+		<intercept-url pattern="/diagram/*" access="permitAll" />
+		<intercept-url pattern="/diagram/create" access="hasRole('ROLE_USER')" />
+		<intercept-url pattern="/diagram/update" access="hasRole('ROLE_USER')" />
+
+		<form-login
+			login-processing-url="/login"
+			username-parameter="email"
+            password-parameter="password"
+         	authentication-success-handler-ref="customSuccessHandler"
+         	authentication-failure-handler-ref="customFailureHandler"
+      	/>
+      	<logout
+            logout-url="/logout"
+        />
+
+		<!-- enable csrf protection -->
+		<csrf disabled="true"/>
 	</http>
 
-	<beans:bean id="CustomAuthenticationEntryPoint"
-		class="ua.nure.sigma.filters.CustomAuthenticationEntryPoint" />
-
-	<beans:bean
-		class="ua.nure.sigma.filters.AuthenticationTokenProcessingFilter"
-		id="authenticationTokenProcessingFilter">
-		<beans:constructor-arg ref="authenticationManager" />
-	</beans:bean>
+	<authentication-manager alias="authenticationManager">
+		<authentication-provider user-service-ref="customUserDetailsService" >
+			<password-encoder hash="bcrypt" />    
+		</authentication-provider>
+	</authentication-manager>
 
 </beans:beans>

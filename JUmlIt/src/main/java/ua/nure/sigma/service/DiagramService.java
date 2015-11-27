@@ -3,7 +3,7 @@ package ua.nure.sigma.service;
 import ua.nure.sigma.dao.DiagramDAO;
 import ua.nure.sigma.model.DiagramModel;
 
-public class DiagramCreationService {
+public class DiagramService {
 	
 	private DiagramDAO dao;
 	

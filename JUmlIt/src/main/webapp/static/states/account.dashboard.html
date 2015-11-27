@@ -3,23 +3,36 @@
     <div class="row">
         <div class="col-md-4">
             <div class="panel panel-default dashboard-panel">
-                <div class="panel-heading">User</div>
+                <div class="panel-heading">
+                    <i class="fa fa-user fa-5x"></i>
+                    <h3>{{user.fullname}}</h3>
+                </div>
                 <div class="panel-body">
-                    <button type="button" class="btn btn-primary" ng-click="editDetails()">Edit details</button>
+                    <dl>
+                        <dt>Email</dt>
+                        <dd>{{user.email}}</dd>
+                    </dl>
+                    <dl>
+                        <dt>Notifications</dt>
+                        <dd><i class="toggle fa fa-toggle-on fa-2x"></i> On</dd>
+                    </dl>
+
+                    <!-- <button type="button" class="btn btn-primary" ng-click="editDetails()">Edit details</button> -->
                 </div>
             </div>
         </div>
         <div class="col-md-4">
             <div class="panel panel-default dashboard-panel">
-                <div class="panel-heading">Diagrams
+                <div class="panel-heading"><h3 class="panel-title">My diagrams</h3>
                     <button class="btn btn-success btn-xs pull-right" ng-click="createDiagram()"><span class="glyphicon glyphicon-plus"></span> Add new</button>
                 </div>
                 <div class="panel-body list-panel-body dashboard-panel">
-                    <div class="list-element pointer" ng-repeat="diagram in diagrams" ng-click="openDiagram(diagram)">
+                    <div class="list-element pointer" ng-repeat="diagram in details.diagrams" ng-click="openDiagram(diagram)">
                         <span class="pull-left">{{diagram.title}}</span>
                         <span class="glyphicon glyphicon-cog list-element-control pointer-primary" ng-click="editDiagram(diagram); $event.stopPropagation();"></span>
                         <span class="glyphicon glyphicon-remove list-element-control pointer-delete" ng-click="deleteDiagram(diagram); $event.stopPropagation();"></span>
                     </div>
+                    <div ng-hide="details.diagrams.length">No diagrams yet!</div>
                 </div>
             </div>
         </div>

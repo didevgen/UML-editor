@@ -1,6 +1,7 @@
 package ua.nure.sigma.dao;
 
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.List;
 
 import ua.nure.sigma.db_entities.User;
@@ -26,7 +27,11 @@ public interface UserDao {
 	 * @param login
 	 * @return 0 if user doesn't exist; 1 - user exists
 	 */
-	public int getUserByLogin(String login);
+	public int userExists(String login);
+	
+	public User getUserForAuth(String login);
+	
+	public User getUserByLogin(String login);
 	/**
 	 * 
 	 * @param login
@@ -37,6 +42,6 @@ public interface UserDao {
 	
 	UserDetails getUserDiagrams(long id);
 
-	public User getUserByEmail(String email);
+	Collection<User> getUsersByEmail(String email);
 	
 }

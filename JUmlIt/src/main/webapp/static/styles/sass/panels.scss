@@ -8,10 +8,16 @@ div.panel {
         background-color: $color-primary;
         border-color: $color-primary;
     }
+
+    .panel-heading {
+        border-radius: 2px;
+    }
+
+    .panel-title {
+        display: inline-block;
+    }
 }
-div.panel > .panel-heading {
-    border-radius: 2px;
-}
+
 .subpanel {
     border-right: 0;
     border-left: 0;
@@ -23,7 +29,7 @@ div.panel > .panel-heading {
     .panel-title {
         font-size: 14px;
     }
-    
+
     .panel-body {
 
     }

@@ -18,9 +18,9 @@ angular.module('jumlitApp').controller('RegisterCtrl', function($scope, $http, C
 
         $scope.alerts = [];
 
-        submitRegistration(data)
+        Authentication.register(data)
             .then(function(response) {
-                return Authentication.login(response);
+                return Authentication.login($scope.user.email, $scope.user.password);
             })
             .then(function() {
                 $state.go('account.dashboard');
@@ -31,10 +31,6 @@ angular.module('jumlitApp').controller('RegisterCtrl', function($scope, $http, C
                     msg: error
                 });
             });
-    }
-
-    function submitRegistration(data) {
-        return Authentication.register(data);
     }
 
     $scope.closeAlert = function(index) {

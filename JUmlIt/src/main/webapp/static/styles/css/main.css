@@ -93,6 +93,9 @@ tags-input .autocomplete li.suggestion-item {
   tags-input .autocomplete li.suggestion-item.selected {
     background-color: #1abc9c; }
 
+.fa-toggle-on {
+  color: #1abc9c; }
+
 .custom-alert {
   border-width: 5px;
   border-radius: 2px; }
@@ -240,9 +243,10 @@ div.panel {
   div.panel.panel-primary > .panel-heading {
     background-color: #1abc9c;
     border-color: #1abc9c; }
-
-div.panel > .panel-heading {
-  border-radius: 2px; }
+  div.panel .panel-heading {
+    border-radius: 2px; }
+  div.panel .panel-title {
+    display: inline-block; }
 
 .subpanel {
   border-right: 0;
