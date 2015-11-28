@@ -52,8 +52,10 @@ angular.module('jumlitApp').controller('DashboardCtrl', function ($scope, $uibMo
         $state.go('account.user-info');
     };
 
-    $scope.openDiagram = function () {
-        $state.go("diagram");
+    $scope.openDiagram = function (diagram) {
+        $state.go("diagram", {
+            diagramId: diagram.diagramId
+        });
     }
 
     $scope.createDiagram = function () {
@@ -85,22 +87,22 @@ angular.module('jumlitApp').controller('DashboardCtrl', function ($scope, $uibMo
         });
     };
 
-    $scope.deleteDiagram = function (id) {
-        $scope.diagrams[findIndexById($scope.diagrams, id)].deleted = true;
-        document.getElementById("deleteContainer" + id).addEventListener('mouseout', function () {
-            var timerId = findIndexById($scope.timers, id);
-            if (timerId < 0 && $scope.diagrams[findIndexById($scope.diagrams, id)].deleted) {
+    $scope.deleteDiagram = function (diagram) {
+        diagram.deleted = true;
+        document.getElementById("deleteContainer" + diagram.diagramId).addEventListener('mouseout', function () {
+            var timerId = findIndexById($scope.timers, diagram.diagramId);
+           if (timerId < 0 && diagram.deleted) {
                 $scope.timers.push({
                     timer: $timeout(function () {
-                        $scope.confirmDelete(id);
+                        $scope.confirmDelete(diagram);
                         $scope.timers.splice(timerId, 1);
                     }, 5000),
-                    id: id
+                    id: diagram.diagramId
                 });
             }
         });
-        document.getElementById("deleteContainer" + id).addEventListener('mouseover', function () {
-            var timerId = findIndexById($scope.timers, id);
+        document.getElementById("deleteContainer" + diagram.diagramId).addEventListener('mouseover', function () {
+            var timerId = findIndexById($scope.timers, diagram.diagramId);
             if (timerId >= 0) {
                 $timeout.cancel($scope.timers[timerId].timer);
                 $scope.timers.splice(timerId, 1);
@@ -108,18 +110,19 @@ angular.module('jumlitApp').controller('DashboardCtrl', function ($scope, $uibMo
         });
     };
 
-    $scope.confirmDelete = function (id) {
-        document.getElementById("deleteContainer" + id).parentNode.className = document.getElementById("deleteContainer" + id).parentNode.className + " deleting";
+    $scope.confirmDelete = function (diagram) {
+        document.getElementById("deleteContainer" + diagram.diagramId).parentNode.className =
+            document.getElementById("deleteContainer" + diagram.diagramId).parentNode.className + " deleting";
         $timeout(function () {
-            Utils.postRequest('diagram/' + id + '/delete').then(function () {
+            Utils.postRequest('diagram/' + diagram.diagramId + '/remove').then(function () {
                 refreshDiagrams();
             });
         }, 150);
     };
 
-    $scope.cancelDeleting = function (id) {
-        $scope.diagrams[findIndexById($scope.diagrams, id)].deleted = false;
-        var timerId = findIndexById($scope.timers, id);
+    $scope.cancelDeleting = function (diagram) {
+        diagram.deleted = false;
+        var timerId = findIndexById($scope.timers, diagram.diagramId);
         if (timerId >= 0) {
             $timeout.cancel($scope.timers[timerId].timer);
             $scope.timers.splice(timerId, 1);

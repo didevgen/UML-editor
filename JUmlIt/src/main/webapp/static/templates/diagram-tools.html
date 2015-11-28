@@ -1,21 +1,28 @@
-<div class="tool-panel figures" ng-controller="DiagramToolsCtrl">
-    <div class="panel panel-primary">
-        <div class="panel-heading">Tools <span class="fold glyphicon glyphicon-menu-left"></span></div>
+<div class="tool-panel-container figures" ng-controller="DiagramToolsCtrl">
+    <div class="panel tool-panel panel-primary" ng-hide="collapsed">
+        <div class="panel-heading">Tools
+            <span class="fold glyphicon glyphicon-menu-left"
+                  ng-click="collapsed = true"></span>
+        </div>
         <div class="panel-body">
             <uib-accordion close-others="true">
                 <uib-accordion-group heading="General" template-url="templates/panel-accordion.html"
-                        is-open="groups.general">
+                                     is-open="groups.general">
                     <div class="btn btn-default diagram-type"
-                            data-drag="true" jqyoui-draggable="{placeholder: 'keep'}"
-                            data-jqyoui-options="{revert: 'invalid', helper: 'clone'}"
-                            ng-repeat="figureType in figureTypes"
-                            ng-model="figureType">{{figureType.text}}</div>
+                         data-drag="true" jqyoui-draggable="{placeholder: 'keep'}"
+                         data-jqyoui-options="{revert: 'invalid', helper: 'clone'}"
+                         ng-repeat="figureType in figureTypes"
+                         ng-model="figureType">{{figureType.text}}
+                    </div>
                 </uib-accordion-group>
                 <uib-accordion-group heading="Others" template-url="templates/panel-accordion.html"
-                        is-open="groups.others">
-                        Some other stuff
+                                     is-open="groups.others">
+                    Some other stuff
                 </uib-accordion-group>
             </uib-accordion>
         </div>
+    </div>
+    <div class="collapsed-panel" ng-click="collapsed = false" ng-show="collapsed">
+        <div class="vertical-text">Tools</div>
     </div>
 </div>

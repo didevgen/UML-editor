@@ -8,6 +8,7 @@
 @import 'panels';
 @import 'cell';
 @import 'dashboard';
+@import 'tabs';
 
 .browsehappy {
     margin: 0.2em 0;
@@ -18,6 +19,10 @@
 
 body {
     padding: 0;
+}
+
+h1,h2,h3,h4,h5,h6 {
+  color: $font-color-dark;
 }
 
 
@@ -91,6 +96,7 @@ body {
 
 a {
     color: $color-primary;
+    cursor: pointer;
     &:hover {
         color: lighten($color-primary, 5%);
         text-decoration: none;

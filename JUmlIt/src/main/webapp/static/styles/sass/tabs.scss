@@ -1,0 +1,11 @@
+@import 'color-palette';
+
+.tab-pane {
+  padding: 15px;
+
+  h4 {
+    padding-bottom: 5px;
+    border-bottom: 1px solid $border-color;
+  }
+}
+

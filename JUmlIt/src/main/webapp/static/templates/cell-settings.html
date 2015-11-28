@@ -1,0 +1,23 @@
+<div class="tool-panel-container" ng-controller="CellSettingsCtrl">
+    <div class="panel panel-primary tool-panel">
+        <div class="panel-heading">Cell settings</div>
+        <div class="panel-body">
+            <uib-tabset>
+                <uib-tab heading="General">
+                    <form>
+                        <div class="form-group">
+                            <label>Name:</label>
+                            <input type="text" ng-model="cell.name" class="form-control" placeholder="Name">
+                        </div>
+                    </form>
+                </uib-tab>
+                <uib-tab heading="Fields">
+                    <div ng-include="'templates/cell-fields.html'"></div>
+                </uib-tab>
+                <uib-tab heading="Methods">
+                    <div ng-include="'templates/cell-methods.html'"></div>
+                </uib-tab>
+            </uib-tabset>
+        </div>
+    </div>
+</div>

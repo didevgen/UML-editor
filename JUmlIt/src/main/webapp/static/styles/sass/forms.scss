@@ -1,120 +1,159 @@
 @import 'color-palette';
+
 $amount: 20%;
 
 input.form-control,
 textarea.form-control,
-tags-input .tags{
-    border-radius: 2px;
-    border: solid 2px $input-border-color;
-    box-shadow: none;
-    resize: none;
+tags-input .tags {
+  border-radius: 2px;
+  border: solid 2px $input-border-color;
+  box-shadow: none;
+  resize: none;
 
-    &.ng-invalid.ng-touched {
-        border-color: lighten($color-error, $amount);
-        &:focus {
-            border-color: lighten($color-error, $amount);
-            box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 2px $color-error;
-        }
+  &.ng-invalid.ng-touched {
+    border-color: lighten($color-error, $amount);
+    &:focus {
+      border-color: lighten($color-error, $amount);
+      box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 2px $color-error;
     }
-    &.ng-valid.ng-touched {
-        border-color: lighten($color-success, $amount);
-        &:focus {
-            border-color: lighten($color-success, $amount);
-            box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 2px $color-success;
-        }
+  }
+  &.ng-valid.ng-touched {
+    border-color: lighten($color-success, $amount);
+    &:focus {
+      border-color: lighten($color-success, $amount);
+      box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 2px $color-success;
     }
-    &:focus, &.focused {
-        border-color: lighten($color-primary, $amount);
-        outline: 0;
-        box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 2px $color-primary;
-    }
+  }
+  &:focus, &.focused {
+    border-color: lighten($color-primary, $amount);
+    outline: 0;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 2px $color-primary;
+  }
 }
+
 button.btn,
 a.btn,
 div.btn {
-    border-radius: 2px;
-    transition: border 0.25s linear,color 0.25s linear,background-color 0.25s linear;
+  border-radius: 2px;
+  transition: border 0.25s linear, color 0.25s linear, background-color 0.25s linear;
 
-    box-shadow: inset 0 -2px 0 rgba(0,0,0,.15);
-    &.btn-primary {
-        background-color: $color-primary;
-        border-color: $color-primary;
-        &:hover {
-            background-color: lighten($color-primary, $amount);
-            border-color: lighten($color-primary, $amount);
-        }
+  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, .15);
+  &.btn-primary {
+    background-color: $color-primary;
+    border-color: $color-primary;
+    &:hover {
+      background-color: lighten($color-primary, $amount);
+      border-color: lighten($color-primary, $amount);
     }
-    &:focus {
-        outline: 0;
-    }
-}
-.field-message {
-    display: inline-block;
-    width: 100%;
+  }
+  &:focus {
+    outline: 0;
+  }
+  &.with-text:before {
     font-size: 12px;
-    margin-top: 5px;
-    text-align: right;
+    margin-right: 10px;
+  }
 }
+
+.field-message {
+  display: inline-block;
+  width: 100%;
+  font-size: 12px;
+  margin-top: 5px;
+  text-align: right;
+}
+
 .error-message {
-    @extend .field-message;
-    color: $color-error;
+  @extend .field-message;
+  color: $color-error;
 }
+
 .info-message {
-    @extend .field-message;
-    color: $font-color;
+  @extend .field-message;
+  color: $font-color;
 }
+
 .success-message {
-    @extend .field-message;
-    color: $color-success;
+  @extend .field-message;
+  color: $color-success;
 }
+
 form label {
-    color: $font-color;
+  color: $font-color;
 }
+
 form .form-group {
-    margin-bottom: 5px;
+  margin-bottom: 5px;
 }
+
 form button[type="submit"] {
-    margin-top: 20px;
+  margin-top: 20px;
+}
+
+.form-group .btn-group {
+  width: 100%;
+
+  button {
+    position: relative;
+    width: 100%;
+    text-align: left;
+
+    .caret {
+      position: absolute;
+      right: 20px;
+      top: 15px;
+    }
+  }
+
+  .dropdown-menu {
+    width: 100%;
+  }
+
+}
+
+.form-buttons {
+  margin-top: 15px;
 }
 
 /* TAGS-INPUT */
 tags-input {
-    .tags {
-        li.tag-item {
-            background: $color-primary;
-            color: white;
-            border-width: 0px;
+  .tags {
+    li.tag-item {
+      background: $color-primary;
+      color: white;
+      border-width: 0px;
 
-            .remove-button {
-                color: white;
-            }
+      .remove-button {
+        color: white;
+      }
 
-            &.selected {
-                background: $color-delete
-            }
-        }
+      &.selected {
+        background: $color-delete
+      }
     }
-    .autocomplete {
-        li.suggestion-item {
-            color: $font-color-dark;
+  }
+  .autocomplete {
+    li.suggestion-item {
+      color: $font-color-dark;
 
-            &.selected {
-                background-color: $color-primary;
-            }
-        }
+      &.selected {
+        background-color: $color-primary;
+      }
     }
+  }
 }
+
 .fa-toggle-on {
-    color: $color-primary;
+  color: $color-primary;
 }
 
 ul.pagination > .active > a {
-    background-color: $color-primary;
-    border-color: $color-primary;
+  background-color: $color-primary;
+  border-color: $color-primary;
 
-    &:hover, &:visited {
-      background-color: lighten($color-primary, 5%);
-      border-color: lighten($color-primary, 5%);
-      cursor: pointer;
-    }
+  &:hover, &:visited {
+    background-color: lighten($color-primary, 5%);
+    border-color: lighten($color-primary, 5%);
+    cursor: pointer;
+  }
 }

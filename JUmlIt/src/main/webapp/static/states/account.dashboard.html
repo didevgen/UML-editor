@@ -34,28 +34,29 @@
                     <uib-tabset>
                         <uib-tab heading="My diagrams">
                             <ul class="list-group diagrams-list">
-                                <a class="list-group-item list-element pointer"
+                                <li class="list-group-item list-element pointer"
                                    ng-repeat="diagram in ownDiagrams" ng-click="openDiagram(diagram)">
                                     <span class="pull-left">{{diagram.name}}</span>
                                     <span class="glyphicon glyphicon-cog list-element-control pointer-primary"
                                           ng-click="editDiagram(diagram); $event.stopPropagation();"></span>
                                     <span class="glyphicon glyphicon-remove list-element-control pointer-delete"
-                                          ng-click="deleteDiagram(diagram.id); $event.stopPropagation();"></span>
+                                          ng-click="deleteDiagram(diagram); $event.stopPropagation();"></span>
 
                                     <div class="delete-reject-container" ng-show="diagram.deleted"
-                                         ng-click="$event.stopPropagation();" id="deleteContainer{{diagram.id}}">
+                                         ng-click="$event.stopPropagation();" id="deleteContainer{{diagram.diagramId}}">
                                         <span class="pull-left">{{diagram.name}} removed</span>
                                         <span class="list-element-control"
-                                              ng-click="cancelDeleting(diagram.id); $event.stopPropagation();"><a
-                                                href="">Cancel</a></span>
+                                              ng-click="cancelDeleting(diagram); $event.stopPropagation();">
+                                            <a href="">Cancel</a>
+                                        </span>
                                     </div>
-                                </a>
+                                </li>
                             </ul>
                             <div class="no-diagrams" ng-hide="ownDiagrams.length">No diagrams yet!</div>
                             <uib-pagination total-items="ownDiagrams.length" ng-model="ownDiagramsPageNum"
                                             max-size="maxPages" class="pagination-sm" boundary-links="true"
                                             rotate="false" num-pages="ownDiagramsPages"
-                                            ng-show="ownDiagramsPages > 0"></uib-pagination>
+                                            ng-show="ownDiagramsPage.length"></uib-pagination>
                         </uib-tab>
                         <uib-tab heading="Collaborate to">
                             <ul class="list-group diagrams-list">
@@ -65,13 +66,13 @@
                                     <span class="glyphicon glyphicon-cog list-element-control pointer-primary"
                                           ng-click="editDiagram(diagram); $event.stopPropagation();"></span>
                                     <span class="glyphicon glyphicon-remove list-element-control pointer-delete"
-                                          ng-click="deleteDiagram(diagram.id); $event.stopPropagation();"></span>
+                                          ng-click="deleteDiagram(diagram); $event.stopPropagation();"></span>
 
                                     <div class="delete-reject-container" ng-show="diagram.deleted"
-                                         ng-click="$event.stopPropagation();" id="deleteContainer{{diagram.id}}">
+                                         ng-click="$event.stopPropagation();" id="deleteContainer{{diagram.diagramId}}">
                                         <span class="pull-left">{{diagram.name}} removed</span>
                                         <span class="list-element-control"
-                                              ng-click="cancelDeleting(diagram.id); $event.stopPropagation();"><a
+                                              ng-click="cancelDeleting(diagram); $event.stopPropagation();"><a
                                                 href="">Cancel</a></span>
                                     </div>
                                 </a>
@@ -80,7 +81,7 @@
                             <uib-pagination total-items="collabDiagrams.length" ng-model="collabDiagramsPageNum"
                                             max-size="maxPages" class="pagination-sm" boundary-links="true"
                                             rotate="false" num-pages="collabDiagramsPages"
-                                            ng-show="collabDiagramsPages > 0"></uib-pagination>
+                                            ng-show="collabDiagramsPage.length"></uib-pagination>
                         </uib-tab>
                     </uib-tabset>
                 </div>

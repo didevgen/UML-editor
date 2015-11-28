@@ -16,6 +16,10 @@ div.panel {
     .panel-title {
         display: inline-block;
     }
+
+    .panel-footer .table {
+      margin-bottom: 0;
+    }
 }
 
 .subpanel {
