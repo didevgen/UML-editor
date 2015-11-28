@@ -10,3 +10,4 @@ npm-debug*
 *.sw*
 *.idea
 hibernate.cfg.xml
+/JUmlIt/src/main/java/hibernate.cfg.xml
