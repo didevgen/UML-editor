@@ -45,7 +45,6 @@ public class UserDAOImpl implements UserDao {
 			session.getTransaction().commit();
 		} catch (Exception e) {
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, e.getMessage(), "������ I/O", JOptionPane.OK_OPTION);
 		} finally {
 			if (session != null && session.isOpen()) {
 				session.close();
@@ -62,7 +61,6 @@ public class UserDAOImpl implements UserDao {
 			user = (User) session.load(User.class, id);
 		} catch (Exception e) {
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, e.getMessage(), "������ I/O", JOptionPane.OK_OPTION);
 		} finally {
 			if (session != null && session.isOpen()) {
 				session.close();
@@ -81,7 +79,6 @@ public class UserDAOImpl implements UserDao {
 			users = session.createCriteria(User.class).list();
 		} catch (Exception e) {
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, e.getMessage(), "������ I/O", JOptionPane.OK_OPTION);
 		} finally {
 			if (session != null && session.isOpen()) {
 				session.close();
@@ -100,7 +97,6 @@ public class UserDAOImpl implements UserDao {
 			session.getTransaction().commit();
 		} catch (Exception e) {
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, e.getMessage(), "������ I/O", JOptionPane.OK_OPTION);
 		} finally {
 			if (session != null && session.isOpen()) {
 				session.close();
@@ -117,7 +113,6 @@ public class UserDAOImpl implements UserDao {
 			users = session.createCriteria(User.class).add(Restrictions.eq("email", login)).list();
 		} catch (Exception e) {
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, e.getMessage(), "������ I/O", JOptionPane.OK_OPTION);
 		} finally {
 			if (session != null && session.isOpen()) {
 				session.close();
