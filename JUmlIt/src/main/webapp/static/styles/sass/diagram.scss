@@ -1,76 +1,161 @@
 @import "color-palette.scss";
+
 .diagram-main {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 }
+
 .toolbar {
-    border-top: 0;
-    border-left: 0;
-    border-right: 0;
-};
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+}
+
+;
 .toolbar.navbar {
-    margin: 0;
+  margin: 0;
 }
+
 .diagram-brand.navbar-brand {
-    border-right: 1px solid $border-color;
-    color: $color-primary;
+  border-right: 1px solid $border-color;
+  color: $color-primary;
 }
+
+.comments-btn {
+  float: right;
+  margin-top: 8px;
+}
+
 .fold {
-    display: inline-block;
-    padding-top: 2px;
-    cursor: pointer;
+  display: inline-block;
+  padding-top: 2px;
+  cursor: pointer;
 }
-.tool-panel {
-    position: absolute;
-    bottom: 0;
-    padding: 0;
-    height: 70%;
-    z-index: 3;
 
-    &.figures {
-        left: 0;
-    }
-
-    &.comments {
-        right: 0;
-    }
+.diagram-workspace {
+  display: flex;
+  flex-grow: 1;
 }
-.tool-panel > .panel {
+
+.workspace-col {
+  display: flex;
+
+  &.tool-blocks {
+    flex-direction: column;
+  }
+}
+
+.tool-block {
+  width: 300px;
+  display: flex;
+  flex-grow: 1;
+}
+
+.tool-panel-container {
+  display:flex;
+  flex-grow: 1;
+
+  &.figures {
+    left: 0;
+  }
+
+  &.comments {
+    right: 0;
+  }
+
+  .tool-panel {
     margin-bottom: 0;
-    height: 100%;
+    flex-grow: 1;
+    border-radius: 0;
+    width: 200px;
+
+    .panel-body {
+      padding: 0px;
+    }
+
+    .panel-heading {
+      border-radius: 0;
+    }
+
+    .nav-tabs {
+      margin-top: 15px;
+    }
+  }
 }
+
 .figures .fold {
-    float: right;
+  float: right;
 }
+
 .comments .panel-heading {
-    text-align: right;
+  text-align: right;
 }
+
 .comments .fold {
-    float: left;
+  float: left;
 }
-.tool-panel > .panel .panel-body {
-    padding: 0;
-}
+
 .diagram-container {
-    flex-grow: 1;
-    display: flex;
+  flex-grow: 1;
+  display: flex;
 }
+
+diagram-canvas {
+  display: flex;
+  flex-grow:1;
+}
+
 .diagram-canvas {
-    flex-grow: 1;
-    display: flex;
+  flex-grow: 1;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
 }
-.diagram-canvas {
-    flex-grow: 1;
-    position: relative;
-   overflow: hidden;
-   z-index: 1;
+
+.diagram-canvas svg {
+  flex-grow: 1;
 }
+
 .diagram-canvas svg .link {
-   z-index: 2;
+  z-index: 2;
 }
+
 .diagram-type {
-    margin: 5px;
+  margin: 5px;
+}
+
+.collapsed-panel {
+  z-index: 2000;
+  position: absolute;
+
+  .vertical-text {
+    transition: background-color 0.5s ease;
+    width:120px;
+    text-align: center;
+    background-color: $color-primary;
+    padding: 10px 0px;
+    transform: rotate(90deg);
+    transform-origin: left top 0;
+    margin-left: 40px;
+    margin-top: 40px;
+    color: white;
+    cursor: pointer;
+    border-radius: 2px;
+    font-weight: bolder;
+
+    &:hover {
+      background-color: lighten($color-primary, 5%);
+    }
+  }
+}
+
+.no-methods, .no-fields {
+  text-align: center;
+  padding: 20px;
+  font-style: italic;
+  color: $font-color-darker1;
 }

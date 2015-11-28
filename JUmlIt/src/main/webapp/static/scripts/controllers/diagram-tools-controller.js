@@ -14,4 +14,6 @@ angular.module('jumlitApp').controller('DiagramToolsCtrl', function($scope) {
         name: 'Abstract',
         text: 'Abstract class'
     }];
+
+    $scope.collapsed = false;
 });

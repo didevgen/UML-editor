@@ -76,11 +76,16 @@ angular
                 controller: 'UserInfoCtrl'
             })
             .state('diagram', {
-                url: '/diagram',
+                url: '/diagrams/:diagramId',
                 templateUrl: 'states/diagram.html',
                 controller: 'DiagramCtrl',
                 data: {
                     authenticated: false
+                },
+                resolve: {
+                    diagramModel: function(Utils, $stateParams) {
+                        return Utils.getRequest('diagram/' + $stateParams.diagramId);
+                    }
                 }
             });
 

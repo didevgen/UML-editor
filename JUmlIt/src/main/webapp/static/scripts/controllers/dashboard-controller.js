@@ -52,8 +52,10 @@ angular.module('jumlitApp').controller('DashboardCtrl', function ($scope, $uibMo
         $state.go('account.user-info');
     };
 
-    $scope.openDiagram = function () {
-        $state.go("diagram");
+    $scope.openDiagram = function (diagram) {
+        $state.go("diagram", {
+            diagramId: diagram.diagramId
+        });
     }
 
     $scope.createDiagram = function () {

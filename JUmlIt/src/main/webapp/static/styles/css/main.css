@@ -36,7 +36,7 @@ button.btn,
 a.btn,
 div.btn {
   border-radius: 2px;
-  transition: border 0.25s linear,color 0.25s linear,background-color 0.25s linear;
+  transition: border 0.25s linear, color 0.25s linear, background-color 0.25s linear;
   box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.15); }
   button.btn.btn-primary,
   a.btn.btn-primary,
@@ -52,6 +52,11 @@ div.btn {
   a.btn:focus,
   div.btn:focus {
     outline: 0; }
+  button.btn.with-text:before,
+  a.btn.with-text:before,
+  div.btn.with-text:before {
+    font-size: 12px;
+    margin-right: 10px; }
 
 .field-message, .error-message, .info-message, .success-message {
   display: inline-block;
@@ -77,6 +82,22 @@ form .form-group {
 
 form button[type="submit"] {
   margin-top: 20px; }
+
+.form-group .btn-group {
+  width: 100%; }
+  .form-group .btn-group button {
+    position: relative;
+    width: 100%;
+    text-align: left; }
+    .form-group .btn-group button .caret {
+      position: absolute;
+      right: 20px;
+      top: 15px; }
+  .form-group .btn-group .dropdown-menu {
+    width: 100%; }
+
+.form-buttons {
+  margin-top: 15px; }
 
 /* TAGS-INPUT */
 tags-input .tags li.tag-item {
@@ -192,25 +213,47 @@ ul.pagination > .active > a {
   border-right: 1px solid #ddd;
   color: #1abc9c; }
 
+.comments-btn {
+  float: right;
+  margin-top: 8px; }
+
 .fold {
   display: inline-block;
   padding-top: 2px;
   cursor: pointer; }
 
-.tool-panel {
-  position: absolute;
-  bottom: 0;
-  padding: 0;
-  height: 70%;
-  z-index: 3; }
-  .tool-panel.figures {
-    left: 0; }
-  .tool-panel.comments {
-    right: 0; }
+.diagram-workspace {
+  display: flex;
+  flex-grow: 1; }
 
-.tool-panel > .panel {
-  margin-bottom: 0;
-  height: 100%; }
+.workspace-col {
+  display: flex; }
+  .workspace-col.tool-blocks {
+    flex-direction: column; }
+
+.tool-block {
+  width: 300px;
+  display: flex;
+  flex-grow: 1; }
+
+.tool-panel-container {
+  display: flex;
+  flex-grow: 1; }
+  .tool-panel-container.figures {
+    left: 0; }
+  .tool-panel-container.comments {
+    right: 0; }
+  .tool-panel-container .tool-panel {
+    margin-bottom: 0;
+    flex-grow: 1;
+    border-radius: 0;
+    width: 200px; }
+    .tool-panel-container .tool-panel .panel-body {
+      padding: 0px; }
+    .tool-panel-container .tool-panel .panel-heading {
+      border-radius: 0; }
+    .tool-panel-container .tool-panel .nav-tabs {
+      margin-top: 15px; }
 
 .figures .fold {
   float: right; }
@@ -221,28 +264,55 @@ ul.pagination > .active > a {
 .comments .fold {
   float: left; }
 
-.tool-panel > .panel .panel-body {
-  padding: 0; }
-
 .diagram-container {
   flex-grow: 1;
   display: flex; }
 
-.diagram-canvas {
-  flex-grow: 1;
-  display: flex; }
+diagram-canvas {
+  display: flex;
+  flex-grow: 1; }
 
 .diagram-canvas {
   flex-grow: 1;
+  display: flex;
   position: relative;
   overflow: hidden;
   z-index: 1; }
+
+.diagram-canvas svg {
+  flex-grow: 1; }
 
 .diagram-canvas svg .link {
   z-index: 2; }
 
 .diagram-type {
   margin: 5px; }
+
+.collapsed-panel {
+  z-index: 2000;
+  position: absolute; }
+  .collapsed-panel .vertical-text {
+    transition: background-color 0.5s ease;
+    width: 120px;
+    text-align: center;
+    background-color: #1abc9c;
+    padding: 10px 0px;
+    transform: rotate(90deg);
+    transform-origin: left top 0;
+    margin-left: 40px;
+    margin-top: 40px;
+    color: white;
+    cursor: pointer;
+    border-radius: 2px;
+    font-weight: bolder; }
+    .collapsed-panel .vertical-text:hover {
+      background-color: #1dd2af; }
+
+.no-methods, .no-fields {
+  text-align: center;
+  padding: 20px;
+  font-style: italic;
+  color: #555; }
 
 div.panel {
   border-radius: 2px; }
@@ -255,6 +325,8 @@ div.panel {
     border-radius: 2px; }
   div.panel .panel-title {
     display: inline-block; }
+  div.panel .panel-footer .table {
+    margin-bottom: 0; }
 
 .subpanel {
   border-right: 0;
@@ -384,6 +456,12 @@ uml-class {
     margin-left: -300px;
     opacity: 0; }
 
+.tab-pane {
+  padding: 15px; }
+  .tab-pane h4 {
+    padding-bottom: 5px;
+    border-bottom: 1px solid #ddd; }
+
 .browsehappy {
   margin: 0.2em 0;
   background: #ccc;
@@ -392,6 +470,9 @@ uml-class {
 
 body {
   padding: 0; }
+
+h1, h2, h3, h4, h5, h6 {
+  color: #333; }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
 .header,
@@ -442,7 +523,8 @@ body {
   color: #5e5e5e; }
 
 a {
-  color: #1abc9c; }
+  color: #1abc9c;
+  cursor: pointer; }
   a:hover {
     color: #1dd2af;
     text-decoration: none; }
