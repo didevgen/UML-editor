@@ -88,14 +88,6 @@ public class DiagramDAOImpl implements DiagramDAO {
 			session.beginTransaction();
 			session.saveOrUpdate(d);
 			session.getTransaction().commit();
-			for (int i = 0; i < diagram.getCollaborators().size(); i++) {
-				Collaborator col = new Collaborator();
-				col.setDiagramId(d.getDiagramId());
-				col.setUserId(diagram.getCollaborators().get(i).getUserId());
-				session.beginTransaction();
-				session.saveOrUpdate(col);
-				session.getTransaction().commit();
-			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
