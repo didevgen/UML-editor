@@ -1,53 +1,98 @@
 @import 'color-palette';
-
 .dashboard-panel {
-  min-height: 200px;
+    min-height: 200px;
 }
 
 .no-diagrams {
-  text-align: center;
-  padding: 20px;
-  font-style: italic;
-  color: $font-color-darker1;
+    text-align: center;
+    padding: 20px;
+    font-style: italic;
+    color: $font-color-darker1;
 }
 
 .diagrams-list {
-  margin: 20px 0px;
+    margin: 20px 0px;
 }
 
 .list-element {
-  background-color: transparent;
-  text-align: right;
-  -webkit-transition: background-color 150ms linear;
-  -moz-transition: background-color 150ms linear;
-  -o-transition: background-color 150ms linear;
-  -ms-transition: background-color 150ms linear;
-  transition: background-color 150ms linear;
-  &.pointer {
-    &:hover {
-      -webkit-transition: background-color 150ms linear;
-      -moz-transition: background-color 150ms linear;
-      -o-transition: background-color 150ms linear;
-      -ms-transition: background-color 150ms linear;
-      transition: background-color 150ms linear;
-      background-color: $border-color;
-      -ms-touch-action: manipulation;
-      touch-action: manipulation;
-      cursor: pointer;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
+    background-color: transparent;
+    text-align: right;
+    -webkit-transition: background-color 150ms linear;
+    -moz-transition: background-color 150ms linear;
+    -o-transition: background-color 150ms linear;
+    -ms-transition: background-color 150ms linear;
+    transition: background-color 150ms linear;
+    &.pointer {
+        &:hover {
+            -webkit-transition: background-color 150ms linear;
+            -moz-transition: background-color 150ms linear;
+            -o-transition: background-color 150ms linear;
+            -ms-transition: background-color 150ms linear;
+            transition: background-color 150ms linear;
+            background-color: $border-color;
+            -ms-touch-action: manipulation;
+            touch-action: manipulation;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
     }
-  }
-  &.deleting {
-    -webkit-transition: opacity linear 150ms, margin-left linear 150ms;
-    -moz-transition: opacity linear 150ms, margin-left linear 150ms;
-    -o-transition: opacity linear 150ms, margin-left linear 150ms;
-    -ms-transition: opacity linear 150ms, margin-left linear 150ms;
-    transition: opacity linear 150ms, margin-left linear 150ms;
-    margin-left: -300px;
-    opacity: 0;
-  }
+    &.deleting {
+        -webkit-transition: opacity linear 150ms, margin-left linear 150ms;
+        -moz-transition: opacity linear 150ms, margin-left linear 150ms;
+        -o-transition: opacity linear 150ms, margin-left linear 150ms;
+        -ms-transition: opacity linear 150ms, margin-left linear 150ms;
+        transition: opacity linear 150ms, margin-left linear 150ms;
+        margin-left: -300px;
+        opacity: 0;
+    }
 }
 
+.list-element-control {
+    top: 0;
+    margin-left: 5px;
+    padding: 0;
+    vertical-align: middle;
+    color: $font-color;
+    &.pointer-delete {
+        &:hover {
+            cursor: pointer;
+            color: $color-delete;
+        }
+    }
+    &.pointer-primary {
+        &:hover {
+            cursor: pointer;
+            color: $font-color-dark;
+        }
+    }
+}
+
+.delete-reject-container {
+    padding: 10px 15px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    opacity: 1;
+    cursor: default;
+    background-color: $font-color-light;
+    background-image: repeating-linear-gradient(45deg, transparent, transparent 5px, rgba(255, 255, 255, .5) 5px, rgba(255, 255, 255, .5) 10px);
+}
+
+.delete-reject-container.ng-hide-add,
+.delete-reject-container.ng-hide-remove {
+    -webkit-transition: opacity linear 150ms;
+    -moz-transition: opacity linear 150ms;
+    -o-transition: opacity linear 150ms;
+    -ms-transition: opacity linear 150ms;
+    transition: opacity linear 150ms;
+}
+
+.delete-reject-container.ng-hide {
+    opacity: 0;
+}

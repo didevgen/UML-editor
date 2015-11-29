@@ -31,18 +31,22 @@ angular.module('jumlitApp').controller('DashboardCtrl', function ($scope, $uibMo
         $scope.collabDiagramsPages = Math.floor($scope.collabDiagrams.length - 1 / $scope.diagramsOnPage);
         fillCollabDiagramsPage();
     });
-    $scope.$watch('ownDiagramsPageNum', function() {
+    $scope.$watch('ownDiagramsPageNum', function () {
         fillOwnDiagramsPage();
     });
-    $scope.$watch('collabDiagramsPageNum', function() {
+    $scope.$watch('collabDiagramsPageNum', function () {
         fillCollabDiagramsPage();
     });
 
     function refreshDiagrams() {
-        Utils.postRequest('account/' + Session.user.userId + '/details').then(function (details) {
-            $scope.ownDiagrams = details.ownDiagrams;
-            $scope.collabDiagrams = details.collabDiagrams;
-        });
+        Utils.postRequest('account/' + Session.user.userId + '/details')
+            .then(function (details) {
+                $scope.ownDiagrams = details.ownDiagrams;
+                $scope.collabDiagrams = details.collabDiagrams;
+            })
+            .catch(function (err) {
+                console.log(err);
+            });
     }
 
     $scope.user = Session.user;
@@ -59,18 +63,27 @@ angular.module('jumlitApp').controller('DashboardCtrl', function ($scope, $uibMo
     }
 
     $scope.createDiagram = function () {
-        $scope.openEditModal('NewDiagramModalController', {}).result.then(function (result) {
-            if (result.success) {
-                refreshDiagrams();
-            }
-        });
+        $scope.openEditModal('NewDiagramModalController', {}).result
+            .then(function (result) {
+                if (result) {
+                    $scope.ownDiagrams.push(result);
+                }
+            }, function (msg) {
+                if (msg) {
+                    console.log(msg);
+                }
+            });
     };
 
 
     $scope.editDiagram = function (diagram) {
         $scope.openEditModal('EditDiagramModalController', diagram).result.then(function (result) {
-            if (result.success) {
-                refreshDiagrams();
+            if (result) {
+                $.extend($scope.ownDiagrams[findDiagramIndexById($scope.ownDiagrams, result.diagram.diagramId)], result.diagram);
+            }
+        }, function (msg) {
+            if (msg) {
+                console.log(msg);
             }
         });
     };
@@ -91,7 +104,7 @@ angular.module('jumlitApp').controller('DashboardCtrl', function ($scope, $uibMo
         diagram.deleted = true;
         document.getElementById("deleteContainer" + diagram.diagramId).addEventListener('mouseout', function () {
             var timerId = findIndexById($scope.timers, diagram.diagramId);
-           if (timerId < 0 && diagram.deleted) {
+            if (timerId < 0 && diagram.deleted) {
                 $scope.timers.push({
                     timer: $timeout(function () {
                         $scope.confirmDelete(diagram);
@@ -114,9 +127,18 @@ angular.module('jumlitApp').controller('DashboardCtrl', function ($scope, $uibMo
         document.getElementById("deleteContainer" + diagram.diagramId).parentNode.className =
             document.getElementById("deleteContainer" + diagram.diagramId).parentNode.className + " deleting";
         $timeout(function () {
-            Utils.postRequest('diagram/' + diagram.diagramId + '/remove').then(function () {
-                refreshDiagrams();
-            });
+            Utils.postRequest('diagram/' + diagram.diagramId + '/remove')
+                .then(function (result) {
+                    if (result.ok) {
+                        $scope.ownDiagrams = $scope.ownDiagrams.filter(function (obj) {
+                            return obj.diagramId !== diagram.diagramId;
+                        });
+                    } else {
+                        throw result;
+                    }
+                }).catch(function (err) {
+                    console.log(err);
+                });
         }, 150);
     };
 
@@ -128,6 +150,12 @@ angular.module('jumlitApp').controller('DashboardCtrl', function ($scope, $uibMo
             $scope.timers.splice(timerId, 1);
         }
     };
+
+    function findDiagramIndexById(arr, id) {
+        return arr.indexOf(arr.find(function (obj) {
+            return obj.diagramId == id;
+        }));
+    }
 
     function findIndexById(arr, id) {
         return arr.indexOf(arr.find(function (obj) {
