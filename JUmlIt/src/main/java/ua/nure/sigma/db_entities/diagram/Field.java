@@ -24,8 +24,7 @@ public class Field {
 	
 	private String type;
 	
-	@ManyToOne
-    @JoinColumn(name="class_id")
+	
 	private Clazz classOwner;
 	
 
@@ -108,7 +107,8 @@ public class Field {
 	public void setType(String type) {
 		this.type = type;
 	}
-
+	@ManyToOne
+    @JoinColumn(name="class_id")
 	public Clazz getClassOwner() {
 		return classOwner;
 	}

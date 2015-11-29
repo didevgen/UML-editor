@@ -55,7 +55,7 @@ public class DiagramClassController {
 	@RequestMapping(value = "/diagram/{id}/classes/{id}/methods/add", method = RequestMethod.POST)
 	public Method addMethod(@RequestBody Method method, @PathVariable long diagramId,@PathVariable long classId) {
 		Clazz clazz = service.getClass(classId);
-		method.setClassOwner(clazz);
+		method.setClassMethodOwner(clazz);
 		return service.addMethod(method);
 	}
 	

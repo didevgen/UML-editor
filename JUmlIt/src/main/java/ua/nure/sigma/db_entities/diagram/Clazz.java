@@ -114,7 +114,7 @@ public class Clazz {
 		this.fields = fields;
 	}
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "classMethodOwner")
+	@OneToMany(mappedBy = "classMethodOwner",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	public List<Method> getMethods() {
 		return methods;
 	}
@@ -123,7 +123,7 @@ public class Clazz {
 		this.methods = methods;
 	}
 	
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "classPosOwner", cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "clazz", cascade = CascadeType.ALL)
 	public Position getPosition() {
 		return position;
 	}

@@ -29,7 +29,7 @@ public class Method {
 	private String returnType;
 
 	private List<Argument> arguments = new ArrayList<>();
-	
+
 	private Clazz classMethodOwner;
 
 	@Override
@@ -110,6 +110,7 @@ public class Method {
 	public void setReturnType(String returnType) {
 		this.returnType = returnType;
 	}
+
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "method")
 	public List<Argument> getArguments() {
 		return arguments;
@@ -118,15 +119,15 @@ public class Method {
 	public void setArguments(List<Argument> arguments) {
 		this.arguments = arguments;
 	}
-	
+
 	@ManyToOne
-    @JoinColumn(name="class_id")
-	public Clazz getClassOwner() {
+	@JoinColumn(name = "class_id")
+	public Clazz getClassMethodOwner() {
 		return classMethodOwner;
 	}
 
-	public void setClassOwner(Clazz classOwner) {
-		this.classMethodOwner = classOwner;
+	public void setClassMethodOwner(Clazz classMethodOwner) {
+		this.classMethodOwner = classMethodOwner;
 	}
 
 }

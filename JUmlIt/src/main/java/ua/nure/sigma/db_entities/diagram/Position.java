@@ -20,8 +20,8 @@ public class Position {
 	private long x;
 
 	private long y;
-
-	private Clazz classPosOwner;
+	
+	private Clazz clazz;
 
 	public Position() {
 	}
@@ -60,15 +60,16 @@ public class Position {
 	public void setPositionId(long positionId) {
 		this.positionId = positionId;
 	}
-
+	
 	@OneToOne(fetch = FetchType.LAZY)
 	@PrimaryKeyJoinColumn
-	public Clazz getClassPosOwner() {
-		return classPosOwner;
+	public Clazz getClazz() {
+		return clazz;
 	}
 
-	public void setClassPosOwner(Clazz classPosOwner) {
-		this.classPosOwner = classPosOwner;
+	public void setClazz(Clazz clazz) {
+		this.clazz = clazz;
 	}
+	
 
 }
