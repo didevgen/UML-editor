@@ -14,7 +14,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
 
 @Entity
 @Table(name = "method")
@@ -28,12 +27,10 @@ public class Method {
 	private String name;
 
 	private String returnType;
-	
-	private long classId;
 
 	private List<Argument> arguments = new ArrayList<>();
 
-	private Clazz classMethodOwner;
+	private Clazz classOwner;
 
 	@Override
 	public int hashCode() {
@@ -125,23 +122,13 @@ public class Method {
 
 	@ManyToOne
 	@JoinColumn(name = "class_id")
-	public Clazz getClassMethodOwner() {
-		return classMethodOwner;
+	public Clazz getClassOwner() {
+		return classOwner;
 	}
 
-	public void setClassMethodOwner(Clazz classMethodOwner) {
-		this.classMethodOwner = classMethodOwner;
+	public void setClassOwner(Clazz classMethodOwner) {
+		this.classOwner = classMethodOwner;
 	}
 	
-	@GenericGenerator(name = "generator", strategy = "foreign", 
-			parameters = @Parameter(name = "property", value = "classMethodOwner") )
-	@Column(name = "class_id", unique = true, nullable = false)
-	public long getClassId() {
-		return classId;
-	}
-
-	public void setClassId(long classId) {
-		this.classId = classId;
-	}
 
 }

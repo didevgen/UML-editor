@@ -16,7 +16,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
 
 import ua.nure.sigma.db_entities.Diagram;
 @Entity
@@ -30,8 +29,6 @@ public class Clazz {
 	private boolean isStatic;
 	
 	private String accessModifier;
-	
-	private long diagramId;
 	
 	private List<Field> fields = new ArrayList<Field>();
 	
@@ -108,7 +105,7 @@ public class Clazz {
 		this.accessModifier = accessModifier;
 	}
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "classOwner")
+	@OneToMany(mappedBy = "classOwner",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	public List<Field> getFields() {
 		return fields;
 	}
@@ -117,7 +114,7 @@ public class Clazz {
 		this.fields = fields;
 	}
 	
-	@OneToMany(mappedBy = "classMethodOwner",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "classOwner",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	public List<Method> getMethods() {
 		return methods;
 	}
@@ -126,7 +123,7 @@ public class Clazz {
 		this.methods = methods;
 	}
 	
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "clazz", cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.EAGER, mappedBy = "clazz", cascade = CascadeType.ALL)
 	public Position getPosition() {
 		return position;
 	}
@@ -144,19 +141,6 @@ public class Clazz {
 	public void setDiagramOwner(Diagram diagramOwner) {
 		this.diagramOwner = diagramOwner;
 	}
-	
-	@GenericGenerator(name = "generator", strategy = "foreign", 
-			parameters = @Parameter(name = "property", value = "diagramOwner") )
-	@Column(name = "diagram_id", unique = true, nullable = false)
-	public long getDiagramId() {
-		return diagramId;
-	}
-
-	public void setDiagramId(long diagramId) {
-		this.diagramId = diagramId;
-	}
-	
-	
 	
 	
 }

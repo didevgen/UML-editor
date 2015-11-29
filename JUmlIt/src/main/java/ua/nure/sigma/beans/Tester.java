@@ -3,6 +3,7 @@ package ua.nure.sigma.beans;
 import java.util.Arrays;
 
 import ua.nure.sigma.db_entities.diagram.Clazz;
+import ua.nure.sigma.db_entities.diagram.Field;
 import ua.nure.sigma.db_entities.diagram.Method;
 import ua.nure.sigma.db_entities.diagram.Position;
 import ua.nure.sigma.model.DiagramModel;
@@ -17,20 +18,29 @@ public class Tester {
 
 	public static void main(String[] args) {
 		long diagramId = 3;
-		Clazz clazz = new Clazz();
+		Clazz clazz = service.getClass(1);
 		clazz.setAccessModifier("private");
+		System.out.println(clazz.getFields().size());
 		clazz.setName("myClazz");
 		Position pos = new Position(13,20);
-//		Method m = new Method();
-//		m.setAccessModifier("public");
-//		m.setName("myMethod");
-//		m.setReturnType("void");
-//		clazz.setMethods(Arrays.asList(m));
+		Field field = new Field();
+		field.setAccessModifier("public");
+		field.setName("myName");
+		field.setType("List");
+		Method m = new Method();
+		m.setAccessModifier("public");
+		m.setName("myMethod");
+		m.setReturnType("void");
+		m.setClassOwner(clazz);
+		field.setClassOwner(clazz);
+		clazz.setMethods(Arrays.asList(m));
+		clazz.setFields(Arrays.asList(field));
 		pos.setClazz(clazz);
 		clazz.setPosition(pos);
 		DiagramModel diagram = diagramService.getDiagramById(diagramId);
 		clazz.setDiagramOwner(diagram.getDiagram());
-		clazz.setClassId(1);
-		service.removeClass(1);
+		
+//		service.removeClass(1);
+//		service.addClass(clazz);
 	}
 }

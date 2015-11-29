@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: 127.0.0.1
--- Время создания: Ноя 29 2015 г., 18:15
+-- Время создания: Ноя 29 2015 г., 19:54
 -- Версия сервера: 5.6.26
 -- Версия PHP: 5.6.12
 
@@ -142,11 +142,11 @@ CREATE TABLE IF NOT EXISTS `eventtype` (
 CREATE TABLE IF NOT EXISTS `field` (
   `field_id` int(11) NOT NULL,
   `field_access` varchar(105) COLLATE utf8_general_mysql500_ci DEFAULT NULL,
-  `is_staitc` tinyint(1) DEFAULT NULL,
+  `is_static` tinyint(1) DEFAULT NULL,
   `field_name` varchar(70) COLLATE utf8_general_mysql500_ci DEFAULT NULL,
   `field_type` varchar(45) COLLATE utf8_general_mysql500_ci DEFAULT NULL,
   `class_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
 
 -- --------------------------------------------------------
 
@@ -389,7 +389,7 @@ ALTER TABLE `eventtype`
 -- AUTO_INCREMENT для таблицы `field`
 --
 ALTER TABLE `field`
-  MODIFY `field_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `field_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT для таблицы `method`
 --

@@ -9,7 +9,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
 
 @Entity
 @Table(name = "argument")
@@ -20,8 +19,6 @@ public class Argument {
 	private String name;
 	
 	private String type;
-	
-	private long methodId;
 	
 	private Method method;
 	
@@ -102,16 +99,6 @@ public class Argument {
 
 	public void setMethod(Method method) {
 		this.method = method;
-	}
-	@GenericGenerator(name = "generator", strategy = "foreign", 
-			parameters = @Parameter(name = "property", value = "method") )
-	@Column(name = "method_id", unique = true, nullable = false)
-	public long getMethodId() {
-		return methodId;
-	}
-
-	public void setMethodId(long methodId) {
-		this.methodId = methodId;
 	}
 	
 	

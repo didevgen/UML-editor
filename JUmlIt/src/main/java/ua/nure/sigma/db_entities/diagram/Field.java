@@ -9,26 +9,22 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
 
 @Entity
 @Table(name = "field")
 public class Field {
-	
+
 	private long id;
-	
+
 	private String accessModifier;
-	
+
 	private boolean isStatic;
-	
+
 	private String name;
-	
+
 	private String type;
-	
-	private long classId;
-	
+
 	private Clazz classOwner;
-	
 
 	@Override
 	public int hashCode() {
@@ -66,6 +62,7 @@ public class Field {
 		return "Field [id=" + id + ", accessModifier=" + accessModifier + ", isStatic=" + isStatic + ", name=" + name
 				+ ", type=" + type + "]";
 	}
+
 	@Id
 	@GeneratedValue(generator = "increment")
 	@GenericGenerator(name = "increment", strategy = "increment")
@@ -77,6 +74,7 @@ public class Field {
 	public void setId(long id) {
 		this.id = id;
 	}
+
 	@Column(name = "field_access")
 	public String getAccessModifier() {
 		return accessModifier;
@@ -85,6 +83,7 @@ public class Field {
 	public void setAccessModifier(String accessModifier) {
 		this.accessModifier = accessModifier;
 	}
+
 	@Column(name = "is_static")
 	public boolean isStatic() {
 		return isStatic;
@@ -93,6 +92,7 @@ public class Field {
 	public void setStatic(boolean isStatic) {
 		this.isStatic = isStatic;
 	}
+
 	@Column(name = "field_name")
 	public String getName() {
 		return name;
@@ -101,6 +101,7 @@ public class Field {
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	@Column(name = "field_type")
 	public String getType() {
 		return type;
@@ -110,25 +111,14 @@ public class Field {
 		this.type = type;
 	}
 	@ManyToOne
-    @JoinColumn(name="class_id")
+	@JoinColumn(name = "class_id")
 	public Clazz getClassOwner() {
 		return classOwner;
 	}
 
-	public void setClassOwner(Clazz classOwner) {
-		this.classOwner = classOwner;
-	}
-	@GenericGenerator(name = "generator", strategy = "foreign", 
-			parameters = @Parameter(name = "property", value = "classOwner") )
-	@Column(name = "class_id", unique = true, nullable = false)
-	public long getClassId() {
-		return classId;
+	public void setClassOwner(Clazz classMethodOwner) {
+		this.classOwner = classMethodOwner;
 	}
 
-	public void setClassId(long classId) {
-		this.classId = classId;
-	}
-	
-	
 
 }

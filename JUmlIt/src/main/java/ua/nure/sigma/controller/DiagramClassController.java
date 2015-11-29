@@ -48,14 +48,13 @@ public class DiagramClassController {
 	@RequestMapping(value = "/diagram/{id}/classes/{id}/fields/add", method = RequestMethod.POST)
 	public Field addField(@RequestBody Field field, @PathVariable long diagramId,@PathVariable long classId) {
 		Clazz clazz = service.getClass(classId);
-		field.setClassOwner(clazz);
 		return service.addField(field);
 	}
 	
 	@RequestMapping(value = "/diagram/{id}/classes/{id}/methods/add", method = RequestMethod.POST)
 	public Method addMethod(@RequestBody Method method, @PathVariable long diagramId,@PathVariable long classId) {
 		Clazz clazz = service.getClass(classId);
-		method.setClassMethodOwner(clazz);
+		method.setClassOwner(clazz);
 		return service.addMethod(method);
 	}
 	

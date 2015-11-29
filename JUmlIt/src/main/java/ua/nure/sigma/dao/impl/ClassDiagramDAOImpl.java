@@ -126,7 +126,7 @@ public class ClassDiagramDAOImpl  implements ClassDiagramDAO{
 		Object clazz = new Object();
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
-			clazz = session.load(clazzName, id);
+			clazz = session.get(clazzName, id);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
