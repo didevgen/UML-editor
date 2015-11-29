@@ -23,7 +23,7 @@ public class ClassDiagramDAOImpl  implements ClassDiagramDAO{
 
 	@Override
 	public void removeClazz(long clazzId) {
-		deleteObject("class", clazzId);
+		deleteObject("Clazz", clazzId);
 	}
 
 	@Override

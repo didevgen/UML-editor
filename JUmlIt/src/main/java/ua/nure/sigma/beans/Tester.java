@@ -18,9 +18,9 @@ public class Tester {
 	public static void main(String[] args) {
 		long diagramId = 3;
 		Clazz clazz = new Clazz();
-		clazz.setAccessModifier("public");
+		clazz.setAccessModifier("private");
 		clazz.setName("myClazz");
-		Position pos = new Position(12,20);
+		Position pos = new Position(13,20);
 //		Method m = new Method();
 //		m.setAccessModifier("public");
 //		m.setName("myMethod");
@@ -30,6 +30,7 @@ public class Tester {
 		clazz.setPosition(pos);
 		DiagramModel diagram = diagramService.getDiagramById(diagramId);
 		clazz.setDiagramOwner(diagram.getDiagram());
-		service.addClass(clazz);
+		clazz.setClassId(1);
+		service.removeClass(1);
 	}
 }

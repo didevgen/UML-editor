@@ -10,17 +10,18 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 
 @Entity
 @Table(name = "position")
 public class Position {
 
-	private long positionId;
+	private long classId;
 
 	private long x;
 
 	private long y;
-	
+
 	private Clazz clazz;
 
 	public Position() {
@@ -29,6 +30,19 @@ public class Position {
 	public Position(long x, long y) {
 		this.x = x;
 		this.y = y;
+	}
+
+	@GenericGenerator(name = "generator", strategy = "foreign", 
+			parameters = @Parameter(name = "property", value = "clazz") )
+	@Id
+	@GeneratedValue(generator = "generator")
+	@Column(name = "class_id", unique = true, nullable = false)
+	public long getClassId() {
+		return classId;
+	}
+
+	public void setClassId(long classId) {
+		this.classId = classId;
 	}
 
 	@Column(name = "x")
@@ -49,18 +63,6 @@ public class Position {
 		this.y = y;
 	}
 
-	@Id
-	@GeneratedValue(generator = "increment")
-	@GenericGenerator(name = "increment", strategy = "increment")
-	@Column(name = "position_id")
-	public long getPositionId() {
-		return positionId;
-	}
-
-	public void setPositionId(long positionId) {
-		this.positionId = positionId;
-	}
-	
 	@OneToOne(fetch = FetchType.LAZY)
 	@PrimaryKeyJoinColumn
 	public Clazz getClazz() {
@@ -70,6 +72,5 @@ public class Position {
 	public void setClazz(Clazz clazz) {
 		this.clazz = clazz;
 	}
-	
 
 }

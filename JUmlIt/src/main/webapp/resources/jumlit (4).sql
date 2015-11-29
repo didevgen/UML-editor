@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: 127.0.0.1
--- Время создания: Ноя 29 2015 г., 15:42
+-- Время создания: Ноя 29 2015 г., 18:15
 -- Версия сервера: 5.6.26
 -- Версия PHP: 5.6.12
 
@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS `class` (
   `is_static` tinyint(1) DEFAULT NULL,
   `diagram_id` bigint(20) DEFAULT NULL,
   `class_access` varchar(105) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -172,7 +172,7 @@ CREATE TABLE IF NOT EXISTS `method` (
   `return_type` varchar(105) DEFAULT NULL,
   `method_access` varchar(105) DEFAULT NULL,
   `class_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -181,10 +181,9 @@ CREATE TABLE IF NOT EXISTS `method` (
 --
 
 CREATE TABLE IF NOT EXISTS `position` (
-  `position_id` int(11) NOT NULL,
-  `class_id` int(11) DEFAULT NULL,
   `x` int(11) DEFAULT NULL,
-  `y` int(11) DEFAULT NULL
+  `y` int(11) DEFAULT NULL,
+  `class_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
 
 -- --------------------------------------------------------
@@ -330,8 +329,8 @@ ALTER TABLE `method`
 -- Индексы таблицы `position`
 --
 ALTER TABLE `position`
-  ADD PRIMARY KEY (`position_id`),
-  ADD KEY `pos_to_class_idx` (`class_id`);
+  ADD PRIMARY KEY (`class_id`),
+  ADD KEY `position_to_class_idx` (`class_id`);
 
 --
 -- Индексы таблицы `token`
@@ -365,7 +364,7 @@ ALTER TABLE `agrument`
 -- AUTO_INCREMENT для таблицы `class`
 --
 ALTER TABLE `class`
-  MODIFY `class_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `class_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT для таблицы `diagram`
 --
@@ -395,12 +394,7 @@ ALTER TABLE `field`
 -- AUTO_INCREMENT для таблицы `method`
 --
 ALTER TABLE `method`
-  MODIFY `method_id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT для таблицы `position`
---
-ALTER TABLE `position`
-  MODIFY `position_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `method_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT для таблицы `token`
 --
@@ -463,7 +457,7 @@ ALTER TABLE `method`
 -- Ограничения внешнего ключа таблицы `position`
 --
 ALTER TABLE `position`
-  ADD CONSTRAINT `pos_to_class` FOREIGN KEY (`class_id`) REFERENCES `class` (`class_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `position_to_class` FOREIGN KEY (`class_id`) REFERENCES `class` (`class_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Ограничения внешнего ключа таблицы `token`

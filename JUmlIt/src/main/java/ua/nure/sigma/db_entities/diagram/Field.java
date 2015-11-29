@@ -9,6 +9,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 
 @Entity
 @Table(name = "field")
@@ -24,6 +25,7 @@ public class Field {
 	
 	private String type;
 	
+	private long classId;
 	
 	private Clazz classOwner;
 	
@@ -115,6 +117,16 @@ public class Field {
 
 	public void setClassOwner(Clazz classOwner) {
 		this.classOwner = classOwner;
+	}
+	@GenericGenerator(name = "generator", strategy = "foreign", 
+			parameters = @Parameter(name = "property", value = "classOwner") )
+	@Column(name = "class_id", unique = true, nullable = false)
+	public long getClassId() {
+		return classId;
+	}
+
+	public void setClassId(long classId) {
+		this.classId = classId;
 	}
 	
 	

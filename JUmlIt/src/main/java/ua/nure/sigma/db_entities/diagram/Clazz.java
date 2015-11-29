@@ -16,6 +16,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 
 import ua.nure.sigma.db_entities.Diagram;
 @Entity
@@ -29,6 +30,8 @@ public class Clazz {
 	private boolean isStatic;
 	
 	private String accessModifier;
+	
+	private long diagramId;
 	
 	private List<Field> fields = new ArrayList<Field>();
 	
@@ -140,6 +143,17 @@ public class Clazz {
 
 	public void setDiagramOwner(Diagram diagramOwner) {
 		this.diagramOwner = diagramOwner;
+	}
+	
+	@GenericGenerator(name = "generator", strategy = "foreign", 
+			parameters = @Parameter(name = "property", value = "diagramOwner") )
+	@Column(name = "diagram_id", unique = true, nullable = false)
+	public long getDiagramId() {
+		return diagramId;
+	}
+
+	public void setDiagramId(long diagramId) {
+		this.diagramId = diagramId;
 	}
 	
 	

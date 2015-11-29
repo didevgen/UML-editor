@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 
 @Entity
 @Table(name = "method")
@@ -27,6 +28,8 @@ public class Method {
 	private String name;
 
 	private String returnType;
+	
+	private long classId;
 
 	private List<Argument> arguments = new ArrayList<>();
 
@@ -128,6 +131,17 @@ public class Method {
 
 	public void setClassMethodOwner(Clazz classMethodOwner) {
 		this.classMethodOwner = classMethodOwner;
+	}
+	
+	@GenericGenerator(name = "generator", strategy = "foreign", 
+			parameters = @Parameter(name = "property", value = "classMethodOwner") )
+	@Column(name = "class_id", unique = true, nullable = false)
+	public long getClassId() {
+		return classId;
+	}
+
+	public void setClassId(long classId) {
+		this.classId = classId;
 	}
 
 }
