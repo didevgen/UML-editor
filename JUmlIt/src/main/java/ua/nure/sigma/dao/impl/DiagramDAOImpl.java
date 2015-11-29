@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
-import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
@@ -163,6 +162,7 @@ public class DiagramDAOImpl implements DiagramDAO {
 		List<Diagram> list = new ArrayList<>();
 		for (Diagram diagram : models) {
 			if (diagram.getCollaborators().contains(user)) {
+				diagram.getCollaborators().forEach(collaborator->collaborator.setPassword(""));
 				list.add(diagram);
 			}
 		}
@@ -174,6 +174,7 @@ public class DiagramDAOImpl implements DiagramDAO {
 		List<Diagram> list = new ArrayList<>();
 		for (Diagram diagram : models) {
 			if (diagram.getOwnerId()==userId) {
+				diagram.getCollaborators().forEach(collaborator -> collaborator.setPassword(""));
 				list.add(diagram);
 			}
 		}

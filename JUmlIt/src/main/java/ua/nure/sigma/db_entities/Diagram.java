@@ -9,11 +9,14 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
+
+import ua.nure.sigma.db_entities.diagram.Clazz;
 
 @Entity
 @Table(name = "diagram")
@@ -28,6 +31,7 @@ public class Diagram {
 	private String name = "";
 	private String description="";
 	private Set<User> collaborators = new HashSet<User>(0);
+	private Set<Clazz> classes = new HashSet<>();
 	
 	public Diagram() {
 	}
@@ -113,6 +117,14 @@ public class Diagram {
 
 	public void setCollaborators(Set<User> collaborators) {
 		this.collaborators = collaborators;
+	}
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "diagramOwner")
+	public Set<Clazz> getClasses() {
+		return classes;
+	}
+
+	public void setClasses(Set<Clazz> classes) {
+		this.classes = classes;
 	}
 	
 	
