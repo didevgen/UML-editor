@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
@@ -87,14 +88,6 @@ public class DiagramDAOImpl implements DiagramDAO {
 			session.beginTransaction();
 			session.saveOrUpdate(d);
 			session.getTransaction().commit();
-			for (int i = 0; i < diagram.getCollaborators().size(); i++) {
-				Collaborator col = new Collaborator();
-				col.setDiagramId(d.getDiagramId());
-				col.setUserId(diagram.getCollaborators().get(i).getUserId());
-				session.beginTransaction();
-				session.saveOrUpdate(col);
-				session.getTransaction().commit();
-			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
@@ -128,40 +121,63 @@ public class DiagramDAOImpl implements DiagramDAO {
 	public List<Diagram> getUsersDiagrams(long userId) {
 		Session session = null;
 		List<Diagram> models = new ArrayList<Diagram>();
+		List<Diagram> result = new ArrayList<Diagram>();
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
-			models = session.createCriteria(Diagram.class).add(Restrictions.eq("ownerId", userId)).list();
+			models = session.createCriteria(Diagram.class).list();
+			result.addAll(getUserOwnDiagrams(userId,models));
 		} catch (Exception e) {
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, e.getMessage(), "������ I/O", JOptionPane.OK_OPTION);
 		} finally {
 			if (session != null && session.isOpen()) {
 				session.close();
 			}
 		}
-		return models;
+		return result;
 	}
-
+	
 	@Override
 	public List<Diagram> getUsersCollaborationDiagram(long userId) {
 		Session session = null;
+		List<Diagram> result = new ArrayList<Diagram>();
 		List<Diagram> models = new ArrayList<Diagram>();
-		List<Collaborator> colls = new ArrayList<Collaborator>();
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
-			colls = session.createCriteria(Collaborator.class).add(Restrictions.eq("user_id", userId)).list();
-			for (Collaborator col : colls){
-				models.add((Diagram) session.load(Diagram.class, col.getDiagramId()));
-			}
+			models = session.createCriteria(Diagram.class).list();
+			result.addAll(getUserCollDiagrams(userId,models));
 		} catch (Exception e) {
+			System.out.println(e.getMessage());
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, e.getMessage(), "������ I/O", JOptionPane.OK_OPTION);
 		} finally {
 			if (session != null && session.isOpen()) {
 				session.close();
 			}
 		}
-		return models;
+		return result;
+	}
+	
+	//Additional logic
+	private List<Diagram> getUserCollDiagrams(long userId,List<Diagram> models) {
+		User user = new User();
+		user.setUserId(userId);
+		List<Diagram> list = new ArrayList<>();
+		for (Diagram diagram : models) {
+			if (diagram.getCollaborators().contains(user)) {
+				list.add(diagram);
+			}
+		}
+		return list;
+	}
+	private List<Diagram> getUserOwnDiagrams(long userId,List<Diagram> models) {
+		User user = new User();
+		user.setUserId(userId);
+		List<Diagram> list = new ArrayList<>();
+		for (Diagram diagram : models) {
+			if (diagram.getOwnerId()==userId) {
+				list.add(diagram);
+			}
+		}
+		return list;
 	}
 	
 	

@@ -1,9 +1,14 @@
 package ua.nure.sigma.db_entities;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -22,7 +27,7 @@ public class Diagram {
 	private DateTime lastUpdated;
 	private String name = "";
 	private String description="";
-	
+	private Set<User> collaborators = new HashSet<User>(0);
 	
 	public Diagram() {
 	}
@@ -100,6 +105,14 @@ public class Diagram {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "collaboratedDiagrams")
+	public Set<User> getCollaborators() {
+		return collaborators;
+	}
+
+	public void setCollaborators(Set<User> collaborators) {
+		this.collaborators = collaborators;
 	}
 	
 	

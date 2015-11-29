@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -38,9 +39,36 @@ public class User {
 	private DateTime lastAvailable;
 
 	private Set<UserRole> userRoles = new HashSet<UserRole>(0);
+	
+	private Set<Diagram> collaboratedDiagrams = new HashSet<Diagram>();
 
 	public User() {
 	}
+
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (int) (userId ^ (userId >>> 32));
+		return result;
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		User other = (User) obj;
+		if (userId != other.userId)
+			return false;
+		return true;
+	}
+
 
 	@OneToMany(mappedBy="user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	public Set<UserRole> getUserRoles() {
@@ -120,6 +148,18 @@ public class User {
 	public String toString() {
 		return "User [userId=" + userId + ", fullName=" + fullname + ", email=" + email + ", password=" + password
 				+ ", registrationDate=" + registrationDate + ", lastAvailable=" + lastAvailable + "]";
+	}
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name = "collaborator",  joinColumns = { 
+			@JoinColumn(name = "user_id", nullable = false, updatable = false) }, 
+			inverseJoinColumns = { @JoinColumn(name = "diagram_id", 
+					nullable = false, updatable = false) })
+	public Set<Diagram> getCollaboratedDiagrams() {
+		return collaboratedDiagrams;
+	}
+
+	public void setCollaboratedDiagrams(Set<Diagram> collaboratedDiagrams) {
+		this.collaboratedDiagrams = collaboratedDiagrams;
 	}
 	
 	
