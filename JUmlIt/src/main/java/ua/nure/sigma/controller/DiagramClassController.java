@@ -48,6 +48,7 @@ public class DiagramClassController {
 	@RequestMapping(value = "/diagram/{id}/classes/{id}/fields/add", method = RequestMethod.POST)
 	public Field addField(@RequestBody Field field, @PathVariable long diagramId,@PathVariable long classId) {
 		Clazz clazz = service.getClass(classId);
+		field.setClassOwner(clazz);
 		return service.addField(field);
 	}
 	
