@@ -90,25 +90,39 @@ form button[type="submit"] {
   margin-top: 20px;
 }
 
-.form-group .btn-group {
-  width: 100%;
-
-  button {
-    position: relative;
+.form-group {
+  .btn-group {
     width: 100%;
-    text-align: left;
 
-    .caret {
-      position: absolute;
-      right: 20px;
-      top: 15px;
+    button {
+      position: relative;
+      width: 100%;
+      text-align: left;
+
+      .caret {
+        position: absolute;
+        right: 20px;
+        top: 15px;
+      }
+    }
+
+    .dropdown-menu {
+      width: 100%;
     }
   }
 
-  .dropdown-menu {
-    width: 100%;
-  }
+  .bootstrap-switch {
+    margin-left: 10px;
 
+    &.bootstrap-switch-focused {
+      border-color: $color-primary;
+      box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 2px $color-primary;
+    }
+
+    .bootstrap-switch-primary {
+      background-color: $color-primary;
+    }
+  }
 }
 
 .form-buttons {
@@ -157,3 +171,4 @@ ul.pagination > .active > a {
     cursor: pointer;
   }
 }
+

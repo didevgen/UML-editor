@@ -16,7 +16,8 @@
     "jointjs": "joint#~0.9.5",
     "angular-dragdrop": "~1.0.12",
     "font-awesome": "fontawesome#~4.4.0",
-    "ng-tags-input": "~3.0.0"
+    "ng-tags-input": "~3.0.0",
+    "angular-bootstrap-switch": "~0.4.1"
   },
   "devDependencies": {
     "angular-mocks": "^1.4.0"

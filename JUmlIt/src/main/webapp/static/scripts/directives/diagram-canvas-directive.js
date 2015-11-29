@@ -21,7 +21,10 @@ angular.module('jumlitApp').directive('diagramCanvas', function($q, Cells, $comp
             $scope.dropped = null;
 
             paper.on('blank:pointerclick', function() {
-                graph.get('selected').set('selected', false);
+                var previousSelected = graph.get('selected');
+                if (previousSelected) {
+                    previousSelected.set('selected', false);
+                }
                 graph.set('selected', null);
                 $scope.$emit('cellDeselected');
                 $scope.$broadcast('cellDeselected');
