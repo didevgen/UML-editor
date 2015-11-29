@@ -18,7 +18,8 @@ angular
         'ngDragDrop',
         'ui.router',
         'ui.bootstrap',
-        'ngTagsInput'
+        'ngTagsInput',
+        'frapontillo.bootstrap-switch'
     ])
     .config(function($stateProvider, $httpProvider, $urlRouterProvider) {
         $stateProvider
@@ -95,11 +96,11 @@ angular
         });
     }).run(function($rootScope, $state, Authorization, Authentication, $window, Session) {
         Authentication.authenticate().then(function() {
-            $state.go('account.dashboard');
+            //$state.go('account.dashboard');
+            $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
+                Authorization.authorize(event, toState.data);
+            });
         }).catch(function(error) {
             $state.go('landing.login')
-        });
-        $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
-            Authorization.authorize(event, toState.data);
         });
     });

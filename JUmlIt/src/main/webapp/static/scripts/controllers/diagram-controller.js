@@ -14,4 +14,7 @@ angular.module('jumlitApp').controller('DiagramCtrl', function ($scope, diagramM
         $scope.showSettings = true;
         $scope.$broadcast('cellForEdit', cell);
     });
+    $scope.$on('cellDeselected', function() {
+        $scope.showSettings = false;
+    });
 });

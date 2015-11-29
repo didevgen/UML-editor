@@ -11,13 +11,13 @@
                 </div>
             </li>
             <li href="#" class="list-group-item" ng-repeat="method in class.methods">{{method | formatMethod}}</li>
-            <li href="#" class="list-group-item" ng-hide="class.methods.length">No methods</li>
+            <li href="#" class="list-group-item no-methods" ng-hide="class.methods.length">No methods</li>
 
             <li href="#" class="list-group-item subheading">
                 Fields
             </li>
             <li href="#" class="list-group-item" ng-repeat="field in class.fields">{{field | formatField}}</li>
-            <li href="#" class="list-group-item" ng-hide="class.fields.length">No fields</li>
+            <li href="#" class="list-group-item no-fields" ng-hide="class.fields.length">No fields</li>
         </div>
     </div>
 </div>
