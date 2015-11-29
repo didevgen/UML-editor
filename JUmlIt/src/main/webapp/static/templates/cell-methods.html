@@ -6,18 +6,42 @@
     <div ng-show="status === 'viewing'">
         <ul class="list-group diagrams-list">
             <li class="list-group-item list-element pointer"
-                ng-repeat="method in methods" ng-click="editMethod(method)">
+                ng-repeat="method in cell.methods" ng-click="editMethod(method)">
                 <span class="pull-left">{{method | formatMethod}}</span>
                                         <span class="glyphicon glyphicon-remove list-element-control pointer-delete"
                                               ng-click="deleteMethod(method)"></span>
             </li>
         </ul>
-        <div ng-hide="" class="no-methods">No mothods yet!</div>
+        <div ng-hide="cell.methods.length > 0" class="no-methods">No methods yet!</div>
         <button class="btn btn-primary glyphicon glyphicon-plus with-text" ng-click="showEditForm()">Add</button>
     </div>
 
     <div ng-hide="status === 'viewing'">
         <form>
+            <div class="form-group">
+                <label>Static</label>
+                <input bs-switch type="checkbox" switch-size="mini"
+                       switch-on-text="Yes" ,
+                       switch-off-text="No"
+                       ng-model="method.isStatic">
+            </div>
+            <div class="form-group">
+                <label>Access modifier</label>
+
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                        {{method.accessModifier.name}}
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="javascript:void(0)" ng-repeat="(key, value) in accessModifiers"
+                               ng-click="method.accessModifier = value">{{value.name}}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
             <div class="form-group">
                 <label>Method name:</label>
                 <input type="text" ng-model="method.name" class="form-control">
@@ -62,7 +86,13 @@
                     </table>
                 </div>
             </div>
-            <button class="btn btn-primary" type="button" ng-click="addMethod(method)">Add</button>
+            <button ng-show="status === 'adding'" class="btn btn-primary" type="button" ng-click="addMethod(method)">
+                Add
+            </button>
+            <button ng-show="status === 'editing'" class="btn btn-primary" type="button" ng-click="saveMethod(method)">
+                Save
+            </button>
+
             <button class="btn btn-default" type="button" ng-click="hideEditForm()">Close</button>
         </form>
 

@@ -3,36 +3,39 @@
  */
 
 'use strict';
-angular.module('jumlitApp').controller('CellFieldsCtrl', function($scope) {
+angular.module('jumlitApp').controller('CellFieldsCtrl', function($scope, Enums) {
+
+    $scope.accessModifiers = Enums.accessModifiers;
     $scope.status = 'viewing';
 
     $scope.showEditForm = function() {
         $scope.status = 'adding';
         $scope.field = {
             isStatic: 'false',
-            accessModifier: 'public',
+            accessModifier: Enums.accessModifiers.PUBLIC,
             name: '',
-            returnType: ''
+            type: ''
         };
     };
 
     $scope.hideEditForm = function() {
         $scope.status = 'viewing';
-        $scope.field = {
-            isStatic: 'false',
-            accessModifier: 'public',
-            name: '',
-            returnType: ''
-        };
     };
 
     $scope.addField = function(field) {
         $scope.cell.fields.push(field);
+        $scope.status = 'viewing';
     };
 
-    $scope.deleteField = function() {
+    $scope.deleteField = function(field) {
     };
 
-    $scope.editField = function() {
+    $scope.editField = function(field) {
+        $scope.status = 'editing';
+        $scope.field = field;
+    };
+
+    $scope.saveField = function(field) {
+        $scope.status = 'viewing';
     };
 })

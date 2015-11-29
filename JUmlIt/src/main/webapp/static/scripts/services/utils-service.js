@@ -47,6 +47,7 @@ angular.module('jumlitApp').service('Utils', function($q, Config, Session) {
         $.ajax(options);
         return deferred.promise;
     }
+
     return {
         getRequest: function(url, data) {
             return ajaxRequest('GET', url, data);

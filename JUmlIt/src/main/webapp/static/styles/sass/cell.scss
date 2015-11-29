@@ -3,14 +3,14 @@ uml-class {
     /* Make sure events are propagated to the JointJS element so, e.g. dragging works.*/
     pointer-events: none;
     -webkit-user-select: none;
+    position: absolute;
+    z-index: 2;
+    border:0;
 
     .uml-class-inner.selected {
         border: 1px $border-color-dark dashed;
     }
 
-    position: absolute;
-    z-index: 2;
-    border:0;
 
     .panel-cell {
         height: 100%;
@@ -115,5 +115,10 @@ uml-class {
             height: 20px;
             line-height: 20px;
         }
+    }
+
+    .no-fields, .no-methods {
+      font-style: italic;
+      padding: 5px;
     }
 }
