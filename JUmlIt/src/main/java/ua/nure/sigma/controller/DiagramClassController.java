@@ -11,16 +11,22 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import ua.nure.sigma.db_entities.diagram.Clazz;
 import ua.nure.sigma.db_entities.diagram.Field;
 import ua.nure.sigma.db_entities.diagram.Method;
+import ua.nure.sigma.model.DiagramModel;
 import ua.nure.sigma.service.ClassDiagramService;
+import ua.nure.sigma.service.DiagramService;
 
 public class DiagramClassController {
 	@Autowired
 	private HttpSession session;
 
 	private ClassDiagramService service = new ClassDiagramService();
+	
+	private DiagramService diagramService = new DiagramService();
 
 	@RequestMapping(value = "/diagram/{id}/classes/add", method = RequestMethod.POST)
 	public Clazz addClass(@RequestBody Clazz clazz, @PathVariable long diagramId) {
+		DiagramModel diagram = diagramService.getDiagramById(diagramId);
+		clazz.setDiagramOwner(diagram.getDiagram());
 		return service.addClass(clazz);
 	}
 
@@ -35,17 +41,21 @@ public class DiagramClassController {
 	}
 
 	@RequestMapping(value = "/diagram/{id}/classes/{id}", method = RequestMethod.POST)
-	public void getClass(@PathVariable long diagramId, @PathVariable long classId) {
-		service.getClass(classId);
+	public Clazz getClass(@PathVariable long diagramId, @PathVariable long classId) {
+		return service.getClass(classId);
 	}
 	
 	@RequestMapping(value = "/diagram/{id}/classes/{id}/fields/add", method = RequestMethod.POST)
 	public Field addField(@RequestBody Field field, @PathVariable long diagramId,@PathVariable long classId) {
+		Clazz clazz = service.getClass(classId);
+		field.setClassOwner(clazz);
 		return service.addField(field);
 	}
 	
 	@RequestMapping(value = "/diagram/{id}/classes/{id}/methods/add", method = RequestMethod.POST)
 	public Method addMethod(@RequestBody Method method, @PathVariable long diagramId,@PathVariable long classId) {
+		Clazz clazz = service.getClass(classId);
+		method.setClassOwner(clazz);
 		return service.addMethod(method);
 	}
 	

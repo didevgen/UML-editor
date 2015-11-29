@@ -10,38 +10,43 @@ public class ClassDiagramService {
 	private ClassDiagramDAO dao = new ClassDiagramDAOImpl();
 
 	public Clazz addClass(Clazz clazz) {
-		return null;
+		return dao.insertClazz(clazz);
 	}
 
 	public void updateClass(Clazz clazz) {
+		dao.updateClazz(clazz);
 	}
 
 	public void removeClass(long classId) {
+		dao.removeClazz(classId);
 	}
 
-	public void getClass(long classId) {
+	public Clazz getClass(long classId) {
+		return dao.getClazz(classId);
 	}
 
 	public Field addField(Field field) {
-		return null;
+		return dao.insertField(field);
 	}
 
 	public void removeField(long fieldId) {
+		dao.removeField(fieldId);
 	}
 
 	public void updateField(Field field) {
-
+		dao.updateField(field);
 	}
 
 	public Method addMethod(Method method) {
-		return null;
+		return dao.insertMethod(method);
 	}
 
 	public void removeMethod(long methodId) {
+		dao.removeMethod(methodId);
 	}
 
 	public void updateMethod(Method method) {
-
+		dao.updateMethod(method);
 	}
 
 }
