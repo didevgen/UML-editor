@@ -15,6 +15,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "method")
 public class Method {
@@ -28,15 +30,16 @@ public class Method {
 
 	private String returnType;
 
-	private List<Argument> arguments = new ArrayList<>();
-
+	private List<Argument> args = new ArrayList<>();
+	
+	@JsonIgnore 
 	private Clazz classOwner;
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((arguments == null) ? 0 : arguments.hashCode());
+		result = prime * result + ((args == null) ? 0 : args.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
@@ -50,10 +53,10 @@ public class Method {
 		if (getClass() != obj.getClass())
 			return false;
 		Method other = (Method) obj;
-		if (arguments == null) {
-			if (other.arguments != null)
+		if (args == null) {
+			if (other.args != null)
 				return false;
-		} else if (!arguments.equals(other.arguments))
+		} else if (!args.equals(other.args))
 			return false;
 		if (name == null) {
 			if (other.name != null)
@@ -113,11 +116,11 @@ public class Method {
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "method")
 	public List<Argument> getArguments() {
-		return arguments;
+		return args;
 	}
 
 	public void setArguments(List<Argument> arguments) {
-		this.arguments = arguments;
+		this.args = arguments;
 	}
 
 	@ManyToOne
@@ -128,6 +131,12 @@ public class Method {
 
 	public void setClassOwner(Clazz classMethodOwner) {
 		this.classOwner = classMethodOwner;
+	}
+
+	@Override
+	public String toString() {
+		return "Method [id=" + id + ", accessModifier=" + accessModifier + ", isStatic=" + isStatic + ", name=" + name
+				+ ", returnType=" + returnType + ", args=" + args + "]";
 	}
 	
 

@@ -7,6 +7,7 @@ import ua.nure.sigma.dao.ClassDiagramDAO;
 import ua.nure.sigma.db_entities.diagram.Clazz;
 import ua.nure.sigma.db_entities.diagram.Field;
 import ua.nure.sigma.db_entities.diagram.Method;
+import ua.nure.sigma.db_entities.diagram.Position;
 import ua.nure.sigma.util.HibernateUtil;
 
 public class ClassDiagramDAOImpl  implements ClassDiagramDAO{

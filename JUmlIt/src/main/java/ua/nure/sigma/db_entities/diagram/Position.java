@@ -12,6 +12,8 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "position")
 public class Position {
@@ -21,7 +23,8 @@ public class Position {
 	private long x;
 
 	private long y;
-
+	
+	@JsonIgnore 
 	private Clazz clazz;
 
 	public Position() {

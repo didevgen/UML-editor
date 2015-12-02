@@ -10,6 +10,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "argument")
 public class Argument {
@@ -20,6 +22,7 @@ public class Argument {
 	
 	private String type;
 	
+	@JsonIgnore
 	private Method method;
 	
 	public Argument() {
@@ -99,6 +102,11 @@ public class Argument {
 
 	public void setMethod(Method method) {
 		this.method = method;
+	}
+
+	@Override
+	public String toString() {
+		return "Argument [id=" + id + ", name=" + name + ", type=" + type + "]";
 	}
 	
 	

@@ -17,6 +17,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import ua.nure.sigma.db_entities.Diagram;
 @Entity
 @Table(name = "class")
@@ -36,6 +38,7 @@ public class Clazz {
 	
 	private Position position;
 	
+	@JsonIgnore
 	private Diagram diagramOwner;
 	
 	public Clazz() {

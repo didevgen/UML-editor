@@ -10,6 +10,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "field")
 public class Field {
@@ -23,7 +25,7 @@ public class Field {
 	private String name;
 
 	private String type;
-
+	@JsonIgnore 
 	private Clazz classOwner;
 
 	@Override
