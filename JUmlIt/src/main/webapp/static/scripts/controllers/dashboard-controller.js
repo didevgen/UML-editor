@@ -54,10 +54,10 @@ angular.module('jumlitApp').controller('DashboardCtrl', function ($scope, $uibMo
         $scope.collabDiagramsPages = Math.floor($scope.collabDiagrams.length - 1 / $scope.diagramsOnPage);
         fillCollabDiagramsPage();
     });
-    $scope.$watch('ownDiagramsPageNum', function() {
+    $scope.$watch('ownDiagramsPageNum', function () {
         fillOwnDiagramsPage();
     });
-    $scope.$watch('collabDiagramsPageNum', function() {
+    $scope.$watch('collabDiagramsPageNum', function () {
         fillCollabDiagramsPage();
     });
 
@@ -99,7 +99,7 @@ angular.module('jumlitApp').controller('DashboardCtrl', function ($scope, $uibMo
         diagram.deleted = true;
         document.getElementById("deleteContainer" + diagram.diagramId).addEventListener('mouseout', function () {
             var timerId = findIndexById($scope.timers, diagram.diagramId);
-           if (timerId < 0 && diagram.deleted) {
+            if (timerId < 0 && diagram.deleted) {
                 $scope.timers.push({
                     timer: $timeout(function () {
                         $scope.confirmDelete(diagram);
@@ -134,6 +134,12 @@ angular.module('jumlitApp').controller('DashboardCtrl', function ($scope, $uibMo
             $scope.timers.splice(timerId, 1);
         }
     };
+
+    function findDiagramIndexById(arr, id) {
+        return arr.indexOf(arr.find(function (obj) {
+            return obj.diagramId == id;
+        }));
+    }
 
     function findIndexById(arr, id) {
         return arr.indexOf(arr.find(function (obj) {
