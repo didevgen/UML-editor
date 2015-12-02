@@ -6,10 +6,10 @@
 angular.module('jumlitApp').service('DiagramServices', function(Utils, Diagram, Session, $rootScope, Enums) {
     function buildModel(diagram) {
         var diagram = _.cloneDeep(diagram);
-        //diagram.collaborators = _.map(diagram.collaborators, function(collaborator) {
-        //    delete collaborator['@id'];
-        //    return collaborator;
-        //});
+        diagram.collaborators = _.map(diagram.collaborators, function(collaborator) {
+            delete collaborator.owner;
+            return collaborator;
+        });
         return diagram;
     }
     return {
