@@ -1,6 +1,8 @@
 package ua.nure.sigma.db_entities;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -35,7 +37,7 @@ public class Diagram {
 	private String name = "";
 	private String description="";
 	private Set<User> collaborators = new HashSet<User>();
-	private Set<Clazz> classes = new HashSet<>();
+	private List<Clazz> classes = new ArrayList<>();
 	private User owner;
 	
 	public Diagram() {
@@ -129,11 +131,11 @@ public class Diagram {
 		this.collaborators = collaborators;
 	}
 	@OneToMany(mappedBy = "diagramOwner")
-	public Set<Clazz> getClasses() {
+	public List<Clazz> getClasses() {
 		return classes;
 	}
 
-	public void setClasses(Set<Clazz> classes) {
+	public void setClasses(List<Clazz> classes) {
 		this.classes = classes;
 	}
 	
