@@ -35,7 +35,7 @@ angular.module('jumlitApp').service('ClazzServices', function (Utils, $rootScope
         createClass: function (clazz) {
             return Utils.postRequest(prefixUrl('add'), clazz)
                 .then(function (data) {
-
+                    return new Clazz(data);
                 });
         },
         addMethod: function (clazz, method) {

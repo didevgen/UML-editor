@@ -5,23 +5,17 @@ angular.module('jumlitApp').directive('umlClass', function($rootScope, Enums, Cl
         scope: {
             cell: '=cellModel',
             graph: '=',
-            class: '='
+            clazz: '='
         },
         templateUrl: 'templates/uml-class.html',
         link: function($scope, element) {
             var cell = $scope.cell;
-            $scope.clazz = $scope.clazz || {
-                fields: [],
-                methods: []
-            };
 
             $scope.$on(Enums.events.CELL_SELECTED, function(event, id) {
-                $scope.$apply(function() {
-                    $scope.selected = id === cell.id;
-                    if ($scope.selected) {
-                        $rootScope.$emit(Enums.events.CLASS_SELECTED, $scope.clazz);
-                    }
-                });
+                $scope.selected = id === cell.id;
+                if ($scope.selected) {
+                    $rootScope.$emit(Enums.events.CLASS_SELECTED, $scope.clazz);
+                }
             });
             $rootScope.$on(Enums.events.CLASS_DESELECTED, function() {
                 $scope.$apply(function() {

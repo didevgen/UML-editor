@@ -5,6 +5,7 @@ angular.module('jumlitApp').controller('ClazzSettingsCtrl', function ($scope, Ut
     $rootScope.$on(Enums.events.CLASS_SELECTED, function (event, clazz) {
         $scope.$apply(function () {
             $scope.clazz = clazz;
+            console.log(clazz);
         });
     });
 
@@ -13,6 +14,10 @@ angular.module('jumlitApp').controller('ClazzSettingsCtrl', function ($scope, Ut
             return;
         }
         $scope.clazz = clazz;
+    });
+
+    $scope.$watch('clazz.name', function() {
+
     });
 
 });
