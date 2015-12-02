@@ -6,7 +6,7 @@
 angular.module('jumlitApp').factory('Diagram', function() {
     function Diagram(options) {
 
-        options.classes = options.classes || [];
+        options = options || {};
 
         angular.extend(this, {
             name: '',

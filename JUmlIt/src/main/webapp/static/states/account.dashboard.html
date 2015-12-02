@@ -36,10 +36,10 @@
                             <ul class="list-group diagrams-list">
                                 <li class="list-group-item list-element pointer"
                                     ng-repeat="diagram in ownDiagrams.page" ng-click="openDiagram(diagram)">
-                                    <span class="pull-left">{{diagram.name}}</span>
-                                    <span class="glyphicon glyphicon-cog list-element-control pointer-primary"
+                                    <span>{{diagram.name}}</span>
+                                    <span class="glyphicon glyphicon-cog list-element-control pointer-primary pull-right"
                                           ng-click="editDiagram(diagram); $event.stopPropagation();"></span>
-                                    <span class="glyphicon glyphicon-remove list-element-control pointer-delete"
+                                    <span class="glyphicon glyphicon-remove list-element-control pointer-delete pull-right"
                                           ng-click="deleteDiagram(diagram); $event.stopPropagation();"></span>
 
                                     <div class="delete-reject-container" ng-show="diagram.deleted"
@@ -63,19 +63,7 @@
                             <ul class="list-group diagrams-list">
                                 <a class="list-group-item list-element pointer"
                                    ng-repeat="diagram in collabDiagrams.page" ng-click="openDiagram(diagram)">
-                                    <span class="pull-left">{{diagram.name}}</span>
-                                    <span class="glyphicon glyphicon-cog list-element-control pointer-primary"
-                                          ng-click="editDiagram(diagram); $event.stopPropagation();"></span>
-                                    <span class="glyphicon glyphicon-remove list-element-control pointer-delete"
-                                          ng-click="deleteDiagram(diagram); $event.stopPropagation();"></span>
-
-                                    <div class="delete-reject-container" ng-show="diagram.deleted"
-                                         ng-click="$event.stopPropagation();" id="deleteContainer{{diagram.diagramId}}">
-                                        <span class="pull-left">{{diagram.name}} removed</span>
-                                        <span class="list-element-control"
-                                              ng-click="cancelDeleting(diagram); $event.stopPropagation();"><a
-                                                href="">Cancel</a></span>
-                                    </div>
+                                    <span>{{diagram.name}}</span>
                                 </a>
                             </ul>
                             <div class="no-diagrams" ng-hide="collabDiagrams.list.length">No diagrams yet!</div>

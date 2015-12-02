@@ -52,8 +52,8 @@ angular.module('jumlitApp').controller('DashboardCtrl', function ($scope, $uibMo
                 .ownDiagrams.list.slice(startIndex, startIndex + $scope.pageSize)));
     }
 
-    $scope.$watch('ownDiagrams.list', $scope.fillOwnDiagramsPage);
-    $scope.$watch('collabDiagrams.list', $scope.fillCollabDiagramsPage);
+    $scope.$watchCollection('ownDiagrams.list', $scope.fillOwnDiagramsPage);
+    $scope.$watchCollection('collabDiagrams.list', $scope.fillCollabDiagramsPage);
 
     $scope.editDetails = function () {
         $state.go('account.user-info');
@@ -117,7 +117,10 @@ angular.module('jumlitApp').controller('DashboardCtrl', function ($scope, $uibMo
         document.getElementById("deleteContainer" + diagram.diagramId).parentNode.className =
             document.getElementById("deleteContainer" + diagram.diagramId).parentNode.className + " deleting";
         $timeout(function () {
-            DiagramServices.removeDiagram(diagram);
+            DiagramServices.removeDiagram(diagram).then(function() {
+                var index = _.findIndex($scope.ownDiagrams, { diagramId: diagram.diagramId });
+                $scope.ownDiagrams.list.splice(index, 1);
+            });
         }, 150);
     };
 
