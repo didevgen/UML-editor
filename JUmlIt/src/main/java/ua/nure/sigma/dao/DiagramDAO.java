@@ -3,15 +3,14 @@ package ua.nure.sigma.dao;
 import java.util.List;
 
 import ua.nure.sigma.db_entities.Diagram;
-import ua.nure.sigma.model.DiagramModel;
 
 public interface DiagramDAO {
 	
-	DiagramModel createDiagram(DiagramModel diagram);
+	Diagram createDiagram(Diagram diagram);
 	
-	DiagramModel getDiagramById(long id);
+	Diagram getDiagramById(long id);
 	
-	void updateDiagram(DiagramModel diagram);
+	void updateDiagram(Diagram diagram);
 	
 	void deleteDiagram(long id);
 	

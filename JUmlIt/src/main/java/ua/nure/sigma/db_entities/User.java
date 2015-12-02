@@ -28,8 +28,8 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 @Table(name = "user")
 @Component
 @Scope("session")
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, 
-	property = "@id")
+@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, 
+	property = "@id", scope=User.class)
 public class User {
 	private long userId;
 	private String fullname;
@@ -40,7 +40,7 @@ public class User {
 
 	private Set<UserRole> userRoles = new HashSet<UserRole>(0);
 	
-	private Set<Diagram> collaboratedDiagrams = new HashSet<Diagram>();
+	private Set<Diagram> collaboratedDiagrams = new HashSet<Diagram>(0);
 
 	public User() {
 	}
@@ -88,7 +88,6 @@ public class User {
 	@GeneratedValue(generator = "increment")
 	@GenericGenerator(name = "increment", strategy = "increment")
 	@Column(name = "user_id")
-	@JoinTable(name = "Collaborator", joinColumns = @JoinColumn(name = "user_id"))
 	public long getUserId() {
 		return userId;
 	}
@@ -149,11 +148,8 @@ public class User {
 		return "User [userId=" + userId + ", fullName=" + fullname + ", email=" + email + ", password=" + password
 				+ ", registrationDate=" + registrationDate + ", lastAvailable=" + lastAvailable + "]";
 	}
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "collaborator",  joinColumns = { 
-			@JoinColumn(name = "user_id", nullable = false, updatable = false) }, 
-			inverseJoinColumns = { @JoinColumn(name = "diagram_id", 
-					nullable = false, updatable = false) })
+
+	@ManyToMany(mappedBy = "collaborators")
 	public Set<Diagram> getCollaboratedDiagrams() {
 		return collaboratedDiagrams;
 	}

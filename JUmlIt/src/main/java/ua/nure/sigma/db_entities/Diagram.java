@@ -3,12 +3,15 @@ package ua.nure.sigma.db_entities;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -18,20 +21,22 @@ import org.joda.time.DateTime;
 
 import ua.nure.sigma.db_entities.diagram.Clazz;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 @Entity
 @Table(name = "diagram")
-
 public class Diagram {
 	private long diagramId;
-	private long ownerId = -1;
 	private long statusId = -1;
 	private String jsonData = "";
 	private DateTime creationDate;
 	private DateTime lastUpdated;
 	private String name = "";
 	private String description="";
-	private Set<User> collaborators = new HashSet<User>(0);
+	private Set<User> collaborators = new HashSet<User>();
 	private Set<Clazz> classes = new HashSet<>();
+	private User owner;
 	
 	public Diagram() {
 	}
@@ -48,13 +53,14 @@ public class Diagram {
 		diagramId = id;
 	}
 
-	@Column(name = "owner_id")
-	public long getOwnerId() {
-		return ownerId;
+	@ManyToOne
+	@JoinColumn(name = "owner_id")
+	public User getOwner() {
+		return this.owner;
 	}
 
-	public void setOwnerId(long id) {
-		ownerId = id;
+	public void setOwner(User owner) {
+		this.owner = owner;
 	}
 
 	@Column(name = "status_id")
@@ -110,7 +116,11 @@ public class Diagram {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "collaboratedDiagrams")
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "collaborator",  joinColumns = { 
+			@JoinColumn(name = "diagram_id", nullable = false, updatable = false) }, 
+			inverseJoinColumns = { @JoinColumn(name = "user_id", 
+					nullable = false, updatable = false) })
 	public Set<User> getCollaborators() {
 		return collaborators;
 	}
@@ -118,7 +128,7 @@ public class Diagram {
 	public void setCollaborators(Set<User> collaborators) {
 		this.collaborators = collaborators;
 	}
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "diagramOwner")
+	@OneToMany(mappedBy = "diagramOwner")
 	public Set<Clazz> getClasses() {
 		return classes;
 	}
