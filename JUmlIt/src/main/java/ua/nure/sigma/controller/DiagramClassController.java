@@ -38,7 +38,7 @@ public class DiagramClassController {
 		service.removeClass(classId);
 	}
 
-	@RequestMapping(value = "/diagram/{diagramId}/classes/{classId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/diagram/{diagramId}/classes/{classId}", method = RequestMethod.POST)
 	public Clazz getClass(@PathVariable long diagramId, @PathVariable long classId) {
 		return service.getClass(classId);
 	}
@@ -47,19 +47,14 @@ public class DiagramClassController {
 	public Clazz addField(@RequestBody Field field, @PathVariable long diagramId,@PathVariable long classId) {
 		Clazz clazz = service.getClass(classId);
 		field.setClassOwner(clazz);
-		service.addField(field);
-		clazz.getFields().add(field);
 		return clazz;
 	}
 	
 	@RequestMapping(value = "/diagram/{diagramId}/classes/{classId}/methods/add", method = RequestMethod.POST)
 	public Clazz addMethod(@RequestBody Method method, @PathVariable long diagramId,@PathVariable long classId) {
-		System.out.println(method);
 		Clazz clazz = service.getClass(classId);
 		method.setClassOwner(clazz);
-		method.getArguments().forEach(element->element.setMethod(method));
 		service.addMethod(method);
-		clazz.getMethods().add(method);
 		return clazz;
 	}
 	

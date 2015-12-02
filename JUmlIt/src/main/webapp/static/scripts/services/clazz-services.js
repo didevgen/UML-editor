@@ -5,11 +5,8 @@
 'use strict';
 angular.module('jumlitApp').service('ClazzServices', function (Utils, $rootScope, Clazz, Enums, Session) {
 
-    function notifyClassUpdated(id) {
-        return this.getClass(id).then(function (clazz) {
-            $rootScope.$emit(Enums.events.CLASS_UPDATED, clazz);
-            return clazz;
-        })
+    function notifyClassUpdated(clazz) {
+        $rootScope.$emit(Enums.events.CLASS_UPDATED, clazz);
     }
 
     function prefixUrl(url) {
@@ -18,7 +15,7 @@ angular.module('jumlitApp').service('ClazzServices', function (Utils, $rootScope
 
     return {
         getClass: function (id) {
-            return Utils.getRequest(prefixUrl(id))
+            return Utils.postRequest(prefixUrl(id))
                 .then(function (data) {
                     return new Clazz(data);
                 });
@@ -40,23 +37,23 @@ angular.module('jumlitApp').service('ClazzServices', function (Utils, $rootScope
         },
         addMethod: function (clazz, method) {
             return Utils.postRequest(prefixUrl(clazz.classId + '/methods/add'), method)
-                .then(notifyClassUpdated.bind(this, clazz.classId));
+                .then(notifyClassUpdated);
         },
         updateMethod: function (clazz, method) {
             return Utils.postRequest(prefixUrl(clazz.classId + '/methods/update'), method)
-                .then(notifyClassUpdated.bind(this, clazz.classId));
+                .then(notifyClassUpdated);
         },
         removeMethod: function (clazz, method) {
             return Utils.postRequest(prefixUrl(clazz.classId + '/methods/' + method.id + '/remove'))
-                .then(notifyClassUpdated.bind(this, clazz.classId));
+                .then(notifyClassUpdated);
         },
         addField: function (clazz, field) {
             return Utils.postRequest(prefixUrl(clazz.classId + '/fields/add'), field)
-                .then(notifyClassUpdated.bind(this, clazz.classId));
+                .then(notifyClassUpdated);
         },
         updateField: function (clazz, field) {
             return Utils.postRequest(prefixUrl(clazz.classId + '/fields/update'), field)
-                .then(notifyClassUpdated.bind(this, clazz.classId));
+                .then(notifyClassUpdated);
         },
         removeField: function (clazz, field) {
             return Utils.postRequest(prefixUrl(clazz.classId + '/fields/' + field.id + '/remove'));

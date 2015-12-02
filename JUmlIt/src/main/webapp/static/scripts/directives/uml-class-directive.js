@@ -1,5 +1,5 @@
 'use strict';
-angular.module('jumlitApp').directive('umlClass', function($rootScope, Enums, ClazzServices) {
+angular.module('jumlitApp').directive('umlClass', function($rootScope, Enums) {
     return {
         transclude: true,
         scope: {
@@ -23,20 +23,24 @@ angular.module('jumlitApp').directive('umlClass', function($rootScope, Enums, Cl
                 });
             });
 
-            element.find('input,select').on('mousedown click', function(evt) {
-                evt.stopPropagation();
+            $rootScope.$on(Enums.events.CLASS_UPDATED, function(clazz) {
+                if ($scope.clazz.classId !== clazz.id) {
+                    return
+                }
+                angular.extend($scope.clazz, clazz);
             });
-            element.find('.delete').on('click', _.bind(cell.remove, cell));
+
+
+            element.find('.delete').on('click', function() {
+                cell.remove();
+            });
 
             cell.on('change', function() {
                 updateBox();
                 updateClazz();
             });
-
-            cell.on('remove', function() {
-                element.remove();
-                ClazzServices.removeClass($scope.clazz);
-            });
+            cell.on('remove', removeClazz);
+            cell.on('change', _.debounce(notifyUpdate, 500));
 
             updateBox();
             updateClazz();
@@ -48,10 +52,10 @@ angular.module('jumlitApp').directive('umlClass', function($rootScope, Enums, Cl
 
             function updateClazz() {
                 var bbox = cell.getBBox();
-                $scope.clazz.position = {
+                angular.extend($scope.clazz.position, {
                     x: bbox.x,
                     y: bbox.y
-                };
+                });
             }
 
             function updateBox() {
@@ -62,6 +66,15 @@ angular.module('jumlitApp').directive('umlClass', function($rootScope, Enums, Cl
                     top: bbox.y,
                     transform: 'rotate(' + (cell.get('angle') || 0) + 'deg)'
                 });
+            }
+
+            function removeClazz() {
+                element.remove();
+                $scope.$emit(Enums.events.CLASS_REMOVED, $scope.clazz);
+            }
+
+            function notifyUpdate() {
+                $scope.$emit(Enums.events.CLASS_UPDATED, $scope.clazz)
             }
         }
     };

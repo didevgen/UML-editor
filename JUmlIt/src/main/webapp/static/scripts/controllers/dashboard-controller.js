@@ -1,65 +1,59 @@
 'use strict';
 angular.module('jumlitApp').controller('DashboardCtrl', function ($scope, $uibModal, $state, $timeout, Session,
-        DiagramServices, Enums, $rootScope) {
+                                                                  DiagramServices, Enums, $rootScope) {
 
     $scope.user = Session.user;
 
     $scope.timers = [];
-    $scope.ownDiagrams = [];
-    $scope.collabDiagrams = [];
 
     $scope.pageSize = 8;
-    $scope.maxPages = 4;
 
-    $scope.ownDiagramsPages = 0;
-    $scope.ownDiagramsPageNum = 0;
-    $scope.ownDiagramsPage = [];
+    $scope.ownDiagrams = {
+        list: [],
+        pageNum: 1,
+        page: []
+    };
 
-    $scope.collabDiagramsPages = 0;
-    $scope.collabDiagramsPageNum = 0;
-    $scope.collabDiagramsPage = [];
+    $scope.collabDiagrams = {
+        list: [],
+        pageNum: 1,
+        page: []
+    };
 
-    $rootScope.$on(Enums.events.DIAGRAM_ADDED, function(event, diagram) {
-        $scope.ownDiagrams.push(diagram);
+    $rootScope.$on(Enums.events.DIAGRAM_ADDED, function (event, diagram) {
+        $scope.ownDiagrams.list.push(diagram);
     });
 
-    $rootScope.$on(Enums.events.DIAGRAM_UPDATED, function(event, diagram) {
+    $rootScope.$on(Enums.events.DIAGRAM_UPDATED, function (event, diagram) {
         var index = _.findIndex($scope.ownDiagrams, {diagramId: diagram.diagramId});
-        $scope.ownDiagrams.splice(index, 1, diagram);
+        $scope.ownDiagrams.list.splice(index, 1, diagram);
     });
 
-    $rootScope.$on(Enums.events.DIAGRAM_REMOVED, function(event, diagram) {
+    $rootScope.$on(Enums.events.DIAGRAM_REMOVED, function (event, diagram) {
         var index = _.findIndex($scope.ownDiagrams, {diagramId: diagram.diagramId});
-        $scope.ownDiagrams.splice(index, 1);
+        $scope.ownDiagrams.list.splice(index, 1);
     });
 
-    DiagramServices.getDiagrams().then(function(data) {
-        console.log(data);
-        angular.extend($scope, data);
+    DiagramServices.getDiagrams().then(function (data) {
+        $scope.ownDiagrams.list = data.ownDiagrams;
+        $scope.collabDiagrams.list = data.collabDiagrams;
     });
 
-    function fillCollabDiagramsPage() {
-        $scope.collabDiagramsPage = $scope.collabDiagrams.slice($scope.collabDiagramsPageNum * $scope.pageSize, $scope.pageSize);
+    $scope.fillCollabDiagramsPage = function () {
+        var startIndex = ($scope.collabDiagrams.pageNum - 1) * $scope.pageSize;
+        $scope.collabDiagrams.page = $scope.collabDiagrams.list.slice(startIndex,
+            startIndex + $scope.pageSize);
     }
 
-    function fillOwnDiagramsPage() {
-        $scope.ownDiagramsPage = $scope.ownDiagrams.slice($scope.ownDiagramsPageNum * $scope.pageSize, $scope.pageSize);
+    $scope.fillOwnDiagramsPage = function () {
+        var startIndex = ($scope.ownDiagrams.pageNum - 1) * $scope.pageSize;
+        $scope.ownDiagrams.page.splice.apply($scope.ownDiagrams.page,
+            [0, $scope.pageSize].concat($scope
+                .ownDiagrams.list.slice(startIndex, startIndex + $scope.pageSize)));
     }
 
-    $scope.$watch('ownDiagrams', function () {
-        $scope.ownDiagramsPages = Math.floor($scope.ownDiagrams.length - 1 / $scope.diagramsOnPage);
-        fillOwnDiagramsPage();
-    });
-    $scope.$watch('collabDiagrams', function () {
-        $scope.collabDiagramsPages = Math.floor($scope.collabDiagrams.length - 1 / $scope.diagramsOnPage);
-        fillCollabDiagramsPage();
-    });
-    $scope.$watch('ownDiagramsPageNum', function () {
-        fillOwnDiagramsPage();
-    });
-    $scope.$watch('collabDiagramsPageNum', function () {
-        fillCollabDiagramsPage();
-    });
+    $scope.$watch('ownDiagrams.list', $scope.fillOwnDiagramsPage);
+    $scope.$watch('collabDiagrams.list', $scope.fillCollabDiagramsPage);
 
     $scope.editDetails = function () {
         $state.go('account.user-info');
@@ -80,7 +74,8 @@ angular.module('jumlitApp').controller('DashboardCtrl', function ($scope, $uibMo
 
 
     $scope.editDiagram = function (diagram) {
-        $scope.openEditModal('EditDiagramModalController', diagram).result.then(function (result) {});
+        $scope.openEditModal('EditDiagramModalController', diagram).result.then(function (result) {
+        });
     };
 
     $scope.openEditModal = function (controller, diagram) {

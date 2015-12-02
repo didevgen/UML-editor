@@ -35,7 +35,7 @@
                         <uib-tab heading="My diagrams">
                             <ul class="list-group diagrams-list">
                                 <li class="list-group-item list-element pointer"
-                                   ng-repeat="diagram in ownDiagrams" ng-click="openDiagram(diagram)">
+                                    ng-repeat="diagram in ownDiagrams.page" ng-click="openDiagram(diagram)">
                                     <span class="pull-left">{{diagram.name}}</span>
                                     <span class="glyphicon glyphicon-cog list-element-control pointer-primary"
                                           ng-click="editDiagram(diagram); $event.stopPropagation();"></span>
@@ -52,16 +52,17 @@
                                     </div>
                                 </li>
                             </ul>
-                            <div class="no-diagrams" ng-hide="ownDiagrams.length">No diagrams yet!</div>
-                            <uib-pagination total-items="ownDiagrams.length" ng-model="ownDiagramsPageNum"
-                                            max-size="maxPages" class="pagination-sm" boundary-links="true"
-                                            rotate="false" num-pages="ownDiagramsPages"
-                                            ng-show="ownDiagramsPage.length"></uib-pagination>
+                            <div class="no-diagrams" ng-hide="ownDiagrams.list.length">No diagrams yet!</div>
+                            <uib-pagination total-items="ownDiagrams.list.length"
+                                            ng-model="ownDiagrams.pageNum" ng-change="fillOwnDiagramsPage()"
+                                            class="pagination-sm" boundary-links="true"
+                                            rotate="false" items-per-page="pageSize"
+                                            ng-show="ownDiagrams.list.length"></uib-pagination>
                         </uib-tab>
                         <uib-tab heading="Collaborate to">
                             <ul class="list-group diagrams-list">
                                 <a class="list-group-item list-element pointer"
-                                   ng-repeat="diagram in collabDiagrams" ng-click="openDiagram(diagram)">
+                                   ng-repeat="diagram in collabDiagrams.page" ng-click="openDiagram(diagram)">
                                     <span class="pull-left">{{diagram.name}}</span>
                                     <span class="glyphicon glyphicon-cog list-element-control pointer-primary"
                                           ng-click="editDiagram(diagram); $event.stopPropagation();"></span>
@@ -77,11 +78,12 @@
                                     </div>
                                 </a>
                             </ul>
-                            <div class="no-diagrams" ng-hide="collabDiagrams.length">No diagrams yet!</div>
-                            <uib-pagination total-items="collabDiagrams.length" ng-model="collabDiagramsPageNum"
+                            <div class="no-diagrams" ng-hide="collabDiagrams.list.length">No diagrams yet!</div>
+                            <uib-pagination total-items="collabDiagrams.list.length"
+                                            ng-model="collabDiagrams.pageNum" ng-change="fillCollabDiagramsPage()"
                                             max-size="maxPages" class="pagination-sm" boundary-links="true"
-                                            rotate="false" num-pages="collabDiagramsPages"
-                                            ng-show="collabDiagramsPage.length"></uib-pagination>
+                                            rotate="false"
+                                            ng-show="collabDiagrams.list.length"></uib-pagination>
                         </uib-tab>
                     </uib-tabset>
                 </div>

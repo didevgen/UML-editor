@@ -7,6 +7,7 @@ import java.util.Set;
 
 import javax.swing.JOptionPane;
 
+import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.joda.time.DateTime;
@@ -51,7 +52,9 @@ public class DiagramDAOImpl implements DiagramDAO {
 		UserDao dao = new UserDAOImpl();
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
-			diagram = (Diagram) session.get(Diagram.class, id);
+			diagram = (Diagram) session.load(Diagram.class, id);
+			Hibernate.initialize(diagram.getClasses());
+			Hibernate.initialize(diagram.getCollaborators());
 		} catch (Exception e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(null, e.getMessage(), "������ I/O",

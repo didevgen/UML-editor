@@ -2,7 +2,7 @@
     <button class="delete">x</button>
     <div class="panel panel-default panel-cell">
         <div class="panel-heading">
-            <h3 class="panel-title">{{class.name}}</h3>
+            <h3 class="panel-title">{{clazz.name}}</h3>
         </div>
         <ul class="list-group">
             <li href="#" class="list-group-item subheading">
@@ -10,14 +10,14 @@
                 <div class="btn-group actions">
                 </div>
             </li>
-            <li href="#" class="list-group-item" ng-repeat="method in class.methods">{{method | formatMethod}}</li>
-            <li href="#" class="list-group-item no-methods" ng-hide="class.methods.length">No methods</li>
+            <li href="#" class="list-group-item" ng-repeat="method in clazz.methods">{{method | formatMethod}}</li>
+            <li href="#" class="list-group-item no-methods" ng-hide="clazz.methods.length">No methods</li>
 
             <li href="#" class="list-group-item subheading">
                 Fields
             </li>
-            <li href="#" class="list-group-item" ng-repeat="field in class.fields">{{field | formatField}}</li>
-            <li href="#" class="list-group-item no-fields" ng-hide="class.fields.length">No fields</li>
+            <li href="#" class="list-group-item" ng-repeat="field in clazz.fields">{{field | formatField}}</li>
+            <li href="#" class="list-group-item no-fields" ng-hide="clazz.fields.length">No fields</li>
         </div>
     </div>
 </div>

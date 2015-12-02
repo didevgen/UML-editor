@@ -1,6 +1,6 @@
 'use strict';
-angular.module('jumlitApp').directive('diagramCanvas', function($q, Cells, $compile, $rootScope, Enums, ClazzServices,
-            Clazz, $timeout) {
+angular.module('jumlitApp').directive('diagramCanvas', function($q, Cells, $compile, $rootScope, Enums,
+            Clazz, $timeout, ClazzServices) {
     return {
         restrict: 'E',
         templateUrl: 'templates/diagram-canvas.html',
@@ -21,7 +21,7 @@ angular.module('jumlitApp').directive('diagramCanvas', function($q, Cells, $comp
 
             $scope.dropped = null;
             $scope.graph = graph;
-            $scope.classes.forEach(addClass);
+            $scope.classes.forEach(addClassToGraph);
 
             paper.on('blank:pointerclick', function() {
                 var previousSelected = graph.get('selected');
@@ -43,21 +43,27 @@ angular.module('jumlitApp').directive('diagramCanvas', function($q, Cells, $comp
                         y: event.clientY - 100
                     }
                 });
-                addClass(clazz);
-                clazz.isTemp = true;
+                addClassToGraph(clazz);
+                clazz.temp = true;
                 ClazzServices.createClass(clazz).then(function(fetchedClazz) {
                     fetchedClazz.cellModel = clazz.cellModel;
                     var index = _.findIndex($scope.classes, {isTemp: true});
+                    delete clazz.temp;
                     $scope.classes.splice(index, 1, fetchedClazz);
                 });
             };
 
-            function addClass(clazz) {
+            function addClassToGraph(clazz) {
                 var cellModel = Cells.create('Class', clazz.position);
                 clazz.cellModel = cellModel;
                 $scope.classes.push(clazz);
                 graph.addCell(clazz.cellModel);
             }
+
+            $scope.$on(Enums.events.CLASS_REMOVED, function(event, clazz) {
+                var index = _.findIndex($scope.classes, { classId: clazz.classId });
+                $scope.classes.splice(index, 1);
+            })
 
         }
     };
