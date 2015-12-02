@@ -10,8 +10,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="diagram-brand navbar-brand" href="#">{{diagramModel.diagram.name}}</a>
-            </div>
+                <a class="diagram-brand navbar-brand" href="#">{{diagram.name}}</a> </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -45,9 +44,9 @@
     </nav>
     <div class="diagram-workspace">
         <div class="workspace-col" ng-include="'templates/diagram-tools.html'"></div>
-        <diagram-canvas></diagram-canvas>
+        <diagram-canvas classes="diagram.classes"></diagram-canvas>
         <div class="workspace-col tool-blocks">
-            <div class="tool-block" ng-include="'templates/cell-settings.html'" ng-show="showSettings"></div>
+            <div class="tool-block" ng-include="'templates/clazz-settings.html'" ng-show="showSettings"></div>
             <div class="tool-block" ng-include="'templates/comments.html'" ng-show="showComments"></div>
         </div>
     </div>

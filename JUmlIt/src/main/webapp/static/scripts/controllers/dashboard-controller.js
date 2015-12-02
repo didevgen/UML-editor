@@ -1,5 +1,9 @@
 'use strict';
-angular.module('jumlitApp').controller('DashboardCtrl', function ($scope, $uibModal, $state, $timeout, Session, Utils) {
+angular.module('jumlitApp').controller('DashboardCtrl', function ($scope, $uibModal, $state, $timeout, Session,
+        DiagramServices, Enums, $rootScope) {
+
+    $scope.user = Session.user;
+
     $scope.timers = [];
     $scope.ownDiagrams = [];
     $scope.collabDiagrams = [];
@@ -14,6 +18,25 @@ angular.module('jumlitApp').controller('DashboardCtrl', function ($scope, $uibMo
     $scope.collabDiagramsPages = 0;
     $scope.collabDiagramsPageNum = 0;
     $scope.collabDiagramsPage = [];
+
+    $rootScope.$on(Enums.events.DIAGRAM_ADDED, function(event, diagram) {
+        $scope.ownDiagrams.push(diagram);
+    });
+
+    $rootScope.$on(Enums.events.DIAGRAM_UPDATED, function(event, diagram) {
+        var index = _.findIndex($scope.ownDiagrams, {diagramId: diagram.diagramId});
+        $scope.ownDiagrams.splice(index, 1, diagram);
+    });
+
+    $rootScope.$on(Enums.events.DIAGRAM_REMOVED, function(event, diagram) {
+        var index = _.findIndex($scope.ownDiagrams, {diagramId: diagram.diagramId});
+        $scope.ownDiagrams.splice(index, 1);
+    });
+
+    DiagramServices.getDiagrams().then(function(data) {
+        console.log(data);
+        angular.extend($scope, data);
+    });
 
     function fillCollabDiagramsPage() {
         $scope.collabDiagramsPage = $scope.collabDiagrams.slice($scope.collabDiagramsPageNum * $scope.pageSize, $scope.pageSize);
@@ -38,16 +61,6 @@ angular.module('jumlitApp').controller('DashboardCtrl', function ($scope, $uibMo
         fillCollabDiagramsPage();
     });
 
-    function refreshDiagrams() {
-        Utils.postRequest('account/' + Session.user.userId + '/details').then(function (details) {
-            $scope.ownDiagrams = details.ownDiagrams;
-            $scope.collabDiagrams = details.collabDiagrams;
-        });
-    }
-
-    $scope.user = Session.user;
-    refreshDiagrams();
-
     $scope.editDetails = function () {
         $state.go('account.user-info');
     };
@@ -61,18 +74,13 @@ angular.module('jumlitApp').controller('DashboardCtrl', function ($scope, $uibMo
     $scope.createDiagram = function () {
         $scope.openEditModal('NewDiagramModalController', {}).result.then(function (result) {
             if (result.success) {
-                refreshDiagrams();
             }
         });
     };
 
 
     $scope.editDiagram = function (diagram) {
-        $scope.openEditModal('EditDiagramModalController', diagram).result.then(function (result) {
-            if (result.success) {
-                refreshDiagrams();
-            }
-        });
+        $scope.openEditModal('EditDiagramModalController', diagram).result.then(function (result) {});
     };
 
     $scope.openEditModal = function (controller, diagram) {
@@ -114,9 +122,7 @@ angular.module('jumlitApp').controller('DashboardCtrl', function ($scope, $uibMo
         document.getElementById("deleteContainer" + diagram.diagramId).parentNode.className =
             document.getElementById("deleteContainer" + diagram.diagramId).parentNode.className + " deleting";
         $timeout(function () {
-            Utils.postRequest('diagram/' + diagram.diagramId + '/remove').then(function () {
-                refreshDiagrams();
-            });
+            DiagramServices.removeDiagram(diagram);
         }, 150);
     };
 

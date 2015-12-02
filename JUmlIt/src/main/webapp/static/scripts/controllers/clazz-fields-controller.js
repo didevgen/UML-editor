@@ -3,7 +3,7 @@
  */
 
 'use strict';
-angular.module('jumlitApp').controller('CellFieldsCtrl', function($scope, Enums) {
+angular.module('jumlitApp').controller('ClazzFieldsCtrl', function($scope, Enums, ClazzServices) {
 
     $scope.accessModifiers = Enums.accessModifiers;
     $scope.status = 'viewing';
@@ -23,11 +23,14 @@ angular.module('jumlitApp').controller('CellFieldsCtrl', function($scope, Enums)
     };
 
     $scope.addField = function(field) {
-        $scope.cell.fields.push(field);
-        $scope.status = 'viewing';
+        ClazzServices.addField($scope.clazz, field)
+            .then(function() {
+                $scope.status = 'viewing';
+            });
     };
 
     $scope.deleteField = function(field) {
+        ClazzServices.removeField($scope.clazz, field);
     };
 
     $scope.editField = function(field) {
@@ -35,7 +38,10 @@ angular.module('jumlitApp').controller('CellFieldsCtrl', function($scope, Enums)
         $scope.field = field;
     };
 
-    $scope.saveField = function(field) {
-        $scope.status = 'viewing';
+    $scope.updateField = function(field) {
+        ClazzServices.updateField($scope.clazz, field)
+            .then(function() {
+                $scope.status = 'viewing';
+            });
     };
 })

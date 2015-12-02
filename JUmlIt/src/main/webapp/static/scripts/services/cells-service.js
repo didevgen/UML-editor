@@ -11,9 +11,7 @@ angular.module('jumlitApp').service('Cells', function() {
                     stroke: 'none',
                     'fill-opacity': 0
                 }
-            },
-            methods: [],
-            attributes: []
+            }
         }, joint.shapes.basic.Rect.prototype.defaults)
     });
 
@@ -28,9 +26,8 @@ angular.module('jumlitApp').service('Cells', function() {
     };
 
     return {
-        create: function(type, position, name) {
+        create: function(type, position) {
             var cell = cells[type];
-            cell.set('name', name);
             cell.set('position', position);
             return cell.clone();
         }

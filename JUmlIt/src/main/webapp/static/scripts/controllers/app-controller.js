@@ -1,3 +1,3 @@
 'use strict';
-angular.module('jumlitApp').controller('AppCtrl', function($rootScope, Authorization, $scope) {
+angular.module('jumlitApp').controller('AppCtrl', function($rootScope, $scope) {
 });

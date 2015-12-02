@@ -2,7 +2,6 @@
 angular.module('jumlitApp').service('Utils', function($q, Config, Session) {
     function ajaxRequest(type, url, data, options) {
         var deferred = $q.defer();
-        data = data || {};
 
         var defaultOptions = {
             type: type,

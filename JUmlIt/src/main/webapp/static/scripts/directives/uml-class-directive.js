@@ -1,5 +1,5 @@
 'use strict';
-angular.module('jumlitApp').directive('umlClass', function() {
+angular.module('jumlitApp').directive('umlClass', function($rootScope, Enums, ClazzServices) {
     return {
         transclude: true,
         scope: {
@@ -10,17 +10,20 @@ angular.module('jumlitApp').directive('umlClass', function() {
         templateUrl: 'templates/uml-class.html',
         link: function($scope, element) {
             var cell = $scope.cell;
-            $scope.class = $scope.class || {
+            $scope.clazz = $scope.clazz || {
                 fields: [],
                 methods: []
             };
 
-            $scope.$on('cellSelected', function(event, id) {
+            $scope.$on(Enums.events.CELL_SELECTED, function(event, id) {
                 $scope.$apply(function() {
-                    $scope.selected = id === $scope.cell.id;
+                    $scope.selected = id === cell.id;
+                    if ($scope.selected) {
+                        $rootScope.$emit(Enums.events.CLASS_SELECTED, $scope.clazz);
+                    }
                 });
             });
-            $scope.$on('cellDeselected', function() {
+            $rootScope.$on(Enums.events.CLASS_DESELECTED, function() {
                 $scope.$apply(function() {
                     $scope.selected = false;
                 });
@@ -31,18 +34,34 @@ angular.module('jumlitApp').directive('umlClass', function() {
             });
             element.find('.delete').on('click', _.bind(cell.remove, cell));
 
-            cell.on('change', updateBox, this);
-            cell.on('remove', function() {element.remove();});
+            cell.on('change', function() {
+                updateBox();
+                updateClazz();
+            });
+
+            cell.on('remove', function() {
+                element.remove();
+                ClazzServices.removeClass($scope.clazz);
+            });
+
             updateBox();
+            updateClazz();
+            updateCell();
+
+            function updateCell() {
+                cell.set('height', element.height());
+            }
+
+            function updateClazz() {
+                var bbox = cell.getBBox();
+                $scope.clazz.position = {
+                    x: bbox.x,
+                    y: bbox.y
+                };
+            }
 
             function updateBox() {
-                $scope.class = {
-                    name: cell.get('name'),
-                    methods: cell.get('methods'),
-                    fields: cell.get('fields')
-                };
                 var bbox = cell.getBBox();
-                cell.set('height', element.height());
                 element.css({
                     width: bbox.width,
                     left: bbox.x,

@@ -1,10 +1,11 @@
 'use strict';
-angular.module('jumlitApp').directive('diagramCanvas', function($q, Cells, $compile) {
+angular.module('jumlitApp').directive('diagramCanvas', function($q, Cells, $compile, $rootScope, Enums, ClazzServices,
+            Clazz) {
     return {
         restrict: 'E',
         templateUrl: 'templates/diagram-canvas.html',
         scope: {
-
+            classes: '='
         },
         link: function($scope, element, attrs) {
             var graph = new joint.dia.Graph;
@@ -19,6 +20,8 @@ angular.module('jumlitApp').directive('diagramCanvas', function($q, Cells, $comp
             $('#diagram-canvas svg').removeAttr('height');
 
             $scope.dropped = null;
+            $scope.graph = graph;
+            $scope.classes.forEach(addClass);
 
             paper.on('blank:pointerclick', function() {
                 var previousSelected = graph.get('selected');
@@ -26,35 +29,34 @@ angular.module('jumlitApp').directive('diagramCanvas', function($q, Cells, $comp
                     previousSelected.set('selected', false);
                 }
                 graph.set('selected', null);
-                $scope.$emit('cellDeselected');
-                $scope.$broadcast('cellDeselected');
+                $rootScope.$emit(Enums.events.CLASS_DESELECTED);
             });
             paper.on('cell:pointerclick', function(cellView) {
                 graph.set('selected', cellView.model);
-                $scope.$emit('cellSelected', cellView.model);
-                $scope.$broadcast('cellSelected', cellView.model.id);
+                $scope.$broadcast(Enums.events.CELL_SELECTED, cellView.model.id);
             });
 
             $scope.onDrop = function(event, data) {
-                var position = {
-                    x: event.clientX - 150,
-                    y: event.clientY - 100
-                };
-                console.log(event, data, position);
-
-                var type = $scope.dropped.name;
-                var cellModel = Cells.create(type, position, $scope.dropped.text);
-
-                var directiveScope = $scope.$new();
-                directiveScope.cellModel = cellModel;
-                directiveScope.graph = graph;
-
-                graph.set('selected', cellModel);
-
-                var cellView = $compile('<uml-class graph="graph" cell-model="cellModel">')(directiveScope);
-                $('#diagram-canvas').append(cellView);
-                graph.addCell(cellModel);
+                addClass(new Clazz({
+                    position: {
+                        x: event.clientX - 150,
+                        y: event.clientY - 100
+                    }
+                }));
             };
+
+            function addClass(clazz) {
+                var cellModel = Cells.create('Class', clazz.position);
+                clazz.cellModel = cellModel;
+                $scope.classes.push(clazz);
+
+                ClazzServices.createClass(clazz)
+                    .then(function(fetchedClazz) {
+                        $scope.$apply(function() {
+                            angular.extend(clazz, fetchedClazz);
+                        });
+                    });
+            }
 
         }
     };

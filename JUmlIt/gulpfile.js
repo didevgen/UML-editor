@@ -52,7 +52,6 @@ gulp.task('serve', ['index'], function() {
                 var fileName = url.parse(req.url);
                 fileName = fileName.href.split('/sigma').join("");
                 req.url = "/" + fileName;
-                console.log(fileName);
                 return next();
             }
         }

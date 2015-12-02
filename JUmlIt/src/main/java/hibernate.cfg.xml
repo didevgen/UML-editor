@@ -25,7 +25,7 @@
 			root
 		</property>
 		<property name="hibernate.connection.password">
-
+			Qrj8XUPLSPD7SsRZ
 		</property>
 		<mapping class="ua.nure.sigma.db_entities.User" />
 		<mapping class="ua.nure.sigma.db_entities.Token" />

@@ -7,18 +7,22 @@ angular.module('jumlitApp').service('Enums', function() {
 
     return {
         accessModifiers: {
-            PUBLIC: {
-                name: 'public'
-            },
-            PRIVATE: {
-                name: 'private'
-            },
-            PROTECTED: {
-                name: 'protected'
-            },
-            DEFAULT: {
-                name: 'default'
-            }
+            PUBLIC: 'public',
+            PRIVATE: 'private',
+            PROTECTED: 'protected',
+            DEFAULT: 'default'
+        },
+        events: {
+            CLASS_UPDATED: 'classUpdated',
+            CLASS_SELECTED: 'classSelected',
+            CLASS_REMOVED: 'classRemoved',
+            CLASS_DESELECTED: 'classDeselected',
+            CELL_SELECTED: 'cellSelected',
+            CELL_DESELECTED: 'cellDeselected',
+            DIAGRAM_ADDED: 'diagramAdded',
+            DIAGRAM_REMOVED: 'diagramRemoved',
+            DIAGRAM_UPDATED: 'diagramUpdated',
         }
     };
+
 });

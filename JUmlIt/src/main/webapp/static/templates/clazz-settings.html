@@ -1,4 +1,4 @@
-<div class="tool-panel-container" ng-controller="CellSettingsCtrl">
+<div class="tool-panel-container" ng-controller="ClazzSettingsCtrl">
     <div class="panel panel-primary tool-panel">
         <div class="panel-heading">Cell settings</div>
         <div class="panel-body">
@@ -7,7 +7,7 @@
                     <form>
                         <div class="form-group">
                             <label>Name:</label>
-                            <input type="text" ng-model="cell.name" class="form-control" placeholder="Name">
+                            <input type="text" ng-model="clazz.name" class="form-control" placeholder="Name">
                         </div>
                         <div class="form-group">
                             <label>Access modifier</label>
@@ -15,13 +15,13 @@
                             <div class="btn-group">
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
                                         aria-haspopup="true" aria-expanded="false">
-                                    {{cell.accessModifier.name}}
+                                    {{clazz.accessModifier}}
                                     <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu">
                                     <li>
                                         <a href="javascript:void(0)" ng-repeat="(key, value) in accessModifiers"
-                                           ng-click="cell.accessModifier = value">{{value.name}}</a>
+                                           ng-click="clazz.accessModifier = value">{{value.name}}</a>
                                     </li>
                                 </ul>
                             </div>
@@ -29,10 +29,10 @@
                     </form>
                 </uib-tab>
                 <uib-tab heading="Fields">
-                    <div ng-include="'templates/cell-fields.html'"></div>
+                    <div ng-include="'templates/clazz-fields.html'"></div>
                 </uib-tab>
                 <uib-tab heading="Methods">
-                    <div ng-include="'templates/cell-methods.html'"></div>
+                    <div ng-include="'templates/clazz-methods.html'"></div>
                 </uib-tab>
             </uib-tabset>
         </div>
