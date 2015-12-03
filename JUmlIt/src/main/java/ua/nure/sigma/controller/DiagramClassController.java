@@ -10,6 +10,7 @@ import ua.nure.sigma.db_entities.Diagram;
 import ua.nure.sigma.db_entities.diagram.Clazz;
 import ua.nure.sigma.db_entities.diagram.Field;
 import ua.nure.sigma.db_entities.diagram.Method;
+import ua.nure.sigma.db_entities.diagram.Position;
 import ua.nure.sigma.service.ClassDiagramService;
 import ua.nure.sigma.service.DiagramService;
 
@@ -29,6 +30,10 @@ public class DiagramClassController {
 
 	@RequestMapping(value = "/diagram/{diagramId}/classes/update", method = RequestMethod.POST)
 	public Clazz updateClass(@RequestBody Clazz clazz, @PathVariable long diagramId) {
+		Diagram diagram = diagramService.getDiagramById(diagramId);
+		clazz.setDiagramOwner(diagram);
+		Position pos = clazz.getPosition();
+		pos.setClazz(clazz);
 		service.updateClass(clazz);
 		return service.getClass(clazz.getClassId());
 	}
@@ -72,11 +77,15 @@ public class DiagramClassController {
 	
 	@RequestMapping(value = "/diagram/{diagramId}/classes/{classId}/fields/update", method = RequestMethod.POST)
 	public void updateField(@RequestBody Field field,@PathVariable long diagramId,@PathVariable long classId) {
+		Clazz clazz = service.getClass(classId);
+		field.setClassOwner(clazz);
 		service.updateField(field);
 	}
 	
 	@RequestMapping(value = "/diagram/{diagramId}/classes/{classId}/methods/update", method = RequestMethod.POST)
 	public void updateMethod(@RequestBody Method method,@PathVariable long diagramId,@PathVariable long classId) {
+		Clazz clazz = service.getClass(classId);
+		method.setClassOwner(clazz);
 		service.updateMethod(method);
 	}
 
