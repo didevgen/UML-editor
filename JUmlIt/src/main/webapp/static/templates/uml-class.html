@@ -13,13 +13,25 @@
                 <div class="btn-group actions">
                 </div>
             </li>
-            <li href="#" class="list-group-item" ng-repeat="method in clazz.methods">{{method | formatMethod}}</li>
+            <li href="#" class="list-group-item" ng-repeat="method in clazz.methods">
+                <i ng-show="method.accessModifier === accessModifiers.PUBLIC" class="fa fa-plus access-modifier"></i>
+                <i ng-show="method.accessModifier === accessModifiers.PRIVATE" class="fa fa-minus access-modifier"></i>
+                <i ng-show="method.accessModifier === accessModifiers.PROTECTED" class="fa fa-hash access-modifier"></i>
+                <i ng-show="method.accessModifier === accessModifiers.DEFAULT" class="fa fa-tilde access-modifier"></i>
+                <span ng-class="{'static': method.isStatic}">{{method | formatMethod}}</span>
+            </li>
             <li href="#" class="list-group-item no-methods" ng-hide="clazz.methods.length">No methods</li>
 
             <li href="#" class="list-group-item subheading">
                 Fields
             </li>
-            <li href="#" class="list-group-item" ng-repeat="field in clazz.fields">{{field | formatField}}</li>
+            <li href="#" class="list-group-item" ng-repeat="field in clazz.fields">
+                <i ng-show="field.accessModifier === accessModifiers.PUBLIC" class="fa fa-plus access-modifier"></i>
+                <i ng-show="field.accessModifier === accessModifiers.PRIVATE" class="fa fa-minus access-modifier"></i>
+                <i ng-show="field.accessModifier === accessModifiers.PROTECTED" class="fa fa-hash access-modifier"></i>
+                <i ng-show="field.accessModifier === accessModifiers.DEFAULT" class="fa fa-tilde access-modifier"></i>
+                <span ng-class="{'static': field.isStatic}">{{field | formatField}}</span>
+            </li>
             <li href="#" class="list-group-item no-fields" ng-hide="clazz.fields.length">No fields</li>
         </div>
     </div>

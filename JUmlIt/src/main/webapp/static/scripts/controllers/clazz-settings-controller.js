@@ -17,7 +17,7 @@ angular.module('jumlitApp').controller('ClazzSettingsCtrl', function ($scope, Ut
         });
     });
 
-    $rootScope.$on(Enums.events.CLASS_UPDATED, function (clazz) {
+    $rootScope.$on(Enums.events.CLASS_UPDATED, function (event, clazz) {
         if (!$scope.clazz || clazz.classId !== $scope.clazz.classId) {
             return;
         }

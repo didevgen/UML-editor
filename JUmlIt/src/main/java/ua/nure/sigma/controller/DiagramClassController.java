@@ -33,7 +33,7 @@ public class DiagramClassController {
 		Diagram diagram = diagramService.getDiagramById(diagramId);
 		clazz.setDiagramOwner(diagram);
 		service.updateClass(clazz);
-		return service.getClass(clazz.getClassId());
+		return clazz;
 	}
 
 	@RequestMapping(value = "/diagram/{diagramId}/classes/{classId}/remove", method = RequestMethod.POST)
@@ -47,47 +47,45 @@ public class DiagramClassController {
 	}
 	
 	@RequestMapping(value = "/diagram/{diagramId}/classes/{classId}/fields/add", method = RequestMethod.POST)
-	public Clazz addField(@RequestBody Field field, @PathVariable long diagramId,@PathVariable long classId) {
+	public Field addField(@RequestBody Field field, @PathVariable long diagramId,@PathVariable long classId) {
 		Clazz clazz = service.getClass(classId);
 		field.setClassOwner(clazz);
 		clazz.getFields().add(field);
-		service.addField(field);
-		return clazz;
+		return service.addField(field);
 	}
 	
 	@RequestMapping(value = "/diagram/{diagramId}/classes/{classId}/methods/add", method = RequestMethod.POST)
-	public Clazz addMethod(@RequestBody Method method, @PathVariable long diagramId,@PathVariable long classId) {
-		System.out.println(method);
+	public Method addMethod(@RequestBody Method method, @PathVariable long diagramId,@PathVariable long classId) {
 		Clazz clazz = service.getClass(classId);
+		clazz.getMethods().add(method);
 		method.setClassOwner(clazz);
-		service.addMethod(method);
-		return clazz;
+		return service.addMethod(method);
 	}
 	
 	@RequestMapping(value = "/diagram/{diagramId}/classes/{classId}/fields/{fieldId}/remove", method = RequestMethod.POST)
-	public Clazz removeField(@PathVariable long diagramId,@PathVariable long classId,@PathVariable long fieldId) {
+	public void removeField(@PathVariable long diagramId,@PathVariable long classId,@PathVariable long fieldId) {
 		service.removeField(fieldId);
-		return service.getClass(classId);
 	}
 	
 	@RequestMapping(value = "/diagram/{diagramId}/classes/{classId}/methods/{methodId}/remove", method = RequestMethod.POST)
-	public Clazz removeMethod(@PathVariable long diagramId,@PathVariable long classId,@PathVariable long methodId) {
+	public void removeMethod(@PathVariable long diagramId,@PathVariable long classId,@PathVariable long methodId) {
 		service.removeMethod(methodId);
-		return service.getClass(classId);
 	}
 	
 	@RequestMapping(value = "/diagram/{diagramId}/classes/{classId}/fields/update", method = RequestMethod.POST)
-	public void updateField(@RequestBody Field field,@PathVariable long diagramId,@PathVariable long classId) {
+	public Field updateField(@RequestBody Field field,@PathVariable long diagramId,@PathVariable long classId) {
 		Clazz clazz = service.getClass(classId);
 		field.setClassOwner(clazz);
 		service.updateField(field);
+		return field;
 	}
 	
 	@RequestMapping(value = "/diagram/{diagramId}/classes/{classId}/methods/update", method = RequestMethod.POST)
-	public void updateMethod(@RequestBody Method method,@PathVariable long diagramId,@PathVariable long classId) {
+	public Method updateMethod(@RequestBody Method method,@PathVariable long diagramId,@PathVariable long classId) {
 		Clazz clazz = service.getClass(classId);
 		method.setClassOwner(clazz);
 		service.updateMethod(method);
+		return method;
 	}
 
 }

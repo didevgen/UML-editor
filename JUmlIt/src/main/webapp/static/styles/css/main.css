@@ -329,6 +329,11 @@ diagram-canvas {
   font-style: italic;
   color: #555; }
 
+table.table.inline-table {
+  margin: 0; }
+  table.table.inline-table td {
+    border: 0; }
+
 div.panel {
   border-radius: 2px; }
   div.panel.panel-primary {
@@ -354,12 +359,20 @@ uml-class {
   pointer-events: none;
   -webkit-user-select: none;
   position: absolute;
-  z-index: 2;
-  border: 0; }
-  uml-class .uml-class-inner.selected {
-    border: 1px #333 dashed; }
-  uml-class .uml-class-inner.static .class-name {
-    text-decoration: underline; }
+  z-index: 2; }
+  uml-class .class-name {
+    font-weight: bolder; }
+  uml-class .access-modifier {
+    margin-right: 5px;
+    font-weight: bolder; }
+  uml-class .uml-class-inner {
+    border: 2px solid #8e44ad; }
+    uml-class .uml-class-inner.selected {
+      border: 2px dashed;
+      border-color: white #8e44ad; }
+  uml-class .static {
+    padding-bottom: 1px;
+    border-bottom: 2px solid; }
   uml-class .class-type {
     display: inline-block;
     width: 100%;
@@ -368,6 +381,8 @@ uml-class {
   uml-class .panel-cell {
     height: 100%;
     margin: 0px;
+    border: 0;
+    border-radius: 0px;
     background-color: #9b59b6; }
     uml-class .panel-cell .panel-heading {
       background-color: #8e44ad;
@@ -383,10 +398,6 @@ uml-class {
     uml-class .popover .list-group li, uml-class .popover .dropdown-menu li, uml-class .popover .dropdown-menu a {
       background-color: white;
       color: #333; }
-    uml-class .popover .inline-table {
-      margin: 0; }
-      uml-class .popover .inline-table td {
-        border: 0; }
     uml-class .popover .add-argument {
       font-size: 12px; }
     uml-class .popover .panel-footer {
@@ -437,6 +448,12 @@ uml-class {
   uml-class .no-fields, uml-class .no-methods {
     font-style: italic;
     padding: 5px; }
+
+.fa-tilde:before {
+  content: '~'; }
+
+.fa-hash:before {
+  content: '#'; }
 
 .dashboard-panel {
   min-height: 200px; }

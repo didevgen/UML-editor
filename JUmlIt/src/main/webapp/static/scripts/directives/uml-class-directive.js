@@ -11,6 +11,8 @@ angular.module('jumlitApp').directive('umlClass', function($rootScope, Enums) {
         link: function($scope, element) {
             var cell = $scope.cell;
 
+            $scope.accessModifiers = Enums.accessModifiers;
+
             $scope.$on(Enums.events.CELL_SELECTED, function(event, id) {
                 $scope.selected = id === cell.id;
                 if ($scope.selected) {
@@ -23,9 +25,9 @@ angular.module('jumlitApp').directive('umlClass', function($rootScope, Enums) {
                 });
             });
 
-            $rootScope.$on(Enums.events.CLASS_UPDATED, function(clazz) {
-                if ($scope.clazz.classId !== clazz.id) {
-                    return
+            $rootScope.$on(Enums.events.CLASS_UPDATED, function(event, clazz) {
+                if ($scope.clazz.classId !== clazz.classId) {
+                    return;
                 }
                 angular.extend($scope.clazz, clazz);
             });

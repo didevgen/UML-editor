@@ -159,3 +159,12 @@ diagram-canvas {
   font-style: italic;
   color: $font-color-darker1;
 }
+
+table.table.inline-table {
+  margin: 0;
+
+  td {
+    border: 0;
+  }
+
+}

@@ -5,17 +5,29 @@ uml-class {
     -webkit-user-select: none;
     position: absolute;
     z-index: 2;
-    border:0;
+
+    .class-name {
+      font-weight: bolder;
+    }
+
+    .access-modifier {
+      margin-right: 5px;
+      font-weight: bolder;
+    }
 
     .uml-class-inner {
+      border: 2px solid $uml-class-heading;
+
       &.selected {
-        border: 1px $border-color-dark dashed;
+        border: 2px dashed;
+        border-color: white $uml-class-heading;
       }
-      &.static {
-        .class-name {
-          text-decoration: underline;
-        }
-      }
+
+    }
+
+    .static {
+      padding-bottom: 1px;
+      border-bottom: 2px solid;
     }
 
     .class-type {
@@ -29,6 +41,8 @@ uml-class {
     .panel-cell {
         height: 100%;
         margin: 0px;
+        border: 0;
+        border-radius: 0px;
         background-color: $uml-class-body;
 
         .panel-heading {
@@ -53,14 +67,6 @@ uml-class {
             color: $font-color-dark;
         }
 
-        .inline-table {
-            margin: 0;
-
-            td {
-                border: 0;
-            }
-
-        }
 
         .add-argument {
             font-size: 12px;
@@ -136,3 +142,6 @@ uml-class {
       padding: 5px;
     }
 }
+
+.fa-tilde:before { content: '~'; }
+.fa-hash:before { content: '#'; }

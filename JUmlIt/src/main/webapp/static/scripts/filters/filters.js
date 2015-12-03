@@ -1,11 +1,15 @@
 'use strict';
 angular.module('jumlitApp').filter('formatField', function() {
     return function(field) {
-        return field.type + ':' + field.name;
+        return field.name + ': ' + field.type;
     };
 }).filter('formatMethod', function() {
     return function(method) {
-        return method.returnType + ':' + method.name;
+        method.args = method.args || [];
+        var args = _.map(method.args, function(arg) {
+            return arg.type + ' ' + arg.name;
+        }).join(', ');
+        return method.name + '(' + args + ') : ' + method.returnType;
     };
 }).filter('formatClassType', function(Enums) {
     return function(classType) {
