@@ -9,5 +9,5 @@ bower_components/
 npm-debug*
 *.sw*
 *.idea
-hibernate.cfg.xml
+**/hibernate.cfg.xml
 /JUmlIt/src/main/java/hibernate.cfg.xml
