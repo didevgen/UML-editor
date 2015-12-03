@@ -9,6 +9,7 @@ angular.module('jumlitApp').factory('Clazz', function(Enums) {
 
         angular.extend(this, {
             name: 'Class',
+            classType: Enums.classTypes.CLASS,
             accessModifier: Enums.accessModifiers.PUBLIC,
             isStatic: false,
             fields: [],

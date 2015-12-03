@@ -161,6 +161,13 @@ ul.pagination > .active > a {
   font-size: 16px;
   font-weight: bolder; }
 
+.custom-header .navbar-default .navbar-toggle:hover, .custom-header .navbar-default .navbar-toggle:focus {
+  background-color: white;
+  border-color: white; }
+
+.custom-header .navbar-toggle:hover .icon-bar, .custom-header .navbar-toggle:focus .icon-bar {
+  background-color: #1abc9c; }
+
 .custom-header .navbar-brand {
   color: white;
   font-weight: bolder; }
@@ -351,6 +358,13 @@ uml-class {
   border: 0; }
   uml-class .uml-class-inner.selected {
     border: 1px #333 dashed; }
+  uml-class .uml-class-inner.static .class-name {
+    text-decoration: underline; }
+  uml-class .class-type {
+    display: inline-block;
+    width: 100%;
+    font-size: 13px;
+    margin-bottom: 4px; }
   uml-class .panel-cell {
     height: 100%;
     margin: 0px;

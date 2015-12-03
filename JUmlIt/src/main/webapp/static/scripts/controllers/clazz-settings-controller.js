@@ -1,13 +1,14 @@
 'use strict';
 angular.module('jumlitApp').controller('ClazzSettingsCtrl', function ($scope, Utils, Enums, $rootScope, ClazzServices) {
     $scope.accessModifiers = Enums.accessModifiers;
+    $scope.classTypes = Enums.classTypes;
 
     var updateClazz = _.debounce(function() {
         if (!$scope.clazz) {
             return;
         }
         ClazzServices.updateClass($scope.clazz);
-    });
+    }, 500);
 
     $rootScope.$on(Enums.events.CLASS_SELECTED, function (event, clazz) {
         $scope.$apply(function () {
@@ -25,4 +26,6 @@ angular.module('jumlitApp').controller('ClazzSettingsCtrl', function ($scope, Ut
 
     $scope.$watch('clazz.name', updateClazz);
     $scope.$watch('clazz.accessModifier', updateClazz);
+    $scope.$watch('clazz.isStatic', updateClazz);
+    $scope.$watch('clazz.classType', updateClazz);
 });

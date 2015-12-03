@@ -1,6 +1,17 @@
 @import 'color-palette.scss';
 
 .custom-header {
+    .navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
+        background-color: white;
+        border-color: white;
+    }
+
+    .navbar-toggle:hover, .navbar-toggle:focus {
+        .icon-bar {
+            background-color: $color-primary;
+        }
+    }
+
     .navbar-brand {
         color: white;
         font-weight: bolder;

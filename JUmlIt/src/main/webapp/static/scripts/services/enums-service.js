@@ -12,6 +12,11 @@ angular.module('jumlitApp').service('Enums', function() {
             PROTECTED: 'protected',
             DEFAULT: 'default'
         },
+        classTypes: {
+            CLASS: 'Class',
+            ABSTRACT_CLASS: 'Abstract class',
+            INTERFACE: 'Interface'
+        },
         events: {
             CLASS_ADDED: 'classAdded',
             CLASS_UPDATED: 'classUpdated',

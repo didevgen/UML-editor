@@ -1,8 +1,11 @@
-<div class="uml-class-inner" ng-class="{'selected': selected}">
+<div class="uml-class-inner" ng-class="{'selected': selected, 'static': clazz.isStatic}">
     <button class="delete">x</button>
     <div class="panel panel-default panel-cell">
         <div class="panel-heading">
-            <h3 class="panel-title">{{clazz.name}}</h3>
+            <h3 class="panel-title">
+                <span class="class-type" ng-hide="clazz.classType === classTypes.CLASS">{{clazz.classType | formatClassType}}</span>
+                <span class="class-name">{{clazz.name}}</span>
+            </h3>
         </div>
         <ul class="list-group">
             <li href="#" class="list-group-item subheading">

@@ -1,19 +1,9 @@
 'use strict';
-angular.module('jumlitApp').controller('DiagramToolsCtrl', function($scope) {
+angular.module('jumlitApp').controller('DiagramToolsCtrl', function($scope, Enums) {
     $scope.groups = {
         general: true
     };
-    $scope.figureTypes = [{
-        text: 'Class',
-        name: 'Class'
-
-    }, {
-        name: 'Interface',
-        text: 'Interface'
-    }, {
-        name: 'Abstract',
-        text: 'Abstract class'
-    }];
-
     $scope.collapsed = false;
+
+    $scope.classTypes = Enums.classTypes;
 });

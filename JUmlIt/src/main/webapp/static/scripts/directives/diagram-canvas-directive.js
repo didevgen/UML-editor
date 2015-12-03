@@ -16,11 +16,11 @@ angular.module('jumlitApp').directive('diagramCanvas', function($q, Cells, $comp
                 height: '',
                 width: "100%"
             });
-
             $('#diagram-canvas svg').removeAttr('height');
 
             $scope.dropped = null;
             $scope.graph = graph;
+            $scope.classTypes = Enums.classTypes;
             $scope.classes.forEach(addClassToGraph);
 
             paper.on('blank:pointerclick', function() {
@@ -36,12 +36,13 @@ angular.module('jumlitApp').directive('diagramCanvas', function($q, Cells, $comp
                 $scope.$broadcast(Enums.events.CELL_SELECTED, cellView.model.id);
             });
 
-            $scope.onDrop = function(event, data) {
+            $scope.onDrop = function(event) {
                 var clazz = new Clazz({
                     position: {
                         x: event.clientX - 150,
                         y: event.clientY - 100
-                    }
+                    },
+                    classType: $scope.dropped
                 });
                 addClassToGraph(clazz);
                 clazz.temp = true;

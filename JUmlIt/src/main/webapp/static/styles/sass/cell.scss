@@ -7,8 +7,22 @@ uml-class {
     z-index: 2;
     border:0;
 
-    .uml-class-inner.selected {
+    .uml-class-inner {
+      &.selected {
         border: 1px $border-color-dark dashed;
+      }
+      &.static {
+        .class-name {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    .class-type {
+      display: inline-block;
+      width: 100%;
+      font-size: 13px;
+      margin-bottom: 4px;
     }
 
 
