@@ -18,6 +18,10 @@ public class ClassDiagramService {
 	}
 
 	public void updateClass(Clazz clazz) {
+		Position pos = clazz.getPosition();
+		pos.setClazz(clazz);
+		clazz.getFields().forEach(item->item.setClassOwner(clazz));
+		clazz.getMethods().forEach(item->item.setClassOwner(clazz));
 		dao.updateClazz(clazz);
 	}
 
