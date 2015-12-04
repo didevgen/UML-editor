@@ -25,12 +25,12 @@ angular.module('jumlitApp').controller('DashboardCtrl', function ($scope, $uibMo
     });
 
     $rootScope.$on(Enums.events.DIAGRAM_UPDATED, function (event, diagram) {
-        var index = _.findIndex($scope.ownDiagrams, {diagramId: diagram.diagramId});
+        var index = _.findIndex($scope.ownDiagrams.list, {diagramId: diagram.diagramId});
         $scope.ownDiagrams.list.splice(index, 1, diagram);
     });
 
     $rootScope.$on(Enums.events.DIAGRAM_REMOVED, function (event, diagram) {
-        var index = _.findIndex($scope.ownDiagrams, {diagramId: diagram.diagramId});
+        var index = _.findIndex($scope.ownDiagrams.list, {diagramId: diagram.diagramId});
         $scope.ownDiagrams.list.splice(index, 1);
     });
 
@@ -117,10 +117,7 @@ angular.module('jumlitApp').controller('DashboardCtrl', function ($scope, $uibMo
         document.getElementById("deleteContainer" + diagram.diagramId).parentNode.className =
             document.getElementById("deleteContainer" + diagram.diagramId).parentNode.className + " deleting";
         $timeout(function () {
-            DiagramServices.removeDiagram(diagram).then(function() {
-                var index = _.findIndex($scope.ownDiagrams, { diagramId: diagram.diagramId });
-                $scope.ownDiagrams.list.splice(index, 1);
-            });
+            DiagramServices.removeDiagram(diagram);
         }, 150);
     };
 
