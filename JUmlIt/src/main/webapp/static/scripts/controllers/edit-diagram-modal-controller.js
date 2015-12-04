@@ -1,7 +1,7 @@
 'use strict';
-angular.module('jumlitApp').controller('EditDiagramModalController', function ($scope, $uibModalInstance, diagram, Utils) {
+angular.module('jumlitApp').controller('EditDiagramModalController', function ($scope, $uibModalInstance, id, Utils) {
     (function () {
-        Utils.getRequest('diagram/' + diagram.diagramId).then(function (model) {
+        Utils.getRequest('diagram/' + id).then(function (model) {
             $scope.diagramModel = model;
         });
     })();
@@ -10,14 +10,15 @@ angular.module('jumlitApp').controller('EditDiagramModalController', function ($
         Utils.postRequest('diagram/update', $scope.diagramModel)
             .then(function (model) {
                 if (model.ok) {
-                    return Utils.getRequest('diagram/' + diagram.diagramId);
+                    return Utils.getRequest('diagram/' + id);
                 } else {
                     throw model;
                 }
             })
             .then(function (model) {
                 $uibModalInstance.close(model);
-            }).catch(function (err) {
+            })
+            .catch(function (err) {
                 $uibModalInstance.dismiss(err);
             });
     };

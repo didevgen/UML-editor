@@ -10,7 +10,8 @@ angular.module('jumlitApp').controller('NewDiagramModalController', function ($s
     };
 
     $scope.save = function () {
-        Utils.postRequest('diagram/create', $scope.diagramModel).then(function (res) {
+        Utils.postRequest('diagram/create', $scope.diagramModel)
+            .then(function (res) {
                 $uibModalInstance.close(res.diagram);
             })
             .catch(function (err) {

@@ -4,33 +4,61 @@ angular.module('jumlitApp').controller('DashboardCtrl', function ($scope, $uibMo
     $scope.ownDiagrams = [];
     $scope.collabDiagrams = [];
 
-    $scope.pageSize = 8;
-    $scope.maxPages = 4;
+    $scope.pageSize = 6;
+    $scope.visiblePages = 6;
 
-    $scope.ownDiagramsPages = 0;
-    $scope.ownDiagramsPageNum = 0;
+    $scope.ownDiagramsBounary = false;
+    $scope.collabDiagramsBounary = false;
+
+    $scope.ownDiagramsPages = 1;
+    $scope.ownDiagramsPageNum = 1;
     $scope.ownDiagramsPage = [];
 
-    $scope.collabDiagramsPages = 0;
-    $scope.collabDiagramsPageNum = 0;
+    $scope.collabDiagramsPages = 1;
+    $scope.collabDiagramsPageNum = 1;
     $scope.collabDiagramsPage = [];
 
+    $scope.setOwnPage = function (page) {
+        $scope.ownDiagramsPageNum = page;
+    }
+
+    $scope.setCollabPage = function (page) {
+        $scope.collabDiagramsPageNum = page;
+    }
+
     function fillCollabDiagramsPage() {
-        $scope.collabDiagramsPage = $scope.collabDiagrams.slice($scope.collabDiagramsPageNum * $scope.pageSize, $scope.pageSize);
+        $scope.collabDiagramsPage = $scope.collabDiagrams.slice(($scope.collabDiagramsPageNum - 1) * $scope.pageSize, ($scope.collabDiagramsPageNum - 1) * $scope.pageSize + $scope.pageSize);
     }
 
     function fillOwnDiagramsPage() {
-        $scope.ownDiagramsPage = $scope.ownDiagrams.slice($scope.ownDiagramsPageNum * $scope.pageSize, $scope.pageSize);
+        //TODO fix refreshing
+        $scope.ownDiagramsPage = $scope.ownDiagrams.slice(($scope.ownDiagramsPageNum - 1) * $scope.pageSize, ($scope.ownDiagramsPageNum - 1) * $scope.pageSize + $scope.pageSize);
     }
 
     $scope.$watch('ownDiagrams', function () {
-        $scope.ownDiagramsPages = Math.floor($scope.ownDiagrams.length - 1 / $scope.diagramsOnPage);
-        fillOwnDiagramsPage();
-    });
+        if ($scope.ownDiagrams.length) {
+            $scope.ownDiagramsPages = Math.ceil($scope.ownDiagrams.length / $scope.pageSize);
+            if ($scope.ownDiagramsPages > $scope.visiblePages) {
+                $scope.ownDiagramsBounary = true;
+            }
+            else {
+                $scope.ownDiagramsBounary = false;
+            }
+            fillOwnDiagramsPage();
+        }
+    }, true);
     $scope.$watch('collabDiagrams', function () {
-        $scope.collabDiagramsPages = Math.floor($scope.collabDiagrams.length - 1 / $scope.diagramsOnPage);
-        fillCollabDiagramsPage();
-    });
+        if ($scope.collabDiagrams.length) {
+            $scope.collabDiagramsPages = Math.ceil($scope.collabDiagrams.length / $scope.pageSize);
+            if ($scope.collabDiagramsPages > $scope.visiblePages) {
+                $scope.collabDiagramsBounary = true;
+            }
+            else {
+                $scope.collabDiagramsBounary = false;
+            }
+            fillCollabDiagramsPage();
+        }
+    }, true);
     $scope.$watch('ownDiagramsPageNum', function () {
         fillOwnDiagramsPage();
     });
@@ -39,6 +67,7 @@ angular.module('jumlitApp').controller('DashboardCtrl', function ($scope, $uibMo
     });
 
     function refreshDiagrams() {
+        console.log(Session.user);
         Utils.postRequest('account/' + Session.user.userId + '/details')
             .then(function (details) {
                 $scope.ownDiagrams = details.ownDiagrams;
@@ -56,9 +85,9 @@ angular.module('jumlitApp').controller('DashboardCtrl', function ($scope, $uibMo
         $state.go('account.user-info');
     };
 
-    $scope.openDiagram = function (diagram) {
+    $scope.openDiagram = function (id) {
         $state.go("diagram", {
-            diagramId: diagram.diagramId
+            diagramId: id
         });
     }
 
@@ -75,11 +104,10 @@ angular.module('jumlitApp').controller('DashboardCtrl', function ($scope, $uibMo
             });
     };
 
-
-    $scope.editDiagram = function (diagram) {
-        $scope.openEditModal('EditDiagramModalController', diagram).result.then(function (result) {
+    $scope.editDiagram = function (id) {
+        $scope.openEditModal('EditDiagramModalController', id).result.then(function (result) {
             if (result) {
-                $.extend($scope.ownDiagrams[findDiagramIndexById($scope.ownDiagrams, result.diagram.diagramId)], result.diagram);
+                angular.extend($scope.ownDiagrams[findDiagramIndexById($scope.ownDiagrams, result.diagram.diagramId)], result.diagram);
             }
         }, function (msg) {
             if (msg) {
@@ -88,34 +116,34 @@ angular.module('jumlitApp').controller('DashboardCtrl', function ($scope, $uibMo
         });
     };
 
-    $scope.openEditModal = function (controller, diagram) {
+    $scope.openEditModal = function (controller, id) {
         return $uibModal.open({
             templateUrl: 'modals/edit-diagram-modal.html',
             controller: controller,
             resolve: {
-                diagram: function () {
-                    return diagram;
+                id: function () {
+                    return id;
                 }
             }
         });
     };
 
-    $scope.deleteDiagram = function (diagram) {
-        diagram.deleted = true;
-        document.getElementById("deleteContainer" + diagram.diagramId).addEventListener('mouseout', function () {
-            var timerId = findIndexById($scope.timers, diagram.diagramId);
-            if (timerId < 0 && diagram.deleted) {
+    $scope.deleteDiagram = function (id) {
+        $scope.ownDiagrams[findDiagramIndexById($scope.ownDiagrams, id)].deleted = true;
+        document.getElementById("deleteContainer" + id).addEventListener('mouseout', function () {
+            var timerId = findIndexById($scope.timers, id);
+            if (timerId < 0 && $scope.ownDiagrams[findDiagramIndexById($scope.ownDiagrams, id)].deleted) {
                 $scope.timers.push({
                     timer: $timeout(function () {
-                        $scope.confirmDelete(diagram);
+                        $scope.confirmDelete(id);
                         $scope.timers.splice(timerId, 1);
                     }, 5000),
-                    id: diagram.diagramId
+                    id: id
                 });
             }
         });
-        document.getElementById("deleteContainer" + diagram.diagramId).addEventListener('mouseover', function () {
-            var timerId = findIndexById($scope.timers, diagram.diagramId);
+        document.getElementById("deleteContainer" + id).addEventListener('mouseover', function () {
+            var timerId = findIndexById($scope.timers, id);
             if (timerId >= 0) {
                 $timeout.cancel($scope.timers[timerId].timer);
                 $scope.timers.splice(timerId, 1);
@@ -123,15 +151,15 @@ angular.module('jumlitApp').controller('DashboardCtrl', function ($scope, $uibMo
         });
     };
 
-    $scope.confirmDelete = function (diagram) {
-        document.getElementById("deleteContainer" + diagram.diagramId).parentNode.className =
-            document.getElementById("deleteContainer" + diagram.diagramId).parentNode.className + " deleting";
+    $scope.confirmDelete = function (id) {
+        document.getElementById("deleteContainer" + id).parentNode.className =
+            document.getElementById("deleteContainer" + id).parentNode.className + " deleting";
         $timeout(function () {
-            Utils.postRequest('diagram/' + diagram.diagramId + '/remove')
+            Utils.postRequest('diagram/' + id + '/remove')
                 .then(function (result) {
                     if (result.ok) {
                         $scope.ownDiagrams = $scope.ownDiagrams.filter(function (obj) {
-                            return obj.diagramId !== diagram.diagramId;
+                            return obj.diagramId !== id;
                         });
                     } else {
                         throw result;
@@ -142,9 +170,9 @@ angular.module('jumlitApp').controller('DashboardCtrl', function ($scope, $uibMo
         }, 150);
     };
 
-    $scope.cancelDeleting = function (diagram) {
-        diagram.deleted = false;
-        var timerId = findIndexById($scope.timers, diagram.diagramId);
+    $scope.cancelDeleting = function (id) {
+        $scope.ownDiagrams[findDiagramIndexById($scope.ownDiagrams, id)].deleted = false;
+        var timerId = findIndexById($scope.timers, id);
         if (timerId >= 0) {
             $timeout.cancel($scope.timers[timerId].timer);
             $scope.timers.splice(timerId, 1);
