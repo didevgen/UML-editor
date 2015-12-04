@@ -139,5 +139,14 @@ public class Method {
 				+ ", returnType=" + returnType + ", args=" + args + "]";
 	}
 	
+	@OneToMany
+	@JoinColumn(name = "argument_id")
+	public List<Argument> getArgs() {
+		return args;
+	}
+
+	public void setArgs(List<Argument> args) {
+		this.args = args;
+	}
 
 }
