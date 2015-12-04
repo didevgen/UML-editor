@@ -10,27 +10,28 @@ angular.module('jumlitApp').directive('umlClass', function($rootScope, Enums) {
         templateUrl: 'templates/uml-class.html',
         link: function($scope, element) {
             var cell = $scope.cell;
+            var listeners = [];
 
             $scope.accessModifiers = Enums.accessModifiers;
 
-            $scope.$on(Enums.events.CELL_SELECTED, function(event, id) {
+            listeners.push($scope.$on(Enums.events.CELL_SELECTED, function(event, id) {
                 $scope.selected = id === cell.id;
                 if ($scope.selected) {
                     $rootScope.$emit(Enums.events.CLASS_SELECTED, $scope.clazz);
                 }
-            });
-            $rootScope.$on(Enums.events.CLASS_DESELECTED, function() {
+            }));
+            listeners.push($rootScope.$on(Enums.events.CLASS_DESELECTED, function() {
                 $scope.$apply(function() {
                     $scope.selected = false;
                 });
-            });
+            }));
 
-            $rootScope.$on(Enums.events.CLASS_UPDATED, function(event, clazz) {
+            listeners.push($rootScope.$on(Enums.events.CLASS_UPDATED, function(event, clazz) {
                 if ($scope.clazz.classId !== clazz.classId) {
                     return;
                 }
                 angular.extend($scope.clazz, clazz);
-            });
+            }));
 
 
             element.find('.delete').on('click', function() {
@@ -71,6 +72,9 @@ angular.module('jumlitApp').directive('umlClass', function($rootScope, Enums) {
             }
 
             function removeClazz() {
+                listeners.forEach(function(unsubscribe) {
+                    unsubscribe();
+                });
                 element.remove();
                 $scope.$emit(Enums.events.CLASS_REMOVED, $scope.clazz);
             }
