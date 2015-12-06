@@ -1,5 +1,5 @@
 'use strict';
-angular.module('jumlitApp').directive('umlClass', function($rootScope, Enums) {
+angular.module('jumlitApp').directive('umlClass', function($rootScope, Enums, $timeout) {
     return {
         transclude: true,
         scope: {
@@ -39,19 +39,27 @@ angular.module('jumlitApp').directive('umlClass', function($rootScope, Enums) {
                 cell.remove();
             });
 
+            console.log(cell.resize);
+
             cell.on('change', function() {
                 updateBox();
                 updateClazz();
+                updateCell();
             });
             cell.on('remove', removeClazz);
             cell.on('change', _.debounce(notifyUpdate, 500));
 
-            updateBox();
-            updateClazz();
-            updateCell();
+            $timeout(function() {
+                updateBox();
+                updateClazz();
+                updateCell();
+            });
 
             function updateCell() {
-                cell.set('height', element.height());
+                var bbox = cell.getBBox();
+                if (bbox.height !== element.height()) {
+                    cell.resize(bbox.width, element.height() || bbox.height);
+                }
             }
 
             function updateClazz() {
