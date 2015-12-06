@@ -13,11 +13,18 @@
                     <button class="btn btn-default fa fa-repeat"></button>
                 </div>
 
-                <button class="btn btn-default fa fa-floppy-o"></button>
+                <div class="btn-group" role="group">
+                    <button class="btn btn-default fa fa-floppy-o"></button>
+                    <button class="btn btn-default fa fa-history"></button>
+                </div>
             </li>
             <li class="action-tile action-tile-right">
                 <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-primary fa fa-history"></button>
+                    <button type="button" class="btn btn-primary fa fa-users"
+                            uib-popover-template="'templates/collaborators-popover.html'"
+                            popover-placement="bottom"
+                            popover-title="Collaborators">
+                    </button>
                     <button type="button" class="btn btn-primary fa fa-comments" ng-click="toggleComments()"></button>
                 </div>
             </li>

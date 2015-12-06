@@ -26,3 +26,45 @@
     }
   }
 }
+
+.popover-title {
+  color: $font-color-dark;
+}
+
+.popover {
+  color: $font-color-dark;
+  pointer-events: auto;
+  width: 200px;
+  left: -150px !important;
+
+  &.bottom .arrow {
+    left: auto;
+    right: 18px;
+  }
+
+  .popover-content {
+    padding: 0px;
+
+    .list-group {
+      margin: 0;
+    }
+
+    .list-group-item {
+      border-right: 0;
+      border-left: 0;
+
+      &:first-child {
+        border-top: 0;
+      }
+
+      &:last-child {
+        border-bottom: 0;
+      }
+    }
+  }
+
+  .list-group li, .dropdown-menu li, .dropdown-menu a{
+    background-color: white;
+    color: $font-color-dark;
+  }
+}

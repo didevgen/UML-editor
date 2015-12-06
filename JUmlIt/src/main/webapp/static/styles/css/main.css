@@ -385,6 +385,9 @@ div.panel {
 .panel-group .subpanel + .subpanel {
   margin-top: 0; }
 
+.list-group-item.fa:before {
+  margin-right: 8px; }
+
 uml-class {
   /* Make sure events are propagated to the JointJS element so, e.g. dragging works.*/
   pointer-events: none;
@@ -420,19 +423,6 @@ uml-class {
       border-color: #8e44ad;
       color: white;
       text-align: center; }
-  uml-class .popover-title {
-    color: #333; }
-  uml-class .popover {
-    color: #333;
-    pointer-events: auto;
-    width: 300px; }
-    uml-class .popover .list-group li, uml-class .popover .dropdown-menu li, uml-class .popover .dropdown-menu a {
-      background-color: white;
-      color: #333; }
-    uml-class .popover .add-argument {
-      font-size: 12px; }
-    uml-class .popover .panel-footer {
-      padding: 5px; }
   uml-class .list-group a, uml-class .list-group li {
     padding: 5px 15px;
     background-color: #a66bbe;
@@ -587,6 +577,32 @@ uml-class {
 
 .navbar-diagram .nav.navbar-nav li .user-toggle .fa-user {
   font-size: 20px; }
+
+.popover-title {
+  color: #333; }
+
+.popover {
+  color: #333;
+  pointer-events: auto;
+  width: 200px;
+  left: -150px !important; }
+  .popover.bottom .arrow {
+    left: auto;
+    right: 18px; }
+  .popover .popover-content {
+    padding: 0px; }
+    .popover .popover-content .list-group {
+      margin: 0; }
+    .popover .popover-content .list-group-item {
+      border-right: 0;
+      border-left: 0; }
+      .popover .popover-content .list-group-item:first-child {
+        border-top: 0; }
+      .popover .popover-content .list-group-item:last-child {
+        border-bottom: 0; }
+  .popover .list-group li, .popover .dropdown-menu li, .popover .dropdown-menu a {
+    background-color: white;
+    color: #333; }
 
 .browsehappy {
   margin: 0.2em 0;

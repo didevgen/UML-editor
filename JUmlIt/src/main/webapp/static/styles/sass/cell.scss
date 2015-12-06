@@ -53,30 +53,6 @@ uml-class {
         }
     }
 
-    .popover-title {
-        color: $font-color-dark;
-    }
-
-    .popover {
-        color: $font-color-dark;
-        pointer-events: auto;
-        width: 300px;
-
-        .list-group li, .dropdown-menu li, .dropdown-menu a{
-            background-color: white;
-            color: $font-color-dark;
-        }
-
-
-        .add-argument {
-            font-size: 12px;
-        }
-
-        .panel-footer {
-            padding: 5px;
-        }
-    }
-
 
     .list-group a, .list-group li {
         padding: 5px 15px;
