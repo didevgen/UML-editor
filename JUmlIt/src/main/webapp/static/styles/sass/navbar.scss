@@ -54,4 +54,17 @@
     .nav.navbar-nav .dropdown-menu a{
         color: $font-color-darker1;
     }
+
+    .user-toggle {
+      padding: 12px;
+
+      .fa.fa-user {
+        font-size: 25px;
+      }
+
+      .caret {
+        margin-left: 4px;
+        margin-top: -6px;
+      }
+    }
 }

@@ -1,0 +1,28 @@
+@import 'color-palette.scss';
+
+.navbar-diagram {
+
+  &.navbar {
+    min-height: 0px;
+  }
+
+  .navbar-header {
+    a.navbar-brand {
+      padding: 10px;
+      height: auto;
+    }
+  }
+  .nav.navbar-nav {
+    li {
+      a {
+        padding: 10px;
+      }
+
+      .user-toggle {
+        .fa-user {
+          font-size: 20px;
+        }
+      }
+    }
+  }
+}

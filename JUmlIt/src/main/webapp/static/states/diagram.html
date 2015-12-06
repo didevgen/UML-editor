@@ -1,39 +1,27 @@
 <div class="diagram-main">
-    <div class="header custom-header" ng-include="'templates/navbar.html'"></div>
+    <div class="header custom-header" ng-include="'templates/diagram-navbar.html'"></div>
     <nav class="toolbar navbar navbar-default">
-        <div class="container-fluid">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <a class="diagram-brand navbar-brand" href="#">{{diagram.name}}</a>
-            </div>
-
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <ul class="nav navbar-nav">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                        File <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Save</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">Export as XML</a></li>
-                        <li><a href="#">Import from XML</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">Export as PNG</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                        Source code <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Preview source code</a></li>
-                        <li><a href="#">Generate source code</a></li>
-                    </ul>
-                </li>
-            </ul>
-            <button type="button" class="btn btn-primary comments-btn" ng-click="toggleComments()">Comments</button>
-            <!-- /.navbar-collapse -->
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <a class="diagram-brand navbar-brand" href="#">{{diagram.name}}</a>
         </div>
-        <!-- /.container-fluid -->
+
+        <ul class="nav action-nav">
+            <li class="action-tile">
+                <div class="btn-group" role="group">
+                    <button class="btn btn-default fa fa-undo"></button>
+                    <button class="btn btn-default fa fa-repeat"></button>
+                </div>
+
+                <button class="btn btn-default fa fa-floppy-o"></button>
+            </li>
+            <li class="action-tile action-tile-right">
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-primary fa fa-history"></button>
+                    <button type="button" class="btn btn-primary fa fa-comments" ng-click="toggleComments()"></button>
+                </div>
+            </li>
+        </ul>
     </nav>
     <div class="diagram-workspace">
         <div class="workspace-col" ng-include="'templates/diagram-tools.html'"></div>

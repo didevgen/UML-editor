@@ -13,6 +13,7 @@ angular.module('jumlitApp').directive('umlClass', function($rootScope, Enums) {
             var listeners = [];
 
             $scope.accessModifiers = Enums.accessModifiers;
+            $scope.classTypes = Enums.classTypes;
 
             listeners.push($scope.$on(Enums.events.CELL_SELECTED, function(event, id) {
                 $scope.selected = id === cell.id;

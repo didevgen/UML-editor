@@ -13,10 +13,10 @@ angular.module('jumlitApp').directive('diagramCanvas', function($q, Cells, $comp
                 el: $('#diagram-canvas'),
                 model: graph,
                 gridSize: 1,
-                height: '',
-                width: "100%"
+                height: 3000,
+                width: 3000
             });
-            $('#diagram-canvas svg').removeAttr('height');
+            //$('#diagram-canvas svg').removeAttr('height');
 
             $scope.dropped = null;
             $scope.graph = graph;
@@ -39,7 +39,7 @@ angular.module('jumlitApp').directive('diagramCanvas', function($q, Cells, $comp
             $scope.onDrop = function(event) {
                 var clazz = new Clazz({
                     position: {
-                        x: event.clientX - 150,
+                        x: event.clientX - 250,
                         y: event.clientY - 100
                     },
                     classType: $scope.dropped
