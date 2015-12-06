@@ -110,12 +110,15 @@ public class DiagramDAOImpl implements DiagramDAO {
 	@Override
 	public List<Diagram> getUsersDiagrams(long userId) {
 		Session session = null;
-		List<Diagram> models = new ArrayList<Diagram>();
-		List<Diagram> result = new ArrayList<Diagram>();
+		List<Diagram> ownDiagrams = new ArrayList<Diagram>();
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
-			models = session.createCriteria(Diagram.class).list();
-			result.addAll(getUserOwnDiagrams(userId, models));
+
+			Query query = session.createQuery("FROM Diagram D WHERE D.owner.userId = :userId");
+			query.setParameter("userId", userId);
+			ownDiagrams.addAll(query.list());
+			
+			Hibernate.initialize(ownDiagrams);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -123,18 +126,22 @@ public class DiagramDAOImpl implements DiagramDAO {
 				session.close();
 			}
 		}
-		return result;
+		return ownDiagrams;
 	}
 
 	@Override
 	public List<Diagram> getUsersCollaborationDiagram(long userId) {
 		Session session = null;
-		List<Diagram> result = new ArrayList<Diagram>();
-		List<Diagram> diagrams = new ArrayList<Diagram>();
+		List<Diagram> collabDiagrams = new ArrayList<Diagram>();
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
-			diagrams = session.createCriteria(Diagram.class).list();
-			result.addAll(getUserCollDiagrams(userId, diagrams));
+
+			Query query = session.createQuery(
+					"FROM Diagram D "
+					+ " WHERE :userId in (SELECT userId FROM D.collaborators)");
+			query.setParameter("userId", userId);
+			collabDiagrams.addAll(query.list());
+
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();
@@ -143,36 +150,7 @@ public class DiagramDAOImpl implements DiagramDAO {
 				session.close();
 			}
 		}
-		return result;
-	}
-
-	// Additional logic
-	private List<Diagram> getUserCollDiagrams(long userId, List<Diagram> models) {
-		User user = new User();
-		user.setUserId(userId);
-		List<Diagram> list = new ArrayList<>();
-		for (Diagram diagram : models) {
-			if (diagram.getCollaborators().contains(user)) {
-				diagram.getCollaborators().forEach(
-						collaborator -> collaborator.setPassword(""));
-				list.add(diagram);
-			}
-		}
-		return list;
-	}
-
-	private List<Diagram> getUserOwnDiagrams(long userId, List<Diagram> models) {
-		User user = new User();
-		user.setUserId(userId);
-		List<Diagram> list = new ArrayList<>();
-		for (Diagram diagram : models) {
-			if (diagram.getOwner().getUserId() == userId) {
-				diagram.getCollaborators().forEach(
-						collaborator -> collaborator.setPassword(""));
-				list.add(diagram);
-			}
-		}
-		return list;
+		return collabDiagrams;
 	}
 
 }
