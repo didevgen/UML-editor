@@ -121,7 +121,15 @@
 		name: 'Some name',
 		description: 'Some description',
 		collaborators: [1, 3, 57] #ids of users,
-		classes: [] # collection of classes
+		classes: [] # collection of classes,
+		relationships: [{ # collection of relationships
+			"id": 0,
+			"type": "aggregation",
+			"primaryMemberId": 3,
+			"secondaryMemberId": 4,
+			"primaryToSecondaryMultiplicity": "0..1",
+			"secondaryToPrimaryMultiplicity": "1"
+		}]
 	}
 }
 ```
@@ -135,7 +143,9 @@
 		id: 1,
 		name: 'Some name',
 		description: 'Some description',
-		collaborators: [] # users,
+		collaborators: [] # users,,
+		classes: [],
+		relationships: []
 	}
 }
 ```
