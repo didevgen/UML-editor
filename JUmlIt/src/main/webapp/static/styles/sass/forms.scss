@@ -172,3 +172,15 @@ ul.pagination > .active > a {
   }
 }
 
+.dropdown-double {
+  width: 100%;
+
+  .dropdown-half {
+    width: 48%;
+
+    &:first-child {
+      margin-right: 2%;
+    }
+  }
+}
+

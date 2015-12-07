@@ -35,7 +35,7 @@ angular.module('jumlitApp').directive('umlClass', function($rootScope, Enums, $t
             }));
 
 
-            element.find('.delete').on('click', function() {
+            element.find('.action-delete').on('click', function() {
                 cell.remove();
             });
 
@@ -57,8 +57,8 @@ angular.module('jumlitApp').directive('umlClass', function($rootScope, Enums, $t
 
             function updateCell() {
                 var bbox = cell.getBBox();
-                if (bbox.height !== element.height()) {
-                    cell.resize(bbox.width, element.height() || bbox.height);
+                if (bbox.height !== element.height() || bbox.width !== element.width()) {
+                    cell.resize(element.width(), element.height());
                 }
             }
 
@@ -73,8 +73,7 @@ angular.module('jumlitApp').directive('umlClass', function($rootScope, Enums, $t
             function updateBox() {
                 var bbox = cell.getBBox();
                 element.css({
-                    width: bbox.width,
-                    left: bbox.x,
+                    left: bbox.x + 10,
                     top: bbox.y,
                     transform: 'rotate(' + (cell.get('angle') || 0) + 'deg)'
                 });
@@ -89,8 +88,23 @@ angular.module('jumlitApp').directive('umlClass', function($rootScope, Enums, $t
             }
 
             function notifyUpdate() {
-                $scope.$emit(Enums.events.CLASS_UPDATED, $scope.clazz)
+                $scope.$emit(Enums.events.CLASS_UPDATED, $scope.clazz);
             }
+
+            // connection
+
+            element.find('.action-link').on('mousedown', function(event) {
+                console.log(event);
+                $scope.$emit(Enums.events.CELL_DESELECTED);
+                $scope.$emit(Enums.events.CELL_LINK_STARTED, {
+                    clazz: $scope.clazz,
+                    cell: cell,
+                    position: {
+                        x: event.clientX,
+                        y: event.clientY
+                    }
+                });
+            });
         }
     };
 });

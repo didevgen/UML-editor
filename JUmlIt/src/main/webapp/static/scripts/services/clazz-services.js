@@ -13,6 +13,13 @@ angular.module('jumlitApp').service('ClazzServices', function (Utils, $rootScope
         return 'diagram/' + Session.diagram.diagramId + '/classes/' + url;
     }
 
+    function sanitize(clazz) {
+        var clazz = _.clone(clazz);
+        delete clazz.cellModel;
+        return clazz;
+    }
+
+
     return {
         getClass: function (id) {
             return Utils.postRequest(prefixUrl(id))
@@ -21,7 +28,7 @@ angular.module('jumlitApp').service('ClazzServices', function (Utils, $rootScope
                 });
         },
         updateClass: function (clazz) {
-            return Utils.postRequest(prefixUrl('update'), clazz)
+            return Utils.postRequest(prefixUrl('update'), sanitize(clazz))
                 .then(function (data) {
                     return new Clazz(data);
                 });
@@ -30,7 +37,7 @@ angular.module('jumlitApp').service('ClazzServices', function (Utils, $rootScope
             return Utils.postRequest(prefixUrl(clazz.classId + '/remove'));
         },
         createClass: function (clazz) {
-            return Utils.postRequest(prefixUrl('add'), clazz)
+            return Utils.postRequest(prefixUrl('add'), sanitize(clazz))
                 .then(function (data) {
                     return new Clazz(data);
                 });

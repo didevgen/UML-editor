@@ -1,0 +1,23 @@
+{
+	"relationship": {
+		"type": "aggregation",
+		"primaryMemberId": 3,
+		"secondaryMemberId": 4,
+		"primaryToSecondaryMultiplicity": "0..1",
+		"secondaryToPrimaryMultiplicity": "1"
+	},
+	"types": [
+		"association",
+		"dependency",
+		"aggregation",
+		"composition",
+		"generalization",
+		"realization"
+	],
+	"multiplicities": [
+		"0..1",
+		"1",
+		"0..*",
+		"1..*"
+	]
+}

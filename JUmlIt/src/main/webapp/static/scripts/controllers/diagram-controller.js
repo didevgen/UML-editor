@@ -1,12 +1,15 @@
 'use strict';
 angular.module('jumlitApp').controller('DiagramCtrl', function ($scope, $rootScope, diagram, DiagramServices, Session, Enums,
-        ClazzServices) {
+        ClazzServices, $timeout) {
 
     Session.diagram = diagram;
 
     $scope.diagram = diagram;
+    $scope.diagram.relationships = $scope.diagram.relationships || [];
+
     $scope.showComments = false;
     $scope.showSettings = false;
+    $scope.showRelationshipSettings = false;
 
     $scope.toggleComments = function() {
         $scope.showComments = !$scope.showComments;
@@ -17,7 +20,21 @@ angular.module('jumlitApp').controller('DiagramCtrl', function ($scope, $rootSco
     });
 
     $rootScope.$on(Enums.events.CLASS_SELECTED, function(event, clazz) {
+        $scope.showRelationshipSettings = false;
         $scope.showSettings = true;
+    });
+
+    $rootScope.$on(Enums.events.RELATIONSHIP_SELECTED, function(event, relationship) {
+        $timeout(function() {
+            $scope.showSettings = false;
+            $scope.showRelationshipSettings = true;
+        });
+    });
+
+    $rootScope.$on(Enums.events.RELATIONSHIP_DESELECTED, function() {
+        $timeout(function() {
+            $scope.showRelationshipSettings = false;
+        });
     });
 
     $rootScope.$on(Enums.events.CLASS_DESELECTED, function() {

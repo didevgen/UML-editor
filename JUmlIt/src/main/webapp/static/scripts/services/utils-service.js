@@ -41,7 +41,6 @@ angular.module('jumlitApp').service('Utils', function($q, Config, Session) {
         };
 
         options = options || defaultOptions;
-        console.log(options);
 
         $.ajax(options);
         return deferred.promise;

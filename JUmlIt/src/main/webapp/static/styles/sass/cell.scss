@@ -1,10 +1,42 @@
 @import 'color-palette';
+
+.action {
+  border-radius: 20px;
+  width: 18px;
+  height: 18px;
+  position: absolute;
+  line-height: 18px;
+  text-align: center;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  font-size: 13px;
+  border: none;
+
+  &:hover {
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+  }
+}
+
+uml-class, uml-relationship {
+  /* Make sure events are propagated to the JointJS element so, e.g. dragging works.*/
+  pointer-events: none;
+  -webkit-user-select: none;
+  position: absolute;
+  z-index: 2;
+
+  select,
+  input,
+  button,
+  .btn {
+    /* Enable interacting with inputs only. */
+    pointer-events: auto;
+  }
+}
+
 uml-class {
-    /* Make sure events are propagated to the JointJS element so, e.g. dragging works.*/
-    pointer-events: none;
-    -webkit-user-select: none;
-    position: absolute;
-    z-index: 2;
 
     .class-name {
       font-weight: bolder;
@@ -16,14 +48,19 @@ uml-class {
     }
 
     .uml-class-inner {
+      position: relative;
       border: 2px solid $uml-class-heading;
-
-      &.selected {
-        border: 2px dashed;
-        border-color: white $uml-class-heading;
-      }
-
     }
+
+    .class-selection {
+      position: absolute;
+      top: -5px;
+      left: -5px;
+      height: calc(100% + 10px);
+      width: calc(100% + 10px);
+      border: 2px dashed black;
+    }
+
 
     .static {
       padding-bottom: 1px;
@@ -55,62 +92,33 @@ uml-class {
 
 
     .list-group a, .list-group li {
-        padding: 5px 15px;
-        background-color: $uml-class-list;
-        border: 0;
+      padding: 5px 15px;
+      background-color: $uml-class-list;
+      border: 0;
+      color: white;
+
+      &.subheading {
+        font-weight: bolder;
+        background-color: $uml-class-body;
         color: white;
-
-        &.subheading {
-            font-weight: bolder;
-            background-color: $uml-class-body;
-            color: white;
-        }
+      }
     }
 
-    .actions {
-        float: right;
-    }
+    .action-delete {
+        @extend .action;
 
-    .btn-action {
-        margin-top: -2px;
-        background-color: $uml-class-action-background;
-        //border: 1px solid $uml-class-action-border;
         color: white;
-        padding: 1px 5px;
-        font-size: 12px;
+        background-color: $uml-action-delete;
+        top: -20px;
+        left: -20px;
     }
 
-
-    select,
-    input,
-    button,
-    .btn {
-        /* Enable interacting with inputs only. */
-        pointer-events: auto;
-    }
-
-    button.delete {
+    .action-link {
+        @extend .action;
+        background-color: $uml-action-link;
         color: white;
-        border: none;
-        background-color: #C0392B;
-        border-radius: 20px;
-        width: 15px;
-        height: 15px;
-        line-height: 15px;
-        text-align: center;
-        position: absolute;
-        top: -15px;
-        left: -15px;
-        padding: 0;
-        margin: 0;
-        font-weight: bold;
-        cursor: pointer;
-
-        &:hover {
-            width: 20px;
-            height: 20px;
-            line-height: 20px;
-        }
+        right: -25px;
+        top: calc(50% - 9px);
     }
 
     .no-fields, .no-methods {
@@ -122,6 +130,16 @@ uml-class {
       padding: 1px;
       background-color: $uml-class-action-border;
     }
+}
+
+uml-relationship {
+  .action-settings {
+    @extend .action;
+
+    position: static;
+    color: white;
+    background-color: $uml-action-settings;
+  }
 }
 
 .fa-tilde:before { content: '~'; }

@@ -1,5 +1,9 @@
-<div class="uml-class-inner" ng-class="{'selected': selected, 'static': clazz.isStatic}">
-    <button class="delete">x</button>
+<div class="uml-class-inner" ng-class="{'static': clazz.isStatic}">
+
+    <div class="class-selection"  ng-show="selected"></div>
+    <button class="action-delete fa fa-times" ng-show="selected"></button>
+    <button class="action-link fa fa-arrow-right" ng-show="selected"></button>
+
     <div class="panel panel-default panel-cell">
         <div class="panel-heading">
             <h3 class="panel-title">

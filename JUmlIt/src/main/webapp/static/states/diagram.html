@@ -32,9 +32,11 @@
     </nav>
     <div class="diagram-workspace">
         <div class="workspace-col" ng-include="'templates/diagram-tools.html'"></div>
-        <diagram-canvas classes="diagram.classes"></diagram-canvas>
+        <diagram-canvas classes="diagram.classes" relationships="diagram.relationships"></diagram-canvas>
         <div class="workspace-col tool-blocks">
             <div class="tool-block" ng-include="'templates/clazz-settings.html'" ng-show="showSettings"></div>
+            <div class="tool-block" ng-include="'templates/relationship-settings.html'"
+                 ng-show="showRelationshipSettings"></div>
             <div class="tool-block" ng-include="'templates/comments.html'" ng-show="showComments"></div>
         </div>
     </div>
