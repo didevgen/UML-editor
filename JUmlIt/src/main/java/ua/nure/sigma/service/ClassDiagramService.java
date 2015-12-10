@@ -23,6 +23,8 @@ public class ClassDiagramService {
 		pos.setClazz(clazz);
 		clazz.getFields().forEach(item->item.setClassOwner(clazz));
 		clazz.getMethods().forEach(item->item.setClassOwner(clazz));
+		clazz.getPrimaryRelations().forEach(item->item.setPrimaryMember(clazz));
+		clazz.getSecondaryRelations().forEach(item->item.setSecondaryMember(clazz));
 		dao.updateClazz(clazz);
 	}
 
