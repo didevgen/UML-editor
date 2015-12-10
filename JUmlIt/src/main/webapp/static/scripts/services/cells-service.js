@@ -27,7 +27,7 @@ angular.module('jumlitApp').service('Cells', function() {
 
     return {
         create: function(type, position) {
-            var cell = cells[type];
+            var cell = new uml.Class();
             cell.set('position', position);
             return cell.clone();
         }

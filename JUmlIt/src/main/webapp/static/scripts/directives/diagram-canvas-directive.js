@@ -1,6 +1,6 @@
 'use strict';
 angular.module('jumlitApp').directive('diagramCanvas', function($q, Cells, $compile, $rootScope, Enums,
-            Clazz, $timeout, ClazzServices, Relationship) {
+            Clazz, $timeout, ClazzServices, Relationship, Links) {
     return {
         restrict: 'E',
         templateUrl: 'templates/diagram-canvas.html',
@@ -22,18 +22,8 @@ angular.module('jumlitApp').directive('diagramCanvas', function($q, Cells, $comp
             $scope.graph = graph;
             $scope.paper = paper;
             $scope.classTypes = Enums.classTypes;
-            $scope.classes.forEach(initClass);
-
-            function deselect() {
-                var previousSelected = graph.get('selected');
-                if (previousSelected) {
-                    previousSelected.set('selected', false);
-                }
-                graph.set('selected', null);
-            }
 
             $scope.$on(Enums.events.CELL_DESELECTED, function () {
-                deselect();
                 $rootScope.$emit(Enums.events.CLASS_DESELECTED);
             });
             $rootScope.$on(Enums.events.RELATIONSHIP_SELECTED, function() {
@@ -41,13 +31,8 @@ angular.module('jumlitApp').directive('diagramCanvas', function($q, Cells, $comp
             });
 
             paper.on('blank:pointerclick', function() {
-                deselect();
                 $rootScope.$emit(Enums.events.CLASS_DESELECTED);
                 $rootScope.$emit(Enums.events.RELATIONSHIP_DESELECTED);
-            });
-            paper.on('cell:pointerclick', function(cellView) {
-                graph.set('selected', cellView.model);
-                $scope.$broadcast(Enums.events.CELL_SELECTED, cellView.model.id);
             });
 
             $scope.onDrop = function(event) {
@@ -58,28 +43,11 @@ angular.module('jumlitApp').directive('diagramCanvas', function($q, Cells, $comp
                     },
                     classType: $scope.dropped
                 });
-                addClassToGraph(clazz);
-                clazz.temp = true;
-                ClazzServices.createClass(clazz).then(function(fetchedClazz) {
-                    fetchedClazz.cellModel = clazz.cellModel;
-                    var index = _.findIndex($scope.classes, {isTemp: true});
-                    delete clazz.temp;
-                    $scope.classes.splice(index, 1, fetchedClazz);
+                $scope.classes.push(clazz);
+                ClazzServices.createClass(clazz).then(function(newClazz) {
+                    angular.extend(clazz, newClazz);
                 });
             };
-
-            function initClass(clazz) {
-                $scope.classes.splice(_.findIndex($scope.classes, {classId: clazz.classId}));
-                addClassToGraph(clazz);
-            }
-
-            function addClassToGraph(clazz) {
-                var cellModel = Cells.create('Class', clazz.position);
-                clazz.cellModel = cellModel;
-                cellModel.set('clazz', clazz);
-                $scope.classes.push(clazz);
-                graph.addCell(clazz.cellModel);
-            }
 
             $scope.$on(Enums.events.CLASS_REMOVED, function(event, clazz) {
                 var index = _.findIndex($scope.classes, { classId: clazz.classId });
@@ -104,10 +72,7 @@ angular.module('jumlitApp').directive('diagramCanvas', function($q, Cells, $comp
                 source = data;
                 isLinking = true;
                 previousPosition = removeOffset(data.position);
-                tempLink = new joint.dia.Link({
-                    source: data.cell,
-                    target: previousPosition
-                });
+                tempLink = Links.create(Enums.relationshipTypes.ASSOCIATION, data.cell, previousPosition);
                 graph.addCell(tempLink);
             });
 
@@ -144,21 +109,21 @@ angular.module('jumlitApp').directive('diagramCanvas', function($q, Cells, $comp
 
                     tempLink.set('target', elementBelow);
                     var relationship = new Relationship({
-                        primaryMemberId: source.clazz,
-                        secondaryMemberId: elementBelow.get('clazz'),
-                        cellModel: tempLink
+                        primaryMemberId: source.clazz.classId,
+                        secondaryMemberId: elementBelow.get('classId'),
+                        cell: tempLink
                     });
+                    console.log(relationship);
 
                     $scope.$apply(function() {
-                        console.log(relationship);
                         $scope.relationships.push(relationship);
                     });
 
-                    isLinking = false;
-                    source = null;
                 } else {
                     tempLink.remove();
                 }
+                isLinking = false;
+                source = null;
             });
         }
     };

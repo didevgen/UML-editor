@@ -26,6 +26,7 @@ angular.module('jumlitApp').service('Enums', function() {
             REALIZATION: 'realization'
         },
         multiplicityTypes: {
+            NONE: '',
             NO_OR_ONE: '0..1',
             EXACTLY_ONE: '1',
             ZERO_OR_MORE: '0..*',
@@ -39,12 +40,20 @@ angular.module('jumlitApp').service('Enums', function() {
             CLASS_DESELECTED: 'classDeselected',
             RELATIONSHIP_SELECTED: 'relationshipSelected',
             RELATIONSHIP_DESELECTED: 'relationshipDeselected',
+            RELATIONSHIP_UPDATED: 'relationshipUpdated',
             CELL_SELECTED: 'cellSelected',
             CELL_DESELECTED: 'cellDeselected',
             CELL_LINK_STARTED: 'cellLinkStarted',
             DIAGRAM_ADDED: 'diagramAdded',
             DIAGRAM_REMOVED: 'diagramRemoved',
             DIAGRAM_UPDATED: 'diagramUpdated',
+        },
+        linkLabels: {
+            SOURCE: 'source',
+            SOURCE_BELOW: 'sourceBelow',
+            TARGET: 'target',
+            TARGET_BELOW: 'targetBelow',
+            CENTER: 'CENTER'
         }
     };
 
