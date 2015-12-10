@@ -80,6 +80,8 @@ public class ClassDiagramDAOImpl  implements ClassDiagramDAO{
 	
 	@Override
 	public Relationship insertRelationship(Relationship relation) {
+		relation.setPrimaryMember(this.getClazz(relation.getPrimaryMember().getClassId()));
+		relation.setSecondaryMember(this.getClazz(relation.getSecondaryMember().getClassId()));
 		return (Relationship) insertObject(relation);
 	}
 
@@ -106,7 +108,6 @@ public class ClassDiagramDAOImpl  implements ClassDiagramDAO{
 			session.beginTransaction();
 			session.save(obj);
 			session.getTransaction().commit();
-			session.flush();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		} finally {

@@ -17,10 +17,10 @@ angular.module('jumlitApp').service('ClazzServices', function (Utils, $rootScope
         return 'diagram/' + Session.diagram.diagramId + '/relationships/' + url;
     }
 
-    function sanitize(clazz) {
-        var clazz = _.clone(clazz);
-        delete clazz.cellModel;
-        return clazz;
+    function sanitize(obj) {
+        var obj = _.clone(obj);
+        delete obj.cell;
+        return obj;
     }
 
 
@@ -89,7 +89,7 @@ angular.module('jumlitApp').service('ClazzServices', function (Utils, $rootScope
                 })
         },
         createRelationship: function(relationship) {
-            return Utils.postRequest(prefixRelUrl(relationship.id + '/add'))
+            return Utils.postRequest(prefixRelUrl('add'), sanitize(relationship))
                 .then(function(data) {
                     return new Relationship(data);
                 });
