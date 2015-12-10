@@ -119,6 +119,10 @@ angular.module('jumlitApp').directive('diagramCanvas', function($q, Cells, $comp
                         $scope.relationships.push(relationship);
                     });
 
+                    ClazzServices.createRelationship(relationship).then(function(fetchedRel) {
+                        angular.extend(relationship, fetchedRel);
+                    });
+
                 } else {
                     tempLink.remove();
                 }
