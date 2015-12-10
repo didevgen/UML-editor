@@ -10,7 +10,7 @@ import ua.nure.sigma.db_entities.Diagram;
 import ua.nure.sigma.db_entities.diagram.Clazz;
 import ua.nure.sigma.db_entities.diagram.Field;
 import ua.nure.sigma.db_entities.diagram.Method;
-import ua.nure.sigma.db_entities.diagram.Position;
+import ua.nure.sigma.db_entities.relationship.Relationship;
 import ua.nure.sigma.service.ClassDiagramService;
 import ua.nure.sigma.service.DiagramService;
 
@@ -86,6 +86,22 @@ public class DiagramClassController {
 		method.setClassOwner(clazz);
 		service.updateMethod(method);
 		return method;
+	}
+	
+	
+	@RequestMapping(value = "/diagram/{diagramId}/relationships/add", method = RequestMethod.POST)
+	public Relationship addRelationship(@RequestBody Relationship relationship, @PathVariable long diagramId) {
+		return service.addRelation(relationship);
+	}
+
+	@RequestMapping(value = "/diagram/{diagramId}/relationships/update", method = RequestMethod.POST)
+	public void updateRelationship(@RequestBody Relationship relationship, @PathVariable long diagramId) {
+		service.updateRelation(relationship);
+	}
+
+	@RequestMapping(value = "/diagram/{diagramId}/relationships/{relationId}/remove", method = RequestMethod.POST)
+	public void removeRelationship(@PathVariable long diagramId, @PathVariable long relationId) {
+		service.removeRelation(relationId);
 	}
 
 }

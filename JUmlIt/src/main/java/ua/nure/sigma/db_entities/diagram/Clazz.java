@@ -20,6 +20,7 @@ import org.hibernate.annotations.GenericGenerator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import ua.nure.sigma.db_entities.Diagram;
+import ua.nure.sigma.db_entities.relationship.Relationship;
 @Entity
 @Table(name = "class")
 public class Clazz {
@@ -37,6 +38,10 @@ public class Clazz {
 	private List<Field> fields = new ArrayList<Field>();
 	
 	private List<Method> methods = new ArrayList<>();
+	
+	private List<Relationship> primaryRelations = new ArrayList<>();
+	
+	private List<Relationship> secondaryRelations = new ArrayList<>();
 	
 	private Position position;
 	
@@ -153,6 +158,24 @@ public class Clazz {
 
 	public void setClassType(String classType) {
 		this.classType = classType;
+	}
+	
+	@OneToMany(mappedBy = "primaryMember",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	public List<Relationship> getPrimaryRelations() {
+		return primaryRelations;
+	}
+
+	public void setPrimaryRelations(List<Relationship> primaryRelations) {
+		this.primaryRelations = primaryRelations;
+	}
+	
+	@OneToMany(mappedBy = "secondaryMember",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	public List<Relationship> getSecondaryRelations() {
+		return secondaryRelations;
+	}
+
+	public void setSecondaryRelations(List<Relationship> secondaryRelations) {
+		this.secondaryRelations = secondaryRelations;
 	}
 	
 	
