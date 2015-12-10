@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: 127.0.0.1
--- Время создания: Дек 10 2015 г., 19:13
+-- Время создания: Дек 10 2015 г., 21:00
 -- Версия сервера: 5.6.26
 -- Версия PHP: 5.6.12
 
@@ -228,7 +228,8 @@ CREATE TABLE IF NOT EXISTS `relationships` (
   `name` varchar(85) DEFAULT NULL,
   `type` varchar(45) DEFAULT NULL,
   `primary_props` varchar(85) DEFAULT NULL,
-  `secondary_props` varchar(85) DEFAULT NULL
+  `secondary_props` varchar(85) DEFAULT NULL,
+  `diagram_id` bigint(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -383,7 +384,8 @@ ALTER TABLE `position`
 ALTER TABLE `relationships`
   ADD PRIMARY KEY (`relation_id`),
   ADD KEY `fk_relation_idx` (`primary_id`),
-  ADD KEY `fk_relation_2_idx` (`secondary_id`);
+  ADD KEY `fk_relation_2_idx` (`secondary_id`),
+  ADD KEY `fk_relation3_idx` (`diagram_id`);
 
 --
 -- Индексы таблицы `token`
@@ -522,6 +524,7 @@ ALTER TABLE `position`
 --
 ALTER TABLE `relationships`
   ADD CONSTRAINT `fk_relation` FOREIGN KEY (`primary_id`) REFERENCES `class` (`class_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_relation3` FOREIGN KEY (`diagram_id`) REFERENCES `diagram` (`diagram_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_relation_2` FOREIGN KEY (`secondary_id`) REFERENCES `class` (`class_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --

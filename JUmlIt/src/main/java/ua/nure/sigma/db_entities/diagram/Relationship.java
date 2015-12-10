@@ -1,4 +1,4 @@
-package ua.nure.sigma.db_entities.relationship;
+package ua.nure.sigma.db_entities.diagram;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import ua.nure.sigma.db_entities.diagram.Clazz;
+import ua.nure.sigma.db_entities.Diagram;
 
 @Entity
 @Table(name = "relationships")
@@ -33,6 +33,8 @@ public class Relationship {
 	private String primaryProps;
 
 	private String secondaryProps;
+	
+	private Diagram diagram;
 
 	public Relationship() {
 	}
@@ -121,6 +123,15 @@ public class Relationship {
 
 	public void setSecondaryProps(String secondaryProps) {
 		this.secondaryProps = secondaryProps;
+	}
+	@ManyToOne
+	@JoinColumn(name = "diagram_id")
+	public Diagram getDiagram() {
+		return diagram;
+	}
+
+	public void setDiagram(Diagram diagram) {
+		this.diagram = diagram;
 	}
 
 	@Override

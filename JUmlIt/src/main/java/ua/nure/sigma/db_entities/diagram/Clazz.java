@@ -20,7 +20,6 @@ import org.hibernate.annotations.GenericGenerator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import ua.nure.sigma.db_entities.Diagram;
-import ua.nure.sigma.db_entities.relationship.Relationship;
 @Entity
 @Table(name = "class")
 public class Clazz {

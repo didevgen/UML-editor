@@ -30,7 +30,7 @@ public class DiagramController {
 	private AccountService accountService = new AccountService();
 
 	@RequestMapping(value = "/diagram/create", method = RequestMethod.POST)
-	public Diagram registerUser(@RequestBody Diagram diagram, ModelMap model, Principal principal) {
+	public Diagram insertDiagram(@RequestBody Diagram diagram, ModelMap model, Principal principal) {
 		diagram.setOwner(accountService.getUserByLogin(principal.getName()));
 		Diagram diagramModel = diagramService.createDiagram(diagram);
 		if (diagramModel == null) {
@@ -40,7 +40,7 @@ public class DiagramController {
 	}
 
 	@RequestMapping(value = "/diagram/{id}", method = RequestMethod.GET)
-	public Diagram getUserId(@PathVariable long id) {
+	public Diagram getDiagramById(@PathVariable long id) {
 		Diagram model = diagramService.getDiagramById(id);
 		if (model == null) {
 			throw new DiagramException("Cannot retrieve diagram with id " + id);

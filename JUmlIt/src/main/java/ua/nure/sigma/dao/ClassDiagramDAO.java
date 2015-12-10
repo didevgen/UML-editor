@@ -3,7 +3,7 @@ package ua.nure.sigma.dao;
 import ua.nure.sigma.db_entities.diagram.Clazz;
 import ua.nure.sigma.db_entities.diagram.Field;
 import ua.nure.sigma.db_entities.diagram.Method;
-import ua.nure.sigma.db_entities.relationship.Relationship;
+import ua.nure.sigma.db_entities.diagram.Relationship;
 
 public interface ClassDiagramDAO {
 	Clazz insertClazz(Clazz clazz);

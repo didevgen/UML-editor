@@ -60,7 +60,7 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-websocket</artifactId>
-			<version>${org.springframework-version}</version>
+			<version>4.0.2.RELEASE</version>
 		</dependency>
 
 		<dependency>

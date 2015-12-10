@@ -22,9 +22,7 @@ import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
 import ua.nure.sigma.db_entities.diagram.Clazz;
-
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import ua.nure.sigma.db_entities.diagram.Relationship;
 
 @Entity
 @Table(name = "diagram")
@@ -38,6 +36,7 @@ public class Diagram {
 	private String description="";
 	private Set<User> collaborators = new HashSet<User>();
 	private List<Clazz> classes = new ArrayList<>();
+	private List<Relationship> relationships = new ArrayList<>();
 	private User owner;
 	
 	public Diagram() {
@@ -137,6 +136,14 @@ public class Diagram {
 
 	public void setClasses(List<Clazz> classes) {
 		this.classes = classes;
+	}
+	@OneToMany(mappedBy = "diagram")
+	public List<Relationship> getRelationships() {
+		return relationships;
+	}
+
+	public void setRelationships(List<Relationship> relationships) {
+		this.relationships = relationships;
 	}
 	
 	
