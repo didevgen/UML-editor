@@ -25,10 +25,10 @@ angular.module('jumlitApp').directive('umlRelationship', function ($timeout, Enu
                 $scope.cell = $scope.relationship.cell || Links.create($scope.relationship.type, source, target);
 
                 var source = $scope.cell.get('source') || $scope.graph.getElements().find(function (cell) {
-                        return cell.get('classId') === $scope.relationship.primaryMemberId;
+                        return cell.get('classId') === $scope.relationship.primaryMember.classId;
                     });
                 var target = $scope.cell.get('target') || $scope.graph.getElements().find(function (cell) {
-                        return cell.get('classId') === $scope.relationship.secondaryMemberId;
+                        return cell.get('classId') === $scope.relationship.secondaryMember.classId;
                     });
 
                 $scope.cell.on('change', updateBox);

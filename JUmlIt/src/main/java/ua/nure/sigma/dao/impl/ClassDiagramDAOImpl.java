@@ -80,6 +80,8 @@ public class ClassDiagramDAOImpl  implements ClassDiagramDAO{
 	
 	@Override
 	public Relationship insertRelationship(Relationship relation) {
+		relation.setPrimaryMember(this.getClazz(relation.getPrimaryMember().getClassId()));
+		relation.setSecondaryMember(this.getClazz(relation.getSecondaryMember().getClassId()));
 		return (Relationship) insertObject(relation);
 	}
 

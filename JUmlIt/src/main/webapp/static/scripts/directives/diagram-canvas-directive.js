@@ -109,14 +109,22 @@ angular.module('jumlitApp').directive('diagramCanvas', function($q, Cells, $comp
 
                     tempLink.set('target', elementBelow);
                     var relationship = new Relationship({
-                        primaryMemberId: source.clazz.classId,
-                        secondaryMemberId: elementBelow.get('classId'),
+                        primaryMember: {
+                            classId: source.clazz.classId
+                        },
+                        secondaryMember: {
+                            classId: elementBelow.get('classId')
+                        },
                         cell: tempLink
                     });
                     console.log(relationship);
 
                     $scope.$apply(function() {
                         $scope.relationships.push(relationship);
+                    });
+
+                    ClazzServices.createRelationship(relationship).then(function(fetchedRel) {
+                        angular.extend(relationship, fetchedRel);
                     });
 
                 } else {
