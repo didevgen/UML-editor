@@ -13,7 +13,6 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer{
 	@Override
 	public void configureMessageBroker(MessageBrokerRegistry config) {
 		config.enableSimpleBroker("/diagram/external");
-		config.setApplicationDestinationPrefixes("/sigma");
 	}
 
 	@Override
