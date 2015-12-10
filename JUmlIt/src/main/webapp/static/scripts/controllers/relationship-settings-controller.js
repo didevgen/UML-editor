@@ -3,7 +3,7 @@
  */
 
 angular.module('jumlitApp').controller('RelationshipSettingsCtrl', function($scope, Enums, $rootScope,
-        $timeout) {
+        $timeout, ClazzServices) {
     $scope.relationshipTypes = Enums.relationshipTypes;
     $scope.multiplicityTypes = Enums.multiplicityTypes;
     $scope.relationship = null;
@@ -19,4 +19,12 @@ angular.module('jumlitApp').controller('RelationshipSettingsCtrl', function($sco
             $scope.relationship = null;
         });
     });
+
+    $scope.$watch('relationship.type', notifyUpdate);
+    $scope.$watch('relationship.primaryToSecondaryMultiplicity', notifyUpdate);
+    $scope.$watch('relationship.secondaryToPrimaryMultiplicity', notifyUpdate);
+
+    function notifyUpdate() {
+        ClazzServices.updateRelationship($scope.relationship);
+    }
 });

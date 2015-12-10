@@ -20,6 +20,10 @@
   }
 }
 
+uml-class {
+  min-width: 120px;
+}
+
 uml-class, uml-relationship {
   /* Make sure events are propagated to the JointJS element so, e.g. dragging works.*/
   pointer-events: none;

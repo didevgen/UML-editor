@@ -83,6 +83,9 @@ angular.module('jumlitApp').service('ClazzServices', function (Utils, $rootScope
                     clazz.fields.splice(_.findIndex(clazz.fields, {id: field.id}), 1);
                     notifyClassUpdated(clazz);
                 })
+        },
+        updateRelationship: function(relationship) {
+            $rootScope.$emit(Enums.events.RELATIONSHIP_UPDATED, relationship);
         }
     };
 });

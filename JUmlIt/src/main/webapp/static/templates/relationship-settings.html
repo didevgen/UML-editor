@@ -27,6 +27,7 @@
 
                             <div class="dropdown-double">
                                 <div class="btn-group dropdown-half">
+                                    <span>{{relationship.primaryMember.name}}</span>
                                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
                                             aria-haspopup="true" aria-expanded="false">
                                         {{relationship.primaryToSecondaryMultiplicity || 'None'}}
@@ -40,6 +41,7 @@
                                     </ul>
                                 </div>
                                 <div class="btn-group dropdown-half">
+                                    <span>{{relationship.secondaryMember.name}}</span>
                                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
                                             aria-haspopup="true" aria-expanded="false">
                                         {{relationship.secondaryToPrimaryMultiplicity || 'None'}}
