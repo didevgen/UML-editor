@@ -51,9 +51,9 @@ public class DiagramController {
 	@RequestMapping(value = "/diagram/update", method = RequestMethod.POST)
 	public Diagram updateDiagram(@RequestBody Diagram diagram) {
 		diagramService.updateDiagram(diagram);
-		Diagram d = diagramService.getDiagramById(diagram.getDiagramId());
-//		messagingTemplate.convertAndSend(destination, payload);
-		return d;
+		Diagram newDiagram = diagramService.getDiagramById(diagram.getDiagramId());
+		messagingTemplate.convertAndSend("/diagram/external", newDiagram);
+		return newDiagram;
 	}
 
 	@RequestMapping(value = "/diagram/{id}/remove", method = RequestMethod.POST)
