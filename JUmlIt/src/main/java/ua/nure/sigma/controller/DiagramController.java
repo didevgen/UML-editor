@@ -5,6 +5,7 @@ import java.security.Principal;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,6 +23,8 @@ public class DiagramController {
 
 	@Autowired
 	private HttpSession session;
+	@Autowired
+	private SimpMessagingTemplate messagingTemplate;
 
 	private DiagramService diagramService = new DiagramService();
 	private AccountService accountService = new AccountService();
@@ -48,7 +51,9 @@ public class DiagramController {
 	@RequestMapping(value = "/diagram/update", method = RequestMethod.POST)
 	public Diagram updateDiagram(@RequestBody Diagram diagram) {
 		diagramService.updateDiagram(diagram);
-		return diagramService.getDiagramById(diagram.getDiagramId());
+		Diagram d = diagramService.getDiagramById(diagram.getDiagramId());
+//		messagingTemplate.convertAndSend(destination, payload);
+		return d;
 	}
 
 	@RequestMapping(value = "/diagram/{id}/remove", method = RequestMethod.POST)
