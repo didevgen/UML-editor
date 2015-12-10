@@ -6,6 +6,7 @@ import ua.nure.sigma.db_entities.diagram.Clazz;
 import ua.nure.sigma.db_entities.diagram.Field;
 import ua.nure.sigma.db_entities.diagram.Method;
 import ua.nure.sigma.db_entities.diagram.Position;
+import ua.nure.sigma.db_entities.relationship.Relationship;
 
 public class ClassDiagramService {
 	private ClassDiagramDAO dao = new ClassDiagramDAOImpl();
@@ -22,6 +23,8 @@ public class ClassDiagramService {
 		pos.setClazz(clazz);
 		clazz.getFields().forEach(item->item.setClassOwner(clazz));
 		clazz.getMethods().forEach(item->item.setClassOwner(clazz));
+		clazz.getPrimaryRelations().forEach(item->item.setPrimaryMember(clazz));
+		clazz.getSecondaryRelations().forEach(item->item.setSecondaryMember(clazz));
 		dao.updateClazz(clazz);
 	}
 
@@ -56,5 +59,19 @@ public class ClassDiagramService {
 	public void updateMethod(Method method) {
 		dao.updateMethod(method);
 	}
+	
+	public Relationship addRelation(Relationship relationship) {
+		return dao.insertRelationship(relationship);
+	}
+
+	public void removeRelation(long relationId) {
+		dao.removeRelationship(relationId);
+	}
+
+	public void updateRelation(Relationship relationship) {
+		dao.updateRelationship(relationship);
+	}
+	
+	
 
 }
