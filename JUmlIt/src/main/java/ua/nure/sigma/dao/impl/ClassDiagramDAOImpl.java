@@ -106,7 +106,6 @@ public class ClassDiagramDAOImpl  implements ClassDiagramDAO{
 			session.beginTransaction();
 			session.save(obj);
 			session.getTransaction().commit();
-			session.flush();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		} finally {

@@ -68,7 +68,7 @@ public class DiagramDAOImpl implements DiagramDAO {
 	}
 
 	@Override
-	public void updateDiagram(Diagram diagram) {
+	public synchronized void updateDiagram(Diagram diagram) {
 		diagram.setLastUpdated(new DateTime(System.currentTimeMillis()));
 		Session session = null;
 		try {
