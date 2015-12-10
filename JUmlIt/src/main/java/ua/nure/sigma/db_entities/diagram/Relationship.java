@@ -12,8 +12,14 @@ import org.hibernate.annotations.GenericGenerator;
 
 import ua.nure.sigma.db_entities.Diagram;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 @Entity
 @Table(name = "relationships")
+@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, 
+	property = "@id", scope=Relationship.class)
 public class Relationship {
 
 	private long id;
@@ -34,6 +40,7 @@ public class Relationship {
 
 	private String secondaryProps;
 	
+	@JsonIgnore
 	private Diagram diagram;
 
 	public Relationship() {

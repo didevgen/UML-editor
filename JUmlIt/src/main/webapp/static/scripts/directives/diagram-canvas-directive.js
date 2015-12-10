@@ -45,7 +45,7 @@ angular.module('jumlitApp').directive('diagramCanvas', function($q, Cells, $comp
                 });
                 $scope.classes.push(clazz);
                 ClazzServices.createClass(clazz).then(function(newClazz) {
-                    angular.extend(clazz, newClazz);
+                    $rootScope.$emit(Enums.events.CLASS_UPDATED, newClazz);
                 });
             };
 

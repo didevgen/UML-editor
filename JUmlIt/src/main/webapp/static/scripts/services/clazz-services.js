@@ -9,6 +9,10 @@ angular.module('jumlitApp').service('ClazzServices', function (Utils, $rootScope
         $rootScope.$emit(Enums.events.CLASS_UPDATED, clazz);
     }
 
+    function notifyRelationshipUpdated(relationship) {
+        $rootScope.$emit(Enums.events.RELATIONSHIP_UPDATED, relationship);
+    }
+
     function prefixClassUrl(url) {
         return 'diagram/' + Session.diagram.diagramId + '/classes/' + url;
     }
@@ -91,14 +95,20 @@ angular.module('jumlitApp').service('ClazzServices', function (Utils, $rootScope
         createRelationship: function(relationship) {
             return Utils.postRequest(prefixRelUrl('add'), sanitize(relationship))
                 .then(function(data) {
-                    return new Relationship(data);
+                    $rootScope.$emit(Enums.events.RELATIONSHIP_CREATED, new Relationship(data));
                 });
         },
         removeRelationship: function(relationship) {
-            $rootScope.$emit(Enums.events.RELATIONSHIP_REMOVED, relationship);
+            return Utils.postRequest(prefixClassUrl(relationship.id + '/remove'))
+                .then(function() {
+                    $rootScope.$emit(Enums.events.RELATIONSHIP_REMOVED, relationship);
+                });
         },
         updateRelationship: function(relationship) {
-            $rootScope.$emit(Enums.events.RELATIONSHIP_UPDATED, relationship);
+            return Utils.postRequest(prefixRelUrl('update'), sanitize(relationship))
+                .then(function() {
+                    notifyRelationshipUpdated(relationship);
+                })
         }
     };
 });

@@ -35,6 +35,7 @@ public class DiagramDAOImpl implements DiagramDAO {
 			diagram.setCollaborators(fullUsers);
 			session.save(diagram);
 			session.getTransaction().commit();
+			session.flush();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		} finally {
@@ -53,8 +54,10 @@ public class DiagramDAOImpl implements DiagramDAO {
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
 			diagram = (Diagram) session.load(Diagram.class, id);
+			session.refresh(diagram);
 			Hibernate.initialize(diagram.getClasses());
 			Hibernate.initialize(diagram.getCollaborators());
+			Hibernate.initialize(diagram.getRelationships());
 		} catch (Exception e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(null, e.getMessage(), "������ I/O",

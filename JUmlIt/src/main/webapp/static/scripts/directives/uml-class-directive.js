@@ -1,6 +1,7 @@
 'use strict';
 angular.module('jumlitApp').directive('umlClass', function($rootScope, Enums, $timeout, Cells) {
     return {
+        priority: 20,
         transclude: true,
         scope: {
             graph: '=',
@@ -26,9 +27,12 @@ angular.module('jumlitApp').directive('umlClass', function($rootScope, Enums, $t
             }));
 
             listeners.push($rootScope.$on(Enums.events.CLASS_UPDATED, function(event, clazz) {
-                if ($scope.clazz.classId !== clazz.classId) {
+                if(!$scope.clazz.classId) {
+                    $scope.cell.set('classId', clazz.classId);
+                } else if ($scope.clazz.classId !== clazz.classId) {
                     return;
                 }
+
                 angular.extend($scope.clazz, clazz);
             }));
 
@@ -42,9 +46,6 @@ angular.module('jumlitApp').directive('umlClass', function($rootScope, Enums, $t
                 updateClazz();
                 updateCell();
             });
-            $scope.cell.on('remove', removeClazz);
-            $scope.cell.on('change', _.debounce(notifyUpdate, 500));
-
             $scope.paper.on('cell:pointerclick', function(cellView) {
                 $scope.selected = cellView.model.id === $scope.cell.id;
                 if ($scope.selected) {
@@ -52,10 +53,13 @@ angular.module('jumlitApp').directive('umlClass', function($rootScope, Enums, $t
                 }
             });
 
+            updateBox();
             $timeout(function() {
-                updateBox();
                 updateClazz();
                 updateCell();
+
+                $scope.cell.on('remove', removeClazz);
+                $scope.cell.on('change', _.debounce(notifyUpdate, 500));
             });
 
             function updateCell() {

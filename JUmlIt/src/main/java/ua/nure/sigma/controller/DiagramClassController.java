@@ -91,6 +91,8 @@ public class DiagramClassController {
 	
 	@RequestMapping(value = "/diagram/{diagramId}/relationships/add", method = RequestMethod.POST)
 	public Relationship addRelationship(@RequestBody Relationship relationship, @PathVariable long diagramId) {
+		Diagram diagram = diagramService.getDiagramById(diagramId);
+		relationship.setDiagram(diagram);
 		return service.addRelation(relationship);
 	}
 

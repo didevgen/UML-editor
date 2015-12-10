@@ -25,6 +25,12 @@ angular.module('jumlitApp').controller('RelationshipSettingsCtrl', function($sco
         });
     });
 
+    $rootScope.$on(Enums.events.RELATIONSHIP_UPDATED, function(event, relationship) {
+        $timeout(function() {
+            $scope.relationship = relationship;
+        });
+    });
+
     $scope.showNameInput = function() {
         if (!$scope.relationship) {
             return false;
@@ -44,12 +50,17 @@ angular.module('jumlitApp').controller('RelationshipSettingsCtrl', function($sco
         }
     }
 
-    $scope.$watch('relationship.type', notifyUpdate);
+    $scope.$watch('relationship.type', function() {
+        notifyUpdate();
+    });
     $scope.$watch('relationship.name', notifyUpdate);
     $scope.$watch('relationship.primaryToSecondaryMultiplicity', notifyUpdate);
     $scope.$watch('relationship.secondaryToPrimaryMultiplicity', notifyUpdate);
 
     function notifyUpdate() {
+        if (!$scope.relationship) {
+            return;
+        }
         ClazzServices.updateRelationship($scope.relationship);
     }
 });

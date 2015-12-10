@@ -6,6 +6,7 @@
 angular.module('jumlitApp').directive('umlRelationship', function ($timeout, Enums, $rootScope, Links) {
 
     return {
+        priority: 15,
         restrict: 'E',
         scope: {
             relationship: '=',
@@ -22,22 +23,33 @@ angular.module('jumlitApp').directive('umlRelationship', function ($timeout, Enu
             var elementHovered = false;
 
             function init() {
-                $scope.cell = $scope.relationship.cell || Links.create($scope.relationship.type, source, target);
+                $scope.cell = $scope.relationship.cell;
+                if (!$scope.cell) {
+                    $scope.cell = Links.create($scope.relationship.type, source, target);
+                    $scope.graph.addCell($scope.cell);
+                }
 
-                var source = $scope.cell.get('source') || $scope.graph.getElements().find(function (cell) {
+                var source = $scope.cell.get('source');
+                if (!source.on) {
+                    source = $scope.graph.getElements().find(function (cell) {
                         return cell.get('classId') === $scope.relationship.primaryMember.classId;
                     });
-                var target = $scope.cell.get('target') || $scope.graph.getElements().find(function (cell) {
+                    $scope.cell.set('source', source);
+                }
+                var target = $scope.cell.get('target');
+                if (!target.on) {
+                    target = $scope.graph.getElements().find(function (cell) {
                         return cell.get('classId') === $scope.relationship.secondaryMember.classId;
                     });
+                    $scope.cell.set('target', target);
+                }
 
                 $scope.cell.on('change', updateBox);
                 target.on('change:position', updateBox);
                 source.on('change:position', updateBox);
-                console.log(target, source);
             }
 
-            init();
+            $timeout(init);
 
             $rootScope.$on(Enums.events.RELATIONSHIP_UPDATED, function (event, relationship) {
                 angular.extend($scope.relationship, relationship);
@@ -90,9 +102,7 @@ angular.module('jumlitApp').directive('umlRelationship', function ($timeout, Enu
             $scope.paper.on('cell:mouseover', toggleHovered.bind(null, true));
             $scope.paper.on('cell:mouseout', toggleHovered.bind(null, false));
 
-            $timeout(function () {
-                updateBox();
-            });
+            $timeout(updateBox);
 
             function updateBox() {
                 var elementBox = {

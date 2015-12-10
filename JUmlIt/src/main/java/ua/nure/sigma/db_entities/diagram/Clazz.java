@@ -38,8 +38,10 @@ public class Clazz {
 	
 	private List<Method> methods = new ArrayList<>();
 	
+	@JsonIgnore
 	private List<Relationship> primaryRelations = new ArrayList<>();
 	
+	@JsonIgnore
 	private List<Relationship> secondaryRelations = new ArrayList<>();
 	
 	private Position position;
