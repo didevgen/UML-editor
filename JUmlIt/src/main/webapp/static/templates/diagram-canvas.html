@@ -1,10 +1,9 @@
 <div class="diagram-canvas" id="diagram-canvas" jqyoui-droppable="{onDrop:'onDrop'}"
      ng-model="dropped" data-drop="true">
     <div ng-repeat="clazz in classes track by $index" >
-        <uml-class clazz="clazz" graph="graph" cell-model="clazz.cellModel"/>
+        <uml-class clazz="clazz" graph="graph" paper="paper"/>
     </div>
     <div ng-repeat="relationship in relationships">
-        <uml-relationship relationship="relationship" graph="graph" paper="paper"
-                          cell-model="relationship.cellModel"/>
+        <uml-relationship relationship="relationship" graph="graph" paper="paper"/>
     </div>
 </div>

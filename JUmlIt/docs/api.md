@@ -163,7 +163,6 @@
 * response:
 ```
 {}
-
 ```
 
 ### /diagram/{id}/classes/add
@@ -192,6 +191,7 @@
 		y: 372
 	}
 }
+```
 
 ### /diagram/{id}/classes/update
 * method: _POST_
@@ -261,6 +261,7 @@
 }
 ```
 * repsponse :
+```
 {
 	id: 4,
 	accessModifier: 'public',
@@ -268,7 +269,7 @@
 	name: 'Some name',
 	type: 'Some type'
 }
-
+```
 ### /diagram/{id}/classes/{id}/methods/add
 * method: _POST_
 * request :
@@ -285,6 +286,7 @@
 }
 ```
 * repsponse :
+```
 {
 	id: 4,
 	accessModifier: 'public',
@@ -296,6 +298,7 @@
 		type: 'String'
 	}]
 }
+```
 
 
 ### /diagram/{id}/classes/{id}/fields/{id}/remove
@@ -356,4 +359,94 @@
 * response:
 ```
 {}
+```
+
+### /diagram/{id}/relationships/add
+* method: _POST_
+* request :
+```
+{
+	"type": "aggregation",
+	"primaryMemberId": 3,
+	"secondaryMemberId": 4,
+	"primaryMultiplicity": "0..1",
+	"secondaryMultiplicity": "1"
+	"name": "some name",
+	"primaryProps": "text"
+	"secondaryProps": "text"
+}
+```
+* response:
+```
+{
+	"type": "aggregation",
+	"primaryMemberId": 3,
+	"secondaryMemberId": 4,
+	"primaryMultiplicity": "0..1",
+	"secondaryMultiplicity": "1"
+	"name": "some name",
+	"primaryProps": "text"
+	"secondaryProps": "text",
+	
+	# server adds this before returning
+	"id": 4,
+	"primaryMember": {} # user obj
+	"secondaryMember": {} # user obj
+}
+```
+
+### /diagram/{id}/relationships/update
+* method: _POST_
+* request :
+```
+{
+	"type": "aggregation",
+	"primaryMemberId": 3,
+	"secondaryMemberId": 4,
+	"primaryMultiplicity": "0..1",
+	"secondaryMultiplicity": "1"
+	"name": "some name",
+	"primaryProps": "text"
+	"secondaryProps": "text",
+	"id": 4,
+	"primaryMember": {} # user obj
+	"secondaryMember": {} # user obj
+}
+```
+* response:
+```
+{}
+```
+
+### /diagram/{id}/relationships/{id}/remove
+* method: _POST_
+* request :
+```
+{}
+```
+* response
+```
+{}
+```
+### /diagram/{id}/relationships/{id}
+* method: _GET_
+* request :
+```
+{}
+```
+* response:
+```
+{
+	"type": "aggregation",
+	"primaryMemberId": 3,
+	"secondaryMemberId": 4,
+	"primaryMultiplicity": "0..1",
+	"secondaryMultiplicity": "1"
+	"name": "some name",
+	"primaryProps": "text"
+	"secondaryProps": "text",
+	"id": 4,
+	"primaryMember": {} # user obj
+	"secondaryMember": {} # user obj
+}
 ```

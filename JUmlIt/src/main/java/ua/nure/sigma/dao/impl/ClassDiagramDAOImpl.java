@@ -8,6 +8,7 @@ import ua.nure.sigma.dao.ClassDiagramDAO;
 import ua.nure.sigma.db_entities.diagram.Clazz;
 import ua.nure.sigma.db_entities.diagram.Field;
 import ua.nure.sigma.db_entities.diagram.Method;
+import ua.nure.sigma.db_entities.diagram.Relationship;
 import ua.nure.sigma.util.HibernateUtil;
 
 public class ClassDiagramDAOImpl  implements ClassDiagramDAO{
@@ -32,6 +33,8 @@ public class ClassDiagramDAOImpl  implements ClassDiagramDAO{
 		Clazz clazz = (Clazz) getObject(clazzId, Clazz.class);
 		Hibernate.initialize(clazz.getFields());
 		Hibernate.initialize(clazz.getMethods());
+		Hibernate.initialize(clazz.getPrimaryRelations());
+		Hibernate.initialize(clazz.getSecondaryRelations());
 		return clazz;
 	}
 
@@ -75,6 +78,29 @@ public class ClassDiagramDAOImpl  implements ClassDiagramDAO{
 		return (Field) getObject(fieldId, Field.class);
 	}
 	
+	@Override
+	public Relationship insertRelationship(Relationship relation) {
+		relation.setPrimaryMember(this.getClazz(relation.getPrimaryMember().getClassId()));
+		relation.setSecondaryMember(this.getClazz(relation.getSecondaryMember().getClassId()));
+		return (Relationship) insertObject(relation);
+	}
+
+	@Override
+	public void updateRelationship(Relationship relation) {
+		updateObject(relation);		
+	}
+
+	@Override
+	public void removeRelationship(long relationId) {
+		deleteObject("Relationship", "id", relationId);		
+	}
+
+	@Override
+	public Relationship getRelationship(long relationId) {
+		return (Relationship) getObject(relationId, Relationship.class);
+	}
+
+	
 	private Object insertObject(Object obj) {
 		Session session = null;
 		try {
@@ -82,7 +108,6 @@ public class ClassDiagramDAOImpl  implements ClassDiagramDAO{
 			session.beginTransaction();
 			session.save(obj);
 			session.getTransaction().commit();
-			session.flush();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		} finally {
@@ -143,4 +168,5 @@ public class ClassDiagramDAOImpl  implements ClassDiagramDAO{
 		return clazz;
 	}
 
+	
 }

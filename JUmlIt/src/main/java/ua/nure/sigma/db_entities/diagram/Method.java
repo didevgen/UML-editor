@@ -114,7 +114,7 @@ public class Method {
 		this.returnType = returnType;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "method")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "method")
 	public List<Argument> getArguments() {
 		return args;
 	}

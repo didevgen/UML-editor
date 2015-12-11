@@ -17,16 +17,21 @@
                                 <ul class="dropdown-menu">
                                     <li>
                                         <a href="javascript:void(0)" ng-repeat="(key, value) in relationshipTypes"
-                                           ng-click="relationship.type = value">{{value}}</a>
+                                           ng-click="setType(value)">{{value}}</a>
                                     </li>
                                 </ul>
                             </div>
+                        </div>
+                        <div ng-show="showNameInput()" class="form-group">
+                            <label>Name:</label>
+                            <input type="text" ng-model="relationship.name" class="form-control" placeholder="Name">
                         </div>
                         <div class="form-group">
                             <label>Multiplicity</label>
 
                             <div class="dropdown-double">
                                 <div class="btn-group dropdown-half">
+                                    <span>{{relationship.primaryMember.name}}</span>
                                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
                                             aria-haspopup="true" aria-expanded="false">
                                         {{relationship.primaryToSecondaryMultiplicity || 'None'}}
@@ -40,6 +45,7 @@
                                     </ul>
                                 </div>
                                 <div class="btn-group dropdown-half">
+                                    <span>{{relationship.secondaryMember.name}}</span>
                                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
                                             aria-haspopup="true" aria-expanded="false">
                                         {{relationship.secondaryToPrimaryMultiplicity || 'None'}}

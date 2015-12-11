@@ -304,7 +304,6 @@ diagram-canvas {
   padding: 10px; }
 
 .diagram-canvas {
-  display: flex;
   flex: 1;
   background-color: white;
   border: 1px solid #ddd;
@@ -411,6 +410,9 @@ div.panel {
     width: 20px;
     height: 20px;
     line-height: 20px; }
+
+uml-class {
+  min-width: 120px; }
 
 uml-class, uml-relationship {
   /* Make sure events are propagated to the JointJS element so, e.g. dragging works.*/
