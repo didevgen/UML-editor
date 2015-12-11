@@ -20,15 +20,15 @@ angular
         'ngTagsInput',
         'frapontillo.bootstrap-switch'
     ])
-    .config(function($stateProvider, $httpProvider, $urlRouterProvider) {
+    .config(function ($stateProvider, $httpProvider, $urlRouterProvider) {
         $stateProvider
             .state('landing', {
                 url: '/landing',
                 templateUrl: 'states/landing.html',
                 controller: 'LandingCtrl',
                 resolve: {
-                    authorization: function(Authentication, $q) {
-                        return Authentication.authenticate().catch(function() {
+                    authorization: function (Authentication, $q) {
+                        return Authentication.authenticate().catch(function () {
                             return $q.when();
                         });
                     }
@@ -55,8 +55,8 @@ angular
                 templateUrl: 'states/account.html',
                 controller: 'AccountCtrl',
                 resolve: {
-                    authorization: function(Authentication, $state, $q) {
-                        return Authentication.authenticate().catch(function() {
+                    authorization: function (Authentication, $state, $q) {
+                        return Authentication.authenticate().catch(function () {
                             $state.go('landing.login');
                             return $q.reject();
                         });
@@ -83,19 +83,29 @@ angular
                 templateUrl: 'states/diagram.html',
                 controller: 'DiagramCtrl',
                 resolve: {
-                    authorization: function(Authentication) {
+                    authorization: function (Authentication) {
                         return Authentication.authenticate();
                     },
-                    diagram: function(DiagramServices, $stateParams) {
+                    diagram: function (DiagramServices, $stateParams) {
+                        return DiagramServices.getDiagram($stateParams.diagramId);
+                    }
+                }
+            })
+            .state('landing.history', {
+                url: '/history',
+                templateUrl: 'states/diagram.history.html',
+                controller: 'HistoryCtrl',
+                resolve: {
+                    diagram: function (DiagramServices, $stateParams) {
                         return DiagramServices.getDiagram($stateParams.diagramId);
                     }
                 }
             });
 
         $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
-        $urlRouterProvider.when('/', function($state) {
+        $urlRouterProvider.when('/', function ($state) {
             $state.go('account.dashboard');
         });
-    }).run(function($rootScope, $state, Authentication, $window, Session) {
+    }).run(function ($rootScope, $state, Authentication, $window, Session) {
         $state.go('account.dashboard');
     });

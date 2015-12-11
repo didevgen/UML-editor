@@ -66,6 +66,7 @@
                                 <li class="list-group-item list-element pointer"
                                    ng-repeat="diagram in collabDiagrams.page" ng-click="openDiagram(diagram.diagramId)">
                                     <span class="list-element-text pull-left">{{diagram.name}}</span>
+                                    <span class="list-element-text pull-right"><a ng-click="goToUser(); $event.stopPropagation();">by username</a></span>
                                     <span class="glyphicon"></span>
                                 </li>
                             </ul>
