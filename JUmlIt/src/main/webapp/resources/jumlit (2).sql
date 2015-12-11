@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: 127.0.0.1
--- Время создания: Дек 10 2015 г., 21:00
+-- Время создания: Дек 10 2015 г., 23:17
 -- Версия сервера: 5.6.26
 -- Версия PHP: 5.6.12
 
@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS `class` (
 --
 
 INSERT INTO `class` (`class_id`, `class_name`, `is_static`, `diagram_id`, `class_access`, `class_type`) VALUES
-(2, 'Class', 0, 4, 'public', 'Interface'),
+(2, 'Class', 0, 5, 'public', 'Interface'),
 (3, 'Class', 0, 5, 'public', 'Class'),
 (4, 'Class', 0, 5, 'public', 'Class'),
 (5, 'Class', 0, 5, 'public', 'Abstract class');
@@ -101,6 +101,20 @@ INSERT INTO `diagram` (`diagram_id`, `owner_id`, `status_id`, `json_data`, `crea
 (3, 4, -1, '', '2015-11-27 23:33:12', '2015-11-28 23:50:50', 'Diagram1', 'MyDiagram'),
 (4, 4, -1, '', '2015-11-27 23:33:12', '2015-11-27 23:33:12', 'Diagram2', 'MyDiagram2'),
 (5, 3, -1, '', '2015-12-04 17:26:25', '2015-12-04 17:26:25', 'Diagram', 'edfsdfs');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `diagram_history`
+--
+
+CREATE TABLE IF NOT EXISTS `diagram_history` (
+  `history_id` int(11) NOT NULL,
+  `diagram_id` bigint(11) DEFAULT NULL,
+  `user_id` bigint(20) DEFAULT NULL,
+  `timestamp` datetime DEFAULT NULL,
+  `action` varchar(85) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -332,6 +346,14 @@ ALTER TABLE `diagram`
   ADD KEY `FK_Reference_4` (`status_id`);
 
 --
+-- Индексы таблицы `diagram_history`
+--
+ALTER TABLE `diagram_history`
+  ADD PRIMARY KEY (`history_id`),
+  ADD KEY `fk_diagram_idx` (`diagram_id`),
+  ADD KEY `fk_user_h_idx` (`user_id`);
+
+--
 -- Индексы таблицы `diagram_status`
 --
 ALTER TABLE `diagram_status`
@@ -426,6 +448,11 @@ ALTER TABLE `class`
 ALTER TABLE `diagram`
   MODIFY `diagram_id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
+-- AUTO_INCREMENT для таблицы `diagram_history`
+--
+ALTER TABLE `diagram_history`
+  MODIFY `history_id` int(11) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT для таблицы `diagram_status`
 --
 ALTER TABLE `diagram_status`
@@ -487,6 +514,13 @@ ALTER TABLE `class`
 ALTER TABLE `diagram`
   ADD CONSTRAINT `FK_Reference_1` FOREIGN KEY (`owner_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_Reference_4` FOREIGN KEY (`status_id`) REFERENCES `diagram_status` (`status_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Ограничения внешнего ключа таблицы `diagram_history`
+--
+ALTER TABLE `diagram_history`
+  ADD CONSTRAINT `fk_diagram` FOREIGN KEY (`diagram_id`) REFERENCES `diagram` (`diagram_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_user_history` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Ограничения внешнего ключа таблицы `event`

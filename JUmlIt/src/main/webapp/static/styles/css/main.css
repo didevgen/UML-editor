@@ -555,6 +555,9 @@ uml-relationship .action-settings {
     margin-left: -300px;
     opacity: 0; }
 
+.list-element-text {
+  color: #777; }
+
 .list-element-control {
   top: 0;
   margin-left: 5px;
@@ -591,6 +594,12 @@ uml-relationship .action-settings {
 
 .delete-reject-container.ng-hide {
   opacity: 0; }
+
+.remove-boundaries.pagination > li:last-child > a,
+.remove-boundaries.pagination > li:last-child > span,
+.remove-boundaries.pagination > li:first-child > a,
+.remove-boundaries.pagination > li:first-child > span {
+  display: none; }
 
 .tab-pane {
   padding: 15px; }

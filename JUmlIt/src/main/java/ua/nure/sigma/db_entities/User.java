@@ -1,6 +1,8 @@
 package ua.nure.sigma.db_entities;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -27,8 +29,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 @Table(name = "user")
 @Component
 @Scope("session")
-@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, 
-	property = "@id", scope=User.class)
+@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = "@id", scope = User.class)
 public class User {
 	private long userId;
 	private String fullname;
@@ -38,13 +39,13 @@ public class User {
 	private DateTime lastAvailable;
 
 	private Set<UserRole> userRoles = new HashSet<UserRole>(0);
-	
+
 	private Set<Diagram> collaboratedDiagrams = new HashSet<Diagram>(0);
+	private List<DiagramHistory> history = new ArrayList<>();
 
 	public User() {
 	}
 
-	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -52,7 +53,6 @@ public class User {
 		result = prime * result + (int) (userId ^ (userId >>> 32));
 		return result;
 	}
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -68,8 +68,7 @@ public class User {
 		return true;
 	}
 
-
-	@OneToMany(mappedBy="user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	public Set<UserRole> getUserRoles() {
 		return userRoles;
 	}
@@ -83,6 +82,7 @@ public class User {
 		this.email = email;
 		this.password = password;
 	}
+
 	@Id
 	@GeneratedValue(generator = "increment")
 	@GenericGenerator(name = "increment", strategy = "increment")
@@ -99,7 +99,7 @@ public class User {
 	public String getEmail() {
 		return email;
 	}
-	
+
 	public void setEmail(String e) {
 		email = e;
 	}
@@ -115,7 +115,7 @@ public class User {
 	}
 
 	@Column(name = "last_available")
-	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
 	public DateTime getLastAvailable() {
 		return lastAvailable;
 	}
@@ -123,8 +123,7 @@ public class User {
 	public void setLastAvailable(DateTime la) {
 		lastAvailable = la;
 	}
-	
-	
+
 	@Column(name = "full_name", length = 256)
 	public String getFullname() {
 		return fullname;
@@ -135,7 +134,7 @@ public class User {
 	}
 
 	@Column(name = "registration_date")
-	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
 	public DateTime getRegistrationDate() {
 		return registrationDate;
 	}
@@ -158,6 +157,14 @@ public class User {
 	public void setCollaboratedDiagrams(Set<Diagram> collaboratedDiagrams) {
 		this.collaboratedDiagrams = collaboratedDiagrams;
 	}
-	
-	
+
+	@OneToMany(mappedBy = "user")
+	public List<DiagramHistory> getHistory() {
+		return history;
+	}
+
+	public void setHistory(List<DiagramHistory> history) {
+		this.history = history;
+	}
+
 }
