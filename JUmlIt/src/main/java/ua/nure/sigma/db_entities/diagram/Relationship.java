@@ -40,7 +40,6 @@ public class Relationship {
 
 	private String secondaryProps;
 	
-	@JsonIgnore
 	private Diagram diagram;
 
 	public Relationship() {
@@ -131,7 +130,7 @@ public class Relationship {
 	public void setSecondaryProps(String secondaryProps) {
 		this.secondaryProps = secondaryProps;
 	}
-	@ManyToOne
+	@ManyToOne()
 	@JoinColumn(name = "diagram_id")
 	public Diagram getDiagram() {
 		return diagram;
