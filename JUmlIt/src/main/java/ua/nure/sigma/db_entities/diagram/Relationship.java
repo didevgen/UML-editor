@@ -10,11 +10,10 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import ua.nure.sigma.db_entities.Diagram;
-
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
+import ua.nure.sigma.db_entities.Diagram;
 
 @Entity
 @Table(name = "relationships")
@@ -28,9 +27,9 @@ public class Relationship {
 
 	private Clazz secondaryMember;
 
-	private String primaryMultiplicity;
+	private String primaryToSecondaryMultiplicity;
 
-	private String secondaryMultiplicity;
+	private String secondaryToPrimaryMultiplicity;
 
 	private String name;
 
@@ -77,22 +76,22 @@ public class Relationship {
 		this.secondaryMember = secondaryMember;
 	}
 
+
 	@Column(name = "primary_multy")
-	public String getPrimaryMultiplicity() {
-		return primaryMultiplicity;
+	public String getPrimaryToSecondaryMultiplicity() {
+		return primaryToSecondaryMultiplicity;
 	}
 
-	public void setPrimaryMultiplicity(String primaryMultiplicity) {
-		this.primaryMultiplicity = primaryMultiplicity;
+	public void setPrimaryToSecondaryMultiplicity(String primaryToSecondaryMultiplicity) {
+		this.primaryToSecondaryMultiplicity = primaryToSecondaryMultiplicity;
 	}
-
 	@Column(name = "secondary_multy")
-	public String getSecondaryMultiplicity() {
-		return secondaryMultiplicity;
+	public String getSecondaryToPrimaryMultiplicity() {
+		return secondaryToPrimaryMultiplicity;
 	}
 
-	public void setSecondaryMultiplicity(String secondaryMultiplicity) {
-		this.secondaryMultiplicity = secondaryMultiplicity;
+	public void setSecondaryToPrimaryMultiplicity(String secondaryToPrimaryMultiplicity) {
+		this.secondaryToPrimaryMultiplicity = secondaryToPrimaryMultiplicity;
 	}
 
 	@Column(name = "name")
@@ -141,11 +140,6 @@ public class Relationship {
 	}
 
 	@Override
-	public String toString() {
-		return "Relationship [id=" + id + ", name=" + name + ", type=" + type + "]";
-	}
-
-	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
@@ -171,6 +165,13 @@ public class Relationship {
 		} else if (!name.equals(other.name))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Relationship [primaryToSecondaryMultiplicity=" + primaryToSecondaryMultiplicity
+				+ ", secondaryToPrimaryMultiplicity=" + secondaryToPrimaryMultiplicity + ", name=" + name + ", type="
+				+ type + ", primaryProps=" + primaryProps + ", secondaryProps=" + secondaryProps + "]";
 	}
 	
 	

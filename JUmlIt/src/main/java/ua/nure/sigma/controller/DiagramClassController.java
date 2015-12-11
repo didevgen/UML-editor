@@ -125,6 +125,7 @@ public class DiagramClassController {
 	public Relationship addRelationship(@RequestBody Relationship relationship, @PathVariable long diagramId, Principal principal) {
 		Diagram diagram = diagramService.getDiagramById(diagramId);
 		relationship.setDiagram(diagram);
+		System.out.println(relationship);
 		historyService.insertHistory(principal, diagram, "relationship added");
 		return service.addRelation(relationship);
 	}
@@ -132,6 +133,7 @@ public class DiagramClassController {
 	@RequestMapping(value = "/diagram/{diagramId}/relationships/update", method = RequestMethod.POST)
 	public void updateRelationship(@RequestBody Relationship relationship, @PathVariable long diagramId,Principal principal) {
 		Diagram diagram = diagramService.getDiagramById(diagramId);
+		System.out.println(relationship);
 		historyService.insertHistory(principal, diagram, "relationship updated");
 		service.updateRelation(relationship);
 	}
