@@ -1,22 +1,14 @@
 'use strict';
-angular.module('jumlitApp').controller('EditDiagramModalController', function ($scope, $uibModalInstance, id, Utils) {
-    (function () {
-        Utils.getRequest('diagram/' + id).then(function (model) {
-            $scope.diagramModel = model;
-        });
-    })();
+angular.module('jumlitApp').controller('EditDiagramModalController', function ($scope, $uibModalInstance, id, DiagramServices, Utils, UserServices) {
+    $scope.modalTitle = "Edit diagram";
+    DiagramServices.getDiagram(id).then(function (diagram) {
+        $scope.diagram = diagram;
+    });
 
     $scope.save = function () {
-        Utils.postRequest('diagram/update', $scope.diagramModel)
-            .then(function (model) {
-                if (model.ok) {
-                    return Utils.getRequest('diagram/' + id);
-                } else {
-                    throw model;
-                }
-            })
-            .then(function (model) {
-                $uibModalInstance.close(model);
+        DiagramServices.updateDiagram($scope.diagram)
+            .then(function () {
+                $uibModalInstance.close();
             })
             .catch(function (err) {
                 $uibModalInstance.dismiss(err);
@@ -28,6 +20,6 @@ angular.module('jumlitApp').controller('EditDiagramModalController', function ($
     };
 
     $scope.findUser = function (email) {
-        return Utils.postRequest('account/email/' + email);
+        return UserServices.findUsersByEmail(email);
     }
 });

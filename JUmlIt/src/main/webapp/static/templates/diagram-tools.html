@@ -1,5 +1,5 @@
 <div class="tool-panel-container figures" ng-controller="DiagramToolsCtrl">
-    <div class="panel tool-panel panel-primary" ng-hide="collapsed">
+    <div class="panel tool-panel panel-default" ng-hide="collapsed">
         <div class="panel-heading">Tools
             <span class="fold glyphicon glyphicon-menu-left"
                   ng-click="collapsed = true"></span>
@@ -11,8 +11,8 @@
                     <div class="btn btn-default diagram-type"
                          data-drag="true" jqyoui-draggable="{placeholder: 'keep'}"
                          data-jqyoui-options="{revert: 'invalid', helper: 'clone'}"
-                         ng-repeat="figureType in figureTypes"
-                         ng-model="figureType">{{figureType.text}}
+                         ng-repeat="(key, value) in classTypes"
+                         ng-model="value">{{value}}
                     </div>
                 </uib-accordion-group>
                 <uib-accordion-group heading="Others" template-url="templates/panel-accordion.html"

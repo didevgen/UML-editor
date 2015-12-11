@@ -1,0 +1,62 @@
+<div class="tool-panel-container" ng-controller="RelationshipSettingsCtrl">
+    <div class="panel panel-default tool-panel">
+        <div class="panel-heading">Relationship settings</div>
+        <div class="panel-body">
+            <uib-tabset>
+                <uib-tab heading="General">
+                    <form>
+                        <div class="form-group">
+                            <label>Type</label>
+
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false">
+                                    {{relationship.type}}
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="javascript:void(0)" ng-repeat="(key, value) in relationshipTypes"
+                                           ng-click="relationship.type = value">{{value}}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Multiplicity</label>
+
+                            <div class="dropdown-double">
+                                <div class="btn-group dropdown-half">
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                                            aria-haspopup="true" aria-expanded="false">
+                                        {{relationship.primaryToSecondaryMultiplicity || 'None'}}
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="javascript:void(0)" ng-repeat="(key, value) in multiplicityTypes"
+                                               ng-click="relationship.primaryToSecondaryMultiplicity = value">{{value}}</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="btn-group dropdown-half">
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                                            aria-haspopup="true" aria-expanded="false">
+                                        {{relationship.secondaryToPrimaryMultiplicity || 'None'}}
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="javascript:void(0)" ng-repeat="(key, value) in multiplicityTypes"
+                                               ng-click="relationship.secondaryToPrimaryMultiplicity = value">{{value}}</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </uib-tab>
+            </uib-tabset>
+        </div>
+    </div>
+</div>

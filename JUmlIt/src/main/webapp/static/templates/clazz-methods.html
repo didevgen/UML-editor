@@ -1,4 +1,4 @@
-<div ng-controller="CellMethodsCtrl">
+<div ng-controller="ClazzMethodsCtrl">
     <h4 ng-show="status === 'viewing'">Methods</h4>
     <h4 ng-show="status === 'editing'">Editing method</h4>
     <h4 ng-show="status === 'adding'">Adding method</h4>
@@ -6,13 +6,17 @@
     <div ng-show="status === 'viewing'">
         <ul class="list-group diagrams-list">
             <li class="list-group-item list-element pointer"
-                ng-repeat="method in cell.methods" ng-click="editMethod(method)">
-                <span class="pull-left">{{method | formatMethod}}</span>
-                                        <span class="glyphicon glyphicon-remove list-element-control pointer-delete"
-                                              ng-click="deleteMethod(method)"></span>
+                    ng-repeat="method in clazz.methods" ng-click="editMethod(method); $event.stopPropagation()">
+                <i ng-show="method.accessModifier === accessModifiers.PUBLIC" class="fa fa-plus access-modifier"></i>
+                <i ng-show="method.accessModifier === accessModifiers.PRIVATE" class="fa fa-minus access-modifier"></i>
+                <i ng-show="method.accessModifier === accessModifiers.PROTECTED" class="fa fa-hash access-modifier"></i>
+                <i ng-show="method.accessModifier === accessModifiers.DEFAULT" class="fa fa-tilde access-modifier"></i>
+                <span>{{method | formatMethod}}</span>
+                <span class="glyphicon glyphicon-remove list-element-control pointer-delete pull-right"
+                      ng-click="removeMethod(method); $event.stopPropagation()"></span>
             </li>
         </ul>
-        <div ng-hide="cell.methods.length > 0" class="no-methods">No methods yet!</div>
+        <div ng-hide="clazz.methods.length > 0" class="no-methods">No methods yet!</div>
         <button class="btn btn-primary glyphicon glyphicon-plus with-text" ng-click="showEditForm()">Add</button>
     </div>
 
@@ -31,13 +35,13 @@
                 <div class="btn-group">
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">
-                        {{method.accessModifier.name}}
+                        {{method.accessModifier}}
                         <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
                         <li>
                             <a href="javascript:void(0)" ng-repeat="(key, value) in accessModifiers"
-                               ng-click="method.accessModifier = value">{{value.name}}</a>
+                               ng-click="method.accessModifier = value">{{value}}</a>
                         </li>
                     </ul>
                 </div>
@@ -89,7 +93,7 @@
             <button ng-show="status === 'adding'" class="btn btn-primary" type="button" ng-click="addMethod(method)">
                 Add
             </button>
-            <button ng-show="status === 'editing'" class="btn btn-primary" type="button" ng-click="saveMethod(method)">
+            <button ng-show="status === 'editing'" class="btn btn-primary" type="button" ng-click="updateMethod(method)">
                 Save
             </button>
 

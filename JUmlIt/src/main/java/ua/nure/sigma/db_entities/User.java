@@ -9,8 +9,6 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -22,14 +20,15 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table(name = "user")
 @Component
 @Scope("session")
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, 
-	property = "@id")
+@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, 
+	property = "@id", scope=User.class)
 public class User {
 	private long userId;
 	private String fullname;
@@ -40,7 +39,7 @@ public class User {
 
 	private Set<UserRole> userRoles = new HashSet<UserRole>(0);
 	
-	private Set<Diagram> collaboratedDiagrams = new HashSet<Diagram>();
+	private Set<Diagram> collaboratedDiagrams = new HashSet<Diagram>(0);
 
 	public User() {
 	}
@@ -88,7 +87,6 @@ public class User {
 	@GeneratedValue(generator = "increment")
 	@GenericGenerator(name = "increment", strategy = "increment")
 	@Column(name = "user_id")
-	@JoinTable(name = "Collaborator", joinColumns = @JoinColumn(name = "user_id"))
 	public long getUserId() {
 		return userId;
 	}
@@ -105,7 +103,9 @@ public class User {
 	public void setEmail(String e) {
 		email = e;
 	}
+
 	@Column(name = "password")
+	@JsonIgnore
 	public String getPassword() {
 		return password;
 	}
@@ -149,11 +149,8 @@ public class User {
 		return "User [userId=" + userId + ", fullName=" + fullname + ", email=" + email + ", password=" + password
 				+ ", registrationDate=" + registrationDate + ", lastAvailable=" + lastAvailable + "]";
 	}
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "collaborator",  joinColumns = { 
-			@JoinColumn(name = "user_id", nullable = false, updatable = false) }, 
-			inverseJoinColumns = { @JoinColumn(name = "diagram_id", 
-					nullable = false, updatable = false) })
+
+	@ManyToMany(mappedBy = "collaborators")
 	public Set<Diagram> getCollaboratedDiagrams() {
 		return collaboratedDiagrams;
 	}

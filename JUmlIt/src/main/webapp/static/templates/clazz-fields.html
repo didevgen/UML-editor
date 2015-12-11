@@ -1,18 +1,22 @@
-<div ng-controller="CellFieldsCtrl">
+<div ng-controller="ClazzFieldsCtrl">
     <h4 ng-show="status === 'viewing'">Fields</h4>
     <h4 ng-show="status === 'editing'">Editing field</h4>
     <h4 ng-show="status === 'adding'">Adding field</h4>
 
     <div ng-show="status === 'viewing'">
         <ul class="list-group diagrams-list">
-            <li class="list-group-item list-element pointer"
-                ng-repeat="field in cell.fields" ng-click="editField(field)">
-                <span class="pull-left">{{field | formatField}}</span>
-                                        <span class="glyphicon glyphicon-remove list-element-control pointer-delete"
-                                              ng-click="deleteField(field)"></span>
+            <li class="list-group-item list-element pointer" ng-click="editField(field); $event.stopPropagation()"
+                ng-repeat="field in clazz.fields">
+                <i ng-show="field.accessModifier === accessModifiers.PUBLIC" class="fa fa-plus access-modifier"></i>
+                <i ng-show="field.accessModifier === accessModifiers.PRIVATE" class="fa fa-minus access-modifier"></i>
+                <i ng-show="field.accessModifier === accessModifiers.PROTECTED" class="fa fa-hash access-modifier"></i>
+                <i ng-show="field.accessModifier === accessModifiers.DEFAULT" class="fa fa-tilde access-modifier"></i>
+                <span>{{field | formatField}}</span>
+                <span class="glyphicon glyphicon-remove list-element-control pointer-delete pull-right"
+                      ng-click="deleteField(field); $event.stopPropagation()"></span>
             </li>
         </ul>
-        <div ng-hide="cell.fields.length > 0" class="no-fields">No fields yet!</div>
+        <div ng-hide="clazz.fields.length > 0" class="no-fields">No fields yet!</div>
         <button class="btn btn-primary glyphicon glyphicon-plus with-text" ng-click="showEditForm()">Add</button>
     </div>
 
@@ -31,13 +35,13 @@
                 <div class="btn-group">
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">
-                        {{field.accessModifier.name}}
+                        {{field.accessModifier}}
                         <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
                         <li>
                             <a href="javascript:void(0)" ng-repeat="(key, value) in accessModifiers"
-                               ng-click="field.accessModifier = value">{{value.name}}</a>
+                               ng-click="field.accessModifier = value">{{value}}</a>
                         </li>
                     </ul>
                 </div>
@@ -54,7 +58,7 @@
                 <button ng-show="status === 'adding'" class="btn btn-primary" type="button" ng-click="addField(field)">
                     Add
                 </button>
-                <button ng-show="status === 'editing'" class="btn btn-primary" type="button" ng-click="saveField(field)">
+                <button ng-show="status === 'editing'" class="btn btn-primary" type="button" ng-click="updateField(field)">
                     Save
                 </button>
                 <button class="btn btn-default" type="button" ng-click="hideEditForm()">Close</button>

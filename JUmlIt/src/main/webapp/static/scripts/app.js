@@ -1,8 +1,7 @@
 'use strict';
 
 /**
- * @ngdoc overview * @name jumlitApp
- * @description
+ * @ngdoc overview * @name jumlitApp * @description
  * # jumlitApp
  *
  * Main module of the application.
@@ -27,49 +26,47 @@ angular
                 url: '/landing',
                 templateUrl: 'states/landing.html',
                 controller: 'LandingCtrl',
-                data: {
-                    authenticated: false
+                resolve: {
+                    authorization: function(Authentication, $q) {
+                        return Authentication.authenticate().catch(function() {
+                            return $q.when();
+                        });
+                    }
                 }
+
             })
             .state('landing.about', {
                 url: '/about',
                 templateUrl: 'states/landing.about.html',
-                controller: 'AboutCtrl',
-                data: {
-                    authenticated: false
-                }
+                controller: 'AboutCtrl'
             })
             .state('landing.register', {
                 url: '/register',
                 templateUrl: 'states/landing.register.html',
-                controller: 'RegisterCtrl',
-                data: {
-                    authenticated: false
-                }
+                controller: 'RegisterCtrl'
             })
             .state('landing.login', {
                 url: '/login',
                 templateUrl: 'states/landing.login.html',
-                controller: 'LoginCtrl',
-                data: {
-                    authenticated: false
-                }
+                controller: 'LoginCtrl'
             })
             .state('account', {
                 url: '/account',
                 templateUrl: 'states/account.html',
                 controller: 'AccountCtrl',
-                data: {
-                    authenticated: true
+                resolve: {
+                    authorization: function(Authentication, $state, $q) {
+                        return Authentication.authenticate().catch(function() {
+                            $state.go('landing.login');
+                            return $q.reject();
+                        });
+                    }
                 }
             })
             .state('account.dashboard', {
                 url: '/dashboard',
                 templateUrl: 'states/account.dashboard.html',
                 controller: 'DashboardCtrl',
-                data: {
-                    authenticated: true
-                }
             })
             .state('account.user-info', {
                 url: '/user-info',
@@ -80,12 +77,12 @@ angular
                 url: '/diagrams/:diagramId',
                 templateUrl: 'states/diagram.html',
                 controller: 'DiagramCtrl',
-                data: {
-                    authenticated: false
-                },
                 resolve: {
-                    diagramModel: function(Utils, $stateParams) {
-                        return Utils.getRequest('diagram/' + $stateParams.diagramId);
+                    authorization: function(Authentication) {
+                        return Authentication.authenticate();
+                    },
+                    diagram: function(DiagramServices, $stateParams) {
+                        return DiagramServices.getDiagram($stateParams.diagramId);
                     }
                 }
             });
@@ -94,13 +91,6 @@ angular
         $urlRouterProvider.when('/', function($state) {
             $state.go('account.dashboard');
         });
-    }).run(function($rootScope, $state, Authorization, Authentication, $window, Session) {
-        Authentication.authenticate().then(function() {
-            //$state.go('account.dashboard');
-            $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
-                Authorization.authorize(event, toState.data);
-            });
-        }).catch(function(error) {
-            $state.go('landing.login')
-        });
+    }).run(function($rootScope, $state, Authentication, $window, Session) {
+        $state.go('account.dashboard');
     });

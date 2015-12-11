@@ -1,5 +1,6 @@
 package ua.nure.sigma.dao.impl;
 
+import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
@@ -23,12 +24,15 @@ public class ClassDiagramDAOImpl  implements ClassDiagramDAO{
 
 	@Override
 	public void removeClazz(long clazzId) {
-		deleteObject("Clazz", clazzId);
+		deleteObject("Clazz", "classId", clazzId);
 	}
 
 	@Override
 	public Clazz getClazz(long clazzId) {
-		return (Clazz) getObject(clazzId, Clazz.class);
+		Clazz clazz = (Clazz) getObject(clazzId, Clazz.class);
+		Hibernate.initialize(clazz.getFields());
+		Hibernate.initialize(clazz.getMethods());
+		return clazz;
 	}
 
 	@Override
@@ -43,7 +47,7 @@ public class ClassDiagramDAOImpl  implements ClassDiagramDAO{
 
 	@Override
 	public void removeMethod(long methodId) {
-		deleteObject("method", methodId);
+		deleteObject("Method", "id", methodId);
 	}
 
 	@Override
@@ -63,7 +67,7 @@ public class ClassDiagramDAOImpl  implements ClassDiagramDAO{
 
 	@Override
 	public void removeField(long fieldId) {
-		deleteObject("field", fieldId);
+		deleteObject("Field", "id", fieldId);
 	}
 
 	@Override
@@ -78,6 +82,7 @@ public class ClassDiagramDAOImpl  implements ClassDiagramDAO{
 			session.beginTransaction();
 			session.save(obj);
 			session.getTransaction().commit();
+			session.flush();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		} finally {
@@ -104,12 +109,12 @@ public class ClassDiagramDAOImpl  implements ClassDiagramDAO{
 		}
 	}
 	
-	private void deleteObject(String tableName, long id) {
+	private void deleteObject(String tableName, String idCol, long id) {
 		Session session = null;
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
-			Query q = session.createQuery("delete "+tableName+" where class_id = " + id);
+			Query q = session.createQuery("delete "+tableName+" where " + idCol + " = " + id);
 			q.executeUpdate();
 			session.getTransaction().commit();
 		} catch (Exception e) {
@@ -127,6 +132,7 @@ public class ClassDiagramDAOImpl  implements ClassDiagramDAO{
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
 			clazz = session.get(clazzName, id);
+			session.refresh(clazz);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

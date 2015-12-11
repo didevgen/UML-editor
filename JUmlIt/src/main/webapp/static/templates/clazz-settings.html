@@ -1,0 +1,64 @@
+<div class="tool-panel-container" ng-controller="ClazzSettingsCtrl">
+    <div class="panel panel-default tool-panel">
+        <div class="panel-heading">Class settings</div>
+        <div class="panel-body">
+            <uib-tabset>
+                <uib-tab heading="General">
+                    <form>
+                        <div class="form-group">
+                            <label>Static</label>
+                            <input bs-switch type="checkbox" switch-size="mini"
+                                   switch-on-text="Yes" ,
+                                   switch-off-text="No"
+                                   ng-model="clazz.isStatic">
+                        </div>
+                        <div class="form-group">
+                            <label>Type</label>
+
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false">
+                                    {{clazz.classType}}
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="javascript:void(0)" ng-repeat="(key, value) in classTypes"
+                                           ng-click="clazz.classType = value">{{value}}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Name:</label>
+                            <input type="text" ng-model="clazz.name" class="form-control" placeholder="Name">
+                        </div>
+                        <div class="form-group">
+                            <label>Access modifier</label>
+
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false">
+                                    {{clazz.accessModifier}}
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="javascript:void(0)" ng-repeat="(key, value) in accessModifiers"
+                                           ng-click="clazz.accessModifier = value">{{value}}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </form>
+                </uib-tab>
+                <uib-tab heading="Fields">
+                    <div ng-include="'templates/clazz-fields.html'"></div>
+                </uib-tab>
+                <uib-tab heading="Methods">
+                    <div ng-include="'templates/clazz-methods.html'"></div>
+                </uib-tab>
+            </uib-tabset>
+        </div>
+    </div>
+</div>

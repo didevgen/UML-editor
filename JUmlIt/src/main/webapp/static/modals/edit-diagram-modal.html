@@ -1,11 +1,11 @@
 <div class="modal-header">
-    <h3 class="modal-title">Create new diagram</h3>
+    <h3 class="modal-title">{{modalTitle}}</h3>
 </div>
 <div class="modal-body">
     <form novalidate name="form">
         <div class="form-group">
             <label for="name">Title</label>
-            <input type="text" class="form-control" name="name" id="name" placeholder="Name" ng-model="diagramModel.diagram.name" required="">
+            <input type="text" class="form-control" name="name" id="name" placeholder="Name" ng-model="diagram.name" required="">
             <div ng-show="form.$submitted || form.name.$touched">
                 <span class="error-message" ng-show="form.name.$error.required">This field is required.</span>
                 <span class="success-message" ng-show="form.name.$valid">Thanks!</span>
@@ -14,38 +14,20 @@
         </div>
         <div class="form-group">
             <label for="description">Description</label>
-            <textarea class="form-control" name="description" id="description" placeholder="Description" ng-model="diagramModel.diagram.description" required="" />
+            <textarea class="form-control" name="description" id="description" placeholder="Description" ng-model="diagram.description" required="" />
             <div ng-show="form.$submitted || form.description.$touched">
                 <span class="error-message" ng-show="form.description.$error.required">This field is required.</span>
                 <span class="success-message" ng-show="form.description.$valid">Thanks!</span>
             </div>
             <span class="info-message" ng-hide="form.$submitted || form.description.$touched">Type in diagram description.</span>
         </div>
-        <!-- <div class="panel panel-default">
-            <div class="panel-heading">Collaborators</div>
-            <div class="panel-body">
-                <div class="row" ng-repeat="collaborator in diagram.collaborators">
-                    <div class="col-xs-5">
-                        <span>{{collaborator.name}}</span>
-                    </div>
-                    <div class="col-xs-7">
-                        <span>{{collaborator.email}}</span>
-                    </div>
-                </div>
-            </div>
-        </div> -->
         <div class="form-group">
-            <label for="title">Collaborators</label>
-            <tags-input ng-model="diagramModel.collaborators" placeholder="Type email" display-property="email">
+            <label>Collaborators</label>
+            <tags-input ng-model="diagram.collaborators" placeholder="Type email" display-property="email">
                 <auto-complete source="findUser($query)"></auto-complete>
             </tags-input>
             <span class="info-message">Enter emails of the collaborators.</span>
         </div>
-        <!-- <div class="form-group">
-            <label for="title">New collaborator</label>
-            <input type="text" class="form-control" name="title" id="title" placeholder="Title" ng-model="newCollaborator.email">
-            <button class="btn btn-primary" type="button" ng-click="addCollaborator()">Add</button>
-        </div> -->
     </form>
 </div>
 <div class="modal-footer">

@@ -44,10 +44,14 @@ angular.module('jumlitApp').service('Authentication', function(Session, Utils, $
     }
 
     AuthService.authenticate = function() {
-        return Utils.postRequest('account').then(function(data) {
-            Session.user = data;
-            Session.authenticated = true;
-        })
+        if (Session.user && Session.authenticated) {
+            return $q.when();
+        }
+        return Utils.postRequest('account')
+            .then(function(data) {
+                Session.user = data;
+                Session.authenticated = true;
+            })
     }
 
     AuthService.login = function(email, password) {

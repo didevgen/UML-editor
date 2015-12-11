@@ -1,21 +1,17 @@
 'use strict';
-angular.module('jumlitApp').controller('NewDiagramModalController', function ($scope, $uibModalInstance, Utils) {
+angular.module('jumlitApp').controller('NewDiagramModalController', function ($scope, $uibModalInstance, Utils, Diagram,
+    DiagramServices, UserServices) {
 
-    $scope.diagramModel = {
-        diagram: {
-            name: "",
-            description: ""
-        },
-        collaborators: []
-    };
+    $scope.modalTitle = "Crate new diagram";
+    $scope.diagram = new Diagram();
 
     $scope.save = function () {
-        Utils.postRequest('diagram/create', $scope.diagramModel)
-            .then(function (res) {
-                $uibModalInstance.close(res.diagram);
+        DiagramServices.createDiagram($scope.diagram)
+            .then(function () {
+                $uibModalInstance.close();
             })
             .catch(function (err) {
-                $uibModalInstance.dismiss(err);
+                $uibModalInstance.dismiss(err)
             });
     };
 
@@ -23,6 +19,6 @@ angular.module('jumlitApp').controller('NewDiagramModalController', function ($s
         $uibModalInstance.dismiss();
     };
     $scope.findUser = function (email) {
-        return Utils.postRequest('account/email/' + email);
+        return UserServices.findUsersByEmail(email);
     }
 });

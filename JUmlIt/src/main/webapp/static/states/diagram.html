@@ -1,53 +1,42 @@
 <div class="diagram-main">
-    <div class="header custom-header" ng-include="'templates/navbar.html'"></div>
+    <div class="header custom-header" ng-include="'templates/diagram-navbar.html'"></div>
     <nav class="toolbar navbar navbar-default">
-        <div class="container-fluid">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="diagram-brand navbar-brand" href="#">{{diagramModel.diagram.name}}</a>
-            </div>
-
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                            File <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Save</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="#">Export as XML</a></li>
-                            <li><a href="#">Import from XML</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="#">Export as PNG</a></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                            Source code <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Preview source code</a></li>
-                            <li><a href="#">Generate source code</a></li>
-                        </ul>
-                    </li>
-                </ul>
-                <button type="button" class="btn btn-primary comments-btn" ng-click="toggleComments()">Comments</button>
-            </div>
-            <!-- /.navbar-collapse -->
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <a class="diagram-brand navbar-brand" href="#">{{diagram.name}}</a>
         </div>
-        <!-- /.container-fluid -->
+
+        <ul class="nav action-nav">
+            <li class="action-tile">
+                <div class="btn-group" role="group">
+                    <button class="btn btn-default fa fa-undo"></button>
+                    <button class="btn btn-default fa fa-repeat"></button>
+                </div>
+
+                <div class="btn-group" role="group">
+                    <button class="btn btn-default fa fa-floppy-o"></button>
+                    <button class="btn btn-default fa fa-history"></button>
+                </div>
+            </li>
+            <li class="action-tile action-tile-right">
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-primary fa fa-users"
+                            uib-popover-template="'templates/collaborators-popover.html'"
+                            popover-placement="bottom"
+                            popover-title="Collaborators">
+                    </button>
+                    <button type="button" class="btn btn-primary fa fa-comments" ng-click="toggleComments()"></button>
+                </div>
+            </li>
+        </ul>
     </nav>
     <div class="diagram-workspace">
         <div class="workspace-col" ng-include="'templates/diagram-tools.html'"></div>
-        <diagram-canvas></diagram-canvas>
+        <diagram-canvas classes="diagram.classes" relationships="diagram.relationships"></diagram-canvas>
         <div class="workspace-col tool-blocks">
-            <div class="tool-block" ng-include="'templates/cell-settings.html'" ng-show="showSettings"></div>
+            <div class="tool-block" ng-include="'templates/clazz-settings.html'" ng-show="showSettings"></div>
+            <div class="tool-block" ng-include="'templates/relationship-settings.html'"
+                 ng-show="showRelationshipSettings"></div>
             <div class="tool-block" ng-include="'templates/comments.html'" ng-show="showComments"></div>
         </div>
     </div>

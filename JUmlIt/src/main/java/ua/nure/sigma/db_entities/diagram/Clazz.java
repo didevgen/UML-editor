@@ -17,6 +17,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import ua.nure.sigma.db_entities.Diagram;
 @Entity
 @Table(name = "class")
@@ -30,12 +32,15 @@ public class Clazz {
 	
 	private String accessModifier;
 	
+	private String classType;
+	
 	private List<Field> fields = new ArrayList<Field>();
 	
 	private List<Method> methods = new ArrayList<>();
 	
 	private Position position;
 	
+	@JsonIgnore
 	private Diagram diagramOwner;
 	
 	public Clazz() {
@@ -140,6 +145,14 @@ public class Clazz {
 
 	public void setDiagramOwner(Diagram diagramOwner) {
 		this.diagramOwner = diagramOwner;
+	}
+	@Column(name = "class_type")
+	public String getClassType() {
+		return classType;
+	}
+
+	public void setClassType(String classType) {
+		this.classType = classType;
 	}
 	
 	

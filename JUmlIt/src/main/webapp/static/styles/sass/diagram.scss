@@ -12,9 +12,10 @@
   border-top: 0;
   border-left: 0;
   border-right: 0;
+  display: flex;
+  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, .15);
 }
 
-;
 .toolbar.navbar {
   margin: 0;
 }
@@ -22,11 +23,6 @@
 .diagram-brand.navbar-brand {
   border-right: 1px solid $border-color;
   color: $color-primary;
-}
-
-.comments-btn {
-  float: right;
-  margin-top: 8px;
 }
 
 .fold {
@@ -38,6 +34,7 @@
 .diagram-workspace {
   display: flex;
   flex-grow: 1;
+  min-height: 0px;
 }
 
 .workspace-col {
@@ -45,6 +42,38 @@
 
   &.tool-blocks {
     flex-direction: column;
+  }
+
+  &:first-child {
+
+    .tool-panel-container {
+
+    }
+
+    .tool-panel {
+      padding-right: 1px;
+      box-shadow: inset -1px 0 0px rgba(0, 0, 0, 0.15);
+      border-color: #e7e7e7;
+    }
+    .fold {
+      float: right;
+    }
+  }
+
+  &:last-child {
+    .tool-panel {
+      padding-left: 1px;
+      box-shadow: inset 1px 0 0px rgba(0, 0, 0, 0.15);
+      border-color: #e7e7e7;
+    }
+
+    .panel-heading {
+      text-align: right;
+    }
+
+    .fold {
+      float: left;
+    }
   }
 }
 
@@ -55,22 +84,15 @@
 }
 
 .tool-panel-container {
-  display:flex;
+  display: flex;
   flex-grow: 1;
-
-  &.figures {
-    left: 0;
-  }
-
-  &.comments {
-    right: 0;
-  }
 
   .tool-panel {
     margin-bottom: 0;
     flex-grow: 1;
     border-radius: 0;
-    width: 200px;
+    border-top: 0;
+    width: 250px;
 
     .panel-body {
       padding: 0px;
@@ -78,46 +100,30 @@
 
     .panel-heading {
       border-radius: 0;
+      background-color: $panel-color-darker;
     }
 
     .nav-tabs {
       margin-top: 15px;
+      padding: 0px 5px;
     }
   }
 }
 
-.figures .fold {
-  float: right;
-}
-
-.comments .panel-heading {
-  text-align: right;
-}
-
-.comments .fold {
-  float: left;
-}
-
-.diagram-container {
-  flex-grow: 1;
-  display: flex;
-}
-
 diagram-canvas {
   display: flex;
-  flex-grow:1;
+  flex: 1;
+  background-color: $diagram-padding-color;
+  padding: 10px;
 }
 
 .diagram-canvas {
-  flex-grow: 1;
   display: flex;
+  flex: 1;
+  background-color: white;
+  border: 1px solid $border-color;
+  overflow: auto;
   position: relative;
-  overflow: hidden;
-  z-index: 1;
-}
-
-.diagram-canvas svg {
-  flex-grow: 1;
 }
 
 .diagram-canvas svg .link {
@@ -134,7 +140,7 @@ diagram-canvas {
 
   .vertical-text {
     transition: background-color 0.5s ease;
-    width:120px;
+    width: 120px;
     text-align: center;
     background-color: $color-primary;
     padding: 10px 0px;
@@ -159,3 +165,37 @@ diagram-canvas {
   font-style: italic;
   color: $font-color-darker1;
 }
+
+table.table.inline-table {
+  margin: 0;
+
+  td {
+    border: 0;
+  }
+}
+
+.context-nav.nav.navbar-nav {
+  padding-left: 0px;
+
+  a {
+    padding-top: 3px;
+    padding-bottom: 3px;
+  }
+}
+
+.action-nav {
+  flex-grow: 1;
+  display: flex;
+  padding: 10px 15px;
+  display: flex;
+  flex-direction: row;
+}
+
+.action-tile {
+
+  &.action-tile-right {
+    margin-left: auto;
+  }
+
+}
+

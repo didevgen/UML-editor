@@ -1,20 +1,85 @@
 @import 'color-palette';
-uml-class {
-    /* Make sure events are propagated to the JointJS element so, e.g. dragging works.*/
-    pointer-events: none;
-    -webkit-user-select: none;
-    position: absolute;
-    z-index: 2;
-    border:0;
 
-    .uml-class-inner.selected {
-        border: 1px $border-color-dark dashed;
+.action {
+  border-radius: 20px;
+  width: 18px;
+  height: 18px;
+  position: absolute;
+  line-height: 18px;
+  text-align: center;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  font-size: 13px;
+  border: none;
+
+  &:hover {
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+  }
+}
+
+uml-class, uml-relationship {
+  /* Make sure events are propagated to the JointJS element so, e.g. dragging works.*/
+  pointer-events: none;
+  -webkit-user-select: none;
+  position: absolute;
+  z-index: 2;
+
+  select,
+  input,
+  button,
+  .btn {
+    /* Enable interacting with inputs only. */
+    pointer-events: auto;
+  }
+}
+
+uml-class {
+
+    .class-name {
+      font-weight: bolder;
+    }
+
+    .access-modifier {
+      margin-right: 5px;
+      font-weight: bolder;
+    }
+
+    .uml-class-inner {
+      position: relative;
+      border: 2px solid $uml-class-heading;
+    }
+
+    .class-selection {
+      position: absolute;
+      top: -5px;
+      left: -5px;
+      height: calc(100% + 10px);
+      width: calc(100% + 10px);
+      border: 2px dashed black;
+    }
+
+
+    .static {
+      padding-bottom: 1px;
+      border-bottom: 2px solid;
+    }
+
+    .class-type {
+      display: inline-block;
+      width: 100%;
+      font-size: 13px;
+      margin-bottom: 4px;
     }
 
 
     .panel-cell {
         height: 100%;
         margin: 0px;
+        border: 0;
+        border-radius: 0px;
         background-color: $uml-class-body;
 
         .panel-heading {
@@ -25,100 +90,57 @@ uml-class {
         }
     }
 
-    .popover-title {
-        color: $font-color-dark;
-    }
-
-    .popover {
-        color: $font-color-dark;
-        pointer-events: auto;
-        width: 300px;
-
-        .list-group li, .dropdown-menu li, .dropdown-menu a{
-            background-color: white;
-            color: $font-color-dark;
-        }
-
-        .inline-table {
-            margin: 0;
-
-            td {
-                border: 0;
-            }
-
-        }
-
-        .add-argument {
-            font-size: 12px;
-        }
-
-        .panel-footer {
-            padding: 5px;
-        }
-    }
-
 
     .list-group a, .list-group li {
-        padding: 5px 15px;
-        background-color: $uml-class-list;
-        border: 0;
+      padding: 5px 15px;
+      background-color: $uml-class-list;
+      border: 0;
+      color: white;
+
+      &.subheading {
+        font-weight: bolder;
+        background-color: $uml-class-body;
         color: white;
-
-        &.subheading {
-            font-weight: bolder;
-            background-color: $uml-class-body;
-            color: white;
-        }
+      }
     }
 
-    .actions {
-        float: right;
-    }
+    .action-delete {
+        @extend .action;
 
-    .btn-action {
-        margin-top: -2px;
-        background-color: $uml-class-action-background;
-        //border: 1px solid $uml-class-action-border;
         color: white;
-        padding: 1px 5px;
-        font-size: 12px;
+        background-color: $uml-action-delete;
+        top: -20px;
+        left: -20px;
     }
 
-
-    select,
-    input,
-    button,
-    .btn {
-        /* Enable interacting with inputs only. */
-        pointer-events: auto;
-    }
-
-    button.delete {
+    .action-link {
+        @extend .action;
+        background-color: $uml-action-link;
         color: white;
-        border: none;
-        background-color: #C0392B;
-        border-radius: 20px;
-        width: 15px;
-        height: 15px;
-        line-height: 15px;
-        text-align: middle;
-        position: absolute;
-        top: -15px;
-        left: -15px;
-        padding: 0;
-        margin: 0;
-        font-weight: bold;
-        cursor: pointer;
-
-        &:hover {
-            width: 20px;
-            height: 20px;
-            line-height: 20px;
-        }
+        right: -25px;
+        top: calc(50% - 9px);
     }
 
     .no-fields, .no-methods {
       font-style: italic;
       padding: 5px;
     }
+
+    .list-group-item.divider {
+      padding: 1px;
+      background-color: $uml-class-action-border;
+    }
 }
+
+uml-relationship {
+  .action-settings {
+    @extend .action;
+
+    position: static;
+    color: white;
+    background-color: $uml-action-settings;
+  }
+}
+
+.fa-tilde:before { content: '~'; }
+.fa-hash:before { content: '#'; }

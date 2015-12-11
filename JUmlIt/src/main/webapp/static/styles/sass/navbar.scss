@@ -1,6 +1,17 @@
 @import 'color-palette.scss';
 
 .custom-header {
+    .navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
+        background-color: white;
+        border-color: white;
+    }
+
+    .navbar-toggle:hover, .navbar-toggle:focus {
+        .icon-bar {
+            background-color: $color-primary;
+        }
+    }
+
     .navbar-brand {
         color: white;
         font-weight: bolder;
@@ -42,5 +53,18 @@
     }
     .nav.navbar-nav .dropdown-menu a{
         color: $font-color-darker1;
+    }
+
+    .user-toggle {
+      padding: 12px;
+
+      .fa.fa-user {
+        font-size: 25px;
+      }
+
+      .caret {
+        margin-left: 4px;
+        margin-top: -6px;
+      }
     }
 }

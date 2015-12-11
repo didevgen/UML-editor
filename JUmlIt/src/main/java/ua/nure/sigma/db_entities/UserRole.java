@@ -20,8 +20,8 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 @Table(name = "user_role")
 @Component
 @Scope("session")
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, 
-	property = "@id")
+@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, 
+	property = "@id", scope = UserRole.class)
 public class UserRole {
 
 	private long userRoleId;

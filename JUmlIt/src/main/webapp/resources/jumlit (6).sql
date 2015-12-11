@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: 127.0.0.1
--- Время создания: Ноя 29 2015 г., 19:54
+-- Время создания: Дек 03 2015 г., 12:41
 -- Версия сервера: 5.6.26
 -- Версия PHP: 5.6.12
 
@@ -44,8 +44,16 @@ CREATE TABLE IF NOT EXISTS `class` (
   `class_name` varchar(45) DEFAULT NULL,
   `is_static` tinyint(1) DEFAULT NULL,
   `diagram_id` bigint(20) DEFAULT NULL,
-  `class_access` varchar(105) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  `class_access` varchar(105) DEFAULT NULL,
+  `class_type` varchar(45) DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `class`
+--
+
+INSERT INTO `class` (`class_id`, `class_name`, `is_static`, `diagram_id`, `class_access`, `class_type`) VALUES
+(1, 'MyClazz', 0, 4, 'private', NULL);
 
 -- --------------------------------------------------------
 
@@ -87,8 +95,6 @@ CREATE TABLE IF NOT EXISTS `diagram` (
 --
 
 INSERT INTO `diagram` (`diagram_id`, `owner_id`, `status_id`, `json_data`, `created_date`, `last_updated`, `name`, `description`) VALUES
-(1, 3, -1, '', '2015-11-27 22:36:32', '2015-11-27 22:36:32', '', ''),
-(2, 3, -1, '', '2015-11-27 22:50:23', '2015-11-27 22:50:23', '', ''),
 (3, 4, -1, '', '2015-11-27 23:33:12', '2015-11-28 23:50:50', 'Diagram1', 'MyDiagram'),
 (4, 4, -1, '', '2015-11-27 23:33:12', '2015-11-27 23:33:12', 'Diagram2', 'MyDiagram2');
 
@@ -172,7 +178,14 @@ CREATE TABLE IF NOT EXISTS `method` (
   `return_type` varchar(105) DEFAULT NULL,
   `method_access` varchar(105) DEFAULT NULL,
   `class_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `method`
+--
+
+INSERT INTO `method` (`method_id`, `is_static`, `method_name`, `return_type`, `method_access`, `class_id`) VALUES
+(1, 0, 'ываываы', 'ываыва', 'public', NULL);
 
 -- --------------------------------------------------------
 
@@ -185,6 +198,13 @@ CREATE TABLE IF NOT EXISTS `position` (
   `y` int(11) DEFAULT NULL,
   `class_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
+
+--
+-- Дамп данных таблицы `position`
+--
+
+INSERT INTO `position` (`x`, `y`, `class_id`) VALUES
+(508, 99, 1);
 
 -- --------------------------------------------------------
 
@@ -364,7 +384,7 @@ ALTER TABLE `agrument`
 -- AUTO_INCREMENT для таблицы `class`
 --
 ALTER TABLE `class`
-  MODIFY `class_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `class_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT для таблицы `diagram`
 --
@@ -394,7 +414,7 @@ ALTER TABLE `field`
 -- AUTO_INCREMENT для таблицы `method`
 --
 ALTER TABLE `method`
-  MODIFY `method_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `method_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT для таблицы `token`
 --

@@ -1,23 +1,37 @@
-<div class="uml-class-inner" ng-class="{'selected': selected}">
-    <button class="delete">x</button>
+<div class="uml-class-inner" ng-class="{'static': clazz.isStatic}">
+
+    <div class="class-selection"  ng-show="selected"></div>
+    <button class="action-delete fa fa-times" ng-show="selected"></button>
+    <button class="action-link fa fa-arrow-right" ng-show="selected"></button>
+
     <div class="panel panel-default panel-cell">
         <div class="panel-heading">
-            <h3 class="panel-title">{{class.name}}</h3>
+            <h3 class="panel-title">
+                <span class="class-type" ng-hide="clazz.classType === classTypes.CLASS">
+                    {{clazz.classType | formatClassType}}
+                </span>
+                <span class="class-name">{{clazz.name}}</span>
+            </h3>
         </div>
         <ul class="list-group">
-            <li href="#" class="list-group-item subheading">
-                Methods
-                <div class="btn-group actions">
-                </div>
+            <li href="#" class="list-group-item" ng-repeat="method in clazz.methods">
+                <i ng-show="method.accessModifier === accessModifiers.PUBLIC" class="fa fa-plus access-modifier"></i>
+                <i ng-show="method.accessModifier === accessModifiers.PRIVATE" class="fa fa-minus access-modifier"></i>
+                <i ng-show="method.accessModifier === accessModifiers.PROTECTED" class="fa fa-hash access-modifier"></i>
+                <i ng-show="method.accessModifier === accessModifiers.DEFAULT" class="fa fa-tilde access-modifier"></i>
+                <span ng-class="{'static': method.isStatic}">{{method | formatMethod}}</span>
             </li>
-            <li href="#" class="list-group-item" ng-repeat="method in class.methods">{{method | formatMethod}}</li>
-            <li href="#" class="list-group-item no-methods" ng-hide="class.methods.length">No methods</li>
+            <li href="#" class="list-group-item no-methods" ng-hide="clazz.methods.length">No methods</li>
 
-            <li href="#" class="list-group-item subheading">
-                Fields
+            <li href="#" class="list-group-item divider"></li>
+            <li href="#" class="list-group-item" ng-repeat="field in clazz.fields">
+                <i ng-show="field.accessModifier === accessModifiers.PUBLIC" class="fa fa-plus access-modifier"></i>
+                <i ng-show="field.accessModifier === accessModifiers.PRIVATE" class="fa fa-minus access-modifier"></i>
+                <i ng-show="field.accessModifier === accessModifiers.PROTECTED" class="fa fa-hash access-modifier"></i>
+                <i ng-show="field.accessModifier === accessModifiers.DEFAULT" class="fa fa-tilde access-modifier"></i>
+                <span ng-class="{'static': field.isStatic}">{{field | formatField}}</span>
             </li>
-            <li href="#" class="list-group-item" ng-repeat="field in class.fields">{{field | formatField}}</li>
-            <li href="#" class="list-group-item no-fields" ng-hide="class.fields.length">No fields</li>
+            <li href="#" class="list-group-item no-fields" ng-hide="clazz.fields.length">No fields</li>
         </div>
     </div>
 </div>

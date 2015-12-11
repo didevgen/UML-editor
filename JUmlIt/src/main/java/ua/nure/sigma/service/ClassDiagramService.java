@@ -5,15 +5,23 @@ import ua.nure.sigma.dao.impl.ClassDiagramDAOImpl;
 import ua.nure.sigma.db_entities.diagram.Clazz;
 import ua.nure.sigma.db_entities.diagram.Field;
 import ua.nure.sigma.db_entities.diagram.Method;
+import ua.nure.sigma.db_entities.diagram.Position;
 
 public class ClassDiagramService {
 	private ClassDiagramDAO dao = new ClassDiagramDAOImpl();
 
 	public Clazz addClass(Clazz clazz) {
-		return dao.insertClazz(clazz);
+		Position pos = clazz.getPosition();
+		pos.setClazz(clazz);
+		Clazz cl = dao.insertClazz(clazz);
+		return cl;
 	}
 
 	public void updateClass(Clazz clazz) {
+		Position pos = clazz.getPosition();
+		pos.setClazz(clazz);
+		clazz.getFields().forEach(item->item.setClassOwner(clazz));
+		clazz.getMethods().forEach(item->item.setClassOwner(clazz));
 		dao.updateClazz(clazz);
 	}
 
