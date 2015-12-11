@@ -553,6 +553,9 @@ uml-relationship .action-settings {
     margin-left: -300px;
     opacity: 0; }
 
+.list-element-text {
+  color: #777; }
+
 .list-element-control {
   top: 0;
   margin-left: 5px;

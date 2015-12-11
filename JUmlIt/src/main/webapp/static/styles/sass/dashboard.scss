@@ -50,6 +50,10 @@
     }
 }
 
+.list-element-text {
+    color: $font-color;
+}
+
 .list-element-control {
     top: 0;
     margin-left: 5px;
@@ -95,4 +99,11 @@
 
 .delete-reject-container.ng-hide {
     opacity: 0;
+}
+
+.remove-boundaries.pagination>li:last-child>a,
+.remove-boundaries.pagination>li:last-child>span,
+.remove-boundaries.pagination>li:first-child>a,
+.remove-boundaries.pagination>li:first-child>span {
+    display: none;
 }

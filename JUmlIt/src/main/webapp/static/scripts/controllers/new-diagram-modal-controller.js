@@ -1,13 +1,17 @@
 'use strict';
 angular.module('jumlitApp').controller('NewDiagramModalController', function ($scope, $uibModalInstance, Utils, Diagram,
-                                                                              DiagramServices, UserServices) {
+    DiagramServices, UserServices) {
 
+    $scope.modalTitle = "Crate new diagram";
     $scope.diagram = new Diagram();
 
     $scope.save = function () {
         DiagramServices.createDiagram($scope.diagram)
             .then(function () {
-                $uibModalInstance.close({success: true});
+                $uibModalInstance.close();
+            })
+            .catch(function (err) {
+                $uibModalInstance.dismiss(err)
             });
     };
 
