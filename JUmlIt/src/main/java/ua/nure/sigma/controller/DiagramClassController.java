@@ -2,6 +2,8 @@ package ua.nure.sigma.controller;
 
 import java.security.Principal;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,10 +22,20 @@ import ua.nure.sigma.service.HistoryService;
 @RestController
 public class DiagramClassController {
 
-	private ClassDiagramService service = new ClassDiagramService();
+	private final SimpMessagingTemplate template;
+	private final ClassDiagramService service;
 	
-	private DiagramService diagramService = new DiagramService();
-	private HistoryService historyService = new HistoryService();
+	private final DiagramService diagramService;
+	private final HistoryService historyService;
+
+	@Autowired
+	public DiagramClassController(SimpMessagingTemplate template) {
+		this.template = template;
+		this.service = new ClassDiagramService();
+		this.diagramService = new DiagramService();
+		this.historyService = new HistoryService(this.template);
+	}
+
 
 	@RequestMapping(value = "/diagram/{diagramId}/classes/add", method = RequestMethod.POST)
 	public Clazz addClass(@RequestBody Clazz clazz, @PathVariable long diagramId, Principal principal) {

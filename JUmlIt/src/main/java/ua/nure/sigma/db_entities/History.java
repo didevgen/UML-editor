@@ -36,4 +36,21 @@ public class History implements Serializable {
 		this.userId = user_id;
 	}
 
+	@Override
+	public int hashCode() {
+		return Long.hashCode(this.userId) + Long.hashCode(this.eventId);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof History)) {
+			return false;
+		}
+		History other = (History) obj;
+		return Long.compare(other.getUser_id(), this.userId) == 0
+				&& Long.compare(other.getEvent_id(), this.eventId) == 0;
+	}
+	
+	
+
 }

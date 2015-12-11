@@ -23,13 +23,20 @@ import ua.nure.sigma.service.HistoryService;
 @RestController
 public class DiagramController {
 
+	private final HttpSession session;
+	private final SimpMessagingTemplate template;
+	private final HistoryService historyService;
+	private final DiagramService diagramService;
+	private final AccountService accountService;
+	
 	@Autowired
-	private HttpSession session;
-	@Autowired
-	private SimpMessagingTemplate messagingTemplate;
-	private HistoryService historyService = new HistoryService();
-	private DiagramService diagramService = new DiagramService();
-	private AccountService accountService = new AccountService();
+	public DiagramController(final HttpSession session, final SimpMessagingTemplate template) {
+		this.session = session;
+		this.template = template;
+		this.historyService = new HistoryService(template);
+		this.accountService = new AccountService();
+		this.diagramService = new DiagramService();
+	}
 
 	@RequestMapping(value = "/diagram/create", method = RequestMethod.POST)
 	public Diagram insertDiagram(@RequestBody Diagram diagram, ModelMap model, Principal principal) {
@@ -57,7 +64,6 @@ public class DiagramController {
 		diagramService.updateDiagram(diagram);
 		Diagram newDiagram = diagramService.getDiagramById(diagram.getDiagramId());
 		historyService.insertHistory(principal, newDiagram, "updated diagram");
-		messagingTemplate.convertAndSend("/diagram/external", newDiagram);
 		return newDiagram;
 	}
 
