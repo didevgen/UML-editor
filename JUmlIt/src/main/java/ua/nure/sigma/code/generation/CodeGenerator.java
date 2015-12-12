@@ -21,6 +21,7 @@ import ua.nure.sigma.code.model.Field;
 import ua.nure.sigma.code.model.Interface;
 import ua.nure.sigma.code.model.Method;
 import ua.nure.sigma.code.model.MethodArg;
+import ua.nure.sigma.code.model.Type;
 
 public class CodeGenerator {
 
@@ -31,11 +32,13 @@ public class CodeGenerator {
 	public static void main(String[] args) {
 		CodeGenerator codegen = new CodeGenerator();
 		Clazz clazz = new Clazz();
-		clazz.setModifiers(Arrays.asList("public"));
+		clazz.setModifiers(Arrays.asList("public","abstract"));
 		List<Interface> list = new ArrayList<Interface>();
 		list.add(new Interface("MyInterface"));
 		clazz.setInterfaces(list);
 		clazz.setName("MyClass");
+		Method m = new Method("myMethod", Arrays.asList("public","abstract"), new Type("List", false),new ArrayList<>());
+		clazz.setMethods(Arrays.asList(m));
 		JavaFile javaFile = JavaFile.builder("com.example.helloworld", codegen.generateClass(clazz)).build();
 		try {
 			javaFile.writeTo(System.out);

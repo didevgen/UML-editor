@@ -1,20 +1,46 @@
 package ua.nure.sigma.code.converter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import ua.nure.sigma.code.model.Interface;
 import ua.nure.sigma.code.model.MethodArg;
 import ua.nure.sigma.code.model.Type;
 import ua.nure.sigma.db_entities.diagram.Argument;
 import ua.nure.sigma.db_entities.diagram.Clazz;
 import ua.nure.sigma.db_entities.diagram.Field;
 import ua.nure.sigma.db_entities.diagram.Method;
+import ua.nure.sigma.db_entities.diagram.Relationship;
 
 public class Converter {
-	public ua.nure.sigma.code.model.Clazz diagramToClassModel(Clazz clazz) {
+	public Object diagramToClassModel(Clazz clazz) {
+		if (clazz.getClassType().intern() == "Class".intern()) {
+			return genClazz(clazz);
+		} else if (clazz.getClassType().intern() == "Abstract class".intern()) {
+			return genClazz(clazz);
+		} else if (clazz.getClassType().intern() == "Interface".intern()) {
+			return genInterface(clazz);
+		} else {
+			return null;
+		}
+	}
+
+	private ua.nure.sigma.code.model.Clazz genClazz(Clazz clazz) {
 		ua.nure.sigma.code.model.Clazz resultClass = new ua.nure.sigma.code.model.Clazz();
 		resultClass.setName(clazz.getName());
 		resultClass.setModifiers(getModifiersList(clazz));
+		resultClass.setFields(mapFields(clazz.getFields()));
+		resultClass.setMethods(mapMethods(clazz.getMethods()));
+		setSuperInterfaces(resultClass, clazz);
+		setCompAndAggregationItems(resultClass, clazz);
+		setSuperClass(resultClass, clazz);
+		return resultClass;
+	}
+	
+	private ua.nure.sigma.code.model.Interface genInterface(Clazz clazz) {
+		ua.nure.sigma.code.model.Interface resultClass = new ua.nure.sigma.code.model.Interface();
+		resultClass.setName(clazz.getName());
 		resultClass.setFields(mapFields(clazz.getFields()));
 		resultClass.setMethods(mapMethods(clazz.getMethods()));
 		return resultClass;
@@ -53,6 +79,9 @@ public class Converter {
 		if (clazz.isStatic()) {
 			result.add("static");
 		}
+		if (clazz.getClassType().intern()=="Abstract class") {
+			result.add("abstract");
+		}
 		return result;
 	}
 
@@ -71,6 +100,9 @@ public class Converter {
 		if (method.isStatic()) {
 			result.add("static");
 		}
+		if (method.getClassOwner().getClassType().intern() =="Abstract class".intern()) {
+			result.add("abstract");
+		}
 		return result;
 	}
 
@@ -85,4 +117,45 @@ public class Converter {
 		}
 		return result;
 	}
+
+	private ua.nure.sigma.code.model.Clazz setCompAndAggregationItems(ua.nure.sigma.code.model.Clazz resultClazz,
+			Clazz startClazz) {
+		List<Relationship> relations = startClazz.getSecondaryRelations();
+		for (Relationship relation : relations) {
+			if (relation.getType().intern() == "composition".intern()
+					|| relation.getType().intern() == "aggregation".intern()) {
+				ua.nure.sigma.code.model.Field field = new ua.nure.sigma.code.model.Field();
+				field.setName(relation.getPrimaryMember().getName().toLowerCase());
+				field.setModifiers(Arrays.asList("private"));
+				field.setType(new Type(relation.getPrimaryMember().getName(), false));
+				resultClazz.getFields().add(field);
+			}
+		}
+		return resultClazz;
+	}
+
+	private ua.nure.sigma.code.model.Clazz setSuperClass(ua.nure.sigma.code.model.Clazz resultClazz, Clazz startClazz) {
+		List<Relationship> relations = startClazz.getPrimaryRelations();
+		for (Relationship relation : relations) {
+			if (relation.getType().intern() == "generalization".intern()) {
+				ua.nure.sigma.code.model.Clazz superClass = new ua.nure.sigma.code.model.Clazz();
+				superClass.setName(relation.getSecondaryMember().getName());
+				resultClazz.setSuperClass(superClass);
+			}
+		}
+		return resultClazz;
+	}
+
+	private ua.nure.sigma.code.model.Clazz setSuperInterfaces(ua.nure.sigma.code.model.Clazz resultClazz,
+			Clazz startClazz) {
+		List<Relationship> relations = startClazz.getPrimaryRelations();
+		for (Relationship relation : relations) {
+			if (relation.getType().intern() == "realization".intern()) {
+				Interface iface = new Interface(relation.getSecondaryMember().getName());
+				resultClazz.getInterfaces().add(iface);
+			}
+		}
+		return resultClazz;
+	}
+
 }
