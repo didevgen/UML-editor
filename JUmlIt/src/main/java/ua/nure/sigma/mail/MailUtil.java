@@ -33,7 +33,7 @@ public class MailUtil {
 			message.setRecipients(Message.RecipientType.TO,
 				InternetAddress.parse(email));
 			message.setSubject("JUmlIt Notifications");
-			message.setText("You have been added to the diagram. Please visit JUmlIt application");
+			message.setText("You have been added as collaborator to the diagram. Please visit JUmlIt application");
 			Transport.send(message);
 			System.out.println("Done");
 		} catch (MessagingException e) {

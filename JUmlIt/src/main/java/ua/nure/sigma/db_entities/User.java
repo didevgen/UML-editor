@@ -38,9 +38,9 @@ public class User {
 	private DateTime registrationDate;
 	private DateTime lastAvailable;
 
-	private Set<UserRole> userRoles = new HashSet<UserRole>(0);
+	private Set<UserRole> userRoles = new HashSet<UserRole>();
 
-	private Set<Diagram> collaboratedDiagrams = new HashSet<Diagram>(0);
+	private Set<Diagram> collaboratedDiagrams = new HashSet<Diagram>();
 	private List<DiagramHistory> history = new ArrayList<>();
 
 	public User() {
@@ -104,7 +104,7 @@ public class User {
 		email = e;
 	}
 
-	@Column(name = "password")
+	@Column(name = "password",updatable=false)
 	@JsonIgnore
 	public String getPassword() {
 		return password;
