@@ -465,6 +465,7 @@
 	"diagramId": 3,
 	"events": [{
 		"eventId": 4,
+		"sessionId": 5, # id of the session related to this event
 		"userId": 3,
 		"userName": "Max Selekh"
 		"time": "2015-12-12 15:23:23",
@@ -473,7 +474,7 @@
 }
 ```
 
-### /diagram/{id}/history/{id}
+### /diagram/{disgramId}/history/{sessionId}
 * method: _GET_
 * request :
 ```
@@ -483,11 +484,12 @@
 ```
 {
 	"diagramId": 3,
-	"event": {
-		"eventId": 4,
+	"session": {
+		"sessionId": 4,
 		"userId": 3,
 		"userName": "Max Selekh"
-		"time": "2015-12-12 15:23:23",
+		"time_start": "2015-12-12 15:23:23",
+		"time_end": "2015-12-12 15:23:23", # can be null, if session isn't finished
 		"changes": [{
 			"actionId": 2342,
 			"time": "2015-12-12 15:23:22",
