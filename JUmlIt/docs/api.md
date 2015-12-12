@@ -450,3 +450,53 @@
 	"secondaryMember": {} # user obj
 }
 ```
+
+--------------------------------
+## History of changes
+### /diagram/{id}/history
+* method: _GET_
+* request :
+```
+{}
+```
+* response:
+```
+{
+	"diagramId": 3,
+	"events": [{
+		"eventId": 4,
+		"userId": 3,
+		"userName": "Max Selekh"
+		"time": "2015-12-12 15:23:23",
+		"type": "enter" # enter or leave
+	}]
+}
+```
+
+### /diagram/{id}/history/{id}
+* method: _GET_
+* request :
+```
+{}
+```
+* response:
+```
+{
+	"diagramId": 3,
+	"event": {
+		"eventId": 4,
+		"userId": 3,
+		"userName": "Max Selekh"
+		"time": "2015-12-12 15:23:23",
+		"changes": [{
+			"actionId": 2342,
+			"time": "2015-12-12 15:23:22",
+			"details": {
+				"action": "added", # changed/renamed/added/removed or other
+				"object": "class": # type of object: link, class, method or variable,
+				"name": "Clazz" # name of object
+			}
+		}]
+	}
+}
+```
