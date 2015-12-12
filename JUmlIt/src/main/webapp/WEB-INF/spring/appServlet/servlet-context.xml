@@ -31,5 +31,5 @@
 
 	<context:component-scan base-package="ua.nure.sigma" />
 
-
+<beans:bean name="myApplicationListener" class="ua.nure.sigma.util.WSListener" />
 </beans:beans>
