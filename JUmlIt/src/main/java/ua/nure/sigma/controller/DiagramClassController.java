@@ -80,6 +80,7 @@ public class DiagramClassController {
 	public Method addMethod(@RequestBody Method method, @PathVariable long diagramId,@PathVariable long classId,Principal principal) {
 		Diagram diagram = diagramService.getDiagramById(diagramId);
 		historyService.insertHistory(principal, diagram, "method added");
+		method.getArgs().forEach(item->item.setMethod(method));
 		Clazz clazz = service.getClass(classId);
 		clazz.getMethods().add(method);
 		method.setClassOwner(clazz);
@@ -116,6 +117,7 @@ public class DiagramClassController {
 		historyService.insertHistory(principal, diagram, "method updated");
 		Clazz clazz = service.getClass(classId);
 		method.setClassOwner(clazz);
+		method.getArgs().forEach(item->item.setMethod(method));
 		service.updateMethod(method);
 		return method;
 	}

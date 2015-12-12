@@ -108,7 +108,7 @@ public class Converter {
 
 	private List<MethodArg> getArguments(Method method) {
 		List<MethodArg> result = new ArrayList<>();
-		for (Argument arg : method.getArguments()) {
+		for (Argument arg : method.getArgs()) {
 			MethodArg argument = new MethodArg();
 			argument.setName(arg.getName());
 			argument.setType(new Type(method.getReturnType(),
