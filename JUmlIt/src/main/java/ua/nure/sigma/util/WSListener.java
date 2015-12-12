@@ -1,7 +1,5 @@
 package ua.nure.sigma.util;
 
-import java.util.Map;
-
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
