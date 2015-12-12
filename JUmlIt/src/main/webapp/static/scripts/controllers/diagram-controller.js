@@ -54,6 +54,7 @@ angular.module('jumlitApp').controller('DiagramCtrl', function ($scope, $rootSco
     $rootScope.$on(Enums.events.CLASS_DESELECTED, function() {
         $scope.showSettings = false;
     });
+
     $scope.$on(Enums.events.CLASS_UPDATED, function(event, clazz) {
         ClazzServices.updateClass(clazz);
     });
@@ -61,4 +62,8 @@ angular.module('jumlitApp').controller('DiagramCtrl', function ($scope, $rootSco
     $scope.$on(Enums.events.CLASS_REMOVED, function(event, clazz) {
         ClazzServices.removeClass(clazz);
     });
+
+    $scope.$on(Enums.events.RELATIONSHIP_REMOVED, function(event, relationship) {
+        ClazzServices.removeRelationship(relationship);
+    })
 });

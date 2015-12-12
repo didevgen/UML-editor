@@ -20,8 +20,8 @@ angular.module('jumlitApp').controller('ClazzSettingsCtrl', function ($scope, Ut
     });
 
     $rootScope.$on(Enums.events.CLASS_DESELECTED, function() {
-        //$scope.trackUpdates = false;
-        //$scope.clazz = null;
+        $scope.trackUpdates = false;
+        $scope.clazz = null;
     });
 
     $rootScope.$on(Enums.events.CLASS_UPDATED, function (event, clazz) {
@@ -31,11 +31,6 @@ angular.module('jumlitApp').controller('ClazzSettingsCtrl', function ($scope, Ut
         silentUpdate(function() {
             $scope.clazz = clazz;
         });
-    });
-
-    $rootScope.$on(Enums.events.CLASS_REMOVED, function() {
-        $scope.trackUpdates = false;
-        $scope.clazz = null;
     });
 
     $scope.$watch('clazz.name', updateClazz);

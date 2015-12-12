@@ -135,6 +135,7 @@ public class DiagramClassController {
 	public void updateRelationship(@RequestBody Relationship relationship, @PathVariable long diagramId,Principal principal) {
 		Diagram diagram = diagramService.getDiagramById(diagramId);
 		historyService.insertHistory(principal, diagram, "relationship updated");
+		relationship.setDiagram(diagram);
 		service.updateRelation(relationship);
 	}
 

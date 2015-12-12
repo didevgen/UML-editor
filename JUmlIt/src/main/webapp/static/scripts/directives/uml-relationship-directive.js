@@ -22,6 +22,13 @@ angular.module('jumlitApp').directive('umlRelationship', function ($timeout, Enu
 
             var elementHovered = false;
 
+            $scope.$on('$destroy', function() {
+                element.remove();
+                $scope.cell.get('target').off('change:position', updateBox);
+                $scope.cell.get('source').off('change:position', updateBox);
+                $scope.paper.off('cell:mouseover', hover);
+                $scope.paper.off('cell:mouseout', unhover);
+            });
 
             $rootScope.$on(Enums.events.RELATIONSHIP_UPDATED, function (event, relationship) {
                 if (!relationship || (relationship.id !== $scope.relationship.id)) {
@@ -47,8 +54,8 @@ angular.module('jumlitApp').directive('umlRelationship', function ($timeout, Enu
                 $rootScope.$emit(Enums.events.RELATIONSHIP_SELECTED, $scope.relationship);
             });
 
-            $scope.paper.on('cell:mouseover', toggleHovered.bind(null, true));
-            $scope.paper.on('cell:mouseout', toggleHovered.bind(null, false));
+            $scope.paper.on('cell:mouseover', hover);
+            $scope.paper.on('cell:mouseout', unhover);
 
             $timeout(function () {
                 init();
@@ -78,7 +85,8 @@ angular.module('jumlitApp').directive('umlRelationship', function ($timeout, Enu
                     $scope.cell.set('target', target);
                 }
 
-                $scope.cell.on('change', updateBox);
+                console.log($scope.cell.on('change', updateBox));
+                $scope.cell.on('remove', removeRelationship);
                 target.on('change:position', updateBox);
                 source.on('change:position', updateBox);
             }
@@ -127,6 +135,18 @@ angular.module('jumlitApp').directive('umlRelationship', function ($timeout, Enu
                 Links.setLabel($scope.cell, Enums.linkLabels.TARGET, $scope.relationship.primaryToSecondaryMultiplicity);
                 Links.setLabel($scope.cell, Enums.linkLabels.TARGET_BELOW, $scope.relationship.primaryToSecondaryProps)
 
+            }
+
+            function removeRelationship() {
+                $scope.$emit(Enums.events.RELATIONSHIP_REMOVED, $scope.relationship);
+            }
+
+            function hover(cellView) {
+                toggleHovered(true, cellView);
+            }
+
+            function unhover(cellView) {
+                toggleHovered(false, cellView);
             }
         }
     }

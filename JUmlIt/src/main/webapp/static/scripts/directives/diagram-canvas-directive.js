@@ -54,7 +54,16 @@ angular.module('jumlitApp').directive('diagramCanvas', function($q, Cells, $comp
                     var index = _.findIndex($scope.classes, { classId: clazz.classId });
                     $scope.classes.splice(index, 1);
                 });
+                $scope.$emit(Enums.events.CLASS_DESELECTED);
             })
+
+            $scope.$on(Enums.events.RELATIONSHIP_REMOVED, function(event, relationship) {
+                $scope.$apply(function() {
+                    var index = _.findIndex($scope.relationships, { id: relationship.id });
+                    $scope.relationships.splice(index, 1);
+                });
+                $scope.$emit(Enums.events.RELATIONSHIP_DESELECTED);
+            });
 
 
             // linking classes

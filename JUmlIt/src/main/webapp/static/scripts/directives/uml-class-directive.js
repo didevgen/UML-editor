@@ -25,9 +25,9 @@ angular.module('jumlitApp').directive('umlClass', function($rootScope, Enums, $t
             $scope.classTypes = Enums.classTypes;
 
             $rootScope.$on(Enums.events.CLASS_DESELECTED, function() {
-                //$scope.$apply(function() {
-                //    $scope.selected = false;
-                //});
+                $scope.$apply(function() {
+                    $scope.selected = false;
+                });
             });
 
             $rootScope.$on(Enums.events.CLASS_UPDATED, function(event, clazz) {
@@ -59,8 +59,8 @@ angular.module('jumlitApp').directive('umlClass', function($rootScope, Enums, $t
                 $scope.cell.remove();
             });
 
-            updateBox();
             $scope.cell.on('change', function() {
+                updateBox();
                 updateClazz();
                 updateCell();
             });
@@ -71,8 +71,8 @@ angular.module('jumlitApp').directive('umlClass', function($rootScope, Enums, $t
                 }
             });
 
+            updateBox();
             $timeout(function() {
-                updateBox();
                 updateClazz();
                 updateCell();
 

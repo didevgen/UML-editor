@@ -30,7 +30,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 @Entity
 @Table(name = "diagram")
 @JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, 
-	property = "@id", scope=Diagram.class)
+	property = "@id")
 public class Diagram {
 	private long diagramId;
 	private long statusId = -1;

@@ -99,7 +99,7 @@ angular.module('jumlitApp').service('ClazzServices', function (Utils, $rootScope
                 });
         },
         removeRelationship: function(relationship) {
-            return Utils.postRequest(prefixClassUrl(relationship.id + '/remove'))
+            return Utils.postRequest(prefixRelUrl(relationship.id + '/remove'))
                 .then(function() {
                     $rootScope.$emit(Enums.events.RELATIONSHIP_REMOVED, relationship);
                 });

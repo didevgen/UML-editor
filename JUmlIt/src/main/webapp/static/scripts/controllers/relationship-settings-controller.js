@@ -7,6 +7,7 @@ angular.module('jumlitApp').controller('RelationshipSettingsCtrl', function($sco
     $scope.relationshipTypes = Enums.relationshipTypes;
     $scope.multiplicityTypes = Enums.multiplicityTypes;
     $scope.relationship = null;
+    $scope.trackUpdates = false;
 
     var typesWithName = [
         Enums.relationshipTypes.ASSOCIATION,
@@ -14,12 +15,13 @@ angular.module('jumlitApp').controller('RelationshipSettingsCtrl', function($sco
     ];
 
     $rootScope.$on(Enums.events.RELATIONSHIP_SELECTED, function(event, relationship) {
-        $timeout(function() {
+        $scope.$apply(silentUpdate.bind(null, function() {
             $scope.relationship = relationship;
-        });
+        }));
     });
 
     $rootScope.$on(Enums.events.RELATIONSHIP_DESELECTED, function() {
+        $scope.trackUpdates = false;
         $timeout(function() {
             $scope.relationship = null;
         });
@@ -50,17 +52,23 @@ angular.module('jumlitApp').controller('RelationshipSettingsCtrl', function($sco
         }
     }
 
-    $scope.$watch('relationship.type', function() {
-        notifyUpdate();
-    });
+    $scope.$watch('relationship.type', notifyUpdate);
     $scope.$watch('relationship.name', notifyUpdate);
     $scope.$watch('relationship.primaryToSecondaryMultiplicity', notifyUpdate);
     $scope.$watch('relationship.secondaryToPrimaryMultiplicity', notifyUpdate);
 
     function notifyUpdate() {
-        if (!$scope.relationship) {
+        if (!$scope.relationship || !$scope.trackUpdates) {
             return;
         }
         ClazzServices.updateRelationship($scope.relationship);
+    }
+
+    function silentUpdate(func) {
+        $scope.trackUpdates = false;
+        func();
+        $scope.$$postDigest(function() {
+            $scope.trackUpdates = true;
+        });
     }
 });
