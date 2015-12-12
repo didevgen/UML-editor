@@ -22,6 +22,40 @@ angular.module('jumlitApp').directive('umlRelationship', function ($timeout, Enu
 
             var elementHovered = false;
 
+
+            $rootScope.$on(Enums.events.RELATIONSHIP_UPDATED, function (event, relationship) {
+                if (!relationship || (relationship.id !== $scope.relationship.id)) {
+                    return;
+                }
+                angular.extend($scope.relationship, relationship);
+                updateLink(relationship);
+            });
+
+            element.on('mouseover', function () {
+                $timeout(function () {
+                    $scope.hovered = true;
+                    elementHovered = true;
+                });
+            });
+            element.on('mouseout', function () {
+                $timeout(function () {
+                    $scope.hovered = false;
+                    elementHovered = false;
+                });
+            });
+            element.find('.action-settings').on('click', function () {
+                $rootScope.$emit(Enums.events.RELATIONSHIP_SELECTED, $scope.relationship);
+            });
+
+            $scope.paper.on('cell:mouseover', toggleHovered.bind(null, true));
+            $scope.paper.on('cell:mouseout', toggleHovered.bind(null, false));
+
+            $timeout(function () {
+                init();
+                updateBox();
+                updateLink();
+            });
+
             function init() {
                 $scope.cell = $scope.relationship.cell;
                 if (!$scope.cell) {
@@ -49,61 +83,6 @@ angular.module('jumlitApp').directive('umlRelationship', function ($timeout, Enu
                 source.on('change:position', updateBox);
             }
 
-            $timeout(init);
-
-            $rootScope.$on(Enums.events.RELATIONSHIP_UPDATED, function (event, relationship) {
-                angular.extend($scope.relationship, relationship);
-                updateLink(relationship);
-            });
-
-            function updateLink() {
-                Links.setType($scope.cell, $scope.relationship.type);
-
-                Links.setLabel($scope.cell, Enums.linkLabels.SOURCE, $scope.relationship.secondaryToPrimaryMultiplicity);
-                Links.setLabel($scope.cell, Enums.linkLabels.SOURCE_BELOW, $scope.relationship.secondaryToPrimaryProps);
-                Links.setLabel($scope.cell, Enums.linkLabels.CENTER, $scope.relationship.name);
-                Links.setLabel($scope.cell, Enums.linkLabels.TARGET, $scope.relationship.primaryToSecondaryMultiplicity);
-                Links.setLabel($scope.cell, Enums.linkLabels.TARGET_BELOW, $scope.relationship.primaryToSecondaryProps)
-
-
-            }
-
-            element.on('mouseover', function () {
-                $timeout(function () {
-                    $scope.hovered = true;
-                    elementHovered = true;
-                });
-            });
-            element.on('mouseout', function () {
-                $timeout(function () {
-                    $scope.hovered = false;
-                    elementHovered = false;
-                });
-            });
-            element.find('.action-settings').on('click', function () {
-                $rootScope.$emit(Enums.events.RELATIONSHIP_SELECTED, $scope.relationship);
-            });
-
-            function toggleHovered(value, cellView) {
-                var cell = cellView.model;
-                if (!cell.isLink() || cell.id !== $scope.cell.id) {
-                    return;
-                }
-
-
-                $timeout(function () {
-                    if (elementHovered) {
-                        return;
-                    }
-                    $scope.hovered = value;
-                });
-            }
-
-            $scope.paper.on('cell:mouseover', toggleHovered.bind(null, true));
-            $scope.paper.on('cell:mouseout', toggleHovered.bind(null, false));
-
-            $timeout(updateBox);
-
             function updateBox() {
                 var elementBox = {
                         width: element.outerWidth(),
@@ -122,6 +101,32 @@ angular.module('jumlitApp').directive('umlRelationship', function ($timeout, Enu
                     top: position.top,
                     transform: 'rotate(' + ($scope.cell.get('angle') || 0) + 'deg)'
                 });
+            }
+
+            function toggleHovered(value, cellView) {
+                var cell = cellView.model;
+                if (!cell.isLink() || cell.id !== $scope.cell.id) {
+                    return;
+                }
+
+
+                $timeout(function () {
+                    if (elementHovered) {
+                        return;
+                    }
+                    $scope.hovered = value;
+                });
+            }
+
+            function updateLink() {
+                Links.setType($scope.cell, $scope.relationship.type);
+
+                Links.setLabel($scope.cell, Enums.linkLabels.SOURCE, $scope.relationship.secondaryToPrimaryMultiplicity);
+                Links.setLabel($scope.cell, Enums.linkLabels.SOURCE_BELOW, $scope.relationship.secondaryToPrimaryProps);
+                Links.setLabel($scope.cell, Enums.linkLabels.CENTER, $scope.relationship.name);
+                Links.setLabel($scope.cell, Enums.linkLabels.TARGET, $scope.relationship.primaryToSecondaryMultiplicity);
+                Links.setLabel($scope.cell, Enums.linkLabels.TARGET_BELOW, $scope.relationship.primaryToSecondaryProps)
+
             }
         }
     }

@@ -24,8 +24,13 @@ import org.joda.time.DateTime;
 import ua.nure.sigma.db_entities.diagram.Clazz;
 import ua.nure.sigma.db_entities.diagram.Relationship;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 @Entity
 @Table(name = "diagram")
+@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, 
+	property = "@id", scope=Diagram.class)
 public class Diagram {
 	private long diagramId;
 	private long statusId = -1;

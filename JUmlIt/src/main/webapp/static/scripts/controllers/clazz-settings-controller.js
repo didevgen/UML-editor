@@ -1,31 +1,53 @@
 'use strict';
-angular.module('jumlitApp').controller('ClazzSettingsCtrl', function ($scope, Utils, Enums, $rootScope, ClazzServices) {
+angular.module('jumlitApp').controller('ClazzSettingsCtrl', function ($scope, Utils, Enums, $rootScope, ClazzServices,
+        $timeout) {
     $scope.accessModifiers = Enums.accessModifiers;
     $scope.classTypes = Enums.classTypes;
+    $scope.clazz = null;
+    $scope.trackUpdates = false;
 
-    var updateClazz = _.debounce(function() {
-        if (!$scope.clazz) {
+    var updateClazz = function() {
+        if (!$scope.clazz || !$scope.trackUpdates) {
             return;
         }
-        ClazzServices.updateClass($scope.clazz);
-    }, 500);
+        _.debounce(ClazzServices.updateClass.bind(null, $scope.clazz), 500);
+    };
 
     $rootScope.$on(Enums.events.CLASS_SELECTED, function (event, clazz) {
-        $scope.$apply(function () {
+        $scope.$apply(silentUpdate.bind(null, function() {
             $scope.clazz = clazz;
-            console.log(clazz);
-        });
+        }));
+    });
+
+    $rootScope.$on(Enums.events.CLASS_DESELECTED, function() {
+        //$scope.trackUpdates = false;
+        //$scope.clazz = null;
     });
 
     $rootScope.$on(Enums.events.CLASS_UPDATED, function (event, clazz) {
         if (!$scope.clazz || clazz.classId !== $scope.clazz.classId) {
             return;
         }
-        $scope.clazz = clazz;
+        silentUpdate(function() {
+            $scope.clazz = clazz;
+        });
+    });
+
+    $rootScope.$on(Enums.events.CLASS_REMOVED, function() {
+        $scope.trackUpdates = false;
+        $scope.clazz = null;
     });
 
     $scope.$watch('clazz.name', updateClazz);
     $scope.$watch('clazz.accessModifier', updateClazz);
     $scope.$watch('clazz.isStatic', updateClazz);
     $scope.$watch('clazz.classType', updateClazz);
+
+    function silentUpdate(func) {
+        $scope.trackUpdates = false;
+        func();
+        $scope.$$postDigest(function() {
+            $scope.trackUpdates = true;
+        });
+    }
 });

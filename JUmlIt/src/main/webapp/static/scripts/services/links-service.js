@@ -82,7 +82,7 @@ angular.module('jumlitApp').service('Links', function (Enums) {
         link.label(index, {
             attrs: {
                 text: {
-                    text: text
+                    text: text || ''
                 }
             }
         });

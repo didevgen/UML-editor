@@ -17,8 +17,6 @@ import ua.nure.sigma.db_entities.Diagram;
 
 @Entity
 @Table(name = "relationships")
-@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, 
-	property = "@id", scope=Relationship.class)
 public class Relationship {
 
 	private long id;

@@ -3,10 +3,19 @@ angular.module('jumlitApp').controller('DiagramCtrl', function ($scope, $rootSco
         ClazzServices, $timeout, DiagramUpdates) {
 
     Session.diagram = diagram;
+
+    var subscription;
+
     DiagramUpdates.subscribe('/topic/diagram/' + diagram.diagramId, function(newDiagram, headers) {
         if (+headers.fromUserId !== +Session.user.userId) {
             $scope.diagram = newDiagram;
         }
+    }).then(function(subscriptionObj) {
+        subscription = subscriptionObj;
+    });
+
+    $scope.$on('$destroy', function() {
+        subscription.unsubscribe();
     });
 
     $scope.diagram = diagram;

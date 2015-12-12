@@ -2,7 +2,7 @@
  * Created by maxim on 11.12.15.
  */
 
-angular.module('jumlitApp').service('DiagramUpdates', function($rootScope) {
+angular.module('jumlitApp').service('DiagramUpdates', function($rootScope, $q) {
     var socket = new SockJS('http://localhost:8080/sigma/ws');
     var client = Stomp.over(socket);
     var connected = false;
@@ -11,22 +11,24 @@ angular.module('jumlitApp').service('DiagramUpdates', function($rootScope) {
         connected = true;
     });
 
-    function ensureConnected(callback) {
+    function ensureConnected() {
         if (connected) {
-            callback();
+            return $q.when();
         }
+        var deferred = $q.defer();
         var interval = setInterval(function() {
             if (connected) {
                 clearInterval(interval);
-                callback();
+                deferred.resolve();
             }
         });
+        return deferred.promise;
     }
 
     return {
         subscribe: function(path, callback) {
-            ensureConnected(function() {
-                client.subscribe(path, function(data) {
+            return ensureConnected().then(function() {
+                return client.subscribe(path, function(data) {
                     callback(JSON.parse(data.body), data.headers);
                 });
             });

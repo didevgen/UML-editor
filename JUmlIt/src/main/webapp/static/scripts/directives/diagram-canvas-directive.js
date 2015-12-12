@@ -45,13 +45,15 @@ angular.module('jumlitApp').directive('diagramCanvas', function($q, Cells, $comp
                 });
                 $scope.classes.push(clazz);
                 ClazzServices.createClass(clazz).then(function(newClazz) {
-                    $rootScope.$emit(Enums.events.CLASS_UPDATED, newClazz);
+                    $scope.$broadcast(Enums.events.CLASS_UPDATED, newClazz);
                 });
             };
 
             $scope.$on(Enums.events.CLASS_REMOVED, function(event, clazz) {
-                var index = _.findIndex($scope.classes, { classId: clazz.classId });
-                $scope.classes.splice(index, 1);
+                $scope.$apply(function() {
+                    var index = _.findIndex($scope.classes, { classId: clazz.classId });
+                    $scope.classes.splice(index, 1);
+                });
             })
 
 
@@ -117,7 +119,6 @@ angular.module('jumlitApp').directive('diagramCanvas', function($q, Cells, $comp
                         },
                         cell: tempLink
                     });
-                    console.log(relationship);
 
                     $scope.$apply(function() {
                         $scope.relationships.push(relationship);
