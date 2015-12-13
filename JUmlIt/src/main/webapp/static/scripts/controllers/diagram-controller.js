@@ -1,6 +1,6 @@
 'use strict';
 angular.module('jumlitApp').controller('DiagramCtrl', function ($scope, $rootScope, diagram, DiagramServices, Session, Enums,
-        ClazzServices, $timeout, DiagramUpdates, PngExport) {
+        ClazzServices, $timeout, DiagramUpdates, PngExport, CodeGeneration) {
 
     Session.diagram = diagram;
 
@@ -9,10 +9,8 @@ angular.module('jumlitApp').controller('DiagramCtrl', function ($scope, $rootSco
     DiagramUpdates.subscribe('/topic/diagram/' + diagram.diagramId, function(newDiagram, headers) {
         console.log(headers.fromUserId, Session.user.userId);
         if (+headers.fromUserId !== +Session.user.userId) {
-            console.log('inside');
             $scope.$apply(function() {
                 $scope.diagram = newDiagram;
-                console.log(newDiagram);
             });
         }
     }).then(function(subscriptionObj) {
@@ -73,9 +71,10 @@ angular.module('jumlitApp').controller('DiagramCtrl', function ($scope, $rootSco
     });
 
     $scope.generateCode = function() {
+        CodeGeneration.generate($scope.diagram.diagramId);
     }
 
     $scope.exportPng = function() {
-        PngExport.export();
+        PngExport.export($scope.diagram.name);
     }
 });
