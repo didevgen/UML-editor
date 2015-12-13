@@ -16,24 +16,6 @@ angular.module('jumlitApp').service('Links', function (Enums) {
         }
     };
 
-    var attrs = {
-        association: defaultAttrs,
-        dependency: defaultAttrs,
-        generalization: {
-            '.marker-target': {d: 'M 20 0 L 0 10 L 20 20 z', fill: 'white'}
-        },
-        realization: {
-            '.marker-target': {d: 'M 20 0 L 0 10 L 20 20 z', fill: 'white'},
-            '.connection': {'stroke-dasharray': '3,3'}
-        },
-        aggregation: {
-            '.marker-target': {d: 'M 40 10 L 20 20 L 0 10 L 20 0 z', fill: 'white'}
-        },
-        composition: {
-            '.marker-target': {d: 'M 40 10 L 20 20 L 0 10 L 20 0 z', fill: 'black'}
-        }
-    };
-
     var labels = [{
         position: +14,
         attrs: {
@@ -71,6 +53,14 @@ angular.module('jumlitApp').service('Links', function (Enums) {
         }
     }];
 
+    var links = {};
+    links[Enums.relationshipTypes.AGGREGATION] = joint.shapes.uml.Aggregation;
+    links[Enums.relationshipTypes.ASSOCIATION] = joint.shapes.uml.Association;
+    links[Enums.relationshipTypes.COMPOSITION] = joint.shapes.uml.Composition;
+    links[Enums.relationshipTypes.DEPENDENCY] = joint.shapes.uml.Association;
+    links[Enums.relationshipTypes.GENERALIZATION] = joint.shapes.uml.Generalization;
+    links[Enums.relationshipTypes.REALIZATION] = joint.shapes.uml.Implementation;
+
     var labelIndeces = {};
     labelIndeces[Enums.linkLabels.TARGET] = 0;
     labelIndeces[Enums.linkLabels.TARGET_BELOW] = 1;
@@ -90,16 +80,13 @@ angular.module('jumlitApp').service('Links', function (Enums) {
 
     return {
         create: function (type, source, target) {
-            var link = new joint.dia.Link({
-                attrs: attrs[type],
+            var link = new links[type]({
                 labels: labels
             });
-            link.set('source', source);
-            link.set('target', target);
+            if (source) link.set('source', source);
+            if (target) link.set('target', target);
+
             return link.clone();
-        },
-        setType: function (link, type) {
-            link.attr(attrs[type]);
         },
         setLabel: function(link, labelPos, value) {
             setLabel(link, labelIndeces[labelPos], value)

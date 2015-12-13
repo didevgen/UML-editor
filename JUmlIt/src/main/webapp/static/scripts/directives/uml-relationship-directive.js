@@ -59,42 +59,64 @@ angular.module('jumlitApp').directive('umlRelationship', function ($timeout, Enu
             function init() {
                 $scope.cell = $scope.relationship.cell;
                 if (!$scope.cell) {
-                    $scope.cell = Links.create($scope.relationship.type, source, target);
+                    $scope.cell = Links.create($scope.relationship.type);
                     $scope.graph.addCell($scope.cell);
                 }
 
                 var source = $scope.cell.get('source');
-                if (!source.on) {
+                if (!source || !source.on) {
                     source = $scope.graph.getElements().find(function (cell) {
                         return cell.get('clazz').classId === $scope.relationship.primaryMember.classId;
                     });
                     $scope.cell.set('source', source);
                 }
                 var target = $scope.cell.get('target');
-                if (!target.on) {
+                if (!target || !target.on) {
                     target = $scope.graph.getElements().find(function (cell) {
                         return cell.get('clazz').classId === $scope.relationship.secondaryMember.classId;
                     });
                     $scope.cell.set('target', target);
                 }
 
+                console.log($scope.cell);
+
+                subscribeToCell();
+            }
+
+            function subscribeToCell() {
                 $scope.cell.on('remove', removeRelationship);
                 $scope.cell.on('change:source', updateSource)
                 $scope.cell.on('change:target', updateTarget)
             }
 
+            function unsubscribeFromCell() {
+                $scope.cell.off('remove', removeRelationship);
+                $scope.cell.off('change:source', updateSource)
+                $scope.cell.off('change:target', updateTarget)
+            }
+
             function updateLink() {
-                Links.setType($scope.cell, $scope.relationship.type);
+                var newLink = Links.create($scope.relationship.type,
+                        $scope.cell.get('source'), $scope.cell.get('target'));
 
-                Links.setLabel($scope.cell, Enums.linkLabels.SOURCE, $scope.relationship.secondaryToPrimaryMultiplicity);
-                Links.setLabel($scope.cell, Enums.linkLabels.SOURCE_BELOW, $scope.relationship.secondaryToPrimaryProps);
-                Links.setLabel($scope.cell, Enums.linkLabels.CENTER, $scope.relationship.name);
-                Links.setLabel($scope.cell, Enums.linkLabels.TARGET, $scope.relationship.primaryToSecondaryMultiplicity);
-                Links.setLabel($scope.cell, Enums.linkLabels.TARGET_BELOW, $scope.relationship.primaryToSecondaryProps)
+                Links.setLabel(newLink, Enums.linkLabels.SOURCE, $scope.relationship.secondaryToPrimaryMultiplicity);
+                Links.setLabel(newLink, Enums.linkLabels.SOURCE_BELOW, $scope.relationship.secondaryToPrimaryProps);
+                Links.setLabel(newLink, Enums.linkLabels.CENTER, $scope.relationship.name);
+                Links.setLabel(newLink, Enums.linkLabels.TARGET, $scope.relationship.primaryToSecondaryMultiplicity);
+                Links.setLabel(newLink, Enums.linkLabels.TARGET_BELOW, $scope.relationship.primaryToSecondaryProps)
 
+                unsubscribeFromCell();
+                $scope.cell.remove();
+                $scope.cell = newLink;
+                $scope.graph.addCell(newLink);
+                subscribeToCell();
             }
 
             function removeRelationship() {
+                if (ignoreNextUpdate) {
+                    ignoreNextUpdate = false;
+                    return;
+                }
                 $scope.$emit(Enums.events.RELATIONSHIP_REMOVED, $scope.relationship);
             }
 
