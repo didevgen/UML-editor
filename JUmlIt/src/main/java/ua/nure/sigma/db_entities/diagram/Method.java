@@ -114,15 +114,6 @@ public class Method {
 		this.returnType = returnType;
 	}
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "method")
-	public List<Argument> getArguments() {
-		return args;
-	}
-
-	public void setArguments(List<Argument> arguments) {
-		this.args = arguments;
-	}
-
 	@ManyToOne
 	@JoinColumn(name = "class_id")
 	public Clazz getClassOwner() {
@@ -139,8 +130,7 @@ public class Method {
 				+ ", returnType=" + returnType + ", args=" + args + "]";
 	}
 	
-	@OneToMany
-	@JoinColumn(name = "argument_id")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "method")
 	public List<Argument> getArgs() {
 		return args;
 	}
