@@ -7,8 +7,13 @@ angular.module('jumlitApp').controller('DiagramCtrl', function ($scope, $rootSco
     var subscription;
 
     DiagramUpdates.subscribe('/topic/diagram/' + diagram.diagramId, function(newDiagram, headers) {
+        console.log(headers.fromUserId, Session.user.userId);
         if (+headers.fromUserId !== +Session.user.userId) {
-            $scope.diagram = newDiagram;
+            console.log('inside');
+            $scope.$apply(function() {
+                $scope.diagram = newDiagram;
+                console.log(newDiagram);
+            });
         }
     }).then(function(subscriptionObj) {
         subscription = subscriptionObj;

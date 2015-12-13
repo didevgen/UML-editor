@@ -40,6 +40,7 @@ public class DiagramClassController {
 	@RequestMapping(value = "/diagram/{diagramId}/classes/add", method = RequestMethod.POST)
 	public Clazz addClass(@RequestBody Clazz clazz, @PathVariable long diagramId, Principal principal) {
 		Diagram diagram = diagramService.getDiagramById(diagramId);
+		diagram.getClasses().add(clazz);
 		historyService.insertHistory(principal, diagram, "class added");
 		clazz.setDiagramOwner(diagram);
 		return service.addClass(clazz);
@@ -48,6 +49,10 @@ public class DiagramClassController {
 	@RequestMapping(value = "/diagram/{diagramId}/classes/update", method = RequestMethod.POST)
 	public Clazz updateClass(@RequestBody Clazz clazz, @PathVariable long diagramId,Principal principal) {
 		Diagram diagram = diagramService.getDiagramById(diagramId);
+		int index = diagram.getClasses().indexOf(clazz);
+		diagram.getClasses().remove(index);
+		diagram.getClasses().add(index, clazz);
+
 		historyService.insertHistory(principal, diagram, "class updated");
 		clazz.setDiagramOwner(diagram);
 		service.updateClass(clazz);

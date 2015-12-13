@@ -72,7 +72,7 @@ public class Clazz {
 		if (name == null) {
 			if (other.name != null)
 				return false;
-		} else if (!name.equals(other.name))
+		} else if (Long.compare(classId, other.classId) != 0)
 			return false;
 		return true;
 	}
