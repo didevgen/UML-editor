@@ -102,7 +102,6 @@ angular.module('jumlitApp').service('Links', function (Enums) {
             link.attr(attrs[type]);
         },
         setLabel: function(link, labelPos, value) {
-            console.log(value === undefined);
             setLabel(link, labelIndeces[labelPos], value)
         }
     };

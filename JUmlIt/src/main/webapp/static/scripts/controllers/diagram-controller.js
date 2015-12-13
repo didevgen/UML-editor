@@ -1,6 +1,6 @@
 'use strict';
 angular.module('jumlitApp').controller('DiagramCtrl', function ($scope, $rootScope, diagram, DiagramServices, Session, Enums,
-        ClazzServices, $timeout, DiagramUpdates) {
+        ClazzServices, $timeout, DiagramUpdates, PngExport) {
 
     Session.diagram = diagram;
 
@@ -70,5 +70,12 @@ angular.module('jumlitApp').controller('DiagramCtrl', function ($scope, $rootSco
 
     $scope.$on(Enums.events.RELATIONSHIP_REMOVED, function(event, relationship) {
         ClazzServices.removeRelationship(relationship);
-    })
+    });
+
+    $scope.generateCode = function() {
+    }
+
+    $scope.exportPng = function() {
+        PngExport.export();
+    }
 });

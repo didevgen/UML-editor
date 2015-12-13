@@ -19,7 +19,10 @@
     "ng-tags-input": "~3.0.0",
     "angular-bootstrap-switch": "~0.4.1",
     "sockjs-client": "~1.0.3",
-    "stomp-websocket": "~2.3.4"
+    "stomp-websocket": "~2.3.4",
+    "html2canvas": "~0.4.1",
+    "angular-file-saver": "~1.0.1",
+    "canvg": "canvg-gabelerner#*"
   },
   "devDependencies": {
     "angular-mocks": "^1.4.0"

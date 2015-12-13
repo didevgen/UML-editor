@@ -14,8 +14,8 @@ angular.module('jumlitApp').directive('diagramCanvas', function($q, Cells, $comp
                 el: $('#diagram-canvas'),
                 model: graph,
                 gridSize: 1,
-                height: 3000,
-                width: 3000
+                height: 1500,
+                width: 1500
             });
 
             $scope.dropped = null;

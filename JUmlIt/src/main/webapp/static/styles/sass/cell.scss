@@ -24,7 +24,7 @@ uml-class {
   min-width: 120px;
 }
 
-uml-class, uml-relationship {
+uml-class {
   /* Make sure events are propagated to the JointJS element so, e.g. dragging works.*/
   pointer-events: none;
   -webkit-user-select: none;
@@ -136,14 +136,8 @@ uml-class {
     }
 }
 
-uml-relationship {
-  .action-settings {
-    @extend .action;
-
-    position: static;
-    color: white;
-    background-color: $uml-action-settings;
-  }
+.link-tools .tool-options {
+  display: inline;
 }
 
 .fa-tilde:before { content: '~'; }

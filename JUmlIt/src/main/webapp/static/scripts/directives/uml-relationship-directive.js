@@ -13,7 +13,6 @@ angular.module('jumlitApp').directive('umlRelationship', function ($timeout, Enu
             graph: '=',
             paper: '='
         },
-        templateUrl: 'templates/uml-relationship.html',
         link: function ($scope, element) {
 
             $scope.hovered = false;
@@ -24,10 +23,6 @@ angular.module('jumlitApp').directive('umlRelationship', function ($timeout, Enu
 
             $scope.$on('$destroy', function() {
                 element.remove();
-                $scope.cell.get('target').off('change:position', updateBox);
-                $scope.cell.get('source').off('change:position', updateBox);
-                $scope.paper.off('cell:mouseover', hover);
-                $scope.paper.off('cell:mouseout', unhover);
             });
 
             $rootScope.$on(Enums.events.RELATIONSHIP_UPDATED, function (event, relationship) {
@@ -38,28 +33,15 @@ angular.module('jumlitApp').directive('umlRelationship', function ($timeout, Enu
                 updateLink(relationship);
             });
 
-            element.on('mouseover', function () {
-                $timeout(function () {
-                    $scope.hovered = true;
-                    elementHovered = true;
-                });
-            });
-            element.on('mouseout', function () {
-                $timeout(function () {
-                    $scope.hovered = false;
-                    elementHovered = false;
-                });
-            });
-            element.find('.action-settings').on('click', function () {
+            $scope.paper.on('link:options', function (evt, cellView) {
+                if(cellView.model.id !== $scope.cell.id) {
+                    return;
+                }
                 $rootScope.$emit(Enums.events.RELATIONSHIP_SELECTED, $scope.relationship);
             });
 
-            $scope.paper.on('cell:mouseover', hover);
-            $scope.paper.on('cell:mouseout', unhover);
-
             $timeout(function () {
                 init();
-                updateBox();
                 updateLink();
             });
 
@@ -85,45 +67,7 @@ angular.module('jumlitApp').directive('umlRelationship', function ($timeout, Enu
                     $scope.cell.set('target', target);
                 }
 
-                console.log($scope.cell.on('change', updateBox));
                 $scope.cell.on('remove', removeRelationship);
-                target.on('change:position', updateBox);
-                source.on('change:position', updateBox);
-            }
-
-            function updateBox() {
-                var elementBox = {
-                        width: element.outerWidth(),
-                        height: element.outerHeight()
-                    },
-                // we get the bounding box of the linkView without the transformations
-                    linkView = $scope.paper.findViewByModel($scope.cell),
-                    bbox = g.rect(V(linkView.el).bbox(true)),
-                    position = {
-                        left: bbox.width / 2 + bbox.x - elementBox.width / 2,
-                        top: bbox.y + bbox.height / 2 - elementBox.height / 2
-                    };
-
-                element.css({
-                    left: position.left,
-                    top: position.top,
-                    transform: 'rotate(' + ($scope.cell.get('angle') || 0) + 'deg)'
-                });
-            }
-
-            function toggleHovered(value, cellView) {
-                var cell = cellView.model;
-                if (!cell.isLink() || cell.id !== $scope.cell.id) {
-                    return;
-                }
-
-
-                $timeout(function () {
-                    if (elementHovered) {
-                        return;
-                    }
-                    $scope.hovered = value;
-                });
             }
 
             function updateLink() {
@@ -139,14 +83,6 @@ angular.module('jumlitApp').directive('umlRelationship', function ($timeout, Enu
 
             function removeRelationship() {
                 $scope.$emit(Enums.events.RELATIONSHIP_REMOVED, $scope.relationship);
-            }
-
-            function hover(cellView) {
-                toggleHovered(true, cellView);
-            }
-
-            function unhover(cellView) {
-                toggleHovered(false, cellView);
             }
         }
     }

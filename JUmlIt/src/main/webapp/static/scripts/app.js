@@ -18,7 +18,8 @@ angular
         'ui.router',
         'ui.bootstrap',
         'ngTagsInput',
-        'frapontillo.bootstrap-switch'
+        'frapontillo.bootstrap-switch',
+        'ngFileSaver'
     ])
     .config(function($stateProvider, $httpProvider, $urlRouterProvider) {
         $stateProvider

@@ -110,19 +110,23 @@
   }
 }
 
-diagram-canvas {
+.diagram-canvas-container {
   display: flex;
   flex: 1;
   background-color: $diagram-padding-color;
   padding: 10px;
 }
 
-.diagram-canvas {
-  flex: 1;
-  background-color: white;
-  border: 1px solid $border-color;
+diagram-canvas {
   overflow: auto;
   position: relative;
+  background-color: white;
+  border: 1px solid $border-color;
+}
+
+.diagram-canvas {
+  background-color: white;
+  display: inline-block;
 }
 
 .diagram-canvas svg .link {

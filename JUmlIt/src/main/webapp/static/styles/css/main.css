@@ -297,18 +297,21 @@ ul.pagination > .active > a {
       margin-top: 15px;
       padding: 0px 5px; }
 
-diagram-canvas {
+.diagram-canvas-container {
   display: flex;
   flex: 1;
   background-color: #eeeeee;
   padding: 10px; }
 
-.diagram-canvas {
-  flex: 1;
-  background-color: white;
-  border: 1px solid #ddd;
+diagram-canvas {
   overflow: auto;
-  position: relative; }
+  position: relative;
+  background-color: white;
+  border: 1px solid #ddd; }
+
+.diagram-canvas {
+  background-color: white;
+  display: inline-block; }
 
 .diagram-canvas svg .link {
   z-index: 2; }
@@ -394,7 +397,7 @@ div.panel {
 .list-group-item.fa:before {
   margin-right: 8px; }
 
-.action, uml-class .action-delete, uml-class .action-link, uml-relationship .action-settings {
+.action, uml-class .action-delete, uml-class .action-link {
   border-radius: 20px;
   width: 18px;
   height: 18px;
@@ -406,7 +409,7 @@ div.panel {
   cursor: pointer;
   font-size: 13px;
   border: none; }
-  .action:hover, uml-class .action-delete:hover, uml-class .action-link:hover, uml-relationship .action-settings:hover {
+  .action:hover, uml-class .action-delete:hover, uml-class .action-link:hover {
     width: 20px;
     height: 20px;
     line-height: 20px; }
@@ -414,7 +417,7 @@ div.panel {
 uml-class {
   min-width: 120px; }
 
-uml-class, uml-relationship {
+uml-class {
   /* Make sure events are propagated to the JointJS element so, e.g. dragging works.*/
   pointer-events: none;
   -webkit-user-select: none;
@@ -423,10 +426,7 @@ uml-class, uml-relationship {
   uml-class select,
   uml-class input,
   uml-class button,
-  uml-class .btn, uml-relationship select,
-  uml-relationship input,
-  uml-relationship button,
-  uml-relationship .btn {
+  uml-class .btn {
     /* Enable interacting with inputs only. */
     pointer-events: auto; }
 
@@ -501,10 +501,8 @@ uml-class .list-group-item.divider {
   padding: 1px;
   background-color: #8e44ad; }
 
-uml-relationship .action-settings {
-  position: static;
-  color: white;
-  background-color: black; }
+.link-tools .tool-options {
+  display: inline; }
 
 .fa-tilde:before {
   content: '~'; }
