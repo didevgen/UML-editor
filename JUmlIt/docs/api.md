@@ -453,7 +453,28 @@
 
 --------------------------------
 ## History of changes
-### /diagram/{id}/history
+
+### /diagram/{diagramId}/{status}  # status = start || finish
+* method: _POST_
+* request :
+```
+{}
+```
+* response:
+```
+{
+	"diagramId": 3,
+	"session": {
+		"sessionId": 4,
+		"userId": 3,
+		"userName": "Max Selekh"
+		"time_start": "2015-12-12 15:23:23",
+		"time_end": "2015-12-12 15:23:23", # null, if status = start
+	}
+}
+```
+
+### /diagram/{diagramId}/history
 * method: _GET_
 * request :
 ```
@@ -489,7 +510,7 @@
 		"userId": 3,
 		"userName": "Max Selekh"
 		"time_start": "2015-12-12 15:23:23",
-		"time_end": "2015-12-12 15:23:23", # can be null, if session isn't finished
+		"time_end": "2015-12-12 15:23:23", # null, if session isn't finished
 		"changes": [{
 			"actionId": 2342,
 			"time": "2015-12-12 15:23:22",
