@@ -46,7 +46,7 @@ public class ArchiveGenerator {
 	private void generateJavaClasses(long diagramId, String root) {
 		Diagram diagram = service.getDiagramById(diagramId);
 		for (ua.nure.sigma.db_entities.diagram.Clazz clazz : diagram.getClasses()) {
-			generateFile(root+"\\"+clazz.getName(), new Converter().diagramToClassModel(clazz));
+			generateFile(root+FILE_SEPARATOR+clazz.getName(), new Converter().diagramToClassModel(clazz));
 		}
 	}
 
