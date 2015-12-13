@@ -650,6 +650,11 @@ uml-class .list-group-item.divider {
     background-color: white;
     color: #333; }
 
+.jumbotron-forbidden {
+  margin-top: 20px; }
+  .jumbotron-forbidden .icon-error {
+    color: #e74c3c; }
+
 .browsehappy {
   margin: 0.2em 0;
   background: #ccc;

@@ -33,7 +33,7 @@ angular.module('jumlitApp').service('Utils', function($q, Config, Session) {
                 try {
                     error = JSON.parse(err.responseText);
                 } catch(e) {
-                    deferred.reject();
+                    deferred.reject(err);
                     return;
                 }
                 deferred.reject(error.errorMessage);

@@ -21,15 +21,15 @@ angular
         'frapontillo.bootstrap-switch',
         'ngFileSaver'
     ])
-    .config(function($stateProvider, $httpProvider, $urlRouterProvider) {
+    .config(function ($stateProvider, $httpProvider, $urlRouterProvider) {
         $stateProvider
             .state('landing', {
                 url: '/landing',
                 templateUrl: 'states/landing.html',
                 controller: 'LandingCtrl',
                 resolve: {
-                    authorization: function(Authentication, $q) {
-                        return Authentication.authenticate().catch(function() {
+                    authorization: function (Authentication, $q) {
+                        return Authentication.authenticate().catch(function () {
                             return $q.when();
                         });
                     }
@@ -56,8 +56,8 @@ angular
                 templateUrl: 'states/account.html',
                 controller: 'AccountCtrl',
                 resolve: {
-                    authorization: function(Authentication, $state, $q) {
-                        return Authentication.authenticate().catch(function() {
+                    authorization: function (Authentication, $state, $q) {
+                        return Authentication.authenticate().catch(function () {
                             $state.go('landing.login');
                             return $q.reject();
                         });
@@ -79,19 +79,28 @@ angular
                 templateUrl: 'states/diagram.html',
                 controller: 'DiagramCtrl',
                 resolve: {
-                    authorization: function(Authentication) {
+                    authorization: function (Authentication) {
                         return Authentication.authenticate();
                     },
-                    diagram: function(DiagramServices, $stateParams) {
-                        return DiagramServices.getDiagram($stateParams.diagramId);
+                    diagram: function (DiagramServices, $stateParams, $state, $q) {
+                        return DiagramServices.getDiagram($stateParams.diagramId)
+                            .catch(function (error) {
+                                if (error.status === 403) {
+                                    $state.go('forbidden');
+                                }
+                                return $q.reject();
+                            });
                     }
                 }
+            })
+            .state('forbidden', {
+                templateUrl: 'states/forbidden.html'
             });
 
         $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
-        $urlRouterProvider.when('/', function($state) {
+        $urlRouterProvider.when('/', function ($state) {
             $state.go('account.dashboard');
         });
-    }).run(function($rootScope, $state, Authentication, $window, Session) {
+    }).run(function ($rootScope, $state, Authentication, $window, Session) {
         $state.go('account.dashboard');
     });
