@@ -1,7 +1,10 @@
 package ua.nure.sigma.service;
 
+import java.util.List;
+
 import ua.nure.sigma.dao.ClassDiagramDAO;
 import ua.nure.sigma.dao.impl.ClassDiagramDAOImpl;
+import ua.nure.sigma.db_entities.diagram.Argument;
 import ua.nure.sigma.db_entities.diagram.Clazz;
 import ua.nure.sigma.db_entities.diagram.Field;
 import ua.nure.sigma.db_entities.diagram.Method;
@@ -49,7 +52,13 @@ public class ClassDiagramService {
 	}
 
 	public Method addMethod(Method method) {
-		return dao.insertMethod(method);
+		List<Argument> args = method.getArgs();
+		Method m = dao.insertMethod(method);
+		for (Argument arg : args) {
+			arg.setMethod(m);
+			dao.insertArgument(arg);
+		}
+		return m;
 	}
 
 	public void removeMethod(long methodId) {
@@ -57,6 +66,11 @@ public class ClassDiagramService {
 	}
 
 	public void updateMethod(Method method) {
+		List<Argument> args = method.getArgs();
+		for (Argument arg : args) {
+			arg.setMethod(method);
+			dao.insertArgument(arg);
+		}
 		dao.updateMethod(method);
 	}
 	
