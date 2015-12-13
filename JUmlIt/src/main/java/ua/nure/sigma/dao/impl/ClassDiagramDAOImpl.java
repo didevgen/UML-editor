@@ -5,6 +5,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 
 import ua.nure.sigma.dao.ClassDiagramDAO;
+import ua.nure.sigma.db_entities.diagram.Argument;
 import ua.nure.sigma.db_entities.diagram.Clazz;
 import ua.nure.sigma.db_entities.diagram.Field;
 import ua.nure.sigma.db_entities.diagram.Method;
@@ -99,8 +100,26 @@ public class ClassDiagramDAOImpl  implements ClassDiagramDAO{
 	public Relationship getRelationship(long relationId) {
 		return (Relationship) getObject(relationId, Relationship.class);
 	}
-
-	
+	@Override
+	public Argument insertArgument(Argument arg) {
+		return (Argument) saveOrUpdate(arg);
+	}
+	private Object saveOrUpdate(Object obj) {
+		Session session = null;
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+			session.beginTransaction();
+			session.saveOrUpdate(obj);
+			session.getTransaction().commit();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		} finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		}
+		return obj;
+	}
 	private Object insertObject(Object obj) {
 		Session session = null;
 		try {
@@ -167,6 +186,8 @@ public class ClassDiagramDAOImpl  implements ClassDiagramDAO{
 		}
 		return clazz;
 	}
+
+	
 
 	
 }

@@ -1,5 +1,6 @@
 package ua.nure.sigma.dao;
 
+import ua.nure.sigma.db_entities.diagram.Argument;
 import ua.nure.sigma.db_entities.diagram.Clazz;
 import ua.nure.sigma.db_entities.diagram.Field;
 import ua.nure.sigma.db_entities.diagram.Method;
@@ -37,4 +38,6 @@ public interface ClassDiagramDAO {
 	void removeRelationship(long relationId);
 
 	Relationship getRelationship(long relationId);
+	
+	Argument insertArgument(Argument arg);
 }
