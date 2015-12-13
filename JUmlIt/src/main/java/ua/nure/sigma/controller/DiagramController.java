@@ -37,7 +37,7 @@ public class DiagramController {
 	public DiagramController(final HttpSession session, final SimpMessagingTemplate template) {
 		this.session = session;
 		this.template = template;
-		this.historyService = new HistoryService(template);
+		this.historyService = new HistoryService();
 		this.accountService = new AccountService();
 		this.diagramService = new DiagramService();
 	}

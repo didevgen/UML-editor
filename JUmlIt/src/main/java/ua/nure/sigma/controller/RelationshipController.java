@@ -16,6 +16,7 @@ import ua.nure.sigma.db_entities.Diagram;
 import ua.nure.sigma.db_entities.diagram.Relationship;
 import ua.nure.sigma.service.ClassDiagramService;
 import ua.nure.sigma.service.DiagramService;
+import ua.nure.sigma.service.DiagramUpdateService;
 import ua.nure.sigma.service.HistoryService;
 import ua.nure.sigma.util.UserAccessibility;
 
@@ -26,13 +27,15 @@ public class RelationshipController {
 
 	private final DiagramService diagramService;
 	private final HistoryService historyService;
+	private final DiagramUpdateService updateService;
 
 	@Autowired
 	public RelationshipController(SimpMessagingTemplate template) {
 		this.template = template;
 		this.service = new ClassDiagramService();
 		this.diagramService = new DiagramService();
-		this.historyService = new HistoryService(this.template);
+		this.historyService = new HistoryService();
+		this.updateService = new DiagramUpdateService(template);
 	}
 
 	@RequestMapping(value = "/diagram/{diagramId}/relationships/add", method = RequestMethod.POST)
@@ -44,6 +47,7 @@ public class RelationshipController {
 		Diagram diagram = diagramService.getDiagramById(diagramId);
 		relationship.setDiagram(diagram);
 		historyService.insertHistory(principal, diagram, "relationship added");
+		updateService.notify("/topic/diagram/" + diagramId + "/relationship_added", relationship, principal);
 		return new ResponseEntity<Relationship>(service.addRelation(relationship), HttpStatus.OK);
 	}
 
@@ -57,6 +61,7 @@ public class RelationshipController {
 		historyService.insertHistory(principal, diagram, "relationship updated");
 		relationship.setDiagram(diagram);
 		service.updateRelation(relationship);
+		updateService.notify("/topic/diagram/" + diagramId + "/relationship_updated", relationship, principal);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 
@@ -68,6 +73,7 @@ public class RelationshipController {
 		Diagram diagram = diagramService.getDiagramById(diagramId);
 		historyService.insertHistory(principal, diagram, "relationship removed");
 		service.removeRelation(relationId);
+		updateService.notify("/topic/diagram/" + diagramId + "/relationship_removed", relationId, principal);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 }

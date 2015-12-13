@@ -372,6 +372,15 @@ table.table.inline-table {
   .btn-reverse:before {
     margin-right: 5px; }
 
+.clazz-settings {
+  display: flex;
+  flex: 1;
+  flex-direction: column; }
+  .clazz-settings .panel-body {
+    flex: 1;
+    overflow: auto;
+    height: 0; }
+
 div.panel {
   border-radius: 2px; }
   div.panel.panel-primary {

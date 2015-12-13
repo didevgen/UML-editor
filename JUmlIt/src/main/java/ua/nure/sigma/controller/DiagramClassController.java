@@ -16,6 +16,7 @@ import ua.nure.sigma.db_entities.Diagram;
 import ua.nure.sigma.db_entities.diagram.Clazz;
 import ua.nure.sigma.service.ClassDiagramService;
 import ua.nure.sigma.service.DiagramService;
+import ua.nure.sigma.service.DiagramUpdateService;
 import ua.nure.sigma.service.HistoryService;
 import ua.nure.sigma.util.UserAccessibility;
 
@@ -27,13 +28,15 @@ public class DiagramClassController {
 
 	private final DiagramService diagramService;
 	private final HistoryService historyService;
+	private final DiagramUpdateService updateService;
 
 	@Autowired
 	public DiagramClassController(SimpMessagingTemplate template) {
 		this.template = template;
 		this.service = new ClassDiagramService();
 		this.diagramService = new DiagramService();
-		this.historyService = new HistoryService(this.template);
+		this.historyService = new HistoryService();
+		this.updateService = new DiagramUpdateService(template);
 	}
 
 	@RequestMapping(value = "/diagram/{diagramId}/classes/add", method = RequestMethod.POST)
@@ -45,6 +48,8 @@ public class DiagramClassController {
 		diagram.getClasses().add(clazz);
 		historyService.insertHistory(principal, diagram, "class added");
 		clazz.setDiagramOwner(diagram);
+		this.updateService.notify("/topic/diagram/" + diagram.getDiagramId() + "/clazz_added",
+				clazz, principal);
 		return new ResponseEntity<Clazz>(service.addClass(clazz), HttpStatus.OK);
 	}
 
@@ -55,14 +60,12 @@ public class DiagramClassController {
 			return new ResponseEntity<Clazz>(HttpStatus.FORBIDDEN);
 		}
 		Diagram diagram = diagramService.getDiagramById(diagramId);
-		int index = diagram.getClasses().indexOf(clazz);
-		diagram.getClasses().remove(index);
-		diagram.getClasses().add(index, clazz);
 
 		historyService.insertHistory(principal, diagram, "class updated");
 		clazz.setDiagramOwner(diagram);
 		service.updateClass(clazz);
-		return new ResponseEntity<Clazz>(service.addClass(clazz), HttpStatus.OK);
+		this.updateService.notify("/topic/diagram/" + diagram.getDiagramId() + "/clazz_updated", clazz, principal);
+		return new ResponseEntity<Clazz>(clazz, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/diagram/{diagramId}/classes/{classId}/remove", method = RequestMethod.POST)
@@ -74,6 +77,7 @@ public class DiagramClassController {
 		Diagram diagram = diagramService.getDiagramById(diagramId);
 		historyService.insertHistory(principal, diagram, "class removed");
 		service.removeClass(classId);
+		this.updateService.notify("/topic/diagram/" + diagram.getDiagramId() + "/clazz_removed", classId, principal);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 

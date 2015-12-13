@@ -4,6 +4,7 @@
 
 angular.module('jumlitApp').service('PngExport', function (FileSaver) {
 
+    // polyfill
     if (!HTMLCanvasElement.prototype.toBlob) {
         Object.defineProperty(HTMLCanvasElement.prototype, 'toBlob', {
             value: function (callback, type, quality) {

@@ -19,18 +19,26 @@ angular.module('jumlitApp').directive('umlRelationship', function ($timeout, Enu
             $scope.hovered = false;
             $scope.cell = null;
             $scope.updateLabelsStrategy = null;
-            var ignoreNextUpdate = false;
+            var ignoreNextUpdate = false,
+                classesInitialized = true;
 
             $scope.$on('$destroy', function () {
                 element.remove();
             });
 
             $rootScope.$on(Enums.events.RELATIONSHIP_UPDATED, function (event, relationship) {
-                if (!relationship || (relationship.id !== $scope.relationship.id)) {
+                updateFromEvent(relationship);
+            });
+
+            $rootScope.$on(Enums.events.SOCKET_RELATIONSHIP_UPDATED, function(event, relationship) {
+                updateFromEvent(relationship);
+            });
+
+            $rootScope.$on(Enums.events.SOCKET_RELATIONSHIP_REMOVED, function(event, relationship) {
+                if (relationship.id !== $scope.relationship.id) {
                     return;
                 }
-                angular.extend($scope.relationship, relationship);
-                updateLink(relationship);
+                $scope.cell.remove();
             });
 
             $rootScope.$on(Enums.events.RELATIONSHIP_REVERSED, function(event, relationship) {
@@ -54,7 +62,13 @@ angular.module('jumlitApp').directive('umlRelationship', function ($timeout, Enu
             $scope.$on(Enums.events.CLASSES_INITIALIZED, function() {
                 init();
                 updateLink();
-            })
+                classesInitialized = true;
+            });
+
+            if(classesInitialized) {
+                init();
+                updateLink();
+            }
 
             function init() {
                 $scope.cell = $scope.relationship.cell;
@@ -77,8 +91,6 @@ angular.module('jumlitApp').directive('umlRelationship', function ($timeout, Enu
                     });
                     $scope.cell.set('target', target);
                 }
-
-                console.log($scope.cell);
 
                 subscribeToCell();
             }
@@ -146,6 +158,14 @@ angular.module('jumlitApp').directive('umlRelationship', function ($timeout, Enu
                     $scope.relationship.secondaryMember = target.get('clazz');
                     ClazzServices.updateRelationship($scope.relationship);
                 }
+            }
+
+            function updateFromEvent(relationship) {
+                if (!relationship || (relationship.id !== $scope.relationship.id)) {
+                    return;
+                }
+                angular.extend($scope.relationship, relationship);
+                updateLink();
             }
         }
     }

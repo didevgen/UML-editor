@@ -17,6 +17,7 @@ import ua.nure.sigma.db_entities.diagram.Clazz;
 import ua.nure.sigma.db_entities.diagram.Method;
 import ua.nure.sigma.service.ClassDiagramService;
 import ua.nure.sigma.service.DiagramService;
+import ua.nure.sigma.service.DiagramUpdateService;
 import ua.nure.sigma.service.HistoryService;
 import ua.nure.sigma.util.UserAccessibility;
 
@@ -27,13 +28,15 @@ public class MethodController {
 
 	private final DiagramService diagramService;
 	private final HistoryService historyService;
+	private final DiagramUpdateService updateService;
 
 	@Autowired
 	public MethodController(SimpMessagingTemplate template) {
 		this.template = template;
 		this.service = new ClassDiagramService();
 		this.diagramService = new DiagramService();
-		this.historyService = new HistoryService(this.template);
+		this.historyService = new HistoryService();
+		this.updateService = new DiagramUpdateService(template);
 	}
 
 	@RequestMapping(value = "/diagram/{diagramId}/classes/{classId}/methods/add", method = RequestMethod.POST)
@@ -48,6 +51,7 @@ public class MethodController {
 		Clazz clazz = service.getClass(classId);
 		clazz.getMethods().add(method);
 		method.setClassOwner(clazz);
+		this.updateService.notify("/topic/diagram/" + diagramId + "/class_method_added", method, principal);
 		return new ResponseEntity<Method>(service.addMethod(method), HttpStatus.OK);
 	}
 
@@ -63,6 +67,7 @@ public class MethodController {
 		method.setClassOwner(clazz);
 		method.getArgs().forEach(item -> item.setMethod(method));
 		service.updateMethod(method);
+		this.updateService.notify("/topic/diagram/" + diagramId + "/class_method_updated", method, principal);
 		return new ResponseEntity<Method>(method, HttpStatus.OK);
 	}
 
@@ -75,6 +80,7 @@ public class MethodController {
 		Diagram diagram = diagramService.getDiagramById(diagramId);
 		historyService.insertHistory(principal, diagram, "method removed");
 		service.removeMethod(methodId);
+		updateService.notify("/topic/diagram/" + diagramId + "/class_method_removed", methodId, principal);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 }

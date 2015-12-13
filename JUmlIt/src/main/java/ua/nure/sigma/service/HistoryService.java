@@ -18,13 +18,6 @@ import ua.nure.sigma.db_entities.User;
 
 public class HistoryService {
 
-	private SimpMessagingTemplate messagingTemplate;
-	
-	@Autowired
-	public HistoryService(SimpMessagingTemplate template) {
-		this.messagingTemplate = template;
-	}
-
 	public void insertHistory(Principal principal, Diagram diagram, String action) {
 		HistoryDAO dao = new HistoryDAOImpl();
 		DiagramHistory history = new DiagramHistory();
@@ -34,9 +27,6 @@ public class HistoryService {
 		history.setAction(action);
 		history.setTimeStamp(new Date());
 		dao.insertHistory(history);
-		Map<String, Object> headers = new HashMap<>();
-		headers.put("fromUserId", user.getUserId());
-		messagingTemplate.convertAndSend("/topic/diagram/" + diagram.getDiagramId(), diagram, headers);
 	}
 	
 	public List<DiagramHistory> getHistoryByDiagramId(long diagramId) {

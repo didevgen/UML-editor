@@ -52,6 +52,19 @@ angular.module('jumlitApp').service('Enums', function() {
             DIAGRAM_ADDED: 'diagramAdded',
             DIAGRAM_REMOVED: 'diagramRemoved',
             DIAGRAM_UPDATED: 'diagramUpdated',
+
+            SOCKET_CLASS_ADDED: 'socketClassAdded',
+            SOCKET_CLASS_UPDATED: 'socketClassUpdated',
+            SOCKET_CLASS_REMOVED: 'socketClassRemoved',
+            SOCKET_RELATIONSHIP_CREATED: 'socketRelationshipCreated',
+            SOCKET_RELATIONSHIP_UPDATED: 'socketRelationshipUpdated',
+            SOCKET_RELATIONSHIP_REMOVED: 'socketRelationshipRemoved',
+            SOCKET_METHOD_ADDED: 'socketMethodAdded',
+            SOCKET_METHOD_UPDATED: 'socketMethodUpdated',
+            SOCKET_METHOD_REMOVED: 'socketMethodRemoved',
+            SOCKET_FIELD_ADDED: 'socketFieldAdded',
+            SOCKET_FIELD_UPDATED: 'socketFieldUpdated',
+            SOCKET_FIELD_REMOVED: 'socketFieldRemoved'
         },
         linkLabels: {
             SOURCE: 'source',

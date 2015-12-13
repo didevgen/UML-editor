@@ -28,9 +28,11 @@ angular.module('jumlitApp').controller('RelationshipSettingsCtrl', function($sco
     });
 
     $rootScope.$on(Enums.events.RELATIONSHIP_UPDATED, function(event, relationship) {
-        $timeout(function() {
-            $scope.relationship = relationship;
-        });
+        updateFromEvent(relationship);
+    });
+
+    $rootScope.$on(Enums.events.SOCKET_RELATIONSHIP_UPDATED, function(event, relationship) {
+        updateFromEvent(relationship);
     });
 
     $scope.showNameInput = function() {
@@ -65,11 +67,12 @@ angular.module('jumlitApp').controller('RelationshipSettingsCtrl', function($sco
         $rootScope.$emit(Enums.events.RELATIONSHIP_REVERSED, $scope.relationship);
     }
 
+    var debouncedUpdateRel = _.debounce(ClazzServices.updateRelationship, 500);
     function notifyUpdate() {
         if (!$scope.relationship || !$scope.trackUpdates) {
             return;
         }
-        ClazzServices.updateRelationship($scope.relationship);
+        debouncedUpdateRel($scope.relationship);
     }
 
     function silentUpdate(func) {
@@ -77,6 +80,15 @@ angular.module('jumlitApp').controller('RelationshipSettingsCtrl', function($sco
         func();
         $scope.$$postDigest(function() {
             $scope.trackUpdates = true;
+        });
+    }
+
+    function updateFromEvent(relationship) {
+        if (!$scope.relationship || $scope.relationship.id !== relationship.id) {
+            return;
+        }
+        $timeout(function() {
+            $scope.relationship = relationship;
         });
     }
 });

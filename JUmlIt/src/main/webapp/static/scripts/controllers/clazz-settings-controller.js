@@ -6,11 +6,13 @@ angular.module('jumlitApp').controller('ClazzSettingsCtrl', function ($scope, Ut
     $scope.clazz = null;
     $scope.trackUpdates = false;
 
+
+    var debouncedUpdateClass = _.debounce(ClazzServices.updateClass, 500);
     var updateClazz = function() {
         if (!$scope.clazz || !$scope.trackUpdates) {
             return;
         }
-        _.debounce(ClazzServices.updateClass.bind(null, $scope.clazz), 500);
+        debouncedUpdateClass($scope.clazz);
     };
 
     $rootScope.$on(Enums.events.CLASS_SELECTED, function (event, clazz) {
@@ -25,12 +27,11 @@ angular.module('jumlitApp').controller('ClazzSettingsCtrl', function ($scope, Ut
     });
 
     $rootScope.$on(Enums.events.CLASS_UPDATED, function (event, clazz) {
-        if (!$scope.clazz || clazz.classId !== $scope.clazz.classId) {
-            return;
-        }
-        silentUpdate(function() {
-            $scope.clazz = clazz;
-        });
+        updateFromEvent(clazz);
+    });
+
+    $rootScope.$on(Enums.events.CLASS_UPDATED, function(event, clazz) {
+        updateFromEvent(clazz);
     });
 
     $scope.$watch('clazz.name', updateClazz);
@@ -43,6 +44,15 @@ angular.module('jumlitApp').controller('ClazzSettingsCtrl', function ($scope, Ut
         func();
         $scope.$$postDigest(function() {
             $scope.trackUpdates = true;
+        });
+    }
+
+    function updateFromEvent(clazz) {
+        if (!$scope.clazz || clazz.classId !== $scope.clazz.classId) {
+            return;
+        }
+        silentUpdate(function() {
+            $scope.clazz = clazz;
         });
     }
 });
