@@ -454,25 +454,6 @@
 --------------------------------
 ## History of changes
 
-### /diagram/{diagramId}/{status}  # status = start || finish
-* method: _POST_
-* request :
-```
-{}
-```
-* response:
-```
-{
-	"diagramId": 3,
-	"session": {
-		"sessionId": 4,
-		"userId": 3,
-		"userName": "Max Selekh"
-		"time_start": "2015-12-12 15:23:23",
-		"time_end": "2015-12-12 15:23:23", # null, if status = start
-	}
-}
-```
 
 ### /diagram/{diagramId}/history
 * method: _GET_
@@ -484,13 +465,12 @@
 ```
 {
 	"diagramId": 3,
-	"events": [{
-		"eventId": 4,
-		"sessionId": 5, # id of the session related to this event
+	"sessions": [{
+		"sessionId": 5,
 		"userId": 3,
-		"userName": "Max Selekh"
-		"time": "2015-12-12 15:23:23",
-		"type": "enter" # enter or leave
+		"userName": "Max Selekh",
+		"time-start": "2015-12-12 15:23:23",
+		"time-end": "2015-12-12 15:23:23", # null if session is not finished
 	}]
 }
 ```
