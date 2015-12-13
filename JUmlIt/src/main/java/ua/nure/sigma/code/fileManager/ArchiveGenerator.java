@@ -21,7 +21,6 @@ import ua.nure.sigma.code.converter.Converter;
 import ua.nure.sigma.code.generation.CodeGenerator;
 import ua.nure.sigma.code.model.Clazz;
 import ua.nure.sigma.code.model.Interface;
-import ua.nure.sigma.controller.CodeGenController;
 import ua.nure.sigma.db_entities.Diagram;
 import ua.nure.sigma.service.DiagramService;
 
@@ -31,13 +30,17 @@ public class ArchiveGenerator {
 
 	public synchronized void generateCode(HttpServletRequest request, HttpServletResponse response, long diagramId) {
 		String rootDirectory = request.getServletContext().getRealPath("data");
+		File file = new File(rootDirectory);
+		if (!file.exists()) {
+			file.mkdir();
+		}
 		try {
 			FileUtils.cleanDirectory(new File(rootDirectory));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		generateJavaClasses(diagramId,rootDirectory);
-		generateZipcrhive(request, response, "data");
+		generateZipcrhive(request, response, rootDirectory);
 	}
 
 	private void generateJavaClasses(long diagramId, String root) {
@@ -76,7 +79,7 @@ public class ArchiveGenerator {
 	private synchronized void generateZipcrhive(HttpServletRequest request, HttpServletResponse response,
 			String folderName) {
 		try {
-			String path = request.getServletContext().getRealPath(folderName);
+			String path = folderName;
 			File directory = new File(path);
 			String[] files = directory.list();
 			if (files != null && files.length > 0) {

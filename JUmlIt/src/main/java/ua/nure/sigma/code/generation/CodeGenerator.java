@@ -1,15 +1,9 @@
 package ua.nure.sigma.code.generation;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import javax.lang.model.element.Modifier;
 
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.FieldSpec;
-import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterSpec;
 import com.squareup.javapoet.TypeName;
@@ -21,7 +15,6 @@ import ua.nure.sigma.code.model.Field;
 import ua.nure.sigma.code.model.Interface;
 import ua.nure.sigma.code.model.Method;
 import ua.nure.sigma.code.model.MethodArg;
-import ua.nure.sigma.code.model.Type;
 
 public class CodeGenerator {
 
