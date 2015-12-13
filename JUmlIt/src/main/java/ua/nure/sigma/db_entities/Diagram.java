@@ -18,6 +18,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
@@ -164,6 +166,7 @@ public class Diagram {
 		this.collaborators = collaborators;
 	}
 	@OneToMany(mappedBy = "diagramOwner")
+	@NotFound(action = NotFoundAction.IGNORE)
 	public List<Clazz> getClasses() {
 		return classes;
 	}
