@@ -16,7 +16,7 @@ import ua.nure.sigma.code.fileManager.ArchiveGenerator;
 public class CodeGenController {
 
 	@RequestMapping(value = "/code/generate/{diagramId}", method = RequestMethod.GET)
-	public void generateCode(HttpServletRequest request, HttpServletResponse response, @PathVariable long diagramId)
+	public void generateCode(@PathVariable long diagramId, HttpServletRequest request, HttpServletResponse response)
 			throws IOException {
 		ArchiveGenerator generator = new ArchiveGenerator();
 		generator.generateCode(request, response, diagramId);

@@ -22,7 +22,7 @@ angular.module('jumlitApp').service('PngExport', function (FileSaver) {
     }
 
     return {
-        export: function () {
+        export: function (name) {
             var diagramSvg = $('diagram-canvas svg');
             var diagramSvgCopy =diagramSvg.clone();
             diagramSvgCopy.find('.marker-arrowhead-group, .tool-remove, .tool-options').remove();
@@ -52,7 +52,7 @@ angular.module('jumlitApp').service('PngExport', function (FileSaver) {
                             context.fillRect(0, 0, canvas.width, canvas.height);
 
                             canvas.toBlob(function (blob) {
-                                FileSaver.saveAs(blob, 'diagram.png', 1);
+                                FileSaver.saveAs(blob, name + '.png', 1);
                             });
                             $('diagram-canvas canvas').remove();
                             parent.append(diagramSvg);
