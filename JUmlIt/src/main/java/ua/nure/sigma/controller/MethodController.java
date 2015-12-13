@@ -2,6 +2,8 @@ package ua.nure.sigma.controller;
 
 import java.security.Principal;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,13 +26,14 @@ import ua.nure.sigma.util.UserAccessibility;
 public class MethodController {
 	private final SimpMessagingTemplate template;
 	private final ClassDiagramService service;
-
+	private final HttpSession httpSession;
 	private final DiagramService diagramService;
 	private final HistoryService historyService;
 
 	@Autowired
-	public MethodController(SimpMessagingTemplate template) {
+	public MethodController(HttpSession session, SimpMessagingTemplate template) {
 		this.template = template;
+		this.httpSession = session;
 		this.service = new ClassDiagramService();
 		this.diagramService = new DiagramService();
 		this.historyService = new HistoryService(this.template);
@@ -43,7 +46,8 @@ public class MethodController {
 			return new ResponseEntity<Method>(HttpStatus.FORBIDDEN);
 		}
 		Diagram diagram = diagramService.getDiagramById(diagramId);
-		historyService.insertHistory(principal, diagram, "method added");
+		historyService.insertHistory("method added: " + method.getName(),
+				(Long) (httpSession.getAttribute("sessionId")));
 		method.getArgs().forEach(item -> item.setMethod(method));
 		Clazz clazz = service.getClass(classId);
 		clazz.getMethods().add(method);
@@ -58,7 +62,8 @@ public class MethodController {
 			return new ResponseEntity<Method>(HttpStatus.FORBIDDEN);
 		}
 		Diagram diagram = diagramService.getDiagramById(diagramId);
-		historyService.insertHistory(principal, diagram, "method updated");
+		historyService.insertHistory("method updated: " + method.getName(),
+				(Long) (httpSession.getAttribute("sessionId")));
 		Clazz clazz = service.getClass(classId);
 		method.setClassOwner(clazz);
 		method.getArgs().forEach(item -> item.setMethod(method));
@@ -73,7 +78,9 @@ public class MethodController {
 			return new ResponseEntity<Void>(HttpStatus.FORBIDDEN);
 		}
 		Diagram diagram = diagramService.getDiagramById(diagramId);
-		historyService.insertHistory(principal, diagram, "method removed");
+		Method method = service.getMethodById(methodId);
+		historyService.insertHistory("method removed: " + method.getName(),
+				(Long) (httpSession.getAttribute("sessionId")));
 		service.removeMethod(methodId);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}

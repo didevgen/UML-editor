@@ -14,7 +14,7 @@ import org.hibernate.annotations.GenericGenerator;
 @Table(name = "diagram_status")
 public class DiagramStatus {
 	private long statusId;
-	private String status_type;
+	private String status_type = "";
 
 	public DiagramStatus() {
 		status_type = null;

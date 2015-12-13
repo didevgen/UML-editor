@@ -2,6 +2,8 @@ package ua.nure.sigma.controller;
 
 import java.security.Principal;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +23,8 @@ import ua.nure.sigma.util.UserAccessibility;
 
 @RestController
 public class DiagramClassController {
-
+	private final HttpSession httpSession;
+	
 	private final SimpMessagingTemplate template;
 	private final ClassDiagramService service;
 
@@ -29,11 +32,12 @@ public class DiagramClassController {
 	private final HistoryService historyService;
 
 	@Autowired
-	public DiagramClassController(SimpMessagingTemplate template) {
+	public DiagramClassController(HttpSession session, SimpMessagingTemplate template) {
 		this.template = template;
 		this.service = new ClassDiagramService();
 		this.diagramService = new DiagramService();
 		this.historyService = new HistoryService(this.template);
+		this.httpSession = session;
 	}
 
 	@RequestMapping(value = "/diagram/{diagramId}/classes/add", method = RequestMethod.POST)
@@ -43,7 +47,7 @@ public class DiagramClassController {
 		}
 		Diagram diagram = diagramService.getDiagramById(diagramId);
 		diagram.getClasses().add(clazz);
-		historyService.insertHistory(principal, diagram, "class added");
+		historyService.insertHistory("added class: "+clazz.getName(),(Long)(httpSession.getAttribute("sessionId")));
 		clazz.setDiagramOwner(diagram);
 		return new ResponseEntity<Clazz>(service.addClass(clazz), HttpStatus.OK);
 	}
@@ -58,8 +62,7 @@ public class DiagramClassController {
 		int index = diagram.getClasses().indexOf(clazz);
 		diagram.getClasses().remove(index);
 		diagram.getClasses().add(index, clazz);
-
-		historyService.insertHistory(principal, diagram, "class updated");
+		historyService.insertHistory("class updated: "+clazz.getName(),(Long)(httpSession.getAttribute("sessionId")));
 		clazz.setDiagramOwner(diagram);
 		service.updateClass(clazz);
 		return new ResponseEntity<Clazz>(service.addClass(clazz), HttpStatus.OK);
@@ -72,7 +75,8 @@ public class DiagramClassController {
 			return new ResponseEntity<Void>(HttpStatus.FORBIDDEN);
 		}
 		Diagram diagram = diagramService.getDiagramById(diagramId);
-		historyService.insertHistory(principal, diagram, "class removed");
+		Clazz clazz = service.getClass(classId);
+		historyService.insertHistory("class removed: "+clazz.getName(),(Long)(httpSession.getAttribute("sessionId")));
 		service.removeClass(classId);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}

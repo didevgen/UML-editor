@@ -12,19 +12,19 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table(name = "diagram_history")
 public class DiagramHistory {
 	
 	private int historyId;
 	
-	private Diagram diagram;
-	
-	private User user;
-	
 	private Date timeStamp; 
 	
-	private String action;
+	private String action ="";
+	
+	private HistorySession session;
 
 	public DiagramHistory() {
 	}
@@ -39,24 +39,7 @@ public class DiagramHistory {
 	public void setHistoryId(int historyId) {
 		this.historyId = historyId;
 	}
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "diagram_id")
-	public Diagram getDiagram() {
-		return diagram;
-	}
-
-	public void setDiagram(Diagram diagram) {
-		this.diagram = diagram;
-	}
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id")
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
+	
 	@Column(name = "timestamp")
 	public Date getTimeStamp() {
 		return timeStamp;
@@ -73,7 +56,15 @@ public class DiagramHistory {
 	public void setAction(String action) {
 		this.action = action;
 	}
-
+	@JsonIgnore
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "session_id")
+	public HistorySession getSession() {
+		return session;
+	}
+	public void setSession(HistorySession session) {
+		this.session = session;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;

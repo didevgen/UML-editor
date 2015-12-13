@@ -26,13 +26,13 @@ public class Clazz {
 	
 	private long classId;
 	
-	private String name;
+	private String name ="";
 	
 	private boolean isStatic;
 	
-	private String accessModifier;
+	private String accessModifier ="";
 	
-	private String classType;
+	private String classType ="";
 	
 	private List<Field> fields = new ArrayList<Field>();
 	

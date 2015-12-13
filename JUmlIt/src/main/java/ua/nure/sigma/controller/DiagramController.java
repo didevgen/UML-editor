@@ -27,15 +27,15 @@ import ua.nure.sigma.util.UserAccessibility;
 @RestController
 public class DiagramController {
 
-	private final HttpSession session;
+	private final HttpSession httpSession;
 	private final SimpMessagingTemplate template;
 	private final HistoryService historyService;
 	private final DiagramService diagramService;
 	private final AccountService accountService;
-	
+
 	@Autowired
 	public DiagramController(final HttpSession session, final SimpMessagingTemplate template) {
-		this.session = session;
+		this.httpSession = session;
 		this.template = template;
 		this.historyService = new HistoryService(template);
 		this.accountService = new AccountService();
@@ -47,7 +47,8 @@ public class DiagramController {
 		User user = accountService.getUserByLogin(principal.getName());
 		diagram.setOwner(user);
 		Diagram diagramModel = diagramService.createDiagram(diagram);
-		historyService.insertHistory(principal, diagramModel, "inserted diagram");
+		historyService.insertHistory("inserted diagram: " + diagram.getName(),
+				(Long) (httpSession.getAttribute("sessionId")));
 		if (diagramModel == null) {
 			throw new DiagramException("Cannot create diagram");
 		}
@@ -73,7 +74,8 @@ public class DiagramController {
 		}
 		diagramService.updateDiagram(diagram);
 		Diagram newDiagram = diagramService.getDiagramById(diagram.getDiagramId());
-		historyService.insertHistory(principal, newDiagram, "updated diagram");
+		historyService.insertHistory("updated diagram: " + diagram.getName(),
+				(Long) (httpSession.getAttribute("sessionId")));
 		return new ResponseEntity<Diagram>(newDiagram, HttpStatus.OK);
 	}
 
@@ -82,6 +84,9 @@ public class DiagramController {
 		if (!UserAccessibility.hasAccess(principal, id)) {
 			return new ResponseEntity<Void>(HttpStatus.FORBIDDEN);
 		}
+		Diagram diagram = diagramService.getDiagramById(id);
+		historyService.insertHistory("deleted diagram: " + diagram.getName(),
+				(Long) (httpSession.getAttribute("sessionId")));
 		diagramService.deleteDiagram(id);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
