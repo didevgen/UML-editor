@@ -29,24 +29,6 @@ public class CodeGenerator {
 
 	private GeneratorService service = new GeneratorService();
 
-	public static void main(String[] args) {
-		CodeGenerator codegen = new CodeGenerator();
-		Clazz clazz = new Clazz();
-		clazz.setModifiers(Arrays.asList("public","abstract"));
-		List<Interface> list = new ArrayList<Interface>();
-		list.add(new Interface("MyInterface"));
-		clazz.setInterfaces(list);
-		clazz.setName("MyClass");
-		Method m = new Method("myMethod", Arrays.asList("public","abstract"), new Type("List", false),new ArrayList<>());
-		clazz.setMethods(Arrays.asList(m));
-		JavaFile javaFile = JavaFile.builder("com.example.helloworld", codegen.generateClass(clazz)).build();
-		try {
-			javaFile.writeTo(System.out);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}	    
-	}
-
 	public TypeSpec generateClass(Clazz clazz) {
 		Builder builder = TypeSpec.classBuilder(clazz.getName());
 		for (String modifierName : clazz.getModifiers()) {
@@ -66,46 +48,50 @@ public class CodeGenerator {
 	}
 
 	public TypeSpec generateInterface(Interface iFace) {
-		Builder interfaceBuilder = TypeSpec.interfaceBuilder(iFace.getName())
-			    .addModifiers(Modifier.PUBLIC);
+		Builder interfaceBuilder = TypeSpec.interfaceBuilder(iFace.getName()).addModifiers(Modifier.PUBLIC);
 		for (Field field : iFace.getFields()) {
 			interfaceBuilder.addField(generateInterfaceField(field));
 		}
 		for (Method method : iFace.getMethods()) {
 			interfaceBuilder.addMethod(MethodSpec.methodBuilder(method.getName())
-			        .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
-			        .build());
+					.addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT).build());
+		}
+		if (iFace.getSuperIface() != null) {
+			interfaceBuilder.addSuperinterface(service.getTypeName(iFace.getSuperIface()));
 		}
 		return interfaceBuilder.build();
 	}
 
 	private FieldSpec generateField(Field field) {
 		try {
-			com.squareup.javapoet.FieldSpec.Builder builder = FieldSpec.builder(
-					service.getTypeName(field.getType().getTypeName()), field.getName());
+			com.squareup.javapoet.FieldSpec.Builder builder = FieldSpec
+					.builder(service.getTypeName(field.getType().getTypeName()), field.getName());
 			for (int i = 0; i < field.getModifiers().size(); i++) {
 				builder.addModifiers(service.getModifier(field.getModifiers().get(i)));
 			}
 			return builder.build();
 		} catch (Exception ex) {
-			return FieldSpec.builder(TypeName.BOOLEAN, "ERROR", Modifier.PUBLIC, Modifier.STATIC, Modifier.FINAL).build();
+			return FieldSpec.builder(TypeName.BOOLEAN, "ERROR", Modifier.PUBLIC, Modifier.STATIC, Modifier.FINAL)
+					.build();
 		}
 	}
-	
+
 	private FieldSpec generateInterfaceField(Field field) {
 		try {
 			com.squareup.javapoet.FieldSpec.Builder builder = FieldSpec.builder(
-					service.getTypeName(field.getType().getTypeName()), field.getName().toUpperCase(),Modifier.PUBLIC, Modifier.STATIC, Modifier.FINAL);
-			
+					service.getTypeName(field.getType().getTypeName()), field.getName().toUpperCase(), Modifier.PUBLIC,
+					Modifier.STATIC, Modifier.FINAL);
+
 			return builder.build();
 		} catch (Exception ex) {
-			return FieldSpec.builder(TypeName.BOOLEAN, "ERROR", Modifier.PUBLIC, Modifier.STATIC, Modifier.FINAL).build();
+			return FieldSpec.builder(TypeName.BOOLEAN, "ERROR", Modifier.PUBLIC, Modifier.STATIC, Modifier.FINAL)
+					.build();
 		}
 	}
 
 	private MethodSpec generateMethod(Method method) {
 		com.squareup.javapoet.MethodSpec.Builder builder = MethodSpec.methodBuilder(method.getName());
-		for (String modif :method.getModifiers()) {
+		for (String modif : method.getModifiers()) {
 			builder.addModifiers(service.getModifier(modif));
 		}
 		for (MethodArg arg : method.getArguments()) {
@@ -114,10 +100,10 @@ public class CodeGenerator {
 		builder.returns(service.getTypeName(method.getReturnType().getTypeName()));
 		return builder.build();
 	}
-	
+
 	private ParameterSpec prepareParam(MethodArg arg) {
-		com.squareup.javapoet.ParameterSpec.Builder builder = ParameterSpec.builder(service.
-				getTypeName(arg.getType().getTypeName()), arg.getName());
+		com.squareup.javapoet.ParameterSpec.Builder builder = ParameterSpec
+				.builder(service.getTypeName(arg.getType().getTypeName()), arg.getName());
 		for (String modif : arg.getModifiers()) {
 			builder.addModifiers(service.getModifier(modif));
 		}

@@ -15,6 +15,7 @@ import ua.nure.sigma.db_entities.diagram.Relationship;
 
 public class Converter {
 	public Object diagramToClassModel(Clazz clazz) {
+		System.out.println(clazz.getClassType());
 		if (clazz.getClassType().intern() == "Class".intern()) {
 			return genClazz(clazz);
 		} else if (clazz.getClassType().intern() == "Abstract class".intern()) {
@@ -37,13 +38,42 @@ public class Converter {
 		setSuperClass(resultClass, clazz);
 		return resultClass;
 	}
-	
+
 	private ua.nure.sigma.code.model.Interface genInterface(Clazz clazz) {
 		ua.nure.sigma.code.model.Interface resultClass = new ua.nure.sigma.code.model.Interface();
 		resultClass.setName(clazz.getName());
 		resultClass.setFields(mapFields(clazz.getFields()));
 		resultClass.setMethods(mapMethods(clazz.getMethods()));
+		setCompAndAggregationItems(resultClass, clazz);
+		setSuperClass(resultClass, clazz);
 		return resultClass;
+	}
+	private ua.nure.sigma.code.model.Interface setCompAndAggregationItems(ua.nure.sigma.code.model.Interface resultClazz,
+			Clazz startClazz) {
+		List<Relationship> relations = startClazz.getSecondaryRelations();
+		for (Relationship relation : relations) {
+			if (relation.getType().equalsIgnoreCase("aggregation")
+					|| relation.getType().equalsIgnoreCase("composition")) {
+				ua.nure.sigma.code.model.Field field = new ua.nure.sigma.code.model.Field();
+				field.setName(relation.getPrimaryMember().getName().toLowerCase());
+				field.setModifiers(Arrays.asList("private"));
+				field.setType(new Type(relation.getPrimaryMember().getName(), false));
+				resultClazz.getFields().add(field);
+			}
+		}
+		return resultClazz;
+	}
+
+	private ua.nure.sigma.code.model.Interface setSuperClass(ua.nure.sigma.code.model.Interface resultClazz, Clazz startClazz) {
+		List<Relationship> relations = startClazz.getPrimaryRelations();
+		for (Relationship relation : relations) {
+			if (relation.getType().equalsIgnoreCase("generalization") && checkExtensibility(relation)) {
+				ua.nure.sigma.code.model.Interface superClass = new ua.nure.sigma.code.model.Interface();
+				superClass.setName(relation.getSecondaryMember().getName());
+				resultClazz.setSuperIface(relation.getSecondaryMember().getName());
+			}
+		}
+		return resultClazz;
 	}
 
 	private List<ua.nure.sigma.code.model.Field> mapFields(List<Field> fields) {
@@ -79,7 +109,7 @@ public class Converter {
 		if (clazz.isStatic()) {
 			result.add("static");
 		}
-		if (clazz.getClassType().intern()=="Abstract class") {
+		if (clazz.getClassType().intern() == "Abstract class") {
 			result.add("abstract");
 		}
 		return result;
@@ -100,7 +130,7 @@ public class Converter {
 		if (method.isStatic()) {
 			result.add("static");
 		}
-		if (method.getClassOwner().getClassType().intern() =="Abstract class".intern()) {
+		if (method.getClassOwner().getClassType().intern() == "Abstract class".intern()) {
 			result.add("abstract");
 		}
 		return result;
@@ -111,8 +141,7 @@ public class Converter {
 		for (Argument arg : method.getArgs()) {
 			MethodArg argument = new MethodArg();
 			argument.setName(arg.getName());
-			argument.setType(new Type(method.getReturnType(),
-					method.getReturnType().contains("[") && method.getReturnType().contains("]")));
+			argument.setType(new Type(arg.getType(), arg.getType().contains("[") && arg.getType().contains("]")));
 			result.add(argument);
 		}
 		return result;
@@ -122,8 +151,8 @@ public class Converter {
 			Clazz startClazz) {
 		List<Relationship> relations = startClazz.getSecondaryRelations();
 		for (Relationship relation : relations) {
-			if (relation.getType().intern() == "composition".intern()
-					|| relation.getType().intern() == "aggregation".intern()) {
+			if (relation.getType().equalsIgnoreCase("aggregation")
+					|| relation.getType().equalsIgnoreCase("composition")) {
 				ua.nure.sigma.code.model.Field field = new ua.nure.sigma.code.model.Field();
 				field.setName(relation.getPrimaryMember().getName().toLowerCase());
 				field.setModifiers(Arrays.asList("private"));
@@ -137,7 +166,7 @@ public class Converter {
 	private ua.nure.sigma.code.model.Clazz setSuperClass(ua.nure.sigma.code.model.Clazz resultClazz, Clazz startClazz) {
 		List<Relationship> relations = startClazz.getPrimaryRelations();
 		for (Relationship relation : relations) {
-			if (relation.getType().intern() == "generalization".intern()) {
+			if (relation.getType().equalsIgnoreCase("generalization") && checkExtensibility(relation)) {
 				ua.nure.sigma.code.model.Clazz superClass = new ua.nure.sigma.code.model.Clazz();
 				superClass.setName(relation.getSecondaryMember().getName());
 				resultClazz.setSuperClass(superClass);
@@ -146,11 +175,24 @@ public class Converter {
 		return resultClazz;
 	}
 
+	private boolean checkExtensibility(Relationship relation) {
+		if (relation.getPrimaryMember().getClassType().equalsIgnoreCase(relation.getSecondaryMember().getClassType())) {
+			return true;
+		} else if (relation.getPrimaryMember().getClassType().equalsIgnoreCase("abstract class")
+				&& relation.getSecondaryMember().getClassType().equalsIgnoreCase("class")) {
+			return true;
+		} else if (relation.getPrimaryMember().getClassType().equalsIgnoreCase("class")
+				&& relation.getSecondaryMember().getClassType().equalsIgnoreCase("abstract class")) {
+			return true;
+		}
+		return false;
+	}
+
 	private ua.nure.sigma.code.model.Clazz setSuperInterfaces(ua.nure.sigma.code.model.Clazz resultClazz,
 			Clazz startClazz) {
 		List<Relationship> relations = startClazz.getPrimaryRelations();
 		for (Relationship relation : relations) {
-			if (relation.getType().intern() == "realization".intern()) {
+			if (relation.getType().equalsIgnoreCase("realization") && checkRealizationable(relation)) {
 				Interface iface = new Interface(relation.getSecondaryMember().getName());
 				resultClazz.getInterfaces().add(iface);
 			}
@@ -158,4 +200,8 @@ public class Converter {
 		return resultClazz;
 	}
 
+	private boolean checkRealizationable(Relationship relation) {
+		return !(relation.getPrimaryMember().getClassType().equalsIgnoreCase("interface")) 
+				&& relation.getSecondaryMember().getClassType().equalsIgnoreCase("interface");
+	}
 }

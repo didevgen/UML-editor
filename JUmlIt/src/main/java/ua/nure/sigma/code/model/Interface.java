@@ -5,6 +5,7 @@ import java.util.List;
 
 public class Interface {
 	private String name;
+	private String superIface;
 	
 	private List<Field> fields = new ArrayList<Field>();
 	
@@ -55,9 +56,21 @@ public class Interface {
 		this.methods = methods;
 	}
 
+	
+
 	@Override
 	public String toString() {
 		return "Interface [name=" + name + ", fields=" + fields + ", methods=" + methods + "]";
+	}
+
+
+	public String getSuperIface() {
+		return superIface;
+	}
+
+
+	public void setSuperIface(String superIface) {
+		this.superIface = superIface;
 	}
 	
 	
