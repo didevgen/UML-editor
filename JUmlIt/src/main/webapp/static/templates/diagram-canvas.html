@@ -1,5 +1,6 @@
 <div class="diagram-canvas" id="diagram-canvas" jqyoui-droppable="{onDrop:'onDrop'}"
      ng-model="dropped" data-drop="true">
+    {{classesPromise}}
     <div ng-repeat="clazz in classes" >
         <uml-class clazz="clazz" graph="graph" paper="paper"/>
     </div>

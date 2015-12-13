@@ -1,7 +1,6 @@
 'use strict';
 angular.module('jumlitApp').directive('umlClass', function($rootScope, Enums, $timeout, Cells) {
     return {
-        priority: 20,
         transclude: true,
         scope: {
             graph: '=',
@@ -13,7 +12,7 @@ angular.module('jumlitApp').directive('umlClass', function($rootScope, Enums, $t
             $scope.cell = Cells.create($scope.clazz.classType,
                     $scope.clazz.position);
             $scope.graph.addCell($scope.cell);
-            $scope.cell.set('classId', $scope.clazz.classId);
+            $scope.cell.set('clazz', $scope.clazz);
 
             $scope.$on("$destroy", function() {
                 element.remove();
@@ -78,6 +77,7 @@ angular.module('jumlitApp').directive('umlClass', function($rootScope, Enums, $t
 
                 $scope.cell.on('remove', removeClazz);
                 $scope.cell.on('change', _.debounce(filterCellEvents(notifyUpdate), 500));
+                $scope.$emit(Enums.events.CLASS_INITIALIZED);
             });
 
             function updateCell() {

@@ -57,6 +57,14 @@ angular.module('jumlitApp').controller('RelationshipSettingsCtrl', function($sco
     $scope.$watch('relationship.primaryToSecondaryMultiplicity', notifyUpdate);
     $scope.$watch('relationship.secondaryToPrimaryMultiplicity', notifyUpdate);
 
+    $scope.reverse = function() {
+        var temp = $scope.relationship.primaryMember;
+        $scope.relationship.primaryMember = $scope.relationship.secondaryMember;
+        $scope.relationship.secondaryMember = temp;
+        notifyUpdate();
+        $rootScope.$emit(Enums.events.RELATIONSHIP_REVERSED, $scope.relationship);
+    }
+
     function notifyUpdate() {
         if (!$scope.relationship || !$scope.trackUpdates) {
             return;

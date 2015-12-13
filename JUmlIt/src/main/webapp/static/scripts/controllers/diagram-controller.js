@@ -22,7 +22,6 @@ angular.module('jumlitApp').controller('DiagramCtrl', function ($scope, $rootSco
     });
 
     $scope.diagram = diagram;
-    $scope.diagram.relationships = $scope.diagram.relationships || [];
 
     $scope.showComments = false;
     $scope.showSettings = false;

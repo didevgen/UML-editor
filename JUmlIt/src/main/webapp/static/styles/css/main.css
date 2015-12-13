@@ -366,6 +366,12 @@ table.table.inline-table {
 .action-tile.action-tile-right {
   margin-left: auto; }
 
+.btn-reverse {
+  width: 100%;
+  display: inline-block; }
+  .btn-reverse:before {
+    margin-right: 5px; }
+
 div.panel {
   border-radius: 2px; }
   div.panel.panel-primary {

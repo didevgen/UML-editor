@@ -3,25 +3,25 @@
  */
 
 'use strict';
-angular.module('jumlitApp').directive('umlRelationship', function ($timeout, Enums, $rootScope, Links) {
+angular.module('jumlitApp').directive('umlRelationship', function ($timeout, Enums, $rootScope, Links,
+        ClazzServices) {
 
     return {
-        priority: 15,
-        restrict: 'E',
+        priority: 10,
         scope: {
             relationship: '=',
             graph: '=',
-            paper: '='
+            paper: '=',
+            classesPromise: '='
         },
         link: function ($scope, element) {
 
             $scope.hovered = false;
             $scope.cell = null;
             $scope.updateLabelsStrategy = null;
+            var ignoreNextUpdate = false;
 
-            var elementHovered = false;
-
-            $scope.$on('$destroy', function() {
+            $scope.$on('$destroy', function () {
                 element.remove();
             });
 
@@ -33,17 +33,28 @@ angular.module('jumlitApp').directive('umlRelationship', function ($timeout, Enu
                 updateLink(relationship);
             });
 
+            $rootScope.$on(Enums.events.RELATIONSHIP_REVERSED, function(event, relationship) {
+                if (relationship.id !== $scope.relationship.id) {
+                    return;
+                }
+                var temp = $scope.cell.get('target');
+                ignoreNextUpdate = true;
+                $scope.cell.set('target', $scope.cell.get('source'));
+                ignoreNextUpdate = true;
+                $scope.cell.set('source', temp);
+            });
+
             $scope.paper.on('link:options', function (evt, cellView) {
-                if(cellView.model.id !== $scope.cell.id) {
+                if (cellView.model.id !== $scope.cell.id) {
                     return;
                 }
                 $rootScope.$emit(Enums.events.RELATIONSHIP_SELECTED, $scope.relationship);
             });
 
-            $timeout(function () {
+            $scope.$on(Enums.events.CLASSES_INITIALIZED, function() {
                 init();
                 updateLink();
-            });
+            })
 
             function init() {
                 $scope.cell = $scope.relationship.cell;
@@ -55,19 +66,21 @@ angular.module('jumlitApp').directive('umlRelationship', function ($timeout, Enu
                 var source = $scope.cell.get('source');
                 if (!source.on) {
                     source = $scope.graph.getElements().find(function (cell) {
-                        return cell.get('classId') === $scope.relationship.primaryMember.classId;
+                        return cell.get('clazz').classId === $scope.relationship.primaryMember.classId;
                     });
                     $scope.cell.set('source', source);
                 }
                 var target = $scope.cell.get('target');
                 if (!target.on) {
                     target = $scope.graph.getElements().find(function (cell) {
-                        return cell.get('classId') === $scope.relationship.secondaryMember.classId;
+                        return cell.get('clazz').classId === $scope.relationship.secondaryMember.classId;
                     });
                     $scope.cell.set('target', target);
                 }
 
                 $scope.cell.on('remove', removeRelationship);
+                $scope.cell.on('change:source', updateSource)
+                $scope.cell.on('change:target', updateTarget)
             }
 
             function updateLink() {
@@ -83,6 +96,34 @@ angular.module('jumlitApp').directive('umlRelationship', function ($timeout, Enu
 
             function removeRelationship() {
                 $scope.$emit(Enums.events.RELATIONSHIP_REMOVED, $scope.relationship);
+            }
+
+            function updateSource(link, newValue) {
+                if (ignoreNextUpdate) {
+                    ignoreNextUpdate = false;
+                    return;
+                }
+                if (newValue.id) {
+                    var source = $scope.graph.getElements().find(function(cell) {
+                        return cell.id === newValue.id;
+                    });
+                    $scope.relationship.primaryMember = source.get('clazz');
+                    ClazzServices.updateRelationship($scope.relationship);
+                }
+            }
+
+            function updateTarget(link, newValue) {
+                if (ignoreNextUpdate) {
+                    ignoreNextUpdate = false;
+                    return;
+                }
+                if (newValue.id) {
+                    var target = $scope.graph.getElements().find(function(cell) {
+                        return cell.id === newValue.id;
+                    });
+                    $scope.relationship.secondaryMember = target.get('clazz');
+                    ClazzServices.updateRelationship($scope.relationship);
+                }
             }
         }
     }

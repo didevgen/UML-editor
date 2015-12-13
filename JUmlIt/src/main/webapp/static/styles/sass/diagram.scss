@@ -202,3 +202,12 @@ table.table.inline-table {
 
 }
 
+.btn-reverse {
+  width: 100%;
+  display: inline-block;
+
+  &:before {
+    margin-right: 5px;
+  }
+}
+

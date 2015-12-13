@@ -23,13 +23,13 @@ angular.module('jumlitApp').directive('diagramCanvas', function($q, Cells, $comp
             $scope.paper = paper;
             $scope.classTypes = Enums.classTypes;
 
-            $scope.$watch('classes', function() {
-                console.log(arguments);
-            }, true);
-
-            $scope.$watch('relationships', function() {
-                console.log(arguments);
-            }, true);
+            var count = 0;
+            $scope.$on(Enums.events.CLASS_INITIALIZED, function() {
+                count++;
+                if($scope.classes.length === count) {
+                    $scope.$broadcast(Enums.events.CLASSES_INITIALIZED);
+                }
+            });
 
             $scope.$on(Enums.events.CELL_DESELECTED, function () {
                 $rootScope.$emit(Enums.events.CLASS_DESELECTED);
@@ -129,12 +129,8 @@ angular.module('jumlitApp').directive('diagramCanvas', function($q, Cells, $comp
 
                     tempLink.set('target', elementBelow);
                     var relationship = new Relationship({
-                        primaryMember: {
-                            classId: source.clazz.classId
-                        },
-                        secondaryMember: {
-                            classId: elementBelow.get('classId')
-                        },
+                        primaryMember: source.clazz,
+                        secondaryMember: elementBelow.get('clazz'),
                         cell: tempLink
                     });
 
