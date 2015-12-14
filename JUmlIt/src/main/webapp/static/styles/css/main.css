@@ -437,6 +437,9 @@ div.panel {
 .panel-group .subpanel + .subpanel {
   margin-top: 0; }
 
+div.panel-group {
+  margin-bottom: 0px; }
+
 .list-group-item.fa:before {
   margin-right: 8px; }
 

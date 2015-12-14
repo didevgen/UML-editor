@@ -57,8 +57,15 @@ angular.module('jumlitApp').controller('DashboardCtrl', function ($scope, $uibMo
         //TODO fix rendering
         /*$scope.ownDiagrams.page.splice.apply($scope.ownDiagrams.page, [0, $scope.pageSize].concat($scope
             .ownDiagrams.list.slice(startIndex, startIndex + $scope.pageSize)));*/
-        $scope.ownDiagrams.page = $scope.ownDiagrams.list.slice(startIndex,
+        var newPage = $scope.ownDiagrams.list.slice(startIndex,
             startIndex + $scope.pageSize);
+        var difference = $scope.ownDiagrams.page.length - newPage.length;
+        if (difference > 0) {
+            for (var i = 0; i < difference; i++) {
+                $scope.ownDiagrams.page.pop();
+            }
+        }
+        angular.extend($scope.ownDiagrams.page, newPage);
     }
 
     $scope.$watchCollection('ownDiagrams.list', $scope.fillOwnDiagramsPage);
