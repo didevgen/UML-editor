@@ -66,7 +66,7 @@ angular.module('jumlitApp').service('DiagramUpdatesListener', function (DiagramU
 
             DiagramUpdates.subscribe('/topic/diagram/' + diagramId + '/history', function(event) {
                 event.user = {
-                    fullname: event.userName
+                    email: event.userName
                 };
                 $rootScope.$emit(Enums.events.SOCKET_DIAGRAM_EVENT, event);
             }).then(addSubscription)

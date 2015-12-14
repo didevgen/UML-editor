@@ -20,20 +20,18 @@ import ua.nure.sigma.service.DiagramService;
 public class CommentController {
 
 	private SimpMessagingTemplate template;
-	private Principal principal;
 	private AccountService service = new AccountService();
 	private CommentService commentService = new CommentService();
 	private DiagramService diagramService = new DiagramService();
 
 	@Autowired
-	public CommentController(SimpMessagingTemplate template,Principal principal) {
+	public CommentController(SimpMessagingTemplate template) {
 		this.template = template;
-		this.principal = principal;
 	}
 
 	@MessageMapping("/diagram/{id}/comment")
 	@SendTo("/topic/diagram/{id}/comment")
-	public Comment handle(@DestinationVariable String id, String message) {
+	public Comment handle(@DestinationVariable String id, String message, Principal principal) {
 		User user = service.getUserByLogin(principal.getName());
 		Diagram diagram = diagramService.getDiagramById(Long.parseLong(id));
 		Comment comment = new Comment();
