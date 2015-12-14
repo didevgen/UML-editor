@@ -308,7 +308,7 @@ ul.pagination > .active > a {
       overflow: auto; }
       .tool-panel-container .events .list-group li {
         padding: 10px 15px;
-        font-size: 11px; }
+        font-size: 12.5px; }
     .tool-panel-container .events .panel-body {
       display: flex;
       flex: 1; }
@@ -317,7 +317,10 @@ ul.pagination > .active > a {
     .tool-panel-container .events .event-date {
       font-size: 10px;
       color: #999;
-      margin-right: 5px; }
+      margin-right: 5px;
+      display: inline-block;
+      text-align: left;
+      width: 100%; }
     .tool-panel-container .events .event-user {
       font-weight: bold;
       color: #1abc9c; }
