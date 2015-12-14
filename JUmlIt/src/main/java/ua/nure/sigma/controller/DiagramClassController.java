@@ -80,7 +80,6 @@ public class DiagramClassController {
 			return new ResponseEntity<Void>(HttpStatus.FORBIDDEN);
 		}
 		Diagram diagram = diagramService.getDiagramById(diagramId);
-		Clazz clazz = service.getClass(classId);
 		service.removeClass(classId);
 		this.updateService.notify("/topic/diagram/" + diagram.getDiagramId() + "/clazz_removed", classId, principal);
 		return new ResponseEntity<Void>(HttpStatus.OK);
