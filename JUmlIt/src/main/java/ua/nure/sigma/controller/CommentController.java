@@ -1,6 +1,7 @@
 package ua.nure.sigma.controller;
 
 import java.security.Principal;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -38,6 +39,8 @@ public class CommentController {
 		comment.setCommentText(message);
 		comment.setDiagram(diagram);
 		comment.setUser(user);
+		comment.setTimeStamp(new Date());
+		commentService.insertComment(comment);
 		return comment;
 	}
 

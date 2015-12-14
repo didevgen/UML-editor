@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: 127.0.0.1
--- Время создания: Дек 14 2015 г., 15:57
+-- Время создания: Дек 14 2015 г., 17:17
 -- Версия сервера: 5.6.26
 -- Версия PHP: 5.6.12
 
@@ -33,6 +33,13 @@ CREATE TABLE IF NOT EXISTS `argument` (
   `method_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
+--
+-- Дамп данных таблицы `argument`
+--
+
+INSERT INTO `argument` (`argument_id`, `argument_name`, `argument_type`, `method_id`) VALUES
+(2, 'typeName', 'MyType', 2);
+
 -- --------------------------------------------------------
 
 --
@@ -46,7 +53,7 @@ CREATE TABLE IF NOT EXISTS `class` (
   `diagram_id` bigint(20) DEFAULT NULL,
   `class_access` varchar(105) DEFAULT NULL,
   `class_type` varchar(45) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `class`
@@ -54,7 +61,8 @@ CREATE TABLE IF NOT EXISTS `class` (
 
 INSERT INTO `class` (`class_id`, `class_name`, `is_static`, `diagram_id`, `class_access`, `class_type`) VALUES
 (10, 'Class1', 0, 8, 'public', 'Class'),
-(11, 'Class1', 0, 5, 'public', 'Class');
+(18, 'MyClass', 0, 5, 'public', 'Class'),
+(19, 'Class2', 0, 5, 'public', 'Class');
 
 -- --------------------------------------------------------
 
@@ -90,7 +98,8 @@ CREATE TABLE IF NOT EXISTS `comment` (
   `comment_id` int(11) NOT NULL,
   `user_id` bigint(20) DEFAULT NULL,
   `diagram_id` bigint(20) DEFAULT NULL,
-  `comment_text` longtext
+  `comment_text` longtext,
+  `timestamp` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -176,6 +185,13 @@ CREATE TABLE IF NOT EXISTS `field` (
   `class_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
 
+--
+-- Дамп данных таблицы `field`
+--
+
+INSERT INTO `field` (`field_id`, `field_access`, `is_static`, `field_name`, `field_type`, `class_id`) VALUES
+(1, 'public', 0, 'mystaticField', 'MyType', 19);
+
 -- --------------------------------------------------------
 
 --
@@ -199,27 +215,14 @@ CREATE TABLE IF NOT EXISTS `history_session` (
   `time_start` datetime DEFAULT NULL,
   `time_finish` datetime DEFAULT NULL,
   `diagram_id` bigint(20) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `history_session`
 --
 
 INSERT INTO `history_session` (`session_id`, `user_id`, `time_start`, `time_finish`, `diagram_id`) VALUES
-(1, 3, '2015-12-14 14:43:55', '2015-12-14 14:59:16', 5),
-(2, 3, '2015-12-14 14:44:09', '2015-12-14 14:59:16', 5),
-(3, 3, '2015-12-14 14:53:36', '2015-12-14 14:59:16', 5),
-(4, 3, '2015-12-14 14:57:09', '2015-12-14 14:59:16', 5),
-(5, 3, '2015-12-14 14:58:48', '2015-12-14 14:59:16', 5),
-(6, 6, '2015-12-14 15:02:19', '2015-12-14 15:03:09', 5),
-(7, 3, '2015-12-14 15:02:43', '2015-12-14 15:02:54', 8),
-(8, 3, '2015-12-14 15:03:01', '2015-12-14 15:03:14', 5),
-(9, 3, '2015-12-14 15:04:34', '2015-12-14 15:04:50', 5),
-(10, 6, '2015-12-14 15:04:38', '2015-12-14 15:04:42', 5),
-(11, 3, '2015-12-14 15:05:16', '2015-12-14 15:05:25', 5),
-(12, 6, '2015-12-14 15:05:20', '2015-12-14 15:06:03', 5),
-(13, 3, '2015-12-14 15:06:50', '2015-12-14 15:06:51', 5),
-(14, 3, '2015-12-14 15:10:05', NULL, 5);
+(1, 3, '2015-12-14 17:49:18', '2015-12-14 17:49:22', 5);
 
 -- --------------------------------------------------------
 
@@ -235,6 +238,14 @@ CREATE TABLE IF NOT EXISTS `method` (
   `method_access` varchar(105) DEFAULT NULL,
   `class_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `method`
+--
+
+INSERT INTO `method` (`method_id`, `is_static`, `method_name`, `return_type`, `method_access`, `class_id`) VALUES
+(2, 0, 'doSomething', 'void', 'public', 18),
+(3, 0, 'MyBestName', 'void', 'public', 19);
 
 -- --------------------------------------------------------
 
@@ -254,7 +265,8 @@ CREATE TABLE IF NOT EXISTS `position` (
 
 INSERT INTO `position` (`x`, `y`, `class_id`) VALUES
 (207, 103, 10),
-(248, 104, 11);
+(271, 302, 18),
+(315, 83, 19);
 
 -- --------------------------------------------------------
 
@@ -273,7 +285,7 @@ CREATE TABLE IF NOT EXISTS `relationships` (
   `primary_props` varchar(85) DEFAULT NULL,
   `secondary_props` varchar(85) DEFAULT NULL,
   `diagram_id` bigint(11) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -483,7 +495,7 @@ ALTER TABLE `argument`
 -- AUTO_INCREMENT для таблицы `class`
 --
 ALTER TABLE `class`
-  MODIFY `class_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
+  MODIFY `class_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=20;
 --
 -- AUTO_INCREMENT для таблицы `comment`
 --
@@ -518,7 +530,7 @@ ALTER TABLE `field`
 -- AUTO_INCREMENT для таблицы `history_session`
 --
 ALTER TABLE `history_session`
-  MODIFY `session_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=16;
+  MODIFY `session_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT для таблицы `method`
 --
@@ -528,7 +540,7 @@ ALTER TABLE `method`
 -- AUTO_INCREMENT для таблицы `relationships`
 --
 ALTER TABLE `relationships`
-  MODIFY `relation_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `relation_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT для таблицы `token`
 --
