@@ -65,6 +65,7 @@ public class UserDAOImpl implements UserDao {
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
 			user = (User) session.load(User.class, id);
+			Hibernate.initialize(user);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
