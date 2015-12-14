@@ -162,11 +162,4 @@ angular.module('jumlitApp').controller('DashboardCtrl', function ($scope, $uibMo
         }
     };
 
-    $scope.editDetails = function () {
-        $uibModal.open({
-            templateUrl: 'modals/edit-user-details.html',
-            controller: 'PersonalDetailsModalCtrl'
-        });
-    };
-
 });
