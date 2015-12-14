@@ -7,7 +7,7 @@ angular.module('jumlitApp').controller('PersonalDetailsModalCtrl', function ($sc
     $scope.save = function () {
         var newUser = {
             userId: $scope.user.userId,
-            email: $scope.user.email,
+            email: ($scope.user.email == Session.user.email) ? "" : $scope.user.email,
             fullname: $scope.user.fullname
         }
 
