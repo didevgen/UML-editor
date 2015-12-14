@@ -118,10 +118,11 @@ angular
                 resolve: {
                     diagram: function (DiagramServices, $stateParams) {
                         return DiagramServices.getDiagram($stateParams.diagramId);
-                    },
+                    }/*,
                     history: function (HistoryServices, $stateParams) {
+                        console.log(1);
                         return HistoryServices.getHistory($scope.diagram.diagramId);
-                    }
+                    }*/
                 }
             });
 

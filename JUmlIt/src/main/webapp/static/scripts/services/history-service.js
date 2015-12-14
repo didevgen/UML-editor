@@ -1,8 +1,9 @@
 'use strict';
-angular.module('jumlitApp').service('HistoryServices', function (Utils, Session, $rootScope, Enums) {
+angular.module('jumlitApp').service('HistoryServices', function (Utils) {
+
     return {
         getHistory: function(diagramId) {
-            return Utils.getRequest('/diagram/' + diagramId + '/history').then(function (history) {
+            return Utils.postRequest('diagram/' + diagramId + '/history', {}).then(function (history) {
             console.log(history);
                 return history;
             });

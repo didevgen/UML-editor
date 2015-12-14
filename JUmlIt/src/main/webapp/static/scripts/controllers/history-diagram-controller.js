@@ -1,5 +1,5 @@
 'use strict';
-angular.module('jumlitApp').controller('HistoryDiagramCtrl', function ($scope, $uibModal, $state, diagram) {
+angular.module('jumlitApp').controller('HistoryDiagramCtrl', function ($scope, $uibModal, $state, diagram, HistoryServices) {
 
     /*$scope.history = {
         diagramId: diagram.diagramId,
@@ -42,29 +42,32 @@ angular.module('jumlitApp').controller('HistoryDiagramCtrl', function ($scope, $
         ],
         events: []
     };*/
-    (function () {
-        $scope.diagram = diagram;
-        $scope.history = history;
-        $scope.history.events = [];
-        /*for (var i = 0; i < $scope.history.sessions.length; i++) {
-            var session = $scope.history.sessions[i];
+    $scope.diagram = diagram;
+
+    $scope.history = {};
+    $scope.history.events = [];
+    HistoryServices.getHistory(diagram.diagramId).then(function (res) {
+        angular.extend($scope.history, res);
+        console.log($scope.history);
+    });
+    /*for (var i = 0; i < $scope.history.sessions.length; i++) {
+        var session = $scope.history.sessions[i];
+        $scope.history.events.push({
+            sessionId: session.sessionId,
+            userId: session.sessionId,
+            userName: session.userName,
+            time: session.time_start,
+            type: "start"
+        });
+        if (session.time_end) {
             $scope.history.events.push({
                 sessionId: session.sessionId,
                 userId: session.sessionId,
                 userName: session.userName,
-                time: session.time_start,
-                type: "start"
+                time: session.time_end,
+                type: "end"
             });
-            if (session.time_end) {
-                $scope.history.events.push({
-                    sessionId: session.sessionId,
-                    userId: session.sessionId,
-                    userName: session.userName,
-                    time: session.time_end,
-                    type: "end"
-                });
-            }
-        }*/
-    })();
+        }
+    }*/
 
 });
