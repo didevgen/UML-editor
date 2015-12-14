@@ -79,7 +79,7 @@ public class HistorySession {
 	public void setUser(User user) {
 		this.user = user;
 		if (user != null) {
-			this.userName = user.getFullname();
+			this.userName = user.getEmail();
 		}
 	}
 
