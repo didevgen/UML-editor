@@ -1,5 +1,5 @@
 'use strict';
-angular.module('jumlitApp').controller('PersonalDetailsModalCtrl', function ($scope, $uibModalInstance, Session, $state, UserServices) {
+angular.module('jumlitApp').controller('PersonalDetailsModalCtrl', function ($scope, $uibModalInstance, Session, $state, UserServices, Authentication) {
     $scope.user = angular.copy(Session.user);
 
     $scope.alerts = [];
@@ -13,6 +13,7 @@ angular.module('jumlitApp').controller('PersonalDetailsModalCtrl', function ($sc
 
         UserServices.updateUser(newUser)
             .then(function () {
+                Authentication.authenticate();
                 $state.go($state.current, {}, {
                     reload: true
                 });

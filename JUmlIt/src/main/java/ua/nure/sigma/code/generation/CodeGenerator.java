@@ -37,6 +37,9 @@ public class CodeGenerator {
 		for (Method method : clazz.getMethods()) {
 			builder.addMethod(generateMethod(method));
 		}
+		if (clazz.getSuperClass() != null) {
+			builder.superclass(service.getTypeName(clazz.getSuperClass().getName()));
+		}
 		return builder.build();
 	}
 
