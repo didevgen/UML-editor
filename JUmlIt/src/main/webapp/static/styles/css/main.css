@@ -307,8 +307,8 @@ ul.pagination > .active > a {
       flex: 1;
       overflow: auto; }
       .tool-panel-container .events .list-group li {
-        padding-left: 10px;
-        font-size: 11.5px; }
+        padding: 10px 15px;
+        font-size: 11px; }
     .tool-panel-container .events .panel-body {
       display: flex;
       flex: 1; }
