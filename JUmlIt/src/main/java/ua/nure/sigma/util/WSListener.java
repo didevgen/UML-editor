@@ -2,6 +2,8 @@ package ua.nure.sigma.util;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
@@ -12,9 +14,11 @@ import org.springframework.web.socket.messaging.SessionUnsubscribeEvent;
 
 import ua.nure.sigma.db_entities.HistorySession;
 import ua.nure.sigma.model.HistoryModel;
+import ua.nure.sigma.service.AccountService;
 import ua.nure.sigma.service.HistoryService;
 
 public class WSListener implements ApplicationListener {
+	
 	@Autowired
 	SimpMessagingTemplate template;
 	@Override

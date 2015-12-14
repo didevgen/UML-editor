@@ -1,5 +1,4 @@
 'use strict';
-<<<<<<< HEAD
 angular.module('jumlitApp').controller('DiagramCtrl', function ($scope, $rootScope, diagram, DiagramServices, Session, Enums,
         ClazzServices, $timeout, DiagramUpdates, PngExport, CodeGeneration, DiagramUpdatesListener) {
 
