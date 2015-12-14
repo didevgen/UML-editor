@@ -55,9 +55,10 @@ public class DiagramClassController {
 			myVal = 1L;
 		}
 		clazz.setDiagramOwner(diagram);
+		Clazz newClazz = service.addClass(clazz);
 		this.updateService.notify("/topic/diagram/" + diagram.getDiagramId() + "/clazz_added",
-				clazz, principal);
-		return new ResponseEntity<Clazz>(service.addClass(clazz), HttpStatus.OK);
+				newClazz, principal);
+		return new ResponseEntity<Clazz>(newClazz, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/diagram/{diagramId}/classes/update", method = RequestMethod.POST)
