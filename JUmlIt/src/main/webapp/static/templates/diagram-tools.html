@@ -25,7 +25,7 @@
     <div class="panel tool-panel panel-default events" ng-hide="collapsed">
         <div class="panel-heading">Last events</div>
         <ul class="list-group" ng-show="diagram.history.length">
-            <li class="list-group-item" ng-repeat="event in diagram.history | reverse">
+            <li class="list-group-item" ng-repeat="event in diagram.history | reverse | take : 10">
                 <span ng-hide="event.timeFinish">
                     <span class="event-date">{{event.timeStart | date : 'shortTime'}}</span>
                     <span class="event-user">{{event.user.fullname}}</span> started editing

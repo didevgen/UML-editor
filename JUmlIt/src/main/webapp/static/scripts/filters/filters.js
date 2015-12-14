@@ -25,4 +25,8 @@ angular.module('jumlitApp')
         return function(items) {
             return items.slice().reverse();
         };
+    }).filter('take', function() {
+        return function(items, count) {
+            return items.slice(0, count);
+        }
     });;
