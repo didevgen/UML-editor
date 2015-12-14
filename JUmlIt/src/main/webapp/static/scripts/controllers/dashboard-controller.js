@@ -24,6 +24,9 @@ angular.module('jumlitApp').controller('DashboardCtrl', function ($scope, $uibMo
         $scope.ownDiagrams.list.push(diagram);
         console.log(diagram);
         $scope.ownDiagrams.pageNum = Math.ceil($scope.ownDiagrams.list.length / $scope.pageSize);
+        DiagramServices.getDiagrams().then(function (data) {
+            $scope.collabDiagrams.list = data.collabDiagrams;
+        });
     });
 
     $rootScope.$on(Enums.events.DIAGRAM_UPDATED, function (event, diagram) {
@@ -43,7 +46,6 @@ angular.module('jumlitApp').controller('DashboardCtrl', function ($scope, $uibMo
     DiagramServices.getDiagrams().then(function (data) {
         $scope.ownDiagrams.list = data.ownDiagrams;
         $scope.collabDiagrams.list = data.collabDiagrams;
-        console.log($scope.collabDiagrams.list);
     });
 
     $scope.fillCollabDiagramsPage = function () {
