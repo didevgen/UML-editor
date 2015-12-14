@@ -86,6 +86,7 @@
 .tool-panel-container {
   display: flex;
   flex-grow: 1;
+  flex-direction: column;
 
   .tool-panel {
     margin-bottom: 0;
@@ -107,6 +108,41 @@
       margin-top: 15px;
       padding: 0px 5px;
     }
+  }
+
+  .events {
+    height: 100px;
+    border-radius: 2px;
+    border-top: 1px solid $border-color-light;
+    display: flex;
+    flex-direction: column;
+
+    .list-group {
+      flex: 1;
+      overflow: auto;
+    }
+
+    .panel-body {
+      display: flex;
+      flex: 1;
+    }
+
+    .no-events {
+      margin: auto;
+    }
+  }
+}
+
+.comments.tool-panel-container {
+  .panel {
+    flex: 1;
+    border-top: 0;
+    border-radius: 0;
+    margin-bottom: 0;
+  }
+
+  .panel-heading {
+    border-radius: 0;
   }
 }
 

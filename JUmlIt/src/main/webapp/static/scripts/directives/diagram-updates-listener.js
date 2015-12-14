@@ -12,6 +12,10 @@ angular.module('jumlitApp').service('DiagramUpdatesListener', function (DiagramU
 
     return {
         subscribe: function (diagramId) {
+            DiagramUpdates.subscribe('/topic/diagram/' + diagramId, function(data) {
+                console.log(data);
+            }).then(addSubscription);
+
             DiagramUpdates.subscribe('/topic/diagram/' + diagramId + '/clazz_added', function (clazz) {
                 $rootScope.$emit(Enums.events.SOCKET_CLASS_ADDED, new Clazz(clazz));
             }).then(addSubscription);
@@ -59,6 +63,10 @@ angular.module('jumlitApp').service('DiagramUpdatesListener', function (DiagramU
             DiagramUpdates.subscribe('/topic/diagram/' + diagramId + '/relationship_removed', function (id) {
                 $rootScope.$emit(Enums.events.SOCKET_RELATIONSHIP_REMOVED, new Relationship({id: id}));
             }).then(addSubscription);
+
+            DiagramUpdates.subscribe('/topic/diagram/' + diagramId + '/history', function(event) {
+                $rootScope.$emit(Enums.events.SOCKET_DIAGRAM_EVENT, event);
+            }).then(addSubscription)
         },
         unsubscribe: function () {
             subscriptions.forEach(function (subscription) {

@@ -22,6 +22,18 @@
             </uib-accordion>
         </div>
     </div>
+    <div class="panel tool-panel panel-default events" ng-hide="collapsed">
+        <div class="panel-heading">Events</div>
+        <ul class="list-group" ng-show="diagram.history.length">
+            <li class="list-group-item" ng-repeat="event in diagram.history">{{event}}</li>
+        </ul>
+        <div class="panel-body" ng-hide="diagram.history.length">
+            <div class="no-events">
+                <i class="fa fa-bell-o"></i>
+                <span>No events yet.</span>
+            </div>
+        </div>
+    </div>
     <div class="collapsed-panel" ng-click="collapsed = false" ng-show="collapsed">
         <div class="vertical-text">Tools</div>
     </div>

@@ -281,7 +281,8 @@ ul.pagination > .active > a {
 
 .tool-panel-container {
   display: flex;
-  flex-grow: 1; }
+  flex-grow: 1;
+  flex-direction: column; }
   .tool-panel-container .tool-panel {
     margin-bottom: 0;
     flex-grow: 1;
@@ -296,6 +297,29 @@ ul.pagination > .active > a {
     .tool-panel-container .tool-panel .nav-tabs {
       margin-top: 15px;
       padding: 0px 5px; }
+  .tool-panel-container .events {
+    height: 100px;
+    border-radius: 2px;
+    border-top: 1px solid #e7e7e7;
+    display: flex;
+    flex-direction: column; }
+    .tool-panel-container .events .list-group {
+      flex: 1;
+      overflow: auto; }
+    .tool-panel-container .events .panel-body {
+      display: flex;
+      flex: 1; }
+    .tool-panel-container .events .no-events {
+      margin: auto; }
+
+.comments.tool-panel-container .panel {
+  flex: 1;
+  border-top: 0;
+  border-radius: 0;
+  margin-bottom: 0; }
+
+.comments.tool-panel-container .panel-heading {
+  border-radius: 0; }
 
 .diagram-canvas-container {
   display: flex;
