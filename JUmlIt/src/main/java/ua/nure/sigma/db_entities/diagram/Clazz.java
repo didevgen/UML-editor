@@ -15,10 +15,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import ua.nure.sigma.db_entities.Diagram;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table(name = "class")
 public class Clazz {
@@ -118,6 +120,7 @@ public class Clazz {
 	}
 	
 	@OneToMany(mappedBy = "classOwner",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+	@NotFound(action = NotFoundAction.IGNORE)
 	public List<Field> getFields() {
 		return fields;
 	}
@@ -127,6 +130,7 @@ public class Clazz {
 	}
 	
 	@OneToMany(mappedBy = "classOwner",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@NotFound(action = NotFoundAction.IGNORE)
 	public List<Method> getMethods() {
 		return methods;
 	}
@@ -155,6 +159,7 @@ public class Clazz {
 	}
 	
 	@OneToMany(mappedBy = "primaryMember",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@NotFound(action = NotFoundAction.IGNORE)
 	public List<Relationship> getPrimaryRelations() {
 		return primaryRelations;
 	}
@@ -164,6 +169,7 @@ public class Clazz {
 	}
 	
 	@OneToMany(mappedBy = "secondaryMember",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@NotFound(action = NotFoundAction.IGNORE)
 	public List<Relationship> getSecondaryRelations() {
 		return secondaryRelations;
 	}

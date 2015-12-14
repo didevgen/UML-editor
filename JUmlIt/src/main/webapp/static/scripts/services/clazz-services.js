@@ -96,6 +96,7 @@ angular.module('jumlitApp').service('ClazzServices', function (Utils, $rootScope
             return Utils.postRequest(prefixRelUrl('add'), sanitize(relationship))
                 .then(function(data) {
                     $rootScope.$emit(Enums.events.RELATIONSHIP_CREATED, new Relationship(data));
+                    return new Relationship(data);
                 });
         },
         removeRelationship: function(relationship) {
