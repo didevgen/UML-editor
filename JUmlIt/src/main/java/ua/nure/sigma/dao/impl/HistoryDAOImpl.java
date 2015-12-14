@@ -127,7 +127,10 @@ public class HistoryDAOImpl implements HistoryDAO {
 			session = HibernateUtil.getSessionFactory().openSession();
 			Criteria cr = session.createCriteria(HistorySession.class);
 			cr.add(Restrictions.eq("diagram.diagramId", deiagramId));
-			result = cr.list();
+			result = (List<HistorySession>)cr.list();
+			for(HistorySession s : result) {
+				Hibernate.initialize(s);
+			}
 			return result;
 		} catch (Exception e) {
 			e.printStackTrace();
