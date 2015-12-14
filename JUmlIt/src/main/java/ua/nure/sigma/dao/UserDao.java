@@ -16,7 +16,7 @@ public interface UserDao {
 	 */
 	public User addUser(User user) throws SQLException;
 
-	public void updateUser(User user) throws SQLException;
+	public User updateUser(User user);
 
 	public void deleteStudent(User user) throws SQLException;
 

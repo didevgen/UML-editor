@@ -87,5 +87,9 @@ public class AccountService {
 	public User getUserByLogin(String login) {
 		return dao.getUserByLogin(login);
 	}
+	
+	public User updateUser(User user) {
+		return dao.updateUser(user);
+	}
 
 }
