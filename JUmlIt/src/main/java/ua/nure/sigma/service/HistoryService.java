@@ -11,7 +11,6 @@ import ua.nure.sigma.dao.UserDao;
 import ua.nure.sigma.dao.impl.DiagramDAOImpl;
 import ua.nure.sigma.dao.impl.HistoryDAOImpl;
 import ua.nure.sigma.dao.impl.UserDAOImpl;
-import ua.nure.sigma.db_entities.DiagramHistory;
 import ua.nure.sigma.db_entities.HistorySession;
 
 public class HistoryService {
@@ -26,13 +25,6 @@ public class HistoryService {
 	}
 	public HistoryService() {
 		
-	}
-	public void insertHistory(String action, long sessionId) {
-		DiagramHistory history = new DiagramHistory();
-		history.setAction(action);
-		history.setTimeStamp(new Date());
-		history.setSession(dao.getSessionById(sessionId));
-		dao.insertHistory(history);
 	}
 	
 	public HistorySession insertSession(String userName, long diagramId) {

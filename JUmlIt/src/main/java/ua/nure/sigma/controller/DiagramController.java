@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ua.nure.sigma.db_entities.Diagram;
 import ua.nure.sigma.db_entities.User;
-import ua.nure.sigma.db_entities.diagram.Field;
 import ua.nure.sigma.exceptions.DiagramException;
 import ua.nure.sigma.service.AccountService;
 import ua.nure.sigma.service.DiagramService;
@@ -72,8 +71,6 @@ public class DiagramController {
 		}
 		diagramService.updateDiagram(diagram);
 		Diagram newDiagram = diagramService.getDiagramById(diagram.getDiagramId());
-		historyService.insertHistory("updated diagram: " + diagram.getName(),
-				(Long) (httpSession.getAttribute("sessionId")));
 		return new ResponseEntity<Diagram>(newDiagram, HttpStatus.OK);
 	}
 
@@ -83,8 +80,6 @@ public class DiagramController {
 			return new ResponseEntity<Void>(HttpStatus.FORBIDDEN);
 		}
 		Diagram diagram = diagramService.getDiagramById(id);
-		historyService.insertHistory("deleted diagram: " + diagram.getName(),
-				(Long) (httpSession.getAttribute("sessionId")));
 		diagramService.deleteDiagram(id);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}

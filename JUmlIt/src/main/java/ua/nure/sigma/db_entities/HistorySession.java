@@ -25,8 +25,6 @@ public class HistorySession {
 
 	private Diagram diagram;
 
-	private List<DiagramHistory> actions = new ArrayList<>();
-
 	private Date timeStart;
 
 	private Date timeFinish;
@@ -85,14 +83,6 @@ public class HistorySession {
 
 	public void setDiagram(Diagram diagram) {
 		this.diagram = diagram;
-	}
-	@OneToMany(mappedBy = "session")
-	public List<DiagramHistory> getActions() {
-		return actions;
-	}
-
-	public void setActions(List<DiagramHistory> actions) {
-		this.actions = actions;
 	}
 	@Column(name = "time_start")
 	public Date getTimeStart() {
