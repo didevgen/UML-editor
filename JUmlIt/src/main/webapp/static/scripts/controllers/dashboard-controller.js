@@ -43,6 +43,7 @@ angular.module('jumlitApp').controller('DashboardCtrl', function ($scope, $uibMo
     DiagramServices.getDiagrams().then(function (data) {
         $scope.ownDiagrams.list = data.ownDiagrams;
         $scope.collabDiagrams.list = data.collabDiagrams;
+        console.log($scope.collabDiagrams.list);
     });
 
     $scope.fillCollabDiagramsPage = function () {
