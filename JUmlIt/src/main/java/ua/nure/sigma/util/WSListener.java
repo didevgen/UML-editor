@@ -11,14 +11,12 @@ import org.springframework.web.socket.messaging.SessionSubscribeEvent;
 import org.springframework.web.socket.messaging.SessionUnsubscribeEvent;
 
 import ua.nure.sigma.db_entities.HistorySession;
+import ua.nure.sigma.model.HistoryModel;
 import ua.nure.sigma.service.HistoryService;
 
 public class WSListener implements ApplicationListener {
 	@Autowired
 	SimpMessagingTemplate template;
-
-	private Long diagramId;
-
 	@Override
 	public void onApplicationEvent(ApplicationEvent event) {
 		if (event instanceof SessionSubscribeEvent) {
@@ -31,7 +29,9 @@ public class WSListener implements ApplicationListener {
 			try {
 				diagramId = Long.parseLong(dest.substring(dest.lastIndexOf('/') + 1));
 				HistorySession session = service.insertSession(connect.getUser().getName(), diagramId);
-				template.convertAndSend("/topic/diagram/" + diagramId + "/history", session);
+				HistoryModel model = new HistoryModel(connect.getUser().getName(), session.getDiagram().getName(),
+						session.getTimeStart(), session.getTimeFinish());
+				template.convertAndSend("/topic/diagram/" + diagramId + "/history", model);
 			} catch (NumberFormatException ex) {
 				return;
 			}
@@ -42,8 +42,10 @@ public class WSListener implements ApplicationListener {
 				HistoryService service = new HistoryService();
 				List<HistorySession> sessions = service.updateSession(connect.getUser().getName());
 				for (HistorySession session : sessions) {
+					HistoryModel model = new HistoryModel(connect.getUser().getName(), session.getDiagram().getName(),
+							session.getTimeStart(), session.getTimeFinish());
 					template.convertAndSend("/topic/diagram/" + session.getDiagram().getDiagramId() + "/history",
-							session);
+							model);
 				}
 			}
 

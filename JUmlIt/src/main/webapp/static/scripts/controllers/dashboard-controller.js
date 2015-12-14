@@ -22,6 +22,7 @@ angular.module('jumlitApp').controller('DashboardCtrl', function ($scope, $uibMo
 
     $rootScope.$on(Enums.events.DIAGRAM_ADDED, function (event, diagram) {
         $scope.ownDiagrams.list.push(diagram);
+        console.log(diagram);
         $scope.ownDiagrams.pageNum = Math.ceil($scope.ownDiagrams.list.length / $scope.pageSize);
     });
 

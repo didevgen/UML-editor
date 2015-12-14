@@ -74,6 +74,11 @@ angular
                 templateUrl: 'states/account.edit-user.html',
                 controller: 'UserInfoCtrl'
             })
+            .state('account.notifications', {
+                url: '/notifications',
+                templateUrl: 'states/account.notifications.html',
+                controller: 'NotificationsCtrl'
+            })
             .state('diagram', {
                 url: '/diagrams/:diagramId',
                 templateUrl: 'states/diagram.html',
@@ -95,6 +100,43 @@ angular
             })
             .state('forbidden', {
                 templateUrl: 'states/forbidden.html'
+            })
+            .state('history', {
+                url: '/history',
+                templateUrl: 'states/history.html',
+                controller: 'HistoryCtrl',
+                resolve: {
+                    authorization: function (Authentication) {
+                        return Authentication.authenticate();
+                    }
+                }
+            })
+            .state('history.diagram', {
+                url: '/:diagramId',
+                templateUrl: 'states/history.diagram.html',
+                controller: 'HistoryDiagramCtrl',
+                resolve: {
+                    diagram: function (DiagramServices, $stateParams) {
+                            return DiagramServices.getDiagram($stateParams.diagramId);
+                        } //,
+                        /*history: function(HistoryServices, $stateParams) {
+                            return HistoryServices.getHistory($scope.diagram.diagramId);
+                        }*/
+                }
+            })
+            .state('history.actions', {
+                url: '/session/:diagramId/:sessionId',
+                templateUrl: 'states/history.actions.html',
+                controller: 'HistoryActionsCtrl',
+                resolve: {
+                    diagram: function (DiagramServices, $stateParams) {
+                            return DiagramServices.getDiagram($stateParams.diagramId);
+                        } //,
+                        /*
+                        session: function (HistoryServices, $stateParams) {
+                            return HistoryServices.getSession($stateParams.sessionId);
+                        }*/
+                }
             });
 
         $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
