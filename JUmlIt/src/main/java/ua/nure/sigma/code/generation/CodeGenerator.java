@@ -49,13 +49,24 @@ public class CodeGenerator {
 			interfaceBuilder.addField(generateInterfaceField(field));
 		}
 		for (Method method : iFace.getMethods()) {
-			interfaceBuilder.addMethod(MethodSpec.methodBuilder(method.getName())
-					.addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT).build());
+			interfaceBuilder.addMethod(generateIFaceMethod(method));
 		}
 		if (iFace.getSuperIface() != null) {
 			interfaceBuilder.addSuperinterface(service.getTypeName(iFace.getSuperIface()));
 		}
 		return interfaceBuilder.build();
+	}
+
+	private MethodSpec generateIFaceMethod(Method method) {
+		com.squareup.javapoet.MethodSpec.Builder builder = MethodSpec.methodBuilder(method.getName());
+		for (String modif : method.getModifiers()) {
+			builder.addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT);
+		}
+		for (MethodArg arg : method.getArguments()) {
+			builder.addParameter(prepareParam(arg));
+		}
+		builder.returns(service.getTypeName(method.getReturnType().getTypeName()));
+		return builder.build();
 	}
 
 	private FieldSpec generateField(Field field) {
