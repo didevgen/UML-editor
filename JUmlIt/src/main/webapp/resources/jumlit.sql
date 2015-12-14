@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: 127.0.0.1
--- Время создания: Дек 14 2015 г., 17:17
+-- Время создания: Дек 14 2015 г., 17:35
 -- Версия сервера: 5.6.26
 -- Версия PHP: 5.6.12
 
@@ -214,15 +214,16 @@ CREATE TABLE IF NOT EXISTS `history_session` (
   `user_id` bigint(20) DEFAULT NULL,
   `time_start` datetime DEFAULT NULL,
   `time_finish` datetime DEFAULT NULL,
-  `diagram_id` bigint(20) DEFAULT NULL
+  `diagram_id` bigint(20) DEFAULT NULL,
+  `subscription_id` varchar(105) DEFAULT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `history_session`
 --
 
-INSERT INTO `history_session` (`session_id`, `user_id`, `time_start`, `time_finish`, `diagram_id`) VALUES
-(1, 3, '2015-12-14 17:49:18', '2015-12-14 17:49:22', 5);
+INSERT INTO `history_session` (`session_id`, `user_id`, `time_start`, `time_finish`, `diagram_id`, `subscription_id`) VALUES
+(1, 3, '2015-12-14 18:34:27', '2015-12-14 18:34:42', 5, 'sub-0');
 
 -- --------------------------------------------------------
 
