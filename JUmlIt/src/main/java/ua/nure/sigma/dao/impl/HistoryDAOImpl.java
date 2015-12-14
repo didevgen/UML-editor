@@ -85,9 +85,46 @@ public class HistoryDAOImpl implements HistoryDAO {
 			cr.add(Restrictions.eq("user.userId", userId));
 			cr.add(Restrictions.isNull("timeFinish"));
 			result = cr.list();
-//			for (Object obj : res) {
-//				result.add((HistorySession) obj);
-//			}
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public List<HistorySession> getAllUserSessions(long userId) {
+		Session session = null;
+		List<HistorySession> result = new ArrayList<>();
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+			Criteria cr = session.createCriteria(HistorySession.class);
+			cr.add(Restrictions.eq("user.userId", userId));
+			result = cr.list();
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public List<HistorySession> getAllDiagramSessions(long deiagramId) {
+		Session session = null;
+		List<HistorySession> result = new ArrayList<>();
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+			Criteria cr = session.createCriteria(HistorySession.class);
+			cr.add(Restrictions.eq("diagram.diagramId", deiagramId));
+			result = cr.list();
 			return result;
 		} catch (Exception e) {
 			e.printStackTrace();

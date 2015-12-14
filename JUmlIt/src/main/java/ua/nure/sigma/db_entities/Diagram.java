@@ -45,6 +45,7 @@ public class Diagram {
 	private List<Clazz> classes = new ArrayList<>();
 	private List<Relationship> relationships = new ArrayList<>();
 	private List<HistorySession> history = new ArrayList<>();
+	private List<Comment> comments = new ArrayList<>();
 
 	@NotFound(action = NotFoundAction.IGNORE)
 	private User owner;
@@ -191,6 +192,14 @@ public class Diagram {
 
 	public void setHistory(List<HistorySession> history) {
 		this.history = history;
+	}
+	@OneToMany(mappedBy = "diagram")
+	public List<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
 	}
 	
 	

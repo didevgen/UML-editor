@@ -21,9 +21,7 @@ import org.joda.time.DateTime;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table(name = "user")
@@ -43,6 +41,7 @@ public class User {
 
 	private Set<Diagram> collaboratedDiagrams = new HashSet<Diagram>();
 	private List<HistorySession> history = new ArrayList<>();
+	private List<Comment> comments = new ArrayList<>();
 
 	public User() {
 	}
@@ -166,6 +165,15 @@ public class User {
 
 	public void setHistory(List<HistorySession> history) {
 		this.history = history;
+	}
+	@JsonIgnore
+	@OneToMany(mappedBy = "user")
+	public List<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
 	}
 
 }

@@ -47,4 +47,12 @@ public class HistoryService {
 		return sessions;
 	}
 	
+	public List<HistorySession> getSessionsByDiagram(long diagramId) {
+		return dao.getAllDiagramSessions(diagramId);
+	}
+	
+	public List<HistorySession> getSessionByUser(long userId) {
+		return dao.getAllUserSessions(userId);
+	}
+	
 }
