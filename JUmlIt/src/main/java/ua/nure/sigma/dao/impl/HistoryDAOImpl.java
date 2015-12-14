@@ -78,13 +78,14 @@ public class HistoryDAOImpl implements HistoryDAO {
 	}
 
 	@Override
-	public List<HistorySession> getLatestOpenSession(long userId) {
+	public List<HistorySession> getLatestOpenSession(long userId, String subscriptionId) {
 		Session session = null;
 		List<HistorySession> result = new ArrayList<>();
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
 			Criteria cr = session.createCriteria(HistorySession.class);
 			cr.add(Restrictions.eq("user.userId", userId));
+			cr.add(Restrictions.eq("subscriptionId", subscriptionId));
 			cr.add(Restrictions.isNull("timeFinish"));
 			result = cr.list();
 			return result;
