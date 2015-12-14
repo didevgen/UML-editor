@@ -46,8 +46,8 @@ angular.module('jumlitApp').directive('diagramCanvas', function($q, Cells, $comp
             $scope.onDrop = function(event) {
                 var clazz = new Clazz({
                     name: 'Class' + (+$scope.classes.length + 1),
-                    x: event.clientX - 250,
-                    y: event.clientY - 100,
+                    x: event.clientX - 250 + $('diagram-canvas').scrollLeft(),
+                    y: event.clientY - 100 + $('diagram-canvas').scrollTop(),
                     classType: $scope.dropped
                 });
                 $scope.classes.push(clazz);
@@ -81,8 +81,8 @@ angular.module('jumlitApp').directive('diagramCanvas', function($q, Cells, $comp
 
             function removeOffset(position) {
                 var offset = element.offset();
-                position.x -= offset.left;
-                position.y -= offset.top;
+                position.x += $('diagram-canvas').scrollLeft() - offset.left;
+                position.y += $('diagram-canvas').scrollTop() - offset.top;
                 return position;
             }
 
