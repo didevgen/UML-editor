@@ -1,0 +1,11 @@
+<h3 class="section-header">{{diagram.name}} changes history</h3>
+
+<div class="row">
+    <ul class="list-group diagrams-list">
+        <li class="list-group-item list-element pointer" ng-repeat="event in history.events | orderBy: 'time' : true" ng-click="openSession(event)">
+            <span class="list-element-text pull-left">{{event.userName}} {{event.type}}ed diagram </span>
+            <span> at </span>
+            <span class="text-success">{{event.time.split(' ').reverse().join(' ')}}</span>
+        </li>
+    </ul>
+</div>
