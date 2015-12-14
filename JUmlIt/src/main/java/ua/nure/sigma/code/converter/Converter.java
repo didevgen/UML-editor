@@ -15,7 +15,6 @@ import ua.nure.sigma.db_entities.diagram.Relationship;
 
 public class Converter {
 	public Object diagramToClassModel(Clazz clazz) {
-		System.out.println(clazz.getClassType());
 		if (clazz.getClassType().intern() == "Class".intern()) {
 			return genClazz(clazz);
 		} else if (clazz.getClassType().intern() == "Abstract class".intern()) {
