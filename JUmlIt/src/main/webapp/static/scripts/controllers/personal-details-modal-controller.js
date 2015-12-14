@@ -14,6 +14,7 @@ angular.module('jumlitApp').controller('PersonalDetailsModalCtrl', function ($sc
         UserServices.updateUser(newUser)
             .then(function () {
                 Authentication.authenticate();
+             $state.reload();
                 $state.go($state.current, {}, {
                     reload: true
                 });
