@@ -150,9 +150,4 @@ angular.module('jumlitApp').controller('DiagramCtrl', function ($scope, $rootSco
             $rootScope.$emit(Enums.events.CLASS_UPDATED, foundClazz);
         }
     });
-    $scope.openHistory = function () {
-        $state.go("history.diagram", {
-            diagramId: $scope.diagram.diagramId
-        });
-    }
 });

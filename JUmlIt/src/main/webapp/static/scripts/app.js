@@ -36,11 +36,6 @@ angular
                 }
 
             })
-            .state('landing.about', {
-                url: '/about',
-                templateUrl: 'states/landing.about.html',
-                controller: 'AboutCtrl'
-            })
             .state('landing.register', {
                 url: '/register',
                 templateUrl: 'states/landing.register.html',

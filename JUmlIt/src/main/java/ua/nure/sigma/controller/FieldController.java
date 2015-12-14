@@ -52,8 +52,9 @@ public class FieldController {
 		Clazz clazz = service.getClass(classId);
 		field.setClassOwner(clazz);
 		clazz.getFields().add(field);
-		this.updateService.notify("/topic/diagram/" + diagramId + "/clazz_field_added", field, principal);
-		return new ResponseEntity<Field>(service.addField(field), HttpStatus.OK);
+		Field newField = service.addField(field);
+		this.updateService.notify("/topic/diagram/" + diagramId + "/clazz_field_added", newField, principal);
+		return new ResponseEntity<Field>(newField, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/diagram/{diagramId}/classes/{classId}/fields/{fieldId}/remove", method = RequestMethod.POST)

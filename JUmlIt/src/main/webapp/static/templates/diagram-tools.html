@@ -1,38 +1,29 @@
 <div class="tool-panel-container figures" ng-controller="DiagramToolsCtrl">
     <div class="panel tool-panel panel-default" ng-hide="collapsed">
         <div class="panel-heading">Tools
-            <span class="fold glyphicon glyphicon-menu-left"
-                  ng-click="collapsed = true"></span>
+            <span class="fold glyphicon glyphicon-menu-left" ng-click="collapsed = true"></span>
         </div>
         <div class="panel-body">
             <uib-accordion close-others="true">
-                <uib-accordion-group heading="General" template-url="templates/panel-accordion.html"
-                                     is-open="groups.general">
-                    <div class="btn btn-default diagram-type"
-                         data-drag="true" jqyoui-draggable="{placeholder: 'keep'}"
-                         data-jqyoui-options="{revert: 'invalid', helper: 'clone'}"
-                         ng-repeat="(key, value) in classTypes"
-                         ng-model="value">{{value}}
+                <uib-accordion-group heading="General" template-url="templates/panel-accordion.html" is-open="groups.general">
+                    <div class="btn btn-default diagram-type" data-drag="true" jqyoui-draggable="{placeholder: 'keep'}" data-jqyoui-options="{revert: 'invalid', helper: 'clone'}" ng-repeat="(key, value) in classTypes" ng-model="value">{{value}}
                     </div>
-                </uib-accordion-group>
-                <uib-accordion-group heading="Others" template-url="templates/panel-accordion.html"
-                                     is-open="groups.others">
-                    Some other stuff
                 </uib-accordion-group>
             </uib-accordion>
         </div>
     </div>
     <div class="panel tool-panel panel-default events" ng-hide="collapsed">
-        <div class="panel-heading">Last events</div>
+        <div class="panel-heading">Last events
+            <a ng-click="openHistory()" class="pull-right">view All</a></div>
         <ul class="list-group" ng-show="diagram.history.length">
             <li class="list-group-item" ng-repeat="event in diagram.history | reverse | take : 10">
                 <span ng-hide="event.timeFinish">
                     <span class="event-date">{{event.timeStart | date : 'shortTime'}}</span>
-                    <span class="event-user">{{event.userName}}</span> started editing
+                <span class="event-user">{{event.userName}}</span> started editing
                 </span>
                 <span ng-show="event.timeFinish">
                     <span class="event-date">{{event.timeFinish | date : 'shortTime'}}</span>
-                    <span class="event-user">{{event.userName}}</span> finished editing
+                <span class="event-user">{{event.userName}}</span> finished editing
                 </span>
 
             </li>
