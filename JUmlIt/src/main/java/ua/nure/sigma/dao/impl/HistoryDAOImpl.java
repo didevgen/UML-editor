@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
@@ -64,6 +65,7 @@ public class HistoryDAOImpl implements HistoryDAO {
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
 			session.update(ses);
+			Hibernate.initialize(ses.getDiagram());
 			session.getTransaction().commit();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
