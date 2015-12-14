@@ -111,7 +111,7 @@
   }
 
   .events {
-    height: 100px;
+    height: 125px;
     border-radius: 2px;
     border-top: 1px solid $border-color-light;
     display: flex;
@@ -120,6 +120,11 @@
     .list-group {
       flex: 1;
       overflow: auto;
+
+      li {
+        padding-left: 10px;
+        font-size: 11.5px;
+      }
     }
 
     .panel-body {
@@ -129,6 +134,17 @@
 
     .no-events {
       margin: auto;
+    }
+
+    .event-date {
+      font-size: 10px;
+      color:  $font-color-lighter;
+      margin-right: 5px;
+    }
+
+    .event-user {
+      font-weight: bold;
+      color: $color-primary;
     }
   }
 }

@@ -168,8 +168,10 @@ angular.module('jumlitApp').directive('umlRelationship', function ($timeout, Enu
                 if (!relationship || (relationship.id !== $scope.relationship.id)) {
                     return;
                 }
-                angular.extend($scope.relationship, relationship);
-                updateLink();
+                $timeout(function() {
+                    angular.extend($scope.relationship, relationship);
+                    updateLink();
+                });
             }
         }
     }

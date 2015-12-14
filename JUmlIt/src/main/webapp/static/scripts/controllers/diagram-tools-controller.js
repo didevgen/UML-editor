@@ -1,5 +1,5 @@
 'use strict';
-angular.module('jumlitApp').controller('DiagramToolsCtrl', function($scope, Enums, $rootScope) {
+angular.module('jumlitApp').controller('DiagramToolsCtrl', function($scope, Enums, $rootScope, $timeout) {
     $scope.groups = {
         general: true
     };

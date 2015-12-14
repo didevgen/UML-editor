@@ -23,9 +23,19 @@
         </div>
     </div>
     <div class="panel tool-panel panel-default events" ng-hide="collapsed">
-        <div class="panel-heading">Events</div>
+        <div class="panel-heading">Last events</div>
         <ul class="list-group" ng-show="diagram.history.length">
-            <li class="list-group-item" ng-repeat="event in diagram.history">{{event}}</li>
+            <li class="list-group-item" ng-repeat="event in diagram.history | reverse">
+                <span ng-hide="event.timeFinish">
+                    <span class="event-date">{{event.timeStart | date : 'shortTime'}}</span>
+                    <span class="event-user">{{event.user.fullname}}</span> started editing
+                </span>
+                <span ng-show="event.timeFinish">
+                    <span class="event-date">{{event.timeFinish | date : 'shortTime'}}</span>
+                    <span class="event-user">{{event.user.fullname}}</span> finished edit
+                </span>
+
+            </li>
         </ul>
         <div class="panel-body" ng-hide="diagram.history.length">
             <div class="no-events">
