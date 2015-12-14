@@ -29,7 +29,8 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 @Table(name = "user")
 @Component
 @Scope("session")
-@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = "@id", scope = User.class)
+//@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = "@id",
+//		scope = Diagram.class)
 public class User {
 	private long userId;
 	private String fullname ="";

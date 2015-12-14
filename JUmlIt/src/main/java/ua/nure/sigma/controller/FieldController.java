@@ -49,7 +49,6 @@ public class FieldController {
 			return new ResponseEntity<Field>(HttpStatus.FORBIDDEN);
 		}
 		Diagram diagram = diagramService.getDiagramById(diagramId);
-		historyService.insertHistory("field added: " + field.getName(), (Long) (httpSession.getAttribute("sessionId")));
 		Clazz clazz = service.getClass(classId);
 		field.setClassOwner(clazz);
 		clazz.getFields().add(field);
@@ -65,7 +64,6 @@ public class FieldController {
 		}
 		Diagram diagram = diagramService.getDiagramById(diagramId);
 		Field field = service.getFieldById(fieldId);
-		historyService.insertHistory("field removed: " + field.getName(), (Long) (httpSession.getAttribute("sessionId")));
 		service.removeField(fieldId);
 		this.updateService.notify("/topic/diagram/" + diagramId + "/clazz_field_removed", fieldId, principal);
 		return new ResponseEntity<Void>(HttpStatus.OK);
@@ -78,7 +76,6 @@ public class FieldController {
 			return new ResponseEntity<Field>(HttpStatus.FORBIDDEN);
 		}
 		Diagram diagram = diagramService.getDiagramById(diagramId);
-		historyService.insertHistory("field updated: " + field.getName(), (Long) (httpSession.getAttribute("sessionId")));
 		Clazz clazz = service.getClass(classId);
 		field.setClassOwner(clazz);
 		service.updateField(field);

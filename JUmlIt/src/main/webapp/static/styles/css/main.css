@@ -281,7 +281,8 @@ ul.pagination > .active > a {
 
 .tool-panel-container {
   display: flex;
-  flex-grow: 1; }
+  flex-grow: 1;
+  flex-direction: column; }
   .tool-panel-container .tool-panel {
     margin-bottom: 0;
     flex-grow: 1;
@@ -296,6 +297,42 @@ ul.pagination > .active > a {
     .tool-panel-container .tool-panel .nav-tabs {
       margin-top: 15px;
       padding: 0px 5px; }
+  .tool-panel-container .events {
+    height: 125px;
+    border-radius: 2px;
+    border-top: 1px solid #e7e7e7;
+    display: flex;
+    flex-direction: column; }
+    .tool-panel-container .events .list-group {
+      flex: 1;
+      overflow: auto; }
+      .tool-panel-container .events .list-group li {
+        padding: 10px 15px;
+        font-size: 12.5px; }
+    .tool-panel-container .events .panel-body {
+      display: flex;
+      flex: 1; }
+    .tool-panel-container .events .no-events {
+      margin: auto; }
+    .tool-panel-container .events .event-date {
+      font-size: 10px;
+      color: #999;
+      margin-right: 5px;
+      display: inline-block;
+      text-align: left;
+      width: 100%; }
+    .tool-panel-container .events .event-user {
+      font-weight: bold;
+      color: #1abc9c; }
+
+.comments.tool-panel-container .panel {
+  flex: 1;
+  border-top: 0;
+  border-radius: 0;
+  margin-bottom: 0; }
+
+.comments.tool-panel-container .panel-heading {
+  border-radius: 0; }
 
 .diagram-canvas-container {
   display: flex;

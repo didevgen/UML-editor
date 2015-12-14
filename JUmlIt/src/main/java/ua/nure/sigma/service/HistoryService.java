@@ -1,6 +1,7 @@
 package ua.nure.sigma.service;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -11,8 +12,8 @@ import ua.nure.sigma.dao.UserDao;
 import ua.nure.sigma.dao.impl.DiagramDAOImpl;
 import ua.nure.sigma.dao.impl.HistoryDAOImpl;
 import ua.nure.sigma.dao.impl.UserDAOImpl;
-import ua.nure.sigma.db_entities.DiagramHistory;
 import ua.nure.sigma.db_entities.HistorySession;
+import ua.nure.sigma.db_entities.User;
 
 public class HistoryService {
 
@@ -27,13 +28,6 @@ public class HistoryService {
 	public HistoryService() {
 		
 	}
-	public void insertHistory(String action, long sessionId) {
-		DiagramHistory history = new DiagramHistory();
-		history.setAction(action);
-		history.setTimeStamp(new Date());
-		history.setSession(dao.getSessionById(sessionId));
-		dao.insertHistory(history);
-	}
 	
 	public HistorySession insertSession(String userName, long diagramId) {
 		HistorySession session = new HistorySession();
@@ -43,9 +37,14 @@ public class HistoryService {
 		return dao.insertSession(session);
 	}
 	
-	public void updateSession(HistorySession session) {
-		session.setTimeFinish(new Date());
-		dao.updateSession(session);
+	public List<HistorySession> updateSession(String userName) {
+		User user = userDAO.getUserByLogin(userName);
+		List<HistorySession> sessions = dao.getLatestOpenSession(user.getUserId());
+		for (HistorySession sess : sessions) {
+			sess.setTimeFinish(new Date());
+			sess = dao.updateSession(sess);
+		}
+		return sessions;
 	}
 	
 }

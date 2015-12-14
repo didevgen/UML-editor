@@ -26,7 +26,7 @@ angular.module('jumlitApp').service('PngExport', function (FileSaver) {
         export: function (name) {
             var diagramSvg = $('diagram-canvas svg');
             var diagramSvgCopy =diagramSvg.clone();
-            diagramSvgCopy.find('.marker-arrowhead-group, .tool-remove, .tool-options').remove();
+            diagramSvgCopy.find('.marker-arrowhead-group, .tool-remove, .tool-options, .marker-vertices').remove();
             var svgStr = diagramSvgCopy.prop('outerHTML');
             var canvas = document.createElement('canvas');
             canvg(canvas, svgStr, {
