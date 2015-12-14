@@ -44,30 +44,29 @@ angular.module('jumlitApp').controller('HistoryDiagramCtrl', function ($scope, $
     };*/
     $scope.diagram = diagram;
 
-    $scope.history = {};
-    $scope.history.events = [];
+    $scope.history = [];
+    $scope.events = [];
     HistoryServices.getHistory(diagram.diagramId).then(function (res) {
         angular.extend($scope.history, res);
         console.log($scope.history);
-    });
-    /*for (var i = 0; i < $scope.history.sessions.length; i++) {
-        var session = $scope.history.sessions[i];
-        $scope.history.events.push({
-            sessionId: session.sessionId,
-            userId: session.sessionId,
-            userName: session.userName,
-            time: session.time_start,
-            type: "start"
-        });
-        if (session.time_end) {
-            $scope.history.events.push({
-                sessionId: session.sessionId,
-                userId: session.sessionId,
+        for (var i = 0; i < $scope.history.length; i++) {
+            var session = $scope.history[i];
+            console.log(session);
+            $scope.events.push({
                 userName: session.userName,
-                time: session.time_end,
-                type: "end"
+                time: session.timeStart,
+                type: "start"
             });
+            if (session.timeFinish) {
+                $scope.events.push({
+                    userName: session.userName,
+                    time: session.timeFinish,
+                    type: "end"
+                });
+            }
         }
-    }*/
+        console.log($scope.events);
+    });
+
 
 });

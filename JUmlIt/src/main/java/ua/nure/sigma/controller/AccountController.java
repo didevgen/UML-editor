@@ -65,10 +65,13 @@ public class AccountController {
 	@RequestMapping(value = "/account/{id}/update", method = RequestMethod.POST)
 	public User updateUser(@RequestBody User user,@PathVariable long id) throws SQLException {
 		User prince = service.getUserById(id);
+		
 		if (service.getUserByLogin(user.getEmail())!=null) {
 				throw new AccountException("User with such email already exists.");
 		}
-		prince.setEmail(user.getEmail());
+		if (!user.getEmail().equals("")) {
+			prince.setEmail(user.getEmail());
+		}
 		prince.setFullname(user.getFullname());
 		return service.updateUser(prince);
 	}
