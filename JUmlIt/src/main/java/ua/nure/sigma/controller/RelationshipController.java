@@ -49,8 +49,9 @@ public class RelationshipController {
 		}
 		Diagram diagram = diagramService.getDiagramById(diagramId);
 		relationship.setDiagram(diagram);
-		updateService.notify("/topic/diagram/" + diagramId + "/relationship_added", relationship, principal);
-		return new ResponseEntity<Relationship>(service.addRelation(relationship), HttpStatus.OK);
+		Relationship newRelationship = service.addRelation(relationship);
+		updateService.notify("/topic/diagram/" + diagramId + "/relationship_added", newRelationship, principal);
+		return new ResponseEntity<Relationship>(newRelationship, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/diagram/{diagramId}/relationships/update", method = RequestMethod.POST)

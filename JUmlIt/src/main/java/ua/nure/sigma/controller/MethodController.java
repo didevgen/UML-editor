@@ -53,8 +53,9 @@ public class MethodController {
 		Clazz clazz = service.getClass(classId);
 		clazz.getMethods().add(method);
 		method.setClassOwner(clazz);
-		this.updateService.notify("/topic/diagram/" + diagramId + "/clazz_method_added", method, principal);
-		return new ResponseEntity<Method>(service.addMethod(method), HttpStatus.OK);
+		Method newMethod = service.addMethod(method);
+		this.updateService.notify("/topic/diagram/" + diagramId + "/clazz_method_added", newMethod, principal);
+		return new ResponseEntity<Method>(newMethod, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/diagram/{diagramId}/classes/{classId}/methods/update", method = RequestMethod.POST)
