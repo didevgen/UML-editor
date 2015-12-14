@@ -550,6 +550,20 @@ uml-class .list-group-item.divider {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none; }
+  .list-element.hover:hover {
+    -webkit-transition: background-color 150ms linear;
+    -moz-transition: background-color 150ms linear;
+    -o-transition: background-color 150ms linear;
+    -ms-transition: background-color 150ms linear;
+    transition: background-color 150ms linear;
+    background-color: #ddd;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: default;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none; }
   .list-element.deleting {
     -webkit-transition: opacity linear 150ms, margin-left linear 150ms;
     -moz-transition: opacity linear 150ms, margin-left linear 150ms;
@@ -604,6 +618,13 @@ uml-class .list-group-item.divider {
 .remove-boundaries.pagination > li:first-child > a,
 .remove-boundaries.pagination > li:first-child > span {
   display: none; }
+
+.event-type {
+  font-weight: bold;
+  text-decoration: underline;
+  cursor: default; }
+  .event-type:hover {
+    cursor: default; }
 
 .tab-pane {
   padding: 15px; }

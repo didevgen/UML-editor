@@ -2,8 +2,8 @@
 
 <div class="row">
     <ul class="list-group diagrams-list">
-        <li class="list-group-item list-element pointer" ng-repeat="event in history.events | orderBy: 'time' : true" ng-click="openSession(event)">
-            <span class="list-element-text pull-left">{{event.userName}} {{event.type}}ed diagram </span>
+        <li class="list-group-item list-element hover" ng-repeat="event in history.events | orderBy: 'time' : true">
+            <span class="list-element-text pull-left">{{event.userName}} <strong><u><a class="event-type" ng-class="{'text-success': event.type!='start', 'text-warning': event.type=='start'}">{{event.type}}ed</a></u></strong> diagram </span>
             <span> at </span>
             <span class="text-success">{{event.time.split(' ').reverse().join(' ')}}</span>
         </li>

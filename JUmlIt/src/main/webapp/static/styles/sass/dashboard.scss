@@ -39,6 +39,23 @@
             user-select: none;
         }
     }
+    &.hover {
+        &:hover {
+            -webkit-transition: background-color 150ms linear;
+            -moz-transition: background-color 150ms linear;
+            -o-transition: background-color 150ms linear;
+            -ms-transition: background-color 150ms linear;
+            transition: background-color 150ms linear;
+            background-color: $border-color;
+            -ms-touch-action: manipulation;
+            touch-action: manipulation;
+            cursor: default;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+    }
     &.deleting {
         -webkit-transition: opacity linear 150ms, margin-left linear 150ms;
         -moz-transition: opacity linear 150ms, margin-left linear 150ms;
@@ -106,4 +123,13 @@
 .remove-boundaries.pagination>li:first-child>a,
 .remove-boundaries.pagination>li:first-child>span {
     display: none;
+}
+
+.event-type {
+    font-weight: bold;
+    text-decoration: underline;
+    cursor: default;
+    &:hover{
+        cursor: default;
+    }
 }
