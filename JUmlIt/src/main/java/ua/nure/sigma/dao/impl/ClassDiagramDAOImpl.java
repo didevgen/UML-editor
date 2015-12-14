@@ -86,8 +86,8 @@ public class ClassDiagramDAOImpl  implements ClassDiagramDAO{
 
 	@Override
 	public Relationship insertRelationship(Relationship relation) {
-		relation.setPrimaryMember(this.getClazz(relation.getPrimaryMember().getClassId()));
-		relation.setSecondaryMember(this.getClazz(relation.getSecondaryMember().getClassId()));
+//		relation.setPrimaryMember(this.getClazz(relation.getPrimaryMember().getClassId()));
+//		relation.setSecondaryMember(this.getClazz(relation.getSecondaryMember().getClassId()));
 		return (Relationship) insertObject(relation);
 	}
 
@@ -131,6 +131,7 @@ public class ClassDiagramDAOImpl  implements ClassDiagramDAO{
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
 			session.save(obj);
+			session.flush();
 			session.getTransaction().commit();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
