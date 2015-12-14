@@ -63,9 +63,6 @@ angular.module('jumlitApp').controller('DashboardCtrl', function ($scope, $uibMo
     $scope.$watchCollection('ownDiagrams.list', $scope.fillOwnDiagramsPage);
     $scope.$watchCollection('collabDiagrams.list', $scope.fillCollabDiagramsPage);
 
-    $scope.editDetails = function () {
-        $state.go('account.user-info');
-    };
 
     $scope.openDiagram = function (id) {
         $state.go("diagram", {
@@ -153,6 +150,13 @@ angular.module('jumlitApp').controller('DashboardCtrl', function ($scope, $uibMo
             $timeout.cancel($scope.timers[timerId].timer);
             $scope.timers.splice(timerId, 1);
         }
+    };
+
+    $scope.editDetails = function () {
+        $uibModal.open({
+            templateUrl: 'modals/edit-user-details.html',
+            controller: 'PersonalDetailsModalCtrl'
+        });
     };
 
 });
