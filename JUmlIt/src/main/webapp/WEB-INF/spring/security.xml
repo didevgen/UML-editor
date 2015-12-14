@@ -25,7 +25,7 @@
 	<http auto-config="true" use-expressions="true" entry-point-ref="restAuthenticationEntryPoint">
 		<intercept-url pattern="/register" access="permitAll" />
 		<intercept-url pattern="/account**" access="hasRole('ROLE_USER')" method="POST" />
-		<intercept-url pattern="/diagram/*" access="hasRole('ROLE_USER')" />
+		<intercept-url pattern="/diagram**" access="hasRole('ROLE_USER')" />
 
 		<form-login
 			login-processing-url="/login"
