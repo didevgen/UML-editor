@@ -1,63 +1,122 @@
 package ua.nure.sigma.code.fileManager;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.tomcat.util.http.fileupload.FileUtils;
+
+import com.squareup.javapoet.JavaFile;
+
+import ua.nure.sigma.code.converter.Converter;
+import ua.nure.sigma.code.generation.CodeGenerator;
+import ua.nure.sigma.code.model.Clazz;
+import ua.nure.sigma.code.model.Interface;
+import ua.nure.sigma.db_entities.Diagram;
+import ua.nure.sigma.service.DiagramService;
+
 public class ArchiveGenerator {
-	final static int BUFFER = 2048;
+	DiagramService service = new DiagramService();
+	public static final String FILE_SEPARATOR = System.getProperty("file.separator");
 
-	public static boolean createZipArchive(String srcFolder) {
-		try {
-			BufferedInputStream origin = null;
-			FileOutputStream dest = new FileOutputStream(new File(srcFolder + ".zip"));
-			ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(dest));
-			byte data[] = new byte[BUFFER];
-
-			File subDir = new File(srcFolder);
-			String subdirList[] = subDir.list();
-			for (String sd : subdirList) {
-				File f = new File(srcFolder + "/" + sd);
-				if (f.isDirectory()) {
-					String files[] = f.list();
-
-					for (int i = 0; i < files.length; i++) {
-						System.out.println("Adding: " + files[i]);
-						FileInputStream fi = new FileInputStream(srcFolder + "/" + sd + "/" + files[i]);
-						origin = new BufferedInputStream(fi, BUFFER);
-						ZipEntry entry = new ZipEntry(sd + "/" + files[i]);
-						out.putNextEntry(entry);
-						int count;
-						while ((count = origin.read(data, 0, BUFFER)) != -1) {
-							out.write(data, 0, count);
-							out.flush();
-						}
-
-					}
-				} else {
-					FileInputStream fi = new FileInputStream(f);
-					origin = new BufferedInputStream(fi, BUFFER);
-					ZipEntry entry = new ZipEntry(sd);
-					out.putNextEntry(entry);
-					int count;
-					while ((count = origin.read(data, 0, BUFFER)) != -1) {
-						out.write(data, 0, count);
-						out.flush();
-					}
-
-				}
-			}
-			origin.close();
-			out.flush();
-			out.close();
-		} catch (Exception e) {
-			return false;
-
+	public synchronized void generateCode(HttpServletRequest request, HttpServletResponse response, long diagramId) {
+		String rootDirectory = request.getServletContext().getRealPath("data");
+		File file = new File(rootDirectory);
+		if (!file.exists()) {
+			file.mkdir();
 		}
-		return true;
+		try {
+			FileUtils.cleanDirectory(new File(rootDirectory));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		generateJavaClasses(diagramId,rootDirectory);
+		generateZipcrhive(request, response, rootDirectory);
+	}
+
+	private void generateJavaClasses(long diagramId, String root) {
+		Diagram diagram = service.getDiagramById(diagramId);
+		for (ua.nure.sigma.db_entities.diagram.Clazz clazz : diagram.getClasses()) {
+			generateFile(root+FILE_SEPARATOR+clazz.getName(), new Converter().diagramToClassModel(clazz));
+		}
+	}
+
+	private void generateFile(String fileName, Object clazz) {
+		if (clazz == null) {
+			return;
+		}
+
+		CodeGenerator codegen = new CodeGenerator();
+		JavaFile javaFile;
+		if (clazz instanceof Clazz) {
+			javaFile = JavaFile.builder("ua.nure.jumlit", codegen.generateClass((Clazz) clazz)).build();
+		} else if (clazz instanceof Interface) {
+			javaFile = JavaFile.builder("ua.nure.jumlit", codegen.generateInterface((Interface) clazz)).build();
+		} else {
+			System.out.println("FileGenerator#unknown instance of");
+			return;
+		}
+		PrintWriter writer;
+		try {
+			writer = new PrintWriter(fileName + ".java", "UTF-8");
+			javaFile.writeTo(writer);
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	private synchronized void generateZipcrhive(HttpServletRequest request, HttpServletResponse response,
+			String folderName) {
+		try {
+			String path = folderName;
+			File directory = new File(path);
+			String[] files = directory.list();
+			if (files != null && files.length > 0) {
+				byte[] zip = zipFiles(directory, files);
+				ServletOutputStream sos = response.getOutputStream();
+				response.setContentType("application/zip");
+				response.setHeader("Content-Disposition", "attachment; filename=\"JUMLIT.ZIP\"");
+				sos.write(zip);
+				sos.flush();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private synchronized byte[] zipFiles(File directory, String[] files) throws IOException {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		ZipOutputStream zos = new ZipOutputStream(baos);
+		byte bytes[] = new byte[2048];
+		for (String fileName : files) {
+			FileInputStream fis = new FileInputStream(
+					directory.getPath() + ArchiveGenerator.FILE_SEPARATOR + fileName);
+			BufferedInputStream bis = new BufferedInputStream(fis);
+			zos.putNextEntry(new ZipEntry(fileName));
+			int bytesRead;
+			while ((bytesRead = bis.read(bytes)) != -1) {
+				zos.write(bytes, 0, bytesRead);
+			}
+			zos.closeEntry();
+			bis.close();
+			fis.close();
+		}
+		zos.flush();
+		baos.flush();
+		zos.close();
+		baos.close();
+
+		return baos.toByteArray();
 	}
 }

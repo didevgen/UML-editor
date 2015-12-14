@@ -14,14 +14,22 @@ angular.module('jumlitApp').directive('diagramCanvas', function($q, Cells, $comp
                 el: $('#diagram-canvas'),
                 model: graph,
                 gridSize: 1,
-                height: 3000,
-                width: 3000
+                height: 1500,
+                width: 1500
             });
 
             $scope.dropped = null;
             $scope.graph = graph;
             $scope.paper = paper;
             $scope.classTypes = Enums.classTypes;
+
+            var count = 0;
+            $scope.$on(Enums.events.CLASS_INITIALIZED, function() {
+                count++;
+                if($scope.classes.length === count) {
+                    $scope.$broadcast(Enums.events.CLASSES_INITIALIZED);
+                }
+            });
 
             $scope.$on(Enums.events.CELL_DESELECTED, function () {
                 $rootScope.$emit(Enums.events.CLASS_DESELECTED);
@@ -37,6 +45,7 @@ angular.module('jumlitApp').directive('diagramCanvas', function($q, Cells, $comp
 
             $scope.onDrop = function(event) {
                 var clazz = new Clazz({
+                    name: 'Class' + (+$scope.classes.length + 1),
                     position: {
                         x: event.clientX - 250,
                         y: event.clientY - 100
@@ -45,14 +54,25 @@ angular.module('jumlitApp').directive('diagramCanvas', function($q, Cells, $comp
                 });
                 $scope.classes.push(clazz);
                 ClazzServices.createClass(clazz).then(function(newClazz) {
-                    $rootScope.$emit(Enums.events.CLASS_UPDATED, newClazz);
+                    $scope.$broadcast(Enums.events.CLASS_UPDATED, newClazz);
                 });
             };
 
             $scope.$on(Enums.events.CLASS_REMOVED, function(event, clazz) {
-                var index = _.findIndex($scope.classes, { classId: clazz.classId });
-                $scope.classes.splice(index, 1);
+                $scope.$apply(function() {
+                    var index = _.findIndex($scope.classes, { classId: clazz.classId });
+                    $scope.classes.splice(index, 1);
+                });
+                $scope.$emit(Enums.events.CLASS_DESELECTED);
             })
+
+            $scope.$on(Enums.events.RELATIONSHIP_REMOVED, function(event, relationship) {
+                $scope.$apply(function() {
+                    var index = _.findIndex($scope.relationships, { id: relationship.id });
+                    $scope.relationships.splice(index, 1);
+                });
+                $scope.$emit(Enums.events.RELATIONSHIP_DESELECTED);
+            });
 
 
             // linking classes
@@ -109,15 +129,10 @@ angular.module('jumlitApp').directive('diagramCanvas', function($q, Cells, $comp
 
                     tempLink.set('target', elementBelow);
                     var relationship = new Relationship({
-                        primaryMember: {
-                            classId: source.clazz.classId
-                        },
-                        secondaryMember: {
-                            classId: elementBelow.get('classId')
-                        },
+                        primaryMember: source.clazz,
+                        secondaryMember: elementBelow.get('clazz'),
                         cell: tempLink
                     });
-                    console.log(relationship);
 
                     $scope.$apply(function() {
                         $scope.relationships.push(relationship);

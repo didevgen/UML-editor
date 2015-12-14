@@ -26,13 +26,13 @@ public class Clazz {
 	
 	private long classId;
 	
-	private String name;
+	private String name ="";
 	
 	private boolean isStatic;
 	
-	private String accessModifier;
+	private String accessModifier ="";
 	
-	private String classType;
+	private String classType ="";
 	
 	private List<Field> fields = new ArrayList<Field>();
 	
@@ -72,7 +72,7 @@ public class Clazz {
 		if (name == null) {
 			if (other.name != null)
 				return false;
-		} else if (!name.equals(other.name))
+		} else if (Long.compare(classId, other.classId) != 0)
 			return false;
 		return true;
 	}

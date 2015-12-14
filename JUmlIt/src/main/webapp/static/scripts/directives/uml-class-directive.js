@@ -1,7 +1,6 @@
 'use strict';
 angular.module('jumlitApp').directive('umlClass', function($rootScope, Enums, $timeout, Cells) {
     return {
-        priority: 20,
         transclude: true,
         scope: {
             graph: '=',
@@ -13,28 +12,46 @@ angular.module('jumlitApp').directive('umlClass', function($rootScope, Enums, $t
             $scope.cell = Cells.create($scope.clazz.classType,
                     $scope.clazz.position);
             $scope.graph.addCell($scope.cell);
-            $scope.cell.set('classId', $scope.clazz.classId);
+            $scope.cell.set('clazz', $scope.clazz);
+
+            $scope.$on("$destroy", function() {
+                element.remove();
+            });
 
             var listeners = [];
 
             $scope.accessModifiers = Enums.accessModifiers;
             $scope.classTypes = Enums.classTypes;
 
-            listeners.push($rootScope.$on(Enums.events.CLASS_DESELECTED, function() {
+            $rootScope.$on(Enums.events.CLASS_DESELECTED, function() {
                 $scope.$apply(function() {
                     $scope.selected = false;
                 });
-            }));
+            });
 
-            listeners.push($rootScope.$on(Enums.events.CLASS_UPDATED, function(event, clazz) {
-                if(!$scope.clazz.classId) {
-                    $scope.cell.set('classId', clazz.classId);
-                } else if ($scope.clazz.classId !== clazz.classId) {
+            $rootScope.$on(Enums.events.CLASS_UPDATED, function(event, clazz) {
+                if ($scope.clazz.classId !== clazz.classId) {
                     return;
                 }
 
                 angular.extend($scope.clazz, clazz);
-            }));
+            });
+
+            // new id came
+            $rootScope.$on(Enums.events.CLASS_SELECTED, function(event, clazz) {
+                if ($scope.clazz.classId !== clazz.classId) {
+                    $scope.$apply(function() {
+                        $scope.selected = false;
+                    });
+                }
+            });
+
+            $scope.$on(Enums.events.CLASS_UPDATED, function(event, clazz) {
+                if(!$scope.clazz.classId) {
+                    $scope.cell.set('classId', clazz.classId);
+                    $scope.clazz.classId = clazz.classId;
+                }
+            });
 
 
             element.find('.action-delete').on('click', function() {
@@ -59,7 +76,8 @@ angular.module('jumlitApp').directive('umlClass', function($rootScope, Enums, $t
                 updateCell();
 
                 $scope.cell.on('remove', removeClazz);
-                $scope.cell.on('change', _.debounce(notifyUpdate, 500));
+                $scope.cell.on('change', _.debounce(filterCellEvents(notifyUpdate), 500));
+                $scope.$emit(Enums.events.CLASS_INITIALIZED);
             });
 
             function updateCell() {
@@ -87,10 +105,6 @@ angular.module('jumlitApp').directive('umlClass', function($rootScope, Enums, $t
             }
 
             function removeClazz() {
-                listeners.forEach(function(unsubscribe) {
-                    unsubscribe();
-                });
-                element.remove();
                 $scope.$emit(Enums.events.CLASS_REMOVED, $scope.clazz);
             }
 
@@ -98,10 +112,33 @@ angular.module('jumlitApp').directive('umlClass', function($rootScope, Enums, $t
                 $scope.$emit(Enums.events.CLASS_UPDATED, $scope.clazz);
             }
 
+            function filterCellEvents(callback) {
+                var previousPosition = null;
+                return function() {
+                    var position = $scope.cell.get('position');
+                    if (!position) {
+                        return;
+                    }
+                    if (!previousPosition) {
+                        previousPosition = position;
+                        return;
+                    }
+                    if (positionsEqual(position, previousPosition)) {
+                        return;
+                    }
+                    previousPosition = position;
+                    callback();
+                }
+
+                function positionsEqual(p1, p2) {
+                    return p1.x === p2.y && p1.y === p2.y;
+                }
+
+            }
+
             // connection
 
             element.find('.action-link').on('mousedown', function(event) {
-                console.log(event);
                 $scope.$emit(Enums.events.CELL_DESELECTED);
                 $scope.$emit(Enums.events.CELL_LINK_STARTED, {
                     clazz: $scope.clazz,

@@ -3,125 +3,149 @@
  */
 
 'use strict';
-angular.module('jumlitApp').directive('umlRelationship', function ($timeout, Enums, $rootScope, Links) {
+angular.module('jumlitApp').directive('umlRelationship', function ($timeout, Enums, $rootScope, Links,
+        ClazzServices) {
 
     return {
-        priority: 15,
-        restrict: 'E',
+        priority: 10,
         scope: {
             relationship: '=',
             graph: '=',
-            paper: '='
+            paper: '=',
+            classesPromise: '='
         },
-        templateUrl: 'templates/uml-relationship.html',
         link: function ($scope, element) {
 
             $scope.hovered = false;
             $scope.cell = null;
             $scope.updateLabelsStrategy = null;
+            var ignoreNextUpdate = false;
 
-            var elementHovered = false;
-
-            function init() {
-                $scope.cell = $scope.relationship.cell;
-                if (!$scope.cell) {
-                    $scope.cell = Links.create($scope.relationship.type, source, target);
-                    $scope.graph.addCell($scope.cell);
-                }
-
-                var source = $scope.cell.get('source');
-                if (!source.on) {
-                    source = $scope.graph.getElements().find(function (cell) {
-                        return cell.get('classId') === $scope.relationship.primaryMember.classId;
-                    });
-                    $scope.cell.set('source', source);
-                }
-                var target = $scope.cell.get('target');
-                if (!target.on) {
-                    target = $scope.graph.getElements().find(function (cell) {
-                        return cell.get('classId') === $scope.relationship.secondaryMember.classId;
-                    });
-                    $scope.cell.set('target', target);
-                }
-
-                $scope.cell.on('change', updateBox);
-                target.on('change:position', updateBox);
-                source.on('change:position', updateBox);
-            }
-
-            $timeout(init);
+            $scope.$on('$destroy', function () {
+                element.remove();
+            });
 
             $rootScope.$on(Enums.events.RELATIONSHIP_UPDATED, function (event, relationship) {
+                if (!relationship || (relationship.id !== $scope.relationship.id)) {
+                    return;
+                }
                 angular.extend($scope.relationship, relationship);
                 updateLink(relationship);
             });
 
-            function updateLink() {
-                Links.setType($scope.cell, $scope.relationship.type);
-
-                Links.setLabel($scope.cell, Enums.linkLabels.SOURCE, $scope.relationship.secondaryToPrimaryMultiplicity);
-                Links.setLabel($scope.cell, Enums.linkLabels.SOURCE_BELOW, $scope.relationship.secondaryToPrimaryProps);
-                Links.setLabel($scope.cell, Enums.linkLabels.CENTER, $scope.relationship.name);
-                Links.setLabel($scope.cell, Enums.linkLabels.TARGET, $scope.relationship.primaryToSecondaryMultiplicity);
-                Links.setLabel($scope.cell, Enums.linkLabels.TARGET_BELOW, $scope.relationship.primaryToSecondaryProps)
-
-
-            }
-
-            element.on('mouseover', function () {
-                $timeout(function () {
-                    $scope.hovered = true;
-                    elementHovered = true;
-                });
+            $rootScope.$on(Enums.events.RELATIONSHIP_REVERSED, function(event, relationship) {
+                if (relationship.id !== $scope.relationship.id) {
+                    return;
+                }
+                var temp = $scope.cell.get('target');
+                ignoreNextUpdate = true;
+                $scope.cell.set('target', $scope.cell.get('source'));
+                ignoreNextUpdate = true;
+                $scope.cell.set('source', temp);
             });
-            element.on('mouseout', function () {
-                $timeout(function () {
-                    $scope.hovered = false;
-                    elementHovered = false;
-                });
-            });
-            element.find('.action-settings').on('click', function () {
+
+            $scope.paper.on('link:options', function (evt, cellView) {
+                if (cellView.model.id !== $scope.cell.id) {
+                    return;
+                }
                 $rootScope.$emit(Enums.events.RELATIONSHIP_SELECTED, $scope.relationship);
             });
 
-            function toggleHovered(value, cellView) {
-                var cell = cellView.model;
-                if (!cell.isLink() || cell.id !== $scope.cell.id) {
-                    return;
+            $scope.$on(Enums.events.CLASSES_INITIALIZED, function() {
+                init();
+                updateLink();
+            })
+
+            function init() {
+                $scope.cell = $scope.relationship.cell;
+                if (!$scope.cell) {
+                    $scope.cell = Links.create($scope.relationship.type);
+                    $scope.graph.addCell($scope.cell);
                 }
 
+                var source = $scope.cell.get('source');
+                if (!source || !source.on) {
+                    source = $scope.graph.getElements().find(function (cell) {
+                        return cell.get('clazz').classId === $scope.relationship.primaryMember.classId;
+                    });
+                    $scope.cell.set('source', source);
+                }
+                var target = $scope.cell.get('target');
+                if (!target || !target.on) {
+                    target = $scope.graph.getElements().find(function (cell) {
+                        return cell.get('clazz').classId === $scope.relationship.secondaryMember.classId;
+                    });
+                    $scope.cell.set('target', target);
+                }
 
-                $timeout(function () {
-                    if (elementHovered) {
-                        return;
-                    }
-                    $scope.hovered = value;
-                });
+                console.log($scope.cell);
+
+                subscribeToCell();
             }
 
-            $scope.paper.on('cell:mouseover', toggleHovered.bind(null, true));
-            $scope.paper.on('cell:mouseout', toggleHovered.bind(null, false));
+            function subscribeToCell() {
+                $scope.cell.on('remove', removeRelationship);
+                $scope.cell.on('change:source', updateSource)
+                $scope.cell.on('change:target', updateTarget)
+            }
 
-            $timeout(updateBox);
+            function unsubscribeFromCell() {
+                $scope.cell.off('remove', removeRelationship);
+                $scope.cell.off('change:source', updateSource)
+                $scope.cell.off('change:target', updateTarget)
+            }
 
-            function updateBox() {
-                var elementBox = {
-                        width: element.outerWidth(),
-                        height: element.outerHeight()
-                    },
-                // we get the bounding box of the linkView without the transformations
-                    linkView = $scope.paper.findViewByModel($scope.cell),
-                    bbox = g.rect(V(linkView.el).bbox(true)),
-                    position = {
-                        left: bbox.width / 2 + bbox.x - elementBox.width / 2,
-                        top: bbox.y + bbox.height / 2 - elementBox.height / 2
-                    };
+            function updateLink() {
+                var newLink = Links.create($scope.relationship.type,
+                        $scope.cell.get('source'), $scope.cell.get('target'));
 
-                element.css({
-                    left: position.left,
-                    top: position.top,
-                    transform: 'rotate(' + ($scope.cell.get('angle') || 0) + 'deg)'
-                });
+                Links.setLabel(newLink, Enums.linkLabels.SOURCE, $scope.relationship.secondaryToPrimaryMultiplicity);
+                Links.setLabel(newLink, Enums.linkLabels.SOURCE_BELOW, $scope.relationship.secondaryToPrimaryProps);
+                Links.setLabel(newLink, Enums.linkLabels.CENTER, $scope.relationship.name);
+                Links.setLabel(newLink, Enums.linkLabels.TARGET, $scope.relationship.primaryToSecondaryMultiplicity);
+                Links.setLabel(newLink, Enums.linkLabels.TARGET_BELOW, $scope.relationship.primaryToSecondaryProps)
+
+                unsubscribeFromCell();
+                $scope.cell.remove();
+                $scope.cell = newLink;
+                $scope.graph.addCell(newLink);
+                subscribeToCell();
+            }
+
+            function removeRelationship() {
+                if (ignoreNextUpdate) {
+                    ignoreNextUpdate = false;
+                    return;
+                }
+                $scope.$emit(Enums.events.RELATIONSHIP_REMOVED, $scope.relationship);
+            }
+
+            function updateSource(link, newValue) {
+                if (ignoreNextUpdate) {
+                    ignoreNextUpdate = false;
+                    return;
+                }
+                if (newValue.id) {
+                    var source = $scope.graph.getElements().find(function(cell) {
+                        return cell.id === newValue.id;
+                    });
+                    $scope.relationship.primaryMember = source.get('clazz');
+                    ClazzServices.updateRelationship($scope.relationship);
+                }
+            }
+
+            function updateTarget(link, newValue) {
+                if (ignoreNextUpdate) {
+                    ignoreNextUpdate = false;
+                    return;
+                }
+                if (newValue.id) {
+                    var target = $scope.graph.getElements().find(function(cell) {
+                        return cell.id === newValue.id;
+                    });
+                    $scope.relationship.secondaryMember = target.get('clazz');
+                    ClazzServices.updateRelationship($scope.relationship);
+                }
             }
         }
     }

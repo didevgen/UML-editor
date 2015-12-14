@@ -1,3 +1,4 @@
 <ul class="list-group">
     <li class="list-group-item fa fa-user" ng-repeat="collaborator in diagram.collaborators">{{collaborator.fullname}}</li>
+    <span class="list-group-item" ng-hide="diagram.collaborators.length">No collaborators</span>
 </ul>

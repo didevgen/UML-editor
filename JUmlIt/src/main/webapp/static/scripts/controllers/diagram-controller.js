@@ -1,16 +1,27 @@
 'use strict';
-angular.module('jumlitApp').controller('DiagramCtrl', function ($state, $scope, $rootScope, diagram, DiagramServices, Session, Enums,
-    ClazzServices, $timeout, DiagramUpdates) {
+angular.module('jumlitApp').controller('DiagramCtrl', function ($scope, $rootScope, diagram, DiagramServices, Session, Enums,
+    ClazzServices, $timeout, DiagramUpdates, PngExport, CodeGeneration, $state) {
 
     Session.diagram = diagram;
+
+    var subscription;
+
     DiagramUpdates.subscribe('/topic/diagram/' + diagram.diagramId, function (newDiagram, headers) {
+        console.log(headers.fromUserId, Session.user.userId);
         if (+headers.fromUserId !== +Session.user.userId) {
-            $scope.diagram = newDiagram;
+            $scope.$apply(function () {
+                $scope.diagram = newDiagram;
+            });
         }
+    }).then(function (subscriptionObj) {
+        subscription = subscriptionObj;
+    });
+
+    $scope.$on('$destroy', function () {
+        subscription.unsubscribe();
     });
 
     $scope.diagram = diagram;
-    $scope.diagram.relationships = $scope.diagram.relationships || [];
 
     $scope.showComments = false;
     $scope.showSettings = false;
@@ -57,5 +68,16 @@ angular.module('jumlitApp').controller('DiagramCtrl', function ($state, $scope, 
         $state.go("history.diagram", {
             diagramId: $scope.diagram.diagramId
         });
+    }
+    $scope.$on(Enums.events.RELATIONSHIP_REMOVED, function (event, relationship) {
+        ClazzServices.removeRelationship(relationship);
+    });
+
+    $scope.generateCode = function () {
+        CodeGeneration.generate($scope.diagram.diagramId);
+    }
+
+    $scope.exportPng = function () {
+        PngExport.export($scope.diagram.name);
     }
 });

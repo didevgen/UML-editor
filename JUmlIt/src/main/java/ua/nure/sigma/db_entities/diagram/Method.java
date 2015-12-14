@@ -22,13 +22,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class Method {
 	private long id;
 
-	private String accessModifier;
+	private String accessModifier ="";
 
 	private boolean isStatic;
 
-	private String name;
+	private String name ="";
 
-	private String returnType;
+	private String returnType="";
 
 	private List<Argument> args = new ArrayList<>();
 	

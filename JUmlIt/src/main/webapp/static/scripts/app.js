@@ -18,7 +18,8 @@ angular
         'ui.router',
         'ui.bootstrap',
         'ngTagsInput',
-        'frapontillo.bootstrap-switch'
+        'frapontillo.bootstrap-switch',
+        'ngFileSaver'
     ])
     .config(function ($stateProvider, $httpProvider, $urlRouterProvider) {
         $stateProvider
@@ -86,10 +87,19 @@ angular
                     authorization: function (Authentication) {
                         return Authentication.authenticate();
                     },
-                    diagram: function (DiagramServices, $stateParams) {
-                        return DiagramServices.getDiagram($stateParams.diagramId);
+                    diagram: function (DiagramServices, $stateParams, $state, $q) {
+                        return DiagramServices.getDiagram($stateParams.diagramId)
+                            .catch(function (error) {
+                                if (error.status === 403) {
+                                    $state.go('forbidden');
+                                }
+                                return $q.reject();
+                            });
                     }
                 }
+            })
+            .state('forbidden', {
+                templateUrl: 'states/forbidden.html'
             })
             .state('history', {
                 url: '/history',
@@ -122,10 +132,10 @@ angular
                     diagram: function (DiagramServices, $stateParams) {
                             return DiagramServices.getDiagram($stateParams.diagramId);
                         } //,
-                    /*
-                    session: function (HistoryServices, $stateParams) {
-                        return HistoryServices.getSession($stateParams.sessionId);
-                    }*/
+                        /*
+                        session: function (HistoryServices, $stateParams) {
+                            return HistoryServices.getSession($stateParams.sessionId);
+                        }*/
                 }
             });
 

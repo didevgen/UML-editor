@@ -13,7 +13,7 @@ import org.hibernate.annotations.GenericGenerator;
 @Table(name = "eventtype")
 public class EventType {
 	private long eventTypeId;
-	private String description;
+	private String description ="";
 
 	public EventType() {
 	}

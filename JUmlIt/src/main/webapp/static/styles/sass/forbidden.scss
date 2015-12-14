@@ -1,0 +1,9 @@
+@import 'color-palette';
+
+.jumbotron-forbidden {
+  margin-top: 20px;
+
+  .icon-error {
+    color: $color-error;
+  }
+}

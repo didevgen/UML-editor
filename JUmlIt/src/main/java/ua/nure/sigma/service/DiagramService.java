@@ -13,6 +13,7 @@ public class DiagramService {
 		Diagram newDiagram = dao.createDiagram(diagram);
 		if (newDiagram != null && newDiagram.getCollaborators().size() != 0) {
 			for (User coll : newDiagram.getCollaborators()) {
+				//TODO MUST BE UNCOMMENTED
 				// MailUtil.sendMessage(coll.getEmail(), "", "");
 			}
 		}
@@ -24,10 +25,13 @@ public class DiagramService {
 	}
 
 	public void updateDiagram(Diagram newDiagram) {
+		Diagram oldDiagram = dao.getDiagramById(newDiagram.getDiagramId());
 		if (newDiagram != null && newDiagram.getCollaborators().size() != 0) {
 			for (User coll : newDiagram.getCollaborators()) {
-				//TODO MUST BE IMPLEMENTED 
+				if (!oldDiagram.getCollaborators().contains(coll)) {
+					//TODO MUST BE UNCOMMENTED
 					// MailUtil.sendMessage(coll.getEmail(), "", "");
+				}
 			}
 		}
 		dao.updateDiagram(newDiagram);

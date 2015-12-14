@@ -2,6 +2,7 @@ package ua.nure.sigma.db_entities.diagram;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -10,15 +11,12 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
 import ua.nure.sigma.db_entities.Diagram;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "relationships")
-@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, 
-	property = "@id", scope=Relationship.class)
 public class Relationship {
 
 	private long id;
@@ -27,18 +25,19 @@ public class Relationship {
 
 	private Clazz secondaryMember;
 
-	private String primaryToSecondaryMultiplicity;
+	private String primaryToSecondaryMultiplicity ="";
 
-	private String secondaryToPrimaryMultiplicity;
+	private String secondaryToPrimaryMultiplicity ="";
 
-	private String name;
+	private String name ="";
 
-	private String type;
+	private String type ="";
 
-	private String primaryProps;
+	private String primaryProps ="";
 
-	private String secondaryProps;
+	private String secondaryProps ="";
 	
+	@JsonIgnore
 	private Diagram diagram;
 
 	public Relationship() {
@@ -129,7 +128,7 @@ public class Relationship {
 	public void setSecondaryProps(String secondaryProps) {
 		this.secondaryProps = secondaryProps;
 	}
-	@ManyToOne()
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "diagram_id")
 	public Diagram getDiagram() {
 		return diagram;

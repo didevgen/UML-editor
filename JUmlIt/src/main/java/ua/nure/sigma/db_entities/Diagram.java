@@ -18,14 +18,21 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
 import ua.nure.sigma.db_entities.diagram.Clazz;
 import ua.nure.sigma.db_entities.diagram.Relationship;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 @Entity
 @Table(name = "diagram")
+@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, 
+	property = "@id")
 public class Diagram {
 	private long diagramId;
 	private long statusId = -1;
@@ -37,7 +44,7 @@ public class Diagram {
 	private Set<User> collaborators = new HashSet<User>();
 	private List<Clazz> classes = new ArrayList<>();
 	private List<Relationship> relationships = new ArrayList<>();
-	private List<DiagramHistory> history = new ArrayList<>();
+	private List<HistorySession> history = new ArrayList<>();
 	private User owner;
 	
 	public Diagram() {
@@ -159,6 +166,7 @@ public class Diagram {
 		this.collaborators = collaborators;
 	}
 	@OneToMany(mappedBy = "diagramOwner")
+	@NotFound(action = NotFoundAction.IGNORE)
 	public List<Clazz> getClasses() {
 		return classes;
 	}
@@ -175,11 +183,11 @@ public class Diagram {
 		this.relationships = relationships;
 	}
 	@OneToMany(mappedBy = "diagram")
-	public List<DiagramHistory> getHistory() {
+	public List<HistorySession> getHistory() {
 		return history;
 	}
 
-	public void setHistory(List<DiagramHistory> history) {
+	public void setHistory(List<HistorySession> history) {
 		this.history = history;
 	}
 	
