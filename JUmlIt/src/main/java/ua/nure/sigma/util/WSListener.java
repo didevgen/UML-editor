@@ -1,6 +1,5 @@
 package ua.nure.sigma.util;
 
-import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,12 +38,13 @@ public class WSListener implements ApplicationListener {
 		} else if (event instanceof SessionUnsubscribeEvent) {
 			SessionUnsubscribeEvent connect = (SessionUnsubscribeEvent) event;
 			StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(connect.getMessage());
-			Principal princ = connect.getUser();
-			System.out.println(princ.getName());
-			HistoryService service = new HistoryService();
-			List<HistorySession> sessions = service.updateSession(connect.getUser().getName());
-			for (HistorySession session : sessions) {
-				template.convertAndSend("/topic/diagram/" + session.getDiagram().getDiagramId() + "/history", session);
+			if (headerAccessor.getSubscriptionId().equals("sub-0")) {
+				HistoryService service = new HistoryService();
+				List<HistorySession> sessions = service.updateSession(connect.getUser().getName());
+				for (HistorySession session : sessions) {
+					template.convertAndSend("/topic/diagram/" + session.getDiagram().getDiagramId() + "/history",
+							session);
+				}
 			}
 
 		}
