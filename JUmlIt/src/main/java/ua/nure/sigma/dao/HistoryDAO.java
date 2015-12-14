@@ -13,4 +13,8 @@ public interface HistoryDAO {
 	HistorySession updateSession(HistorySession session);
 	
 	List<HistorySession> getLatestOpenSession(long userId);
+	
+	List<HistorySession> getAllUserSessions(long userId);
+	
+	List<HistorySession> getAllDiagramSessions(long deiagramId);
 }
