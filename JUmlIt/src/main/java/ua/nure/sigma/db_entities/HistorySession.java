@@ -33,6 +33,8 @@ public class HistorySession {
 	private Date timeStart;
 
 	private Date timeFinish;
+	
+	private String subscriptionId;
 
 	public HistorySession() {
 	}
@@ -107,6 +109,14 @@ public class HistorySession {
 
 	public void setTimeFinish(Date timeFinish) {
 		this.timeFinish = timeFinish;
+	}
+	@Column(name = "subscription_id")
+	public String getSubscriptionId() {
+		return subscriptionId;
+	}
+
+	public void setSubscriptionId(String subscriptionId) {
+		this.subscriptionId = subscriptionId;
 	}
 
 	@Transient

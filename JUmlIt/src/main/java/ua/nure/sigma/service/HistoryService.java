@@ -29,17 +29,18 @@ public class HistoryService {
 		
 	}
 	
-	public HistorySession insertSession(String userName, long diagramId) {
+	public HistorySession insertSession(String userName, long diagramId, String subscriptionId) {
 		HistorySession session = new HistorySession();
 		session.setDiagram(diagrDAO.getDiagramById(diagramId));
 		session.setUser(userDAO.getUserByLogin(userName));
 		session.setTimeStart(new Date());
+		session.setSubscriptionId(subscriptionId);
 		return dao.insertSession(session);
 	}
 	
-	public List<HistorySession> updateSession(String userName) {
+	public List<HistorySession> updateSession(String userName, String subscriptionId) {
 		User user = userDAO.getUserByLogin(userName);
-		List<HistorySession> sessions = dao.getLatestOpenSession(user.getUserId());
+		List<HistorySession> sessions = dao.getLatestOpenSession(user.getUserId(),subscriptionId);
 		for (HistorySession sess : sessions) {
 			sess.setTimeFinish(new Date());
 			sess = dao.updateSession(sess);
