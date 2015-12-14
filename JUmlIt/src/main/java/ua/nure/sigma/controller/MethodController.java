@@ -49,8 +49,6 @@ public class MethodController {
 			return new ResponseEntity<Method>(HttpStatus.FORBIDDEN);
 		}
 		Diagram diagram = diagramService.getDiagramById(diagramId);
-		historyService.insertHistory("method added: " + method.getName(),
-				(Long) (httpSession.getAttribute("sessionId")));
 		method.getArgs().forEach(item -> item.setMethod(method));
 		Clazz clazz = service.getClass(classId);
 		clazz.getMethods().add(method);
@@ -66,8 +64,6 @@ public class MethodController {
 			return new ResponseEntity<Method>(HttpStatus.FORBIDDEN);
 		}
 		Diagram diagram = diagramService.getDiagramById(diagramId);
-		historyService.insertHistory("method updated: " + method.getName(),
-				(Long) (httpSession.getAttribute("sessionId")));
 		Clazz clazz = service.getClass(classId);
 		method.setClassOwner(clazz);
 		method.getArgs().forEach(item -> item.setMethod(method));
@@ -84,8 +80,6 @@ public class MethodController {
 		}
 		Diagram diagram = diagramService.getDiagramById(diagramId);
 		Method method = service.getMethodById(methodId);
-		historyService.insertHistory("method removed: " + method.getName(),
-				(Long) (httpSession.getAttribute("sessionId")));
 		service.removeMethod(methodId);
 		updateService.notify("/topic/diagram/" + diagramId + "/clazz_method_removed", methodId, principal);
 		return new ResponseEntity<Void>(HttpStatus.OK);

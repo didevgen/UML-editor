@@ -49,8 +49,6 @@ public class RelationshipController {
 		}
 		Diagram diagram = diagramService.getDiagramById(diagramId);
 		relationship.setDiagram(diagram);
-		historyService.insertHistory("relationship added: " + relationship.getName(),
-				(Long) (httpSession.getAttribute("sessionId")));
 		updateService.notify("/topic/diagram/" + diagramId + "/relationship_added", relationship, principal);
 		return new ResponseEntity<Relationship>(service.addRelation(relationship), HttpStatus.OK);
 	}
@@ -62,8 +60,6 @@ public class RelationshipController {
 			return new ResponseEntity<Void>(HttpStatus.FORBIDDEN);
 		}
 		Diagram diagram = diagramService.getDiagramById(diagramId);
-		historyService.insertHistory("relationship updated: " + relationship.getName(),
-				(Long) (httpSession.getAttribute("sessionId")));
 		relationship.setDiagram(diagram);
 		service.updateRelation(relationship);
 		updateService.notify("/topic/diagram/" + diagramId + "/relationship_updated", relationship, principal);
@@ -77,8 +73,6 @@ public class RelationshipController {
 		}
 		Diagram diagram = diagramService.getDiagramById(diagramId);
 		Relationship relationship = service.getRelationById(relationId);
-		historyService.insertHistory("relationship removed: " + relationship.getName(),
-				(Long) (httpSession.getAttribute("sessionId")));
 		service.removeRelation(relationId);
 		updateService.notify("/topic/diagram/" + diagramId + "/relationship_removed", relationId, principal);
 		return new ResponseEntity<Void>(HttpStatus.OK);

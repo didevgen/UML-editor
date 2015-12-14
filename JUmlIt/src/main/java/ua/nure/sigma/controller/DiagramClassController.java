@@ -54,7 +54,6 @@ public class DiagramClassController {
 		if (myVal== null) {
 			myVal = 1L;
 		}
-		historyService.insertHistory("added class: "+clazz.getName(),myVal);
 		clazz.setDiagramOwner(diagram);
 		this.updateService.notify("/topic/diagram/" + diagram.getDiagramId() + "/clazz_added",
 				clazz, principal);
@@ -68,7 +67,6 @@ public class DiagramClassController {
 			return new ResponseEntity<Clazz>(HttpStatus.FORBIDDEN);
 		}
 		Diagram diagram = diagramService.getDiagramById(diagramId);
-		historyService.insertHistory("class updated: "+clazz.getName(),(Long)(httpSession.getAttribute("sessionId")));
 		clazz.setDiagramOwner(diagram);
 		service.updateClass(clazz);
 		this.updateService.notify("/topic/diagram/" + diagram.getDiagramId() + "/clazz_updated", clazz, principal);
@@ -83,7 +81,6 @@ public class DiagramClassController {
 		}
 		Diagram diagram = diagramService.getDiagramById(diagramId);
 		Clazz clazz = service.getClass(classId);
-		historyService.insertHistory("class removed: "+clazz.getName(),(Long)(httpSession.getAttribute("sessionId")));
 		service.removeClass(classId);
 		this.updateService.notify("/topic/diagram/" + diagram.getDiagramId() + "/clazz_removed", classId, principal);
 		return new ResponseEntity<Void>(HttpStatus.OK);
