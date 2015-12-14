@@ -10,8 +10,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name = "comment")
@@ -25,6 +28,9 @@ public class Comment {
 	private String commentText;
 	
 	private Date timeStamp;
+	
+	@JsonProperty
+	private String fullname;
 
 	public Comment() {
 	}
@@ -69,6 +75,9 @@ public class Comment {
 
 	public void setUser(User user) {
 		this.user = user;
+		if (user != null) {
+			this.fullname = user.getFullname();
+		}
 	}
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "diagram_id")
@@ -95,6 +104,13 @@ public class Comment {
 	public void setTimeStamp(Date timeStamp) {
 		this.timeStamp = timeStamp;
 	}
-	
-	
+
+	@Transient
+	public String getFullname() {
+		return fullname;
+	}
+
+	public void setFullname(String fullname) {
+		this.fullname = fullname;
+	}
 }

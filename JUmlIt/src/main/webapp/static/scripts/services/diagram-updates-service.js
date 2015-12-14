@@ -36,6 +36,9 @@ angular.module('jumlitApp').service('DiagramUpdates', function($rootScope, $q, S
                     callback(JSON.parse(data.body), data.headers);
                 });
             });
+        },
+        send: function(path, message) {
+            client.send(path, {}, JSON.stringify(message));
         }
     };
 });

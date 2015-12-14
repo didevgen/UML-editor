@@ -1,8 +1,20 @@
 <div class="tool-panel-container comments" ng-controller="CommentsCtrl">
-    <div class="panel panel-primary" ng-hide="collapsed">
+    <div class="panel panel-primary">
         <div class="panel-heading">Comments
-            <span class="fold glyphicon glyphicon-menu-right" ng-click="collapsed=true"></span>
+            <span class="fold glyphicon glyphicon-menu-right" ng-click="toggleComments()"></span>
         </div>
-        <div class="panel-body"></div>
+        <div class="comments-list-container">
+            <ul class="list-group comments-list">
+                <li class="list-group-item" ng-repeat="comment in diagram.comments">
+                    <span class="comment-author">{{comment.fullname}}</span>
+                    <span class="comment-date">{{comment.timeStamp | date : 'short'}}</span>
+                    <span class="comment-text">{{comment.commentText}}</span>
+                </li>
+            </ul>
+        </div>
+        <div class="panel-footer comment-input-container">
+            <textarea class="form-control comment-input" ng-model="comment" placeholder="Comment"></textarea>
+            <button class="btn btn-primary btn-send" ng-click="sendComment()">Send</button>
+        </div>
     </div>
 </div>
