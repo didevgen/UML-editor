@@ -31,7 +31,7 @@ public class WSListener implements ApplicationListener {
 			String dest = headerAccessor.getDestination();
 			Long diagramId = Long.parseLong(dest.substring(dest.lastIndexOf('/')+1));
 			HistorySession session = service.insertSession(connect.getUser().getName(), diagramId);
-			httpSession.setAttribute("sessionId", session.getSessionId());
+//			httpSession.setAttribute("sessionId", session.getSessionId());
 		}
 		else if (event instanceof SessionUnsubscribeEvent) {
 			SessionUnsubscribeEvent connect = (SessionUnsubscribeEvent) event;

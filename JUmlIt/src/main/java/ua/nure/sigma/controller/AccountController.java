@@ -43,6 +43,7 @@ public class AccountController {
 
 	@RequestMapping(value = "/account", method = RequestMethod.POST)
 	public User getAccount(ModelMap model, Principal principal) {
+		session.setAttribute("sessionId", 1L);
 		return service.getUserByLogin(principal.getName());
 	}
 
