@@ -37,7 +37,7 @@ public class UserDAOImpl implements UserDao {
 	}
 
 	@Override
-	public void updateUser(User user) throws SQLException {
+	public User updateUser(User user) {
 		Session session = null;
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
@@ -51,6 +51,7 @@ public class UserDAOImpl implements UserDao {
 				session.close();
 			}
 		}
+		return user;
 	}
 
 	@Override

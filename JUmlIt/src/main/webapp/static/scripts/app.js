@@ -69,11 +69,6 @@ angular
                 templateUrl: 'states/account.dashboard.html',
                 controller: 'DashboardCtrl',
             })
-            .state('account.user-info', {
-                url: '/user-info',
-                templateUrl: 'states/account.edit-user.html',
-                controller: 'UserInfoCtrl'
-            })
             .state('account.notifications', {
                 url: '/notifications',
                 templateUrl: 'states/account.notifications.html',
