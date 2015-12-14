@@ -9,8 +9,12 @@ angular.module('jumlitApp').directive('umlClass', function ($rootScope, Enums, $
         },
         templateUrl: 'templates/uml-class.html',
         link: function ($scope, element) {
-            $scope.cell = Cells.create($scope.clazz.classType,
-                $scope.clazz.position);
+            var position = {
+                x: $scope.clazz.x,
+                y: $scope.clazz.y
+            };
+
+            $scope.cell = Cells.create($scope.clazz.classType, position);
             $scope.graph.addCell($scope.cell);
             $scope.cell.set('clazz', $scope.clazz);
 
@@ -102,7 +106,7 @@ angular.module('jumlitApp').directive('umlClass', function ($rootScope, Enums, $
 
             function updateClazz() {
                 var bbox = $scope.cell.getBBox();
-                angular.extend($scope.clazz.position, {
+                angular.extend($scope.clazz, {
                     x: bbox.x,
                     y: bbox.y
                 });
@@ -151,7 +155,11 @@ angular.module('jumlitApp').directive('umlClass', function ($rootScope, Enums, $
             });
 
             function updatePosition() {
-                $scope.cell.set('position', $scope.clazz.position);
+                var position = {
+                    x: $scope.clazz.x,
+                    y: $scope.clazz.y
+                };
+                $scope.cell.set('position', position)
             }
         }
     };
