@@ -45,6 +45,8 @@ public class Diagram {
 	private List<Clazz> classes = new ArrayList<>();
 	private List<Relationship> relationships = new ArrayList<>();
 	private List<HistorySession> history = new ArrayList<>();
+
+	@NotFound(action = NotFoundAction.IGNORE)
 	private User owner;
 	
 	public Diagram() {

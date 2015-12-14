@@ -32,7 +32,7 @@ public class Field {
 	private Clazz classOwner;
 
 	@JsonProperty
-	private long classId;
+	private long classId = 0;
 
 
 	@Override
