@@ -281,11 +281,9 @@ ul.pagination > .active > a {
 
 .tool-panel-container {
   display: flex;
-  flex-grow: 1;
   flex-direction: column; }
   .tool-panel-container .tool-panel {
     margin-bottom: 0;
-    flex-grow: 1;
     border-radius: 0;
     border-top: 0;
     width: 250px; }
@@ -298,6 +296,7 @@ ul.pagination > .active > a {
       margin-top: 15px;
       padding: 0px 5px; }
   .tool-panel-container .events {
+    flex-grow: 2;
     height: 125px;
     border-radius: 2px;
     border-top: 1px solid #e7e7e7;
@@ -367,7 +366,8 @@ diagram-canvas {
     .collapsed-panel .vertical-text:hover {
       background-color: #1dd2af; }
 
-.no-methods, .no-fields {
+.no-methods,
+.no-fields {
   text-align: center;
   padding: 20px;
   font-style: italic;
