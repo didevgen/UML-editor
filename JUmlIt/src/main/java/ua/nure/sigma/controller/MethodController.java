@@ -51,7 +51,7 @@ public class MethodController {
 		Clazz clazz = service.getClass(classId);
 		clazz.getMethods().add(method);
 		method.setClassOwner(clazz);
-		this.updateService.notify("/topic/diagram/" + diagramId + "/class_method_added", method, principal);
+		this.updateService.notify("/topic/diagram/" + diagramId + "/clazz_method_added", method, principal);
 		return new ResponseEntity<Method>(service.addMethod(method), HttpStatus.OK);
 	}
 
@@ -67,7 +67,7 @@ public class MethodController {
 		method.setClassOwner(clazz);
 		method.getArgs().forEach(item -> item.setMethod(method));
 		service.updateMethod(method);
-		this.updateService.notify("/topic/diagram/" + diagramId + "/class_method_updated", method, principal);
+		this.updateService.notify("/topic/diagram/" + diagramId + "/clazz_method_updated", method, principal);
 		return new ResponseEntity<Method>(method, HttpStatus.OK);
 	}
 
@@ -80,7 +80,7 @@ public class MethodController {
 		Diagram diagram = diagramService.getDiagramById(diagramId);
 		historyService.insertHistory(principal, diagram, "method removed");
 		service.removeMethod(methodId);
-		updateService.notify("/topic/diagram/" + diagramId + "/class_method_removed", methodId, principal);
+		updateService.notify("/topic/diagram/" + diagramId + "/clazz_method_removed", methodId, principal);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 }

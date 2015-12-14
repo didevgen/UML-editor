@@ -7,10 +7,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name = "field")
@@ -25,8 +27,13 @@ public class Field {
 	private String name;
 
 	private String type;
-	@JsonIgnore 
+
+	@JsonIgnore
 	private Clazz classOwner;
+
+	@JsonProperty
+	private long classId;
+
 
 	@Override
 	public int hashCode() {
@@ -120,7 +127,18 @@ public class Field {
 
 	public void setClassOwner(Clazz classMethodOwner) {
 		this.classOwner = classMethodOwner;
+		if (classMethodOwner != null) {
+			this.classId = classMethodOwner.getClassId();
+		}
 	}
 
+	@Transient
+	public long getClassId() {
+		return classId;
+	}
+
+	public void setClassId(long classId) {
+		this.classId = classId;
+	}
 
 }

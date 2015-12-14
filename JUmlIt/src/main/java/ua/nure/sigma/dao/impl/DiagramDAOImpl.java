@@ -54,7 +54,7 @@ public class DiagramDAOImpl implements DiagramDAO {
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
 			diagram = (Diagram) session.load(Diagram.class, id);
-//			session.refresh(diagram);
+			session.refresh(diagram);
 			Hibernate.initialize(diagram.getClasses());
 			Hibernate.initialize(diagram.getCollaborators());
 			Hibernate.initialize(diagram.getRelationships());

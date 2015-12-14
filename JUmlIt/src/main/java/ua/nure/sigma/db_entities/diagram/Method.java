@@ -12,15 +12,20 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name = "method")
 public class Method {
 	private long id;
+	
+	@JsonProperty
+	private long classId;
 
 	private String accessModifier;
 
@@ -122,6 +127,9 @@ public class Method {
 
 	public void setClassOwner(Clazz classMethodOwner) {
 		this.classOwner = classMethodOwner;
+		if (classMethodOwner != null) {
+			this.classId = classMethodOwner.getClassId();
+		}
 	}
 
 	@Override
@@ -138,5 +146,15 @@ public class Method {
 	public void setArgs(List<Argument> args) {
 		this.args = args;
 	}
+
+	@Transient
+	public long getClassId() {
+		return classId;
+	}
+
+	public void setClassId(long classId) {
+		this.classId = classId;
+	}
+
 
 }

@@ -33,7 +33,7 @@ angular.module('jumlitApp').service('DiagramUpdatesListener', function (DiagramU
             }).then(addSubscription);
 
             DiagramUpdates.subscribe('/topic/diagram/' + diagramId + '/clazz_method_removed', function (methodId) {
-                $rootScope.$emit(Enums.events.SOCKET_METHOD_REMOVED, new Method({methodId: methodId}));
+                $rootScope.$emit(Enums.events.SOCKET_METHOD_REMOVED, new Method({id: methodId}));
             }).then(addSubscription);
 
             DiagramUpdates.subscribe('/topic/diagram/' + diagramId + '/clazz_field_added', function (field) {
@@ -45,7 +45,7 @@ angular.module('jumlitApp').service('DiagramUpdatesListener', function (DiagramU
             }).then(addSubscription);
 
             DiagramUpdates.subscribe('/topic/diagram/' + diagramId + '/clazz_field_removed', function (fieldId) {
-                $rootScope.$emit(Enums.events.SOCKET_FIELD_REMOVED, new Field({fieldId: fieldId}));
+                $rootScope.$emit(Enums.events.SOCKET_FIELD_REMOVED, new Field({id: fieldId}));
             }).then(addSubscription);
 
             DiagramUpdates.subscribe('/topic/diagram/' + diagramId + '/relationship_added', function (relationship) {

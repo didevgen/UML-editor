@@ -31,7 +31,7 @@ angular.module('jumlitApp').directive('umlClass', function ($rootScope, Enums, $
             });
 
             $rootScope.$on(Enums.events.CLASS_UPDATED, function (event, clazz) {
-                updateFromEvent(clazz);
+                $timeout(updateFromEvent.bind(null, clazz));
             });
 
             $rootScope.$on(Enums.events.CLASS_SELECTED, function (event, clazz) {
@@ -52,9 +52,11 @@ angular.module('jumlitApp').directive('umlClass', function ($rootScope, Enums, $
             });
 
             $rootScope.$on(Enums.events.SOCKET_CLASS_UPDATED, function (event, clazz) {
-                $scope.$apply(updateFromEvent.bind(null, clazz));
-                ignoreNextUpdate = true;
-                updatePosition();
+                $timeout(function() {
+                    updateFromEvent(clazz);
+                    ignoreNextUpdate = true;
+                    updatePosition();
+                });
             });
 
             // new id came
@@ -131,7 +133,6 @@ angular.module('jumlitApp').directive('umlClass', function ($rootScope, Enums, $
                 if ($scope.clazz.classId !== clazz.classId) {
                     return;
                 }
-
                 angular.extend($scope.clazz, clazz);
             }
 

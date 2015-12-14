@@ -50,7 +50,7 @@ public class FieldController {
 		Clazz clazz = service.getClass(classId);
 		field.setClassOwner(clazz);
 		clazz.getFields().add(field);
-		this.updateService.notify("/topic/diagram/" + diagramId + "/class_field_added", field, principal);
+		this.updateService.notify("/topic/diagram/" + diagramId + "/clazz_field_added", field, principal);
 		return new ResponseEntity<Field>(service.addField(field), HttpStatus.OK);
 	}
 	@RequestMapping(value = "/diagram/{diagramId}/classes/{classId}/fields/{fieldId}/remove", method = RequestMethod.POST)
@@ -62,7 +62,7 @@ public class FieldController {
 		Diagram diagram = diagramService.getDiagramById(diagramId);
 		historyService.insertHistory(principal, diagram, "field removed");
 		service.removeField(fieldId);
-		this.updateService.notify("/topic/diagram/" + diagramId + "/class_field_removed", fieldId, principal);
+		this.updateService.notify("/topic/diagram/" + diagramId + "/clazz_field_removed", fieldId, principal);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 	@RequestMapping(value = "/diagram/{diagramId}/classes/{classId}/fields/update", method = RequestMethod.POST)
@@ -76,7 +76,7 @@ public class FieldController {
 		Clazz clazz = service.getClass(classId);
 		field.setClassOwner(clazz);
 		service.updateField(field);
-		this.updateService.notify("/topic/diagram/" + diagramId + "/class_field_updated", field, principal);
+		this.updateService.notify("/topic/diagram/" + diagramId + "/clazz_field_updated", field, principal);
 		return new ResponseEntity<Field>(field, HttpStatus.OK);
 	}
 }

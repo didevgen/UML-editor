@@ -32,6 +32,7 @@ angular.module('jumlitApp').directive('umlRelationship', function ($timeout, Enu
 
             $rootScope.$on(Enums.events.SOCKET_RELATIONSHIP_UPDATED, function(event, relationship) {
                 updateFromEvent(relationship);
+                updateEnds();
             });
 
             $rootScope.$on(Enums.events.SOCKET_RELATIONSHIP_REMOVED, function(event, relationship) {
@@ -78,21 +79,24 @@ angular.module('jumlitApp').directive('umlRelationship', function ($timeout, Enu
                 }
 
                 var source = $scope.cell.get('source');
-                if (!source || !source.on) {
-                    source = $scope.graph.getElements().find(function (cell) {
-                        return cell.get('clazz').classId === $scope.relationship.primaryMember.classId;
-                    });
-                    $scope.cell.set('source', source);
-                }
                 var target = $scope.cell.get('target');
-                if (!target || !target.on) {
-                    target = $scope.graph.getElements().find(function (cell) {
-                        return cell.get('clazz').classId === $scope.relationship.secondaryMember.classId;
-                    });
-                    $scope.cell.set('target', target);
+                if (!source || !target || !source.on || !target.on) {
+                    updateEnds();
                 }
 
                 subscribeToCell();
+            }
+
+            function updateEnds() {
+                var source = $scope.graph.getElements().find(function (cell) {
+                    return cell.get('clazz').classId === $scope.relationship.primaryMember.classId;
+                });
+                $scope.cell.set('source', source);
+
+                var target = $scope.graph.getElements().find(function (cell) {
+                    return cell.get('clazz').classId === $scope.relationship.secondaryMember.classId;
+                });
+                $scope.cell.set('target', target);
             }
 
             function subscribeToCell() {

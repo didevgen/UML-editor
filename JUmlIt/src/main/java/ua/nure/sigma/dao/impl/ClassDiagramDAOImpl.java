@@ -143,6 +143,8 @@ public class ClassDiagramDAOImpl  implements ClassDiagramDAO{
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
 			session.update(obj);
+			session.flush();
+	        session.clear();
 			session.getTransaction().commit();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
