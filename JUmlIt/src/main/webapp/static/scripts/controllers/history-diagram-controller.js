@@ -1,10 +1,7 @@
 'use strict';
-angular.module('jumlitApp').controller('HistoryDiagramCtrl', function ($scope, $uibModal, $state, diagram
-    //,history
-) {
-    $scope.diagram = diagram;
-    //$scope.history = history;
-    $scope.history = {
+angular.module('jumlitApp').controller('HistoryDiagramCtrl', function ($scope, $uibModal, $state, diagram) {
+
+    /*$scope.history = {
         diagramId: diagram.diagramId,
         sessions: [
             {
@@ -44,9 +41,12 @@ angular.module('jumlitApp').controller('HistoryDiagramCtrl', function ($scope, $
             }
         ],
         events: []
-    };
+    };*/
     (function () {
-        for (var i = 0; i < $scope.history.sessions.length; i++) {
+        $scope.diagram = diagram;
+        $scope.history = history;
+        $scope.history.events = [];
+        /*for (var i = 0; i < $scope.history.sessions.length; i++) {
             var session = $scope.history.sessions[i];
             $scope.history.events.push({
                 sessionId: session.sessionId,
@@ -64,14 +64,7 @@ angular.module('jumlitApp').controller('HistoryDiagramCtrl', function ($scope, $
                     type: "end"
                 });
             }
-        }
+        }*/
     })();
-
-    $scope.openSession = function (event) {
-        $state.go('history.actions', {
-            diagramId: $scope.diagram.diagramId,
-            sessionId: event.sessionId
-        });
-    }
 
 });

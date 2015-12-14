@@ -48,6 +48,23 @@
         margin-left: -300px;
         opacity: 0;
     }
+    &.hover {
+        &:hover {
+            -webkit-transition: background-color 150ms linear;
+            -moz-transition: background-color 150ms linear;
+            -o-transition: background-color 150ms linear;
+            -ms-transition: background-color 150ms linear;
+            transition: background-color 150ms linear;
+            background-color: $border-color;
+            -ms-touch-action: manipulation;
+            touch-action: manipulation;
+            cursor: default;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+    }
 }
 
 .list-element-text {
@@ -71,6 +88,15 @@
             cursor: pointer;
             color: $font-color-dark;
         }
+    }
+}
+
+.event-type {
+    font-weight: bold;
+    text-decoration: underline;
+    cursor: default;
+    &:hover {
+        cursor: default;
     }
 }
 

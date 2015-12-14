@@ -1,6 +1,6 @@
 'use strict';
 angular.module('jumlitApp').controller('DiagramCtrl', function ($scope, $rootScope, diagram, DiagramServices, Session, Enums,
-        ClazzServices, $timeout, DiagramUpdates, PngExport, CodeGeneration, DiagramUpdatesListener) {
+        ClazzServices, $timeout, DiagramUpdates, PngExport, CodeGeneration, DiagramUpdatesListener, $state) {
 
     Session.diagram = diagram;
 
