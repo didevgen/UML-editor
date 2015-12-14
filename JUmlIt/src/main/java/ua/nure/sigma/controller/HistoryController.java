@@ -19,7 +19,7 @@ import ua.nure.sigma.util.UserAccessibility;
 @RestController
 public class HistoryController {
 	HistoryService service = new HistoryService();
-	
+
 	@RequestMapping(value = "/diagram/{diagramId}/history", method = RequestMethod.POST)
 	public ResponseEntity<List<HistoryModel>> getHistoryByDiagram(@PathVariable long diagramId, Principal principal) {
 		if (!UserAccessibility.hasAccess(principal, diagramId)) {
@@ -27,22 +27,24 @@ public class HistoryController {
 		}
 		List<HistorySession> sessions = service.getSessionsByDiagram(diagramId);
 		List<HistoryModel> models = new ArrayList<>();
-		for (HistorySession session:sessions) {
-			HistoryModel model = new HistoryModel(session.getUser().getFullname(),session.getDiagram().getName(),session.getTimeStart(),session.getTimeFinish());
+		for (HistorySession session : sessions) {
+			HistoryModel model = new HistoryModel(session.getUser().getFullname(), session.getDiagram().getName(),
+					session.getTimeStart(), session.getTimeFinish());
 			models.add(model);
 		}
-		return new ResponseEntity<List<HistoryModel>>(models,HttpStatus.OK);
+		return new ResponseEntity<List<HistoryModel>>(models, HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value = "/user/{userId}/history", method = RequestMethod.POST)
 	public ResponseEntity<List<HistoryModel>> getHistoryByUser(@PathVariable long userId, Principal principal) {
 		List<HistorySession> sessions = service.getSessionByUser(userId);
 		List<HistoryModel> models = new ArrayList<>();
-		for (HistorySession session:sessions) {
-			HistoryModel model = new HistoryModel(session.getUser().getFullname(),session.getDiagram().getName(),session.getTimeStart(),session.getTimeFinish());
+		for (HistorySession session : sessions) {
+			HistoryModel model = new HistoryModel(session.getUser().getFullname(), session.getDiagram().getName(),
+					session.getTimeStart(), session.getTimeFinish());
 			models.add(model);
 		}
-		return new ResponseEntity<List<HistoryModel>>(models,HttpStatus.OK);
+		return new ResponseEntity<List<HistoryModel>>(models, HttpStatus.OK);
 	}
 
 }
