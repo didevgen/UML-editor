@@ -54,7 +54,7 @@ angular.module('jumlitApp').controller('DiagramCtrl', function ($state, $scope, 
     });
 
     $scope.openHistory = function () {
-        $state.go("landing.history", {
+        $state.go("history.diagram", {
             diagramId: $scope.diagram.diagramId
         });
     }

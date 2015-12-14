@@ -1,0 +1,11 @@
+<h3 class="section-header">{{session.session.userName}} changed {{diagram.name}}</h3>
+
+<div class="row">
+    <ul class="list-group diagrams-list">
+        <li class="list-group-item list-element pointer" ng-repeat="change in session.session.changes | orderBy: 'time' : true">
+            <span class="list-element-text pull-left"># {{change.details.object}} "{{change.details.name}}" {{change.details.action}}</span>
+            <span> at </span>
+            <span class="text-success">{{change.time.split(' ').reverse().join(' ')}}</span>
+        </li>
+    </ul>
+</div>

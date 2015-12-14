@@ -91,14 +91,41 @@ angular
                     }
                 }
             })
-            .state('landing.history', {
+            .state('history', {
                 url: '/history',
-                templateUrl: 'states/diagram.history.html',
+                templateUrl: 'states/history.html',
                 controller: 'HistoryCtrl',
                 resolve: {
-                    diagram: function (DiagramServices, $stateParams) {
-                        return DiagramServices.getDiagram($stateParams.diagramId);
+                    authorization: function (Authentication) {
+                        return Authentication.authenticate();
                     }
+                }
+            })
+            .state('history.diagram', {
+                url: '/:diagramId',
+                templateUrl: 'states/history.diagram.html',
+                controller: 'HistoryDiagramCtrl',
+                resolve: {
+                    diagram: function (DiagramServices, $stateParams) {
+                            return DiagramServices.getDiagram($stateParams.diagramId);
+                        } //,
+                        /*history: function(HistoryServices, $stateParams) {
+                            return HistoryServices.getHistory($scope.diagram.diagramId);
+                        }*/
+                }
+            })
+            .state('history.actions', {
+                url: '/session/:diagramId/:sessionId',
+                templateUrl: 'states/history.actions.html',
+                controller: 'HistoryActionsCtrl',
+                resolve: {
+                    diagram: function (DiagramServices, $stateParams) {
+                            return DiagramServices.getDiagram($stateParams.diagramId);
+                        } //,
+                    /*
+                    session: function (HistoryServices, $stateParams) {
+                        return HistoryServices.getSession($stateParams.sessionId);
+                    }*/
                 }
             });
 
