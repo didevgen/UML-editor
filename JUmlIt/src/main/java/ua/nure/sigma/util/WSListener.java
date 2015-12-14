@@ -2,8 +2,6 @@ package ua.nure.sigma.util;
 
 import java.util.List;
 
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
@@ -14,13 +12,13 @@ import org.springframework.web.socket.messaging.SessionUnsubscribeEvent;
 
 import ua.nure.sigma.db_entities.HistorySession;
 import ua.nure.sigma.model.HistoryModel;
-import ua.nure.sigma.service.AccountService;
 import ua.nure.sigma.service.HistoryService;
 
 public class WSListener implements ApplicationListener {
-	
+
 	@Autowired
 	SimpMessagingTemplate template;
+
 	@Override
 	public void onApplicationEvent(ApplicationEvent event) {
 		if (event instanceof SessionSubscribeEvent) {
@@ -32,7 +30,8 @@ public class WSListener implements ApplicationListener {
 			Long diagramId;
 			try {
 				diagramId = Long.parseLong(dest.substring(dest.lastIndexOf('/') + 1));
-				HistorySession session = service.insertSession(connect.getUser().getName(), diagramId);
+				HistorySession session = service.insertSession(connect.getUser().getName(), diagramId,
+						headerAccessor.getSubscriptionId());
 				HistoryModel model = new HistoryModel(connect.getUser().getName(), session.getDiagram().getName(),
 						session.getTimeStart(), session.getTimeFinish());
 				template.convertAndSend("/topic/diagram/" + diagramId + "/history", model);
@@ -42,17 +41,14 @@ public class WSListener implements ApplicationListener {
 		} else if (event instanceof SessionUnsubscribeEvent) {
 			SessionUnsubscribeEvent connect = (SessionUnsubscribeEvent) event;
 			StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(connect.getMessage());
-			if (headerAccessor.getSubscriptionId().equals("sub-0")) {
-				HistoryService service = new HistoryService();
-				List<HistorySession> sessions = service.updateSession(connect.getUser().getName());
-				for (HistorySession session : sessions) {
-					HistoryModel model = new HistoryModel(connect.getUser().getName(), session.getDiagram().getName(),
-							session.getTimeStart(), session.getTimeFinish());
-					template.convertAndSend("/topic/diagram/" + session.getDiagram().getDiagramId() + "/history",
-							model);
-				}
+			HistoryService service = new HistoryService();
+			List<HistorySession> sessions = service.updateSession(connect.getUser().getName(),
+					headerAccessor.getSubscriptionId());
+			for (HistorySession session : sessions) {
+				HistoryModel model = new HistoryModel(connect.getUser().getName(), session.getDiagram().getName(),
+						session.getTimeStart(), session.getTimeFinish());
+				template.convertAndSend("/topic/diagram/" + session.getDiagram().getDiagramId() + "/history", model);
 			}
-
 		}
 	}
 

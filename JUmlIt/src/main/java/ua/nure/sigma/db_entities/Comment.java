@@ -1,5 +1,7 @@
 package ua.nure.sigma.db_entities;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -21,6 +23,8 @@ public class Comment {
 	private Diagram diagram;
 	
 	private String commentText;
+	
+	private Date timeStamp;
 
 	public Comment() {
 	}
@@ -82,6 +86,14 @@ public class Comment {
 
 	public void setCommentText(String commentText) {
 		this.commentText = commentText;
+	}
+	@Column(name = "timestamp")
+	public Date getTimeStamp() {
+		return timeStamp;
+	}
+
+	public void setTimeStamp(Date timeStamp) {
+		this.timeStamp = timeStamp;
 	}
 	
 	

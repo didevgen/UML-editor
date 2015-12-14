@@ -12,7 +12,7 @@ public interface HistoryDAO {
 	
 	HistorySession updateSession(HistorySession session);
 	
-	List<HistorySession> getLatestOpenSession(long userId);
+	List<HistorySession> getLatestOpenSession(long userId, String subscriptionId);
 	
 	List<HistorySession> getAllUserSessions(long userId);
 	
