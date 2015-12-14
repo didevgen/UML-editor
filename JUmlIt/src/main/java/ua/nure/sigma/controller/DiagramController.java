@@ -47,8 +47,6 @@ public class DiagramController {
 		User user = accountService.getUserByLogin(principal.getName());
 		diagram.setOwner(user);
 		Diagram diagramModel = diagramService.createDiagram(diagram);
-		historyService.insertHistory("inserted diagram: " + diagram.getName(),
-				(Long) (httpSession.getAttribute("sessionId")));
 		if (diagramModel == null) {
 			throw new DiagramException("Cannot create diagram");
 		}

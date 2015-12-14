@@ -24,7 +24,9 @@ public class HistoryService {
 	public HistoryService(SimpMessagingTemplate template) {
 		this.messagingTemplate = template;
 	}
-
+	public HistoryService() {
+		
+	}
 	public void insertHistory(String action, long sessionId) {
 		DiagramHistory history = new DiagramHistory();
 		history.setAction(action);
@@ -41,8 +43,9 @@ public class HistoryService {
 		return dao.insertSession(session);
 	}
 	
-	public HistorySession updateSession(HistorySession session) {
-		return null;
+	public void updateSession(HistorySession session) {
+		session.setTimeFinish(new Date());
+		dao.updateSession(session);
 	}
 	
 }

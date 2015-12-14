@@ -47,7 +47,11 @@ public class DiagramClassController {
 		}
 		Diagram diagram = diagramService.getDiagramById(diagramId);
 		diagram.getClasses().add(clazz);
-		historyService.insertHistory("added class: "+clazz.getName(),(Long)(httpSession.getAttribute("sessionId")));
+		Long myVal = (Long)(httpSession.getAttribute("sessionId"));
+		if (myVal== null) {
+			myVal = 1L;
+		}
+		historyService.insertHistory("added class: "+clazz.getName(),myVal);
 		clazz.setDiagramOwner(diagram);
 		return new ResponseEntity<Clazz>(service.addClass(clazz), HttpStatus.OK);
 	}

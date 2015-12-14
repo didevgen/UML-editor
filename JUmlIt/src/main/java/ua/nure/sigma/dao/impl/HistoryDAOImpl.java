@@ -101,9 +101,6 @@ public class HistoryDAOImpl implements HistoryDAO{
 	@Override
 	public HistorySession getSessionById(long sessionId) {
 		HistorySession session = (HistorySession) getObject(sessionId, HistorySession.class);
-		Hibernate.initialize(session.getActions());
-		Hibernate.initialize(session.getDiagram());
-		Hibernate.initialize(session.getUser());
 		return session;
 	}
 	@Override

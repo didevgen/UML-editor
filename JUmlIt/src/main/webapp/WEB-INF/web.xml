@@ -28,7 +28,9 @@
 		<servlet-name>appServlet</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
-
+	<listener>
+		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+	</listener>
 
 	<filter>
 		<display-name>PreprocessFilter</display-name>
@@ -40,14 +42,15 @@
 		<filter-name>PreprocessFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	
+
 	<filter>
-	    <filter-name>HiddenHttpMethodFilter</filter-name>
-	    <filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
+		<filter-name>HiddenHttpMethodFilter</filter-name>
+		<filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
+		<async-supported>true</async-supported>
 	</filter>
 	<filter-mapping>
-	    <filter-name>HiddenHttpMethodFilter</filter-name>
-	    <url-pattern>/*</url-pattern>
+		<filter-name>HiddenHttpMethodFilter</filter-name>
+		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
 
