@@ -43,6 +43,10 @@ public class UserDAOImpl implements UserDao {
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
 			session.update(user);
+			Hibernate.initialize(user.getHistory());
+			Hibernate.initialize(user.getUserRoles());
+			Hibernate.initialize(user.getCollaboratedDiagrams());
+			Hibernate.initialize(user.getComments());
 			session.getTransaction().commit();
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -132,6 +132,7 @@ public class ClassDiagramDAOImpl  implements ClassDiagramDAO{
 			session.beginTransaction();
 			session.save(obj);
 			session.flush();
+			session.clear();
 			session.getTransaction().commit();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -148,9 +149,9 @@ public class ClassDiagramDAOImpl  implements ClassDiagramDAO{
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
-			session.update(obj);
 			session.flush();
 	        session.clear();
+			session.update(obj);
 			session.getTransaction().commit();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -168,6 +169,8 @@ public class ClassDiagramDAOImpl  implements ClassDiagramDAO{
 			session.beginTransaction();
 			Query q = session.createQuery("delete "+tableName+" where " + idCol + " = " + id);
 			q.executeUpdate();
+			session.flush();
+			session.clear();
 			session.getTransaction().commit();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());

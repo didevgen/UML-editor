@@ -32,7 +32,9 @@ angular.module('jumlitApp').directive('umlRelationship', function ($timeout, Enu
 
             $rootScope.$on(Enums.events.SOCKET_RELATIONSHIP_UPDATED, function(event, relationship) {
                 updateFromEvent(relationship);
-                updateEnds();
+                $timeout(function() {
+                    updateEnds();
+                });
             });
 
             $rootScope.$on(Enums.events.SOCKET_RELATIONSHIP_REMOVED, function(event, relationship) {
@@ -91,11 +93,13 @@ angular.module('jumlitApp').directive('umlRelationship', function ($timeout, Enu
                 var source = $scope.graph.getElements().find(function (cell) {
                     return cell.get('clazz').classId === $scope.relationship.primaryMember.classId;
                 });
+                ignoreNextUpdate = true;
                 $scope.cell.set('source', source);
 
                 var target = $scope.graph.getElements().find(function (cell) {
                     return cell.get('clazz').classId === $scope.relationship.secondaryMember.classId;
                 });
+                ignoreNextUpdate = true;
                 $scope.cell.set('target', target);
             }
 
