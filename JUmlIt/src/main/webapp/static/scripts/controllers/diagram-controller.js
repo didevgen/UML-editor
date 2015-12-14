@@ -17,6 +17,7 @@ angular.module('jumlitApp').controller('DiagramCtrl', function ($scope, $rootSco
 
     $scope.toggleComments = function () {
         $scope.showComments = !$scope.showComments;
+        $rootScope.$emit(Enums.events.COMMENTS_OPENED);
     };
 
     $scope.$on('toggleComments', function () {

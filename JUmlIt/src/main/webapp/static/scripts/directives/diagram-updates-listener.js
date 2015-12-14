@@ -65,10 +65,11 @@ angular.module('jumlitApp').service('DiagramUpdatesListener', function (DiagramU
             }).then(addSubscription);
 
             DiagramUpdates.subscribe('/topic/diagram/' + diagramId + '/history', function(event) {
-                event.user = {
-                    email: event.userName
-                };
                 $rootScope.$emit(Enums.events.SOCKET_DIAGRAM_EVENT, event);
+            }).then(addSubscription)
+
+            DiagramUpdates.subscribe('/topic/diagram/' + diagramId + '/comment', function( comment) {
+                $rootScope.$emit(Enums.events.SOCKET_DIAGRAM_COMMENT, comment);
             }).then(addSubscription)
         },
         unsubscribe: function () {

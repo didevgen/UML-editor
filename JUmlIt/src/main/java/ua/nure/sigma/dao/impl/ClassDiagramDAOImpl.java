@@ -1,5 +1,7 @@
 package ua.nure.sigma.dao.impl;
 
+import javax.transaction.Transactional;
+
 import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -182,7 +184,7 @@ public class ClassDiagramDAOImpl  implements ClassDiagramDAO{
 		Object clazz = new Object();
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
-			clazz = session.get(clazzName, id);
+			clazz = session.load(clazzName, id);
 			session.refresh(clazz);
 		} catch (Exception e) {
 			e.printStackTrace();

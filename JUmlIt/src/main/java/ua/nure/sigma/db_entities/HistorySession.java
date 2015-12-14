@@ -10,15 +10,23 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name = "history_session")
 public class HistorySession {
 	private long sessionId;
 
+	@JsonIgnore
 	private User user;
+	
+	@JsonProperty 
+	private String userName;
 
 	private Diagram diagram;
 
@@ -72,6 +80,9 @@ public class HistorySession {
 
 	public void setUser(User user) {
 		this.user = user;
+		if (user != null) {
+			this.userName = user.getEmail();
+		}
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -107,5 +118,15 @@ public class HistorySession {
 	public void setSubscriptionId(String subscriptionId) {
 		this.subscriptionId = subscriptionId;
 	}
+
+	@Transient
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
 
 }

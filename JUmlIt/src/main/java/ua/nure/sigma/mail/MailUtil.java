@@ -11,7 +11,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 public class MailUtil {
-	public static void sendMessage(String email, String username, String password) {
+	public static void sendMessage(String email, String username, String password, String diagramName) {
 
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
@@ -33,9 +33,8 @@ public class MailUtil {
 			message.setRecipients(Message.RecipientType.TO,
 				InternetAddress.parse(email));
 			message.setSubject("JUmlIt Notifications");
-			message.setText("You have been added as collaborator to the diagram. Please visit JUmlIt application");
+			message.setText("You have been added as collaborator to the diagram : "+diagramName+". Please visit JUmlIt application");
 			Transport.send(message);
-			System.out.println("Done");
 		} catch (MessagingException e) {
 			throw new RuntimeException(e);
 		}

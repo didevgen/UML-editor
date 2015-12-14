@@ -65,7 +65,9 @@ angular.module('jumlitApp').service('Enums', function() {
             SOCKET_FIELD_ADDED: 'socketFieldAdded',
             SOCKET_FIELD_UPDATED: 'socketFieldUpdated',
             SOCKET_FIELD_REMOVED: 'socketFieldRemoved',
-            SOCKET_DIAGRAM_EVENT: 'socketDiagramEvent'
+            SOCKET_DIAGRAM_EVENT: 'socketDiagramEvent',
+            SOCKET_DIAGRAM_COMMENT: 'socketDiagramComment',
+            COMMENTS_OPENED: 'commentsOpened'
         },
         linkLabels: {
             SOURCE: 'source',

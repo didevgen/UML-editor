@@ -4,6 +4,7 @@ import ua.nure.sigma.dao.DiagramDAO;
 import ua.nure.sigma.dao.impl.DiagramDAOImpl;
 import ua.nure.sigma.db_entities.Diagram;
 import ua.nure.sigma.db_entities.User;
+import ua.nure.sigma.mail.MailUtil;
 
 public class DiagramService {
 
@@ -13,8 +14,7 @@ public class DiagramService {
 		Diagram newDiagram = dao.createDiagram(diagram);
 		if (newDiagram != null && newDiagram.getCollaborators().size() != 0) {
 			for (User coll : newDiagram.getCollaborators()) {
-				//TODO MUST BE UNCOMMENTED
-				// MailUtil.sendMessage(coll.getEmail(), "", "");
+				 MailUtil.sendMessage(coll.getEmail(), "javaumlit@gmail.com", "jumlit_sigma",newDiagram.getName());
 			}
 		}
 		return newDiagram;
@@ -29,8 +29,7 @@ public class DiagramService {
 		if (newDiagram != null && newDiagram.getCollaborators().size() != 0) {
 			for (User coll : newDiagram.getCollaborators()) {
 				if (!oldDiagram.getCollaborators().contains(coll)) {
-					//TODO MUST BE UNCOMMENTED
-					// MailUtil.sendMessage(coll.getEmail(), "", "");
+					MailUtil.sendMessage(coll.getEmail(), "javaumlit@gmail.com", "jumlit_sigma",newDiagram.getName());
 				}
 			}
 		}

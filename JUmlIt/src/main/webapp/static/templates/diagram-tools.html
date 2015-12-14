@@ -28,11 +28,11 @@
             <li class="list-group-item" ng-repeat="event in diagram.history | reverse | take : 10">
                 <span ng-hide="event.timeFinish">
                     <span class="event-date">{{event.timeStart | date : 'shortTime'}}</span>
-                    <span class="event-user">{{event.user.email}}</span> started editing
+                    <span class="event-user">{{event.userName}}</span> started editing
                 </span>
                 <span ng-show="event.timeFinish">
                     <span class="event-date">{{event.timeFinish | date : 'shortTime'}}</span>
-                    <span class="event-user">{{event.user.email}}</span> finished editing
+                    <span class="event-user">{{event.userName}}</span> finished editing
                 </span>
 
             </li>

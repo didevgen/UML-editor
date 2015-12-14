@@ -21,14 +21,16 @@ import org.joda.time.DateTime;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table(name = "user")
 @Component
 @Scope("session")
-//@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = "@id",
-//		scope = Diagram.class)
+@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = "@id",
+		scope = Diagram.class)
 public class User {
 	private long userId;
 	private String fullname ="";

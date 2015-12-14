@@ -325,15 +325,6 @@ ul.pagination > .active > a {
       font-weight: bold;
       color: #1abc9c; }
 
-.comments.tool-panel-container .panel {
-  flex: 1;
-  border-top: 0;
-  border-radius: 0;
-  margin-bottom: 0; }
-
-.comments.tool-panel-container .panel-heading {
-  border-radius: 0; }
-
 .diagram-canvas-container {
   display: flex;
   flex: 1;
@@ -721,6 +712,52 @@ uml-class .list-group-item.divider {
   margin-top: 20px; }
   .jumbotron-forbidden .icon-error {
     color: #e74c3c; }
+
+.comments.tool-panel-container .panel {
+  flex: 1;
+  border-top: 0;
+  border-radius: 0;
+  margin-bottom: 0;
+  display: flex;
+  flex-direction: column; }
+
+.comments.tool-panel-container .panel-heading {
+  border-radius: 0; }
+
+.comments .panel-footer.comment-input-container {
+  border-top-width: 1px;
+  border-top: 1px solid #ddd; }
+
+.comments-list-container {
+  flex: 1;
+  overflow: auto;
+  height: 0; }
+
+.comments .comments-list {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; }
+  .comments .comments-list li.list-group-item:last-child {
+    border-bottom: 0; }
+
+.btn-send {
+  margin-top: 10px; }
+
+.comment-author {
+  color: #1abc9c;
+  font-weight: bold; }
+
+.comment-date {
+  float: right;
+  color: #999;
+  font-size: 13px; }
+
+.comment-text {
+  display: inline-block;
+  width: 100%;
+  padding-top: 5px;
+  padding-bottom: 2px; }
 
 .browsehappy {
   margin: 0.2em 0;
