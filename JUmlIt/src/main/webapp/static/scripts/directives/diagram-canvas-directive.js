@@ -46,10 +46,8 @@ angular.module('jumlitApp').directive('diagramCanvas', function($q, Cells, $comp
             $scope.onDrop = function(event) {
                 var clazz = new Clazz({
                     name: 'Class' + (+$scope.classes.length + 1),
-                    position: {
-                        x: event.clientX - 250,
-                        y: event.clientY - 100
-                    },
+                    x: event.clientX - 250,
+                    y: event.clientY - 100,
                     classType: $scope.dropped
                 });
                 $scope.classes.push(clazz);

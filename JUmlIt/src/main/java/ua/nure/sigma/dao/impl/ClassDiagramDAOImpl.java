@@ -1,7 +1,5 @@
 package ua.nure.sigma.dao.impl;
 
-import javax.transaction.Transactional;
-
 import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;

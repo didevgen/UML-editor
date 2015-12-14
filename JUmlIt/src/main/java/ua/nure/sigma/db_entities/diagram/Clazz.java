@@ -12,15 +12,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import ua.nure.sigma.db_entities.Diagram;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import ua.nure.sigma.db_entities.Diagram;
 @Entity
 @Table(name = "class")
 public class Clazz {
@@ -45,7 +43,9 @@ public class Clazz {
 	@JsonIgnore
 	private List<Relationship> secondaryRelations = new ArrayList<>();
 	
-	private Position position;
+	private long x;
+
+	private long y;
 	
 	@JsonIgnore
 	private Diagram diagramOwner;
@@ -135,14 +135,6 @@ public class Clazz {
 		this.methods = methods;
 	}
 	
-	@OneToOne(fetch = FetchType.EAGER, mappedBy = "clazz", cascade = CascadeType.ALL)
-	public Position getPosition() {
-		return position;
-	}
-
-	public void setPosition(Position position) {
-		this.position = position;
-	}
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "diagram_id")
@@ -178,6 +170,22 @@ public class Clazz {
 
 	public void setSecondaryRelations(List<Relationship> secondaryRelations) {
 		this.secondaryRelations = secondaryRelations;
+	}
+	@Column(name = "x")
+	public long getX() {
+		return x;
+	}
+
+	public void setX(long x) {
+		this.x = x;
+	}
+	@Column(name = "y")
+	public long getY() {
+		return y;
+	}
+
+	public void setY(long y) {
+		this.y = y;
 	}
 	
 	
