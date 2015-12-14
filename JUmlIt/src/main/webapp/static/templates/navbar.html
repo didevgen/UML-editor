@@ -21,7 +21,7 @@
             <ul class="nav navbar-nav navbar-right">
                 <li ng-hide="Session.authenticated"><a ui-sref="landing.login">Sign in</a></li>
                 <li ng-hide="Session.authenticated"><a ui-sref="landing.register">Register</a></li>
-                <li ng-show="Session.authenticated"><a ui-sref="account.dashboard">{{Session.user.fullname}}</a></li>
+                <li ng-show="Session.authenticated"><a ui-sref="account.user-info">{{Session.user.fullname}}</a></li>
                 <li ng-show="Session.authenticated" class="dropdown">
                     <a href="#" class="dropdown-toggle user-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                         aria-expanded="false"><i class="fa fa-user"></i><span class="caret"></span></a>
