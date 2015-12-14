@@ -25,17 +25,17 @@ public class Relationship {
 
 	private Clazz secondaryMember;
 
-	private String primaryToSecondaryMultiplicity;
+	private String primaryToSecondaryMultiplicity ="";
 
-	private String secondaryToPrimaryMultiplicity;
+	private String secondaryToPrimaryMultiplicity ="";
 
-	private String name;
+	private String name ="";
 
-	private String type;
+	private String type ="";
 
-	private String primaryProps;
+	private String primaryProps ="";
 
-	private String secondaryProps;
+	private String secondaryProps ="";
 	
 	@JsonIgnore
 	private Diagram diagram;

@@ -25,7 +25,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 public class UserRole {
 
 	private long userRoleId;
-	private String role;
+	private String role ="";
     private User user;
 	
 	public UserRole() {

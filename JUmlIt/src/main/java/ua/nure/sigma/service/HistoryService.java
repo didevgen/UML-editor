@@ -1,39 +1,51 @@
 package ua.nure.sigma.service;
 
-import java.security.Principal;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 
+import ua.nure.sigma.dao.DiagramDAO;
 import ua.nure.sigma.dao.HistoryDAO;
+import ua.nure.sigma.dao.UserDao;
+import ua.nure.sigma.dao.impl.DiagramDAOImpl;
 import ua.nure.sigma.dao.impl.HistoryDAOImpl;
 import ua.nure.sigma.dao.impl.UserDAOImpl;
-import ua.nure.sigma.db_entities.Diagram;
 import ua.nure.sigma.db_entities.DiagramHistory;
-import ua.nure.sigma.db_entities.User;
+import ua.nure.sigma.db_entities.HistorySession;
 
 public class HistoryService {
 
-	public void insertHistory(Principal principal, Diagram diagram, String action) {
-		HistoryDAO dao = new HistoryDAOImpl();
+	private SimpMessagingTemplate messagingTemplate;
+	private HistoryDAO dao = new HistoryDAOImpl();
+	private DiagramDAO diagrDAO = new DiagramDAOImpl();
+	private UserDao userDAO = new UserDAOImpl();
+	@Autowired
+	public HistoryService(SimpMessagingTemplate template) {
+		this.messagingTemplate = template;
+	}
+	public HistoryService() {
+		
+	}
+	public void insertHistory(String action, long sessionId) {
 		DiagramHistory history = new DiagramHistory();
-		User user = new UserDAOImpl().getUserByLogin(principal.getName());
-		history.setUser(user);
-		history.setDiagram(diagram);
 		history.setAction(action);
 		history.setTimeStamp(new Date());
+		history.setSession(dao.getSessionById(sessionId));
 		dao.insertHistory(history);
 	}
 	
-	public List<DiagramHistory> getHistoryByDiagramId(long diagramId) {
-		return null;
+	public HistorySession insertSession(String userName, long diagramId) {
+		HistorySession session = new HistorySession();
+		session.setDiagram(diagrDAO.getDiagramById(diagramId));
+		session.setUser(userDAO.getUserByLogin(userName));
+		session.setTimeStart(new Date());
+		return dao.insertSession(session);
 	}
 	
-	public List<DiagramHistory> getHistoryByUserId(long userId) {
-		return null;
+	public void updateSession(HistorySession session) {
+		session.setTimeFinish(new Date());
+		dao.updateSession(session);
 	}
+	
 }

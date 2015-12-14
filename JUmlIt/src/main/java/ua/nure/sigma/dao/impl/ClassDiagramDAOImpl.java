@@ -78,7 +78,12 @@ public class ClassDiagramDAOImpl  implements ClassDiagramDAO{
 	public Field getField(long fieldId) {
 		return (Field) getObject(fieldId, Field.class);
 	}
-	
+
+	@Override
+	public Relationship getRelation(long relationId) {
+		return (Relationship) getObject(relationId, Relationship.class);
+	}
+
 	@Override
 	public Relationship insertRelationship(Relationship relation) {
 		relation.setPrimaryMember(this.getClazz(relation.getPrimaryMember().getClassId()));

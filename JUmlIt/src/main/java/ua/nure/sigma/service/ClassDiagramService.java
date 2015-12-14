@@ -85,6 +85,14 @@ public class ClassDiagramService {
 		dao.updateRelationship(relationship);
 	}
 	
-	
+	public Field getFieldById(long fieldId) {
+		return dao.getField(fieldId);
+	}
+	public Method getMethodById(long methodId) {
+		return dao.getMethod(methodId);
+	}
+	public Relationship getRelationById(long relationId) {
+		return dao.getRelationship(relationId);
+	}
 
 }

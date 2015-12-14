@@ -40,4 +40,6 @@ public interface ClassDiagramDAO {
 	Relationship getRelationship(long relationId);
 	
 	Argument insertArgument(Argument arg);
+	
+	Relationship getRelation(long relationId);
 }

@@ -20,15 +20,15 @@ public class Field {
 
 	private long id;
 
-	private String accessModifier;
+	private String accessModifier ="";
 
 	private boolean isStatic;
 
-	private String name;
+	private String name ="";
 
-	private String type;
+	private String type ="";
 
-	@JsonIgnore
+	@JsonIgnore 
 	private Clazz classOwner;
 
 	@JsonProperty

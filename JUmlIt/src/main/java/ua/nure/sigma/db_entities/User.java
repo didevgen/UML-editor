@@ -32,16 +32,16 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 @JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = "@id", scope = User.class)
 public class User {
 	private long userId;
-	private String fullname;
-	private String email;
-	private String password;
+	private String fullname ="";
+	private String email ="";
+	private String password ="";
 	private DateTime registrationDate;
 	private DateTime lastAvailable;
 
 	private Set<UserRole> userRoles = new HashSet<UserRole>();
 
 	private Set<Diagram> collaboratedDiagrams = new HashSet<Diagram>();
-	private List<DiagramHistory> history = new ArrayList<>();
+	private List<HistorySession> history = new ArrayList<>();
 
 	public User() {
 	}
@@ -159,11 +159,11 @@ public class User {
 	}
 
 	@OneToMany(mappedBy = "user")
-	public List<DiagramHistory> getHistory() {
+	public List<HistorySession> getHistory() {
 		return history;
 	}
 
-	public void setHistory(List<DiagramHistory> history) {
+	public void setHistory(List<HistorySession> history) {
 		this.history = history;
 	}
 

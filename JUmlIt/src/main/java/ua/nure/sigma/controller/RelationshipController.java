@@ -2,6 +2,8 @@ package ua.nure.sigma.controller;
 
 import java.security.Principal;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,14 +26,15 @@ import ua.nure.sigma.util.UserAccessibility;
 public class RelationshipController {
 	private final SimpMessagingTemplate template;
 	private final ClassDiagramService service;
-
+	private final HttpSession httpSession;
 	private final DiagramService diagramService;
 	private final HistoryService historyService;
 	private final DiagramUpdateService updateService;
 
 	@Autowired
-	public RelationshipController(SimpMessagingTemplate template) {
+	public RelationshipController(HttpSession session, SimpMessagingTemplate template) {
 		this.template = template;
+		this.httpSession = session;
 		this.service = new ClassDiagramService();
 		this.diagramService = new DiagramService();
 		this.historyService = new HistoryService();
@@ -46,7 +49,8 @@ public class RelationshipController {
 		}
 		Diagram diagram = diagramService.getDiagramById(diagramId);
 		relationship.setDiagram(diagram);
-		historyService.insertHistory(principal, diagram, "relationship added");
+		historyService.insertHistory("relationship added: " + relationship.getName(),
+				(Long) (httpSession.getAttribute("sessionId")));
 		updateService.notify("/topic/diagram/" + diagramId + "/relationship_added", relationship, principal);
 		return new ResponseEntity<Relationship>(service.addRelation(relationship), HttpStatus.OK);
 	}
@@ -58,7 +62,8 @@ public class RelationshipController {
 			return new ResponseEntity<Void>(HttpStatus.FORBIDDEN);
 		}
 		Diagram diagram = diagramService.getDiagramById(diagramId);
-		historyService.insertHistory(principal, diagram, "relationship updated");
+		historyService.insertHistory("relationship updated: " + relationship.getName(),
+				(Long) (httpSession.getAttribute("sessionId")));
 		relationship.setDiagram(diagram);
 		service.updateRelation(relationship);
 		updateService.notify("/topic/diagram/" + diagramId + "/relationship_updated", relationship, principal);
@@ -71,7 +76,9 @@ public class RelationshipController {
 			return new ResponseEntity<Void>(HttpStatus.FORBIDDEN);
 		}
 		Diagram diagram = diagramService.getDiagramById(diagramId);
-		historyService.insertHistory(principal, diagram, "relationship removed");
+		Relationship relationship = service.getRelationById(relationId);
+		historyService.insertHistory("relationship removed: " + relationship.getName(),
+				(Long) (httpSession.getAttribute("sessionId")));
 		service.removeRelation(relationId);
 		updateService.notify("/topic/diagram/" + diagramId + "/relationship_removed", relationId, principal);
 		return new ResponseEntity<Void>(HttpStatus.OK);

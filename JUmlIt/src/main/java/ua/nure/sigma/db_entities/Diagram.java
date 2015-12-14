@@ -44,7 +44,7 @@ public class Diagram {
 	private Set<User> collaborators = new HashSet<User>();
 	private List<Clazz> classes = new ArrayList<>();
 	private List<Relationship> relationships = new ArrayList<>();
-	private List<DiagramHistory> history = new ArrayList<>();
+	private List<HistorySession> history = new ArrayList<>();
 	private User owner;
 	
 	public Diagram() {
@@ -183,11 +183,11 @@ public class Diagram {
 		this.relationships = relationships;
 	}
 	@OneToMany(mappedBy = "diagram")
-	public List<DiagramHistory> getHistory() {
+	public List<HistorySession> getHistory() {
 		return history;
 	}
 
-	public void setHistory(List<DiagramHistory> history) {
+	public void setHistory(List<HistorySession> history) {
 		this.history = history;
 	}
 	
