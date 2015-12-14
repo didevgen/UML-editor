@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: 127.0.0.1
--- Время создания: Дек 14 2015 г., 01:28
+-- Время создания: Дек 14 2015 г., 15:57
 -- Версия сервера: 5.6.26
 -- Версия PHP: 5.6.12
 
@@ -33,13 +33,6 @@ CREATE TABLE IF NOT EXISTS `argument` (
   `method_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
---
--- Дамп данных таблицы `argument`
---
-
-INSERT INTO `argument` (`argument_id`, `argument_name`, `argument_type`, `method_id`) VALUES
-(1, 'obj', 'Object', 2);
-
 -- --------------------------------------------------------
 
 --
@@ -53,18 +46,15 @@ CREATE TABLE IF NOT EXISTS `class` (
   `diagram_id` bigint(20) DEFAULT NULL,
   `class_access` varchar(105) DEFAULT NULL,
   `class_type` varchar(45) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `class`
 --
 
 INSERT INTO `class` (`class_id`, `class_name`, `is_static`, `diagram_id`, `class_access`, `class_type`) VALUES
-(1, 'MyBestClass', 0, 5, 'public', 'Interface'),
-(2, 'FirstClass', 0, 5, 'public', 'Interface'),
-(3, 'MyBestClass', 0, 5, 'public', 'Interface'),
-(4, 'Class3', 0, 5, 'public', 'Class'),
-(5, 'MyBestClass', 0, 5, 'public', 'Interface');
+(10, 'Class1', 0, 8, 'public', 'Class'),
+(11, 'Class1', 0, 5, 'public', 'Class');
 
 -- --------------------------------------------------------
 
@@ -83,10 +73,25 @@ CREATE TABLE IF NOT EXISTS `collaborator` (
 
 INSERT INTO `collaborator` (`user_id`, `diagram_id`) VALUES
 (3, 4),
+(6, 5),
 (5, 6),
 (6, 6),
 (1, 7),
-(3, 7);
+(3, 7),
+(6, 8);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `comment`
+--
+
+CREATE TABLE IF NOT EXISTS `comment` (
+  `comment_id` int(11) NOT NULL,
+  `user_id` bigint(20) DEFAULT NULL,
+  `diagram_id` bigint(20) DEFAULT NULL,
+  `comment_text` longtext
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -103,36 +108,17 @@ CREATE TABLE IF NOT EXISTS `diagram` (
   `last_updated` datetime NOT NULL,
   `name` varchar(256) COLLATE utf8_general_mysql500_ci DEFAULT NULL,
   `description` varchar(3000) COLLATE utf8_general_mysql500_ci DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
 
 --
 -- Дамп данных таблицы `diagram`
 --
 
 INSERT INTO `diagram` (`diagram_id`, `owner_id`, `status_id`, `json_data`, `created_date`, `last_updated`, `name`, `description`) VALUES
-(5, 3, -1, '', '2015-12-04 17:26:25', '2015-12-04 17:26:25', 'Diagram', 'edfsdfs'),
+(5, 3, -1, '', '2015-12-04 17:26:25', '2015-12-14 12:17:28', 'Diagram', 'edfsdfs'),
 (6, 3, -1, '', '2015-12-13 00:56:12', '2015-12-13 01:23:11', 'Diagram1111', 'ываывааыв'),
-(7, 6, -1, '', '2015-12-13 01:04:27', '2015-12-13 01:10:07', 'Eugene', 'выаывыа');
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `diagram_history`
---
-
-CREATE TABLE IF NOT EXISTS `diagram_history` (
-  `history_id` int(11) NOT NULL,
-  `timestamp` datetime DEFAULT NULL,
-  `action` varchar(105) DEFAULT NULL,
-  `session_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-
---
--- Дамп данных таблицы `diagram_history`
---
-
-INSERT INTO `diagram_history` (`history_id`, `timestamp`, `action`, `session_id`) VALUES
-(1, '2015-12-14 02:27:14', 'class updated: MyBestClass', 2);
+(7, 6, -1, '', '2015-12-13 01:04:27', '2015-12-13 01:10:07', 'Eugene', 'выаывыа'),
+(8, 3, -1, '', '2015-12-14 12:20:11', '2015-12-14 12:20:11', 'TestDiagramWithCollabs', 'For collaborators');
 
 -- --------------------------------------------------------
 
@@ -190,14 +176,6 @@ CREATE TABLE IF NOT EXISTS `field` (
   `class_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
 
---
--- Дамп данных таблицы `field`
---
-
-INSERT INTO `field` (`field_id`, `field_access`, `is_static`, `field_name`, `field_type`, `class_id`) VALUES
-(1, 'public', 0, 'myList', 'List', 2),
-(2, 'protected', 0, 'counter', 'int', 3);
-
 -- --------------------------------------------------------
 
 --
@@ -228,9 +206,20 @@ CREATE TABLE IF NOT EXISTS `history_session` (
 --
 
 INSERT INTO `history_session` (`session_id`, `user_id`, `time_start`, `time_finish`, `diagram_id`) VALUES
-(1, 3, '2015-12-14 02:25:57', NULL, 5),
-(2, 3, '2015-12-14 02:25:57', NULL, 5),
-(3, 3, '2015-12-14 02:26:11', NULL, 5);
+(1, 3, '2015-12-14 14:43:55', '2015-12-14 14:59:16', 5),
+(2, 3, '2015-12-14 14:44:09', '2015-12-14 14:59:16', 5),
+(3, 3, '2015-12-14 14:53:36', '2015-12-14 14:59:16', 5),
+(4, 3, '2015-12-14 14:57:09', '2015-12-14 14:59:16', 5),
+(5, 3, '2015-12-14 14:58:48', '2015-12-14 14:59:16', 5),
+(6, 6, '2015-12-14 15:02:19', '2015-12-14 15:03:09', 5),
+(7, 3, '2015-12-14 15:02:43', '2015-12-14 15:02:54', 8),
+(8, 3, '2015-12-14 15:03:01', '2015-12-14 15:03:14', 5),
+(9, 3, '2015-12-14 15:04:34', '2015-12-14 15:04:50', 5),
+(10, 6, '2015-12-14 15:04:38', '2015-12-14 15:04:42', 5),
+(11, 3, '2015-12-14 15:05:16', '2015-12-14 15:05:25', 5),
+(12, 6, '2015-12-14 15:05:20', '2015-12-14 15:06:03', 5),
+(13, 3, '2015-12-14 15:06:50', '2015-12-14 15:06:51', 5),
+(14, 3, '2015-12-14 15:10:05', NULL, 5);
 
 -- --------------------------------------------------------
 
@@ -246,14 +235,6 @@ CREATE TABLE IF NOT EXISTS `method` (
   `method_access` varchar(105) DEFAULT NULL,
   `class_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
-
---
--- Дамп данных таблицы `method`
---
-
-INSERT INTO `method` (`method_id`, `is_static`, `method_name`, `return_type`, `method_access`, `class_id`) VALUES
-(1, 0, 'fdfdf', 'dsfds', 'private', 2),
-(2, 0, 'myBestMethod', 'void', 'private', 3);
 
 -- --------------------------------------------------------
 
@@ -272,9 +253,8 @@ CREATE TABLE IF NOT EXISTS `position` (
 --
 
 INSERT INTO `position` (`x`, `y`, `class_id`) VALUES
-(188, 148, 1),
-(560, 108, 2),
-(487, 300, 4);
+(207, 103, 10),
+(248, 104, 11);
 
 -- --------------------------------------------------------
 
@@ -294,13 +274,6 @@ CREATE TABLE IF NOT EXISTS `relationships` (
   `secondary_props` varchar(85) DEFAULT NULL,
   `diagram_id` bigint(11) DEFAULT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-
---
--- Дамп данных таблицы `relationships`
---
-
-INSERT INTO `relationships` (`relation_id`, `primary_id`, `secondary_id`, `primary_multy`, `secondary_multy`, `name`, `type`, `primary_props`, `secondary_props`, `diagram_id`) VALUES
-(1, 1, 2, '0..1', '1', '', 'generalization', NULL, NULL, 5);
 
 -- --------------------------------------------------------
 
@@ -399,19 +372,20 @@ ALTER TABLE `collaborator`
   ADD KEY `FK_Reference_3` (`diagram_id`);
 
 --
+-- Индексы таблицы `comment`
+--
+ALTER TABLE `comment`
+  ADD PRIMARY KEY (`comment_id`),
+  ADD KEY `fk_comment_to_user_idx` (`user_id`),
+  ADD KEY `fk_comment_to_diagram_idx` (`diagram_id`);
+
+--
 -- Индексы таблицы `diagram`
 --
 ALTER TABLE `diagram`
   ADD PRIMARY KEY (`diagram_id`),
   ADD KEY `FK_Reference_1` (`owner_id`),
   ADD KEY `FK_Reference_4` (`status_id`);
-
---
--- Индексы таблицы `diagram_history`
---
-ALTER TABLE `diagram_history`
-  ADD PRIMARY KEY (`history_id`),
-  ADD KEY `history_to_session_idx` (`session_id`);
 
 --
 -- Индексы таблицы `diagram_status`
@@ -509,17 +483,17 @@ ALTER TABLE `argument`
 -- AUTO_INCREMENT для таблицы `class`
 --
 ALTER TABLE `class`
-  MODIFY `class_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+  MODIFY `class_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
+--
+-- AUTO_INCREMENT для таблицы `comment`
+--
+ALTER TABLE `comment`
+  MODIFY `comment_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT для таблицы `diagram`
 --
 ALTER TABLE `diagram`
-  MODIFY `diagram_id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
---
--- AUTO_INCREMENT для таблицы `diagram_history`
---
-ALTER TABLE `diagram_history`
-  MODIFY `history_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `diagram_id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT для таблицы `diagram_status`
 --
@@ -582,17 +556,18 @@ ALTER TABLE `class`
   ADD CONSTRAINT `class_to_diagram` FOREIGN KEY (`diagram_id`) REFERENCES `diagram` (`diagram_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Ограничения внешнего ключа таблицы `comment`
+--
+ALTER TABLE `comment`
+  ADD CONSTRAINT `fk_comment_to_diagram` FOREIGN KEY (`diagram_id`) REFERENCES `diagram` (`diagram_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_comment_to_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Ограничения внешнего ключа таблицы `diagram`
 --
 ALTER TABLE `diagram`
   ADD CONSTRAINT `FK_Reference_1` FOREIGN KEY (`owner_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_Reference_4` FOREIGN KEY (`status_id`) REFERENCES `diagram_status` (`status_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Ограничения внешнего ключа таблицы `diagram_history`
---
-ALTER TABLE `diagram_history`
-  ADD CONSTRAINT `history_to_session` FOREIGN KEY (`session_id`) REFERENCES `history_session` (`session_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Ограничения внешнего ключа таблицы `event`

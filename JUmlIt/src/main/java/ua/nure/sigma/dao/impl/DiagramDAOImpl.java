@@ -59,6 +59,7 @@ public class DiagramDAOImpl implements DiagramDAO {
 			Hibernate.initialize(diagram.getCollaborators());
 			Hibernate.initialize(diagram.getRelationships());
 			Hibernate.initialize(diagram.getHistory());
+			Hibernate.initialize(diagram.getComments());
 		} catch (Exception e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(null, e.getMessage(), "������ I/O",
