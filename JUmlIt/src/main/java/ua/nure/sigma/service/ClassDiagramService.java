@@ -8,21 +8,17 @@ import ua.nure.sigma.db_entities.diagram.Argument;
 import ua.nure.sigma.db_entities.diagram.Clazz;
 import ua.nure.sigma.db_entities.diagram.Field;
 import ua.nure.sigma.db_entities.diagram.Method;
-import ua.nure.sigma.db_entities.diagram.Position;
 import ua.nure.sigma.db_entities.diagram.Relationship;
 
 public class ClassDiagramService {
 	private ClassDiagramDAO dao = new ClassDiagramDAOImpl();
 
 	public Clazz addClass(Clazz clazz) {
-		Position pos = clazz.getPosition();
-		pos.setClazz(clazz);
 		Clazz cl = dao.insertClazz(clazz);
 		return cl;
 	}
 
 	public void updateClass(Clazz clazz) {
-		Position pos = clazz.getPosition();
 		clazz.getFields().forEach(item->item.setClassOwner(clazz));
 		clazz.getMethods().forEach(item->item.setClassOwner(clazz));
 		clazz.getPrimaryRelations().forEach(item->item.setPrimaryMember(clazz));

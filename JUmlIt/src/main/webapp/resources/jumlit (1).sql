@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: 127.0.0.1
--- Время создания: Дек 14 2015 г., 17:35
+-- Время создания: Дек 14 2015 г., 19:37
 -- Версия сервера: 5.6.26
 -- Версия PHP: 5.6.12
 
@@ -33,13 +33,6 @@ CREATE TABLE IF NOT EXISTS `argument` (
   `method_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
---
--- Дамп данных таблицы `argument`
---
-
-INSERT INTO `argument` (`argument_id`, `argument_name`, `argument_type`, `method_id`) VALUES
-(2, 'typeName', 'MyType', 2);
-
 -- --------------------------------------------------------
 
 --
@@ -52,17 +45,10 @@ CREATE TABLE IF NOT EXISTS `class` (
   `is_static` tinyint(1) DEFAULT NULL,
   `diagram_id` bigint(20) DEFAULT NULL,
   `class_access` varchar(105) DEFAULT NULL,
-  `class_type` varchar(45) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
-
---
--- Дамп данных таблицы `class`
---
-
-INSERT INTO `class` (`class_id`, `class_name`, `is_static`, `diagram_id`, `class_access`, `class_type`) VALUES
-(10, 'Class1', 0, 8, 'public', 'Class'),
-(18, 'MyClass', 0, 5, 'public', 'Class'),
-(19, 'Class2', 0, 5, 'public', 'Class');
+  `class_type` varchar(45) DEFAULT NULL,
+  `x` bigint(20) DEFAULT NULL,
+  `y` bigint(20) DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -82,11 +68,13 @@ CREATE TABLE IF NOT EXISTS `collaborator` (
 INSERT INTO `collaborator` (`user_id`, `diagram_id`) VALUES
 (3, 4),
 (6, 5),
+(1, 6),
 (5, 6),
 (6, 6),
 (1, 7),
 (3, 7),
-(6, 8);
+(1, 8),
+(8, 8);
 
 -- --------------------------------------------------------
 
@@ -100,7 +88,7 @@ CREATE TABLE IF NOT EXISTS `comment` (
   `diagram_id` bigint(20) DEFAULT NULL,
   `comment_text` longtext,
   `timestamp` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -124,10 +112,7 @@ CREATE TABLE IF NOT EXISTS `diagram` (
 --
 
 INSERT INTO `diagram` (`diagram_id`, `owner_id`, `status_id`, `json_data`, `created_date`, `last_updated`, `name`, `description`) VALUES
-(5, 3, -1, '', '2015-12-04 17:26:25', '2015-12-14 12:17:28', 'Diagram', 'edfsdfs'),
-(6, 3, -1, '', '2015-12-13 00:56:12', '2015-12-13 01:23:11', 'Diagram1111', 'ываывааыв'),
-(7, 6, -1, '', '2015-12-13 01:04:27', '2015-12-13 01:10:07', 'Eugene', 'выаывыа'),
-(8, 3, -1, '', '2015-12-14 12:20:11', '2015-12-14 12:20:11', 'TestDiagramWithCollabs', 'For collaborators');
+(1, 3, -1, '', '2015-12-14 19:56:18', '2015-12-14 19:56:18', 'MyDiagram', 'Description');
 
 -- --------------------------------------------------------
 
@@ -185,13 +170,6 @@ CREATE TABLE IF NOT EXISTS `field` (
   `class_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
 
---
--- Дамп данных таблицы `field`
---
-
-INSERT INTO `field` (`field_id`, `field_access`, `is_static`, `field_name`, `field_type`, `class_id`) VALUES
-(1, 'public', 0, 'mystaticField', 'MyType', 19);
-
 -- --------------------------------------------------------
 
 --
@@ -216,14 +194,16 @@ CREATE TABLE IF NOT EXISTS `history_session` (
   `time_finish` datetime DEFAULT NULL,
   `diagram_id` bigint(20) DEFAULT NULL,
   `subscription_id` varchar(105) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `history_session`
 --
 
 INSERT INTO `history_session` (`session_id`, `user_id`, `time_start`, `time_finish`, `diagram_id`, `subscription_id`) VALUES
-(1, 3, '2015-12-14 18:34:27', '2015-12-14 18:34:42', 5, 'sub-0');
+(1, 3, '2015-12-14 19:56:25', NULL, 1, 'sub-1'),
+(2, 3, '2015-12-14 20:01:21', NULL, 1, 'sub-4'),
+(3, 3, '2015-12-14 20:03:40', NULL, 1, 'sub-0');
 
 -- --------------------------------------------------------
 
@@ -239,35 +219,6 @@ CREATE TABLE IF NOT EXISTS `method` (
   `method_access` varchar(105) DEFAULT NULL,
   `class_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
-
---
--- Дамп данных таблицы `method`
---
-
-INSERT INTO `method` (`method_id`, `is_static`, `method_name`, `return_type`, `method_access`, `class_id`) VALUES
-(2, 0, 'doSomething', 'void', 'public', 18),
-(3, 0, 'MyBestName', 'void', 'public', 19);
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `position`
---
-
-CREATE TABLE IF NOT EXISTS `position` (
-  `x` int(11) DEFAULT NULL,
-  `y` int(11) DEFAULT NULL,
-  `class_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
-
---
--- Дамп данных таблицы `position`
---
-
-INSERT INTO `position` (`x`, `y`, `class_id`) VALUES
-(207, 103, 10),
-(271, 302, 18),
-(315, 83, 19);
 
 -- --------------------------------------------------------
 
@@ -320,7 +271,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `password` varchar(256) COLLATE utf8_general_mysql500_ci NOT NULL,
   `registration_date` datetime NOT NULL,
   `last_available` datetime NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
 
 --
 -- Дамп данных таблицы `user`
@@ -332,7 +283,8 @@ INSERT INTO `user` (`user_id`, `full_name`, `email`, `password`, `registration_d
 (3, 'Евгений Ковалев', 'evgenijkovaljov@rambler.ru', '$2a$10$/W5EF0lDedW6PBG6r5lH6evepgOMslKTme7aK0Ba8bInK3jimT2aO', '2015-11-27 22:21:19', '2015-11-27 22:21:19'),
 (5, 'Napoleon Bonapart', 'napoleon@france.com', '$2a$10$vVBN1mgSx7Fd32SD8q.C2./c/vix/IvUYsKRmHC0.xfxSZIsTM.su', '2015-12-11 12:39:56', '2015-12-11 12:39:56'),
 (6, 'Василий Теркин', 'terkin@gmail.com', '$2a$10$gWsY.sjCd9YuSWjM9xlpaeOpEZzis1xrs8S4QKShGViCgLfbd3CH2', '2015-12-13 01:03:49', '2015-12-13 01:03:49'),
-(7, 'Родион Малиновский', 'inessakovaleva@rambler.ru', '$2a$10$k511igXEP1roKnaBxug4lOsYUNvr3MQhIRBv1pzyls5l55w2dNO2G', '2015-12-13 01:09:13', '2015-12-13 01:09:13');
+(7, 'Родион Малиновский', 'inessakovaleva@rambler.ru', '$2a$10$k511igXEP1roKnaBxug4lOsYUNvr3MQhIRBv1pzyls5l55w2dNO2G', '2015-12-13 01:09:13', '2015-12-13 01:09:13'),
+(8, 'Eugene', 'e.v.kovaljov@gmail.com', '$2a$10$3ASBolAgFd7RF8/rPf1Y0ONS.EMtH3dTIQ6gForPrJrAFtzrTCJIS', '2015-12-14 19:24:30', '2015-12-14 19:24:30');
 
 -- --------------------------------------------------------
 
@@ -357,7 +309,8 @@ INSERT INTO `user_role` (`role_id`, `role`, `user_id`) VALUES
 (4, 'ROLE_USER', 4),
 (5, 'ROLE_USER', 5),
 (6, 'ROLE_USER', 6),
-(7, 'ROLE_USER', 7);
+(7, 'ROLE_USER', 7),
+(8, 'ROLE_USER', 8);
 
 --
 -- Индексы сохранённых таблиц
@@ -449,13 +402,6 @@ ALTER TABLE `method`
   ADD KEY `method_to_class_idx` (`class_id`);
 
 --
--- Индексы таблицы `position`
---
-ALTER TABLE `position`
-  ADD PRIMARY KEY (`class_id`),
-  ADD KEY `position_to_class_idx` (`class_id`);
-
---
 -- Индексы таблицы `relationships`
 --
 ALTER TABLE `relationships`
@@ -496,12 +442,12 @@ ALTER TABLE `argument`
 -- AUTO_INCREMENT для таблицы `class`
 --
 ALTER TABLE `class`
-  MODIFY `class_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=20;
+  MODIFY `class_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=21;
 --
 -- AUTO_INCREMENT для таблицы `comment`
 --
 ALTER TABLE `comment`
-  MODIFY `comment_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `comment_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT для таблицы `diagram`
 --
@@ -531,7 +477,7 @@ ALTER TABLE `field`
 -- AUTO_INCREMENT для таблицы `history_session`
 --
 ALTER TABLE `history_session`
-  MODIFY `session_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `session_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=17;
 --
 -- AUTO_INCREMENT для таблицы `method`
 --
@@ -551,7 +497,7 @@ ALTER TABLE `token`
 -- AUTO_INCREMENT для таблицы `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
+  MODIFY `user_id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
 -- Ограничения внешнего ключа сохраненных таблиц
 --
@@ -613,12 +559,6 @@ ALTER TABLE `history_session`
 --
 ALTER TABLE `method`
   ADD CONSTRAINT `method_to_class` FOREIGN KEY (`class_id`) REFERENCES `class` (`class_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Ограничения внешнего ключа таблицы `position`
---
-ALTER TABLE `position`
-  ADD CONSTRAINT `position_to_class` FOREIGN KEY (`class_id`) REFERENCES `class` (`class_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Ограничения внешнего ключа таблицы `relationships`
